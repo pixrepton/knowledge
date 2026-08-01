@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-30T20:32:26Z",
+  "mode": "verify",
+  "source_sha256": "c7ff55591038f8ec021c36ffa40e8531630da596a8c6a1ddf0c4c7fba4ec2b38",
+  "source": "subagent-preview",
+  "legacy_item_count": 48,
+  "atomic_gap_count": 78,
+  "count": 78,
+  "ok": true,
+  "issues": []
+}

@@ -1,0 +1,15 @@
+{
+  "target": "AI-OS-WORKFLOW-RECONSTRUCTION-FINAL-GATE-CLOSEOUT-01",
+  "validator_mode": "FINAL",
+  "manifest_required": true,
+  "manifest_path": "FINAL_MANIFEST.json",
+  "result": "PASS",
+  "exit_code": 0,
+  "files_checked": 23,
+  "missing_files": [],
+  "hash_mismatches": [],
+  "size_mismatches": [],
+  "timestamp_utc": "2026-07-30T22:52:55Z",
+  "validator_sha256": "2fc76903faba4a769b36e33546a2b461929f035fe70f3cf3cbeb52f92c2bc29c",
+  "manifest_sha256": "a020f53e4111a6c0e1232c6666e9cfec505f27d256d5ec28f9d46f66aba6b293"
+}

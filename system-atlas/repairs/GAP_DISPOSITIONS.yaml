@@ -1,0 +1,1080 @@
+schema_version: 1
+generated_at: '2026-07-31T07:55:04Z'
+baseline:
+  workflow_gaps: knowledge/system-atlas/workflows/WORKFLOW_GAPS.yaml
+  policy: Immutable Workflow Registry v1 baseline. This file is a planning overlay only.
+
+gap_classes:
+  - DEFECT
+  - RISK
+  - INCONSISTENCY
+  - CONTRACT_AMBIGUITY
+  - OBSERVATION
+  - TEST_GAP
+  - TEST_DEFECT
+
+dispositions:
+  - FIX
+  - REMOVE
+  - REPLACE
+  - CONSOLIDATE
+  - PROVE_AT_RUNTIME
+  - ACCEPT_RISK
+  - DEFER
+  - NO_ACTION
+
+reachability_values:
+  - LIVE_PATH
+  - LIVE_PATH_UNVERIFIED
+  - MANUAL_ONLY
+  - DORMANT_PATH
+  - DEAD_PATH
+  - LOCAL_ONLY
+  - PROJECTION_ONLY
+  - CROSS_CUTTING_OBSERVATION
+
+proof_levels:
+  - STATIC
+  - UNIT
+  - INTEGRATION
+  - END_TO_END
+  - RUNTIME_READ_ONLY
+  - RUNTIME_MUTATING_CONTROLLED
+  - OBSERVATION_PERIOD
+
+gap_dispositions:
+  - gap_id: gap.case-scoped-rag-vs-global-rag.query-anything-rag-branch-call-signature-broken
+    gap_class: DEFECT
+    disposition: REMOVE
+    live_reachability: LIVE_PATH
+    mechanism_future: retire generic query_anything; retain case-scoped retrieval via search_rag_knowledge only
+    blocks_capability: true
+    capability_ids: [AGT-02, PLT-03, ASR-01]
+    root_cause_cluster: RC-01
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-01
+    reason: Wave 2 closed this by retiring the generic tool instead of repairing a non-retained branch.
+
+  - gap_id: gap.case-scoped-rag-vs-global-rag.query-anything-similar-cases-import-broken
+    gap_class: DEFECT
+    disposition: REMOVE
+    live_reachability: LIVE_PATH
+    mechanism_future: retire generic query_anything; similar-cases remain callable only through future explicit contracts if reintroduced
+    blocks_capability: true
+    capability_ids: [AGT-02, PLT-03, ASR-01]
+    root_cause_cluster: RC-01
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-01
+    reason: Wave 2 closed this by removing the generic multi-source entrypoint rather than rescuing a non-retained import path.
+
+  - gap_id: gap.case-scoped-rag-vs-global-rag.query-anything-counts-source-errors-as-success
+    gap_class: DEFECT
+    disposition: REMOVE
+    live_reachability: LIVE_PATH
+    mechanism_future: retire generic query_anything; the retained search_rag_knowledge contract keeps truthful single-surface semantics
+    blocks_capability: true
+    capability_ids: [AGT-02, PLT-03, ASR-01]
+    root_cause_cluster: RC-01
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-01
+    reason: False-success semantics were eliminated by removing the generic surface instead of preserving it.
+
+  - gap_id: gap.case-scoped-rag-vs-global-rag.query-anything-returns-ok-when-all-sources-fail
+    gap_class: DEFECT
+    disposition: REMOVE
+    live_reachability: LIVE_PATH
+    mechanism_future: retire generic query_anything and keep only explicit case-scoped retrieval
+    blocks_capability: true
+    capability_ids: [AGT-02, PLT-03, ASR-01]
+    root_cause_cluster: RC-01
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-01
+    reason: Wave 2 removed the tool that overstated top-level success instead of leaving a false-success path alive.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.fetch-open-proposals-uses-tuple-rows
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: preserve learning fetch path with canonical row shape
+    blocks_capability: true
+    capability_ids: [PLT-08, ASR-01]
+    root_cause_cluster: RC-02
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: The retained learning path cannot classify anything correctly without this fix.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.row-to-proposal-drops-fields-on-tuple-rows
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: preserve learning fetch path with canonical row shape
+    blocks_capability: true
+    capability_ids: [PLT-08, ASR-01]
+    root_cause_cluster: RC-02
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: This is the direct field-loss bug in the retained path.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.classify-operator-response-misclassifies-approve-when-proposal-type-missing
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: preserve learning classification with truthful approve semantics
+    blocks_capability: true
+    capability_ids: [PLT-08, ASR-01]
+    root_cause_cluster: RC-02
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: False divergence on approve is a direct consequence of the broken retained classifier.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.hitl-gmail-dry-run-reports-executed-true
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve send path but split dry-run from real execution
+    blocks_capability: true
+    capability_ids: [BIZ-01, BIZ-04, ASR-01]
+    root_cause_cluster: RC-03
+    lane: FAST
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: null
+    reason: This is a retained live send path with a direct false-success contract.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.hitl-gmail-decision-status-does-not-distinguish-dry-run-from-live
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve send path but split dry-run from real execution
+    blocks_capability: true
+    capability_ids: [BIZ-01, BIZ-04, ASR-01]
+    root_cause_cluster: RC-03
+    lane: FAST
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: null
+    reason: Retained operator journeys need dry-run and live-send to be semantically distinct.
+
+  - gap_id: gap.agent-graph-execute-run.agent-concurrency-error-swallowed-as-generic-failure
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve agent runtime with explicit concurrency semantics
+    blocks_capability: true
+    capability_ids: [PLT-04, ASR-01]
+    root_cause_cluster: RC-04
+    lane: FAST
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: The retained live agent runtime needs truthful concurrency signaling.
+
+  - gap_id: gap.agent-graph-execute-run.cas-conflict-mislabeled-as-agent-dry-run
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve agent runtime with explicit concurrency semantics
+    blocks_capability: true
+    capability_ids: [PLT-04, ASR-01]
+    root_cause_cluster: RC-04
+    lane: FAST
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: Dry-run and real CAS conflict cannot share one label on a retained execution path.
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.case-intelligence-stage-exceptions-are-swallowed
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve handoff path with explicit degraded-understanding semantics
+    blocks_capability: true
+    capability_ids: [AGT-01, PLT-02, ASR-01]
+    root_cause_cluster: RC-05
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: Hidden failure on a retained live handoff path cannot stay masked.
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-collapses-to-empty-agent-signal
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve handoff path with explicit degraded-understanding semantics
+    blocks_capability: true
+    capability_ids: [AGT-01, PLT-02, ASR-01]
+    root_cause_cluster: RC-05
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: Blank context cannot remain indistinguishable from successful no-change context.
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-preserves-reconciled-terminal-state-without-retry
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: preserve handoff path with replay-safe degraded failure handling
+    blocks_capability: true
+    capability_ids: [PLT-02, ASR-03]
+    root_cause_cluster: RC-05
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: Retained finalize semantics must not terminalize hidden recoverable failure.
+
+  - gap_id: gap.daszek-feed-push-no-retry.feed-push-has-no-durable-retry
+    gap_class: DEFECT
+    disposition: ACCEPT_RISK
+    live_reachability: LIVE_PATH
+    mechanism_future: projection-only feed push remains best-effort with explicit telemetry, proof logging and heartbeat recovery; durable retry is required only for command/effect transports
+    blocks_capability: false
+    capability_ids: [PLT-07, ASR-03, ASR-05]
+    root_cause_cluster: RC-06
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-06
+    reason: Closed by RP-06 closeout; proof showed the durable command transport is the bridge queue, while feed-push is a projection refresh path and must not be treated as an irreversible side-effect queue.
+    repair_package: RP-06
+    wave2_result: ACCEPTED_WITH_PROOF
+
+  - gap_id: gap.calendar-two-worlds-of-visits.customer-proposed-date-risk-is-cli-only
+    gap_class: DEFECT
+    disposition: REPLACE
+    live_reachability: LIVE_PATH
+    mechanism_future: canonical calendar risk model in Calendar contracts, context pack and feed
+    blocks_capability: false
+    capability_ids: [BIZ-03, PLT-05]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-04
+    reason: Closed by RP-07; proposed dates now produce `customer_proposed_date` / `proposed_visit`, while confirmed visits require active Calendar events.
+    repair_package: RP-07
+    wave2_result: CLOSED
+
+  - gap_id: gap.calendar-two-worlds-of-visits.schedule-visit-does-not-create-real-calendar-event
+    gap_class: DEFECT
+    disposition: REPLACE
+    live_reachability: REMOVED_WRITE_PATH
+    mechanism_future: scheduled_visit requires read-only ingest of a real external calendar_event_id
+    blocks_capability: true
+    capability_ids: [BIZ-03, PLT-05, ASR-01]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-04
+    reason: Closed by RP-07A/RP-07; fact-only shadow success is rejected and Calendar writes remain fail-closed.
+    repair_package: RP-07A
+    wave2_result: CLOSED
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.approved-learning-rules-affect-only-conditional-precedent-enrichment
+    gap_class: DEFECT
+    disposition: DEFER
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: decide whether learning remains advisory or becomes a steering capability
+    blocks_capability: true
+    capability_ids: [BIZ-05, PLT-08]
+    root_cause_cluster: RC-08
+    lane: ARCHITECTURAL
+    required_proof_level: END_TO_END
+    early_decision: DQ-05
+    reason: The repair depends on deciding what learning is meant to control.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.business-outcome-capture-missing
+    gap_class: DEFECT
+    disposition: REPLACE
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: add canonical business-outcome substrate rather than patching around its absence
+    blocks_capability: true
+    capability_ids: [BIZ-05, PLT-08]
+    root_cause_cluster: RC-08
+    lane: ARCHITECTURAL
+    required_proof_level: END_TO_END
+    early_decision: DQ-05
+    reason: The capability is missing, not just buggy.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.auto-approve-bypasses-confidence-threshold-on-observation-volume
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: preserve retained learning approval path with truthful gating
+    blocks_capability: true
+    capability_ids: [PLT-08, ASR-01]
+    root_cause_cluster: RC-08
+    lane: ARCHITECTURAL
+    required_proof_level: UNIT
+    early_decision: null
+    reason: Any retained learning scope still needs correct thresholding.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.get-win-rate-uses-nonexistent-won-status
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: preserve business metric path with the real lifecycle enum
+    blocks_capability: true
+    capability_ids: [BIZ-05, PLT-08]
+    root_cause_cluster: RC-08
+    lane: ARCHITECTURAL
+    required_proof_level: UNIT
+    early_decision: null
+    reason: Broken enum use is a direct defect in any retained metric path.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.revenue-forecast-consumes-broken-win-rate
+    gap_class: DEFECT
+    disposition: FIX
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: preserve forecast only if its upstream metric contract is repaired
+    blocks_capability: true
+    capability_ids: [BIZ-05, PLT-08]
+    root_cause_cluster: RC-08
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: The downstream forecast should not survive on top of a broken upstream metric.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-side-effect-runs-before-approval-persistence
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one canonical materialize lifecycle for retained proposal types
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04, ASR-02]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-02
+    reason: This must be fixed as part of lifecycle consolidation, not as a local patch only.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-post-effect-errors-leave-proposal-pending-and-rerunnable
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one canonical materialize lifecycle for retained proposal types
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04, ASR-03]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-02
+    reason: Restart safety must be solved at the lifecycle level.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-path-lacks-durable-effect-receipt-before-post-effect-failures
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one canonical materialize lifecycle for retained proposal types
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04, ASR-02]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-02
+    reason: Receipt-before-retry belongs to the canonical retained lifecycle.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-idempotency-enforced-only-for-composite-plan
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: retained proposal types inherit one explicit idempotency contract
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04, ASR-02]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-03
+    reason: The fix depends on which proposal types are kept at all.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-idempotency-wrapper-silently-noops-without-db-url
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: retained idempotency cannot silently degrade by configuration
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04, ASR-02]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: DQ-03
+    reason: The retained idempotency contract needs one explicit infrastructure assumption.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-idempotency-records-only-ok-results
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: retained idempotency must record partial successes too
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04, ASR-02]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-02
+    reason: Receipt semantics cannot be repaired independently of lifecycle ordering.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.hitl-approve-ignores-operator-draft-payload
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one canonical operator-edit payload contract across approval paths
+    blocks_capability: true
+    capability_ids: [BIZ-01, BIZ-04, AGT-04]
+    root_cause_cluster: RC-10
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: DQ-02
+    reason: This is part of the same approval payload contract split.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.bridge-queue-send-ignores-operator-draft-payload
+    gap_class: DEFECT
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: one canonical operator-edit payload contract across approval paths
+    blocks_capability: true
+    capability_ids: [BIZ-01, BIZ-04, AGT-04]
+    root_cause_cluster: RC-10
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: DQ-02
+    reason: Bridge and sync approval must share one retained payload contract.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.hitl-clarification-approval-contract-lacks-answer-payload-channel
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: one canonical clarification payload contract
+    blocks_capability: true
+    capability_ids: [BIZ-04, AGT-04]
+    root_cause_cluster: RC-10
+    lane: INTEGRITY
+    required_proof_level: INTEGRATION
+    early_decision: DQ-02
+    reason: Clarification cannot be repaired separately from the retained approval contract.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.proposal-execution-restart-recovery-is-inconsistent-across-lifecycles
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: one restart-safe proposal/execution contract
+    blocks_capability: true
+    capability_ids: [PLT-04, ASR-03]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-02
+    reason: Restart safety is a lifecycle problem, not an isolated bug.
+
+  - gap_id: gap.case-scoped-rag-vs-global-rag.gmail-agent-has-no-runtime-consumer-for-company-rag-service
+    gap_class: RISK
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: no dedicated Node B company-knowledge adapter remains; company context stays internal to rag-chat-asystent until a real caller proves otherwise
+    blocks_capability: true
+    capability_ids: [AGT-02, PLT-03]
+    root_cause_cluster: RC-01
+    lane: DECISION_DEPENDENT
+    required_proof_level: END_TO_END
+    early_decision: DQ-01
+    reason: Wave 2 resolved DQ-01 by declining to keep or replace a company-knowledge adapter with no proven consumer.
+
+  - gap_id: gap.gmail-signal-worker-loop.shared-mailbox-polled-by-two-independent-workers
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: one authoritative poller per mailbox/source
+    blocks_capability: true
+    capability_ids: [PLT-01, ASR-03, ASR-04]
+    root_cause_cluster: RC-11
+    lane: DECISION_DEPENDENT
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-11
+    reason: Ownership must be consolidated before deeper ingest fixes.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.proposal-execution-lifecycle-fragmentation-persists
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one canonical retained lifecycle instead of multiple competing shapes
+    blocks_capability: true
+    capability_ids: [BIZ-04, PLT-04]
+    root_cause_cluster: RC-09
+    lane: INTEGRITY
+    required_proof_level: END_TO_END
+    early_decision: DQ-02
+    reason: Fragmentation itself is the root cause and must be consolidated.
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.threadpool-executor-is-serialized-by-immediate-result-awaits
+    gap_class: RISK
+    disposition: DEFER
+    live_reachability: LIVE_PATH
+    mechanism_future: retained path can work correctly before it works in parallel
+    blocks_capability: false
+    capability_ids: [AGT-03, PLT-02]
+    root_cause_cluster: RC-12
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: Correctness and integrity outrank this performance/concurrency improvement.
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.action-planning-precedes-full-understanding
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: retained planner contract must be aligned with chosen lifecycle ordering
+    blocks_capability: true
+    capability_ids: [AGT-01, AGT-03]
+    root_cause_cluster: RC-12
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-02
+    reason: Ordering must be corrected as part of the canonical retained planner flow.
+
+  - gap_id: gap.top-instal-generator-offer-document.legacy-direct-config-generation-path-remains-live
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: retain direct-config only as an explicit legacy UI mode under the shared readiness contract until a separate retirement wave
+    blocks_capability: false
+    capability_ids: [BIZ-02, PLT-06]
+    root_cause_cluster: RC-13
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: DQ-12
+    reason: The path is live through legacy generator UI, so the fix is to keep it explicit and truthful rather than pretending it is already removable.
+
+  - gap_id: gap.top-instal-generator-offer-document.document-converter-path-has-two-live-modes
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one shared readiness vocabulary across retained canonical and legacy modes, with later legacy retirement handled separately
+    blocks_capability: true
+    capability_ids: [BIZ-02, PLT-06]
+    root_cause_cluster: RC-13
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: DQ-07
+    reason: Two live modes are acceptable only if they share one truthful readiness contract and no consumer can mistake DOCX degradation for PDF success.
+
+  - gap_id: gap.daszek-command-outbox-drain.db-command-outbox-has-no-confirmed-live-producer
+    gap_class: RISK
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: remove dormant DB outbox or replace it later with a new approved transport
+    blocks_capability: false
+    capability_ids: [PLT-07, ASR-04]
+    root_cause_cluster: RC-14
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: DQ-06
+    reason: A dead producerless path should not be repaired just because code exists.
+
+  - gap_id: gap.daszek-command-outbox-drain.live-bridge-command-flow-still-depends-on-jsonl-queue
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: PROJECTION_ONLY
+    mechanism_future: durable command transport with visible failure and replay
+    blocks_capability: true
+    capability_ids: [PLT-07, ASR-03]
+    root_cause_cluster: RC-06
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-06
+    reason: The retained operator command capability needs a different transport guarantee.
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.finalize-case-persists-state-in-nontransactional-multiwrite-sequence
+    gap_class: RISK
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: retain finalize path with explicit multi-write safety
+    blocks_capability: true
+    capability_ids: [PLT-02, ASR-02]
+    root_cause_cluster: RC-05
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: null
+    reason: This retained live finalize path needs an integrity fix, not removal.
+
+  - gap_id: gap.calendar-two-worlds-of-visits.create-calendar-event-action-proposal-has-no-producer
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: DEAD_PATH
+    mechanism_future: do not retain a Calendar write capability; proposal builder and execution are fail-closed under the read-only invariant
+    blocks_capability: true
+    capability_ids: [BIZ-03, PLT-05]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-04
+    reason: Closed by RP-07A/RP-07; create-calendar proposals are tombstoned and cannot execute.
+    repair_package: RP-07A
+    wave2_result: CLOSED
+
+  - gap_id: gap.calendar-two-worlds-of-visits.visit-reschedule-flow-has-no-confirmed-implementation
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: PROPOSAL_ONLY
+    mechanism_future: reschedule survives only as operator proposal text or later observed external event, never as Node B Calendar write success
+    blocks_capability: false
+    capability_ids: [BIZ-03, PLT-05]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-04
+    reason: Closed by RP-07; no separate write-shaped reschedule implementation is retained.
+    repair_package: RP-07
+    wave2_result: CLOSED
+
+  - gap_id: gap.calendar-two-worlds-of-visits.visit-cancel-flow-has-no-confirmed-implementation
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: EXTERNAL_OBSERVATION_ONLY
+    mechanism_future: cancel is represented by read-only ingest of an external cancelled event or by proposal text, never by Node B Calendar write success
+    blocks_capability: false
+    capability_ids: [BIZ-03, PLT-05]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-04
+    reason: Closed by RP-07; external cancellation removes active scheduled_visit projection.
+    repair_package: RP-07
+    wave2_result: CLOSED
+
+  - gap_id: gap.sla-watcher-decision-escalation.sla-watcher-has-no-confirmed-automatic-trigger
+    gap_class: RISK
+    disposition: PROVE_AT_RUNTIME
+    live_reachability: MANUAL_ONLY
+    mechanism_future: either prove an automatic trigger exists or accept manual-only semantics explicitly
+    blocks_capability: false
+    capability_ids: [PLT-01, ASR-03]
+    root_cause_cluster: RC-11
+    lane: DECISION_DEPENDENT
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-08
+    reason: The first step is to prove whether the automatic contract exists at all.
+
+  - gap_id: gap.calendar-two-worlds-of-visits.calendar-signal-source-kind-does-not-match-registered-handler
+    gap_class: RISK
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: retain calendar ingest with source_kind=`calendar`, matching the registered handler
+    blocks_capability: true
+    capability_ids: [BIZ-03, PLT-05]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-04
+    reason: Closed by RP-07; `build_calendar_signal` now emits `source_kind=calendar` and preserves `provider=google_calendar`.
+    repair_package: RP-07
+    wave2_result: CLOSED
+
+  - gap_id: gap.agent-graph-turn-loop.preplan-subagent-selection-cannot-activate-document-or-draft-scopes
+    gap_class: RISK
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: retain planner activation logic with truthful scope reachability
+    blocks_capability: true
+    capability_ids: [AGT-03, ASR-05]
+    root_cause_cluster: RC-12
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: The retained planner should be able to activate scopes it claims to support.
+
+  - gap_id: gap.agent-graph-turn-loop.semantic-policy-divergence-is-observed-but-never-enforced
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: LIVE_PATH
+    mechanism_future: replace telemetry-only divergence with an explicit control or accepted non-goal
+    blocks_capability: true
+    capability_ids: [AGT-03, ASR-01]
+    root_cause_cluster: RC-12
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-02
+    reason: The retained planner cannot keep a pretend control loop forever.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.reconcile-warnings-reach-rest-response-but-have-no-ui-consumer
+    gap_class: RISK
+    disposition: DEFER
+    live_reachability: LIVE_PATH
+    mechanism_future: operator-visible warnings only after a typed warning contract is chosen
+    blocks_capability: false
+    capability_ids: [BIZ-04, ASR-05]
+    root_cause_cluster: RC-10
+    lane: INTEGRITY
+    required_proof_level: END_TO_END
+    early_decision: DQ-09
+    reason: Rendering warnings without a typed contract risks new UI ambiguity.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.bridge-queue-failures-have-no-retry-or-dead-letter
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: LIVE_PATH_UNVERIFIED
+    mechanism_future: durable command transport with replay or explicit non-retry class
+    blocks_capability: true
+    capability_ids: [PLT-07, ASR-03]
+    root_cause_cluster: RC-06
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-06
+    reason: The retained operator command capability needs more than a terminalized JSONL row.
+
+  - gap_id: gap.daszek-command-outbox-drain.bridge-queue-failed-rows-become-operator-invisible
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: PROJECTION_ONLY
+    mechanism_future: retained transport must expose failed rows, whether via new outbox or explicit failure view
+    blocks_capability: true
+    capability_ids: [PLT-07, ASR-05]
+    root_cause_cluster: RC-06
+    lane: INTEGRITY
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-06
+    reason: Invisible failure is incompatible with any retained operator queue capability.
+
+  - gap_id: gap.learning-loop-divergence-to-candidate-evidence-only.world-model-producer-pipeline-has-no-callers
+    gap_class: RISK
+    disposition: DEFER
+    live_reachability: DEAD_PATH
+    mechanism_future: decide whether world-model survives before adding producers
+    blocks_capability: false
+    capability_ids: [PLT-08]
+    root_cause_cluster: RC-08
+    lane: ARCHITECTURAL
+    required_proof_level: END_TO_END
+    early_decision: DQ-05
+    reason: No producer should be built before the learning scope is chosen.
+
+  - gap_id: gap.agent-graph-turn-loop.request-human-handoff-handler-has-no-exposed-schema-or-caller
+    gap_class: RISK
+    disposition: FIX
+    live_reachability: DEAD_PATH
+    mechanism_future: retain human-handoff capability with a truthful callable surface
+    blocks_capability: false
+    capability_ids: [AGT-04, ASR-05]
+    root_cause_cluster: RC-12
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: The handler already exists; exposing or removing it is a local contract fix.
+
+  - gap_id: gap.kalk-top-calculate-offer-pipeline.call-kalk-top-quote-schema-advertises-ignored-arguments
+    gap_class: RISK
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one truthful tool contract aligned with the retained handler behavior
+    blocks_capability: true
+    capability_ids: [AGT-03, PLT-06]
+    root_cause_cluster: RC-12
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: The tool contract must be consolidated to the real retained capability.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-link-existing-has-no-confirmed-creator
+    gap_class: RISK
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: remove the dormant executor branch unless reintroduced by an explicit capability decision
+    blocks_capability: false
+    capability_ids: [PLT-04]
+    root_cause_cluster: RC-14
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: DQ-03
+    reason: Producerless executor-only branches should not be revived by default.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-create-case-has-no-confirmed-creator
+    gap_class: RISK
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: remove the dormant executor branch unless reintroduced by an explicit capability decision
+    blocks_capability: false
+    capability_ids: [PLT-04]
+    root_cause_cluster: RC-14
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: DQ-03
+    reason: Producerless executor-only branches should not be revived by default.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-create-artifact-has-no-confirmed-creator
+    gap_class: RISK
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: remove the dormant executor branch unless reintroduced by an explicit capability decision
+    blocks_capability: false
+    capability_ids: [PLT-04]
+    root_cause_cluster: RC-14
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: DQ-03
+    reason: Producerless executor-only branches should not be revived by default.
+
+  - gap_id: gap.hitl-proposal-approval-dual-path.materialize-defer-operator-has-no-confirmed-creator
+    gap_class: RISK
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: remove the dormant executor branch unless reintroduced by an explicit capability decision
+    blocks_capability: false
+    capability_ids: [PLT-04]
+    root_cause_cluster: RC-14
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: DQ-03
+    reason: Producerless executor-only branches should not be revived by default.
+
+  - gap_id: gap.agent-graph-turn-loop.extract-facts-from-text-cannot-update-existing-fact-value
+    gap_class: RISK
+    disposition: REPLACE
+    live_reachability: LIVE_PATH
+    mechanism_future: replace no-op conflict handling with canonical fact supersession
+    blocks_capability: true
+    capability_ids: [AGT-05, ASR-01]
+    root_cause_cluster: RC-12
+    lane: DECISION_DEPENDENT
+    required_proof_level: RUNTIME_MUTATING_CONTROLLED
+    early_decision: DQ-10
+    reason: Mutable facts need a new state contract, not a local SQL tweak only.
+
+  - gap_id: gap.calendar-two-worlds-of-visits.calendar-risk-has-three-independent-implementations
+    gap_class: INCONSISTENCY
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one retained calendar risk model across CalendarRuntime, CaseContextPack and Daszek feed
+    blocks_capability: true
+    capability_ids: [BIZ-03, PLT-05]
+    root_cause_cluster: RC-07
+    lane: DECISION_DEPENDENT
+    required_proof_level: INTEGRATION
+    early_decision: DQ-04
+    reason: Closed by RP-07; active/cancelled event filtering and proposed-date risk now share `calendar_models.infer_calendar_risk`.
+    repair_package: RP-07
+    wave2_result: CLOSED
+
+  - gap_id: gap.agent-graph-turn-loop.action-dictionary-resolution-docs-conflict-and-adjudication-incomplete
+    gap_class: CONTRACT_AMBIGUITY
+    disposition: DEFER
+    live_reachability: LOCAL_ONLY
+    mechanism_future: adjudicate in the next architecture snapshot, not by ad hoc code repair
+    blocks_capability: false
+    capability_ids: []
+    root_cause_cluster: RC-16
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: null
+    reason: This is a documentation lock issue, not a direct implementation defect.
+
+  - gap_id: gap.rag-chat-asystent-query-and-ingest-pipeline.rag-widget-defaults-to-vps-api-url-in-local-docker
+    gap_class: INCONSISTENCY
+    disposition: FIX
+    live_reachability: LOCAL_ONLY
+    mechanism_future: preserve local-safe routing in the retained RAG setup
+    blocks_capability: false
+    capability_ids: [PLT-03, ASR-04]
+    root_cause_cluster: RC-15
+    lane: FAST
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: This is a deterministic local-routing defect in a retained local workflow.
+
+  - gap_id: gap.rag-chat-asystent-query-and-ingest-pipeline.local-stack-has-no-automated-rag-api-url-override
+    gap_class: INCONSISTENCY
+    disposition: FIX
+    live_reachability: LOCAL_ONLY
+    mechanism_future: preserve local-safe routing in the retained RAG setup
+    blocks_capability: false
+    capability_ids: [PLT-03, ASR-04]
+    root_cause_cluster: RC-15
+    lane: FAST
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: Manual-only override is brittle and not required by the retained contract.
+
+  - gap_id: gap.rag-chat-asystent-query-and-ingest-pipeline.graphrag-community-summary-enrichment-has-no-callers
+    gap_class: INCONSISTENCY
+    disposition: REMOVE
+    live_reachability: DEAD_PATH
+    mechanism_future: removed from the shipped backend; any future enrichment must return as an explicit measured capability
+    blocks_capability: false
+    capability_ids: [PLT-03]
+    root_cause_cluster: RC-01
+    lane: DECISION_DEPENDENT
+    required_proof_level: STATIC
+    early_decision: DQ-16
+    reason: Wave 2 static proof and GitNexus impact both showed zero callers, so the dormant enrichment path was removed.
+
+  - gap_id: gap.fast-kalk-lead-widget-calculate-register-dispatch.customer-visible-price-is-fuzzed-range-not-canonical-total
+    gap_class: OBSERVATION
+    disposition: ACCEPT_RISK
+    live_reachability: LIVE_PATH
+    mechanism_future: retain intentional fuzzy display while keeping canonical total elsewhere
+    blocks_capability: false
+    capability_ids: [BIZ-02]
+    root_cause_cluster: RC-16
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: null
+    reason: The observation is intentional behavior, not a repair target in this wave.
+
+  - gap_id: gap.api-surface.deprecation-metadata-is-applied-inconsistently-across-legacy-routes
+    gap_class: OBSERVATION
+    disposition: NO_ACTION
+    live_reachability: LOCAL_ONLY
+    mechanism_future: document the inconsistency and revisit only if API lifecycle work is opened
+    blocks_capability: false
+    capability_ids: [ASR-05]
+    root_cause_cluster: RC-16
+    lane: CONSOLIDATION
+    required_proof_level: STATIC
+    early_decision: null
+    reason: Route metadata consistency alone does not justify a repair wave item.
+
+  - gap_id: gap.cross-cutting.best-effort-no-durable-retry-is-a-systemic-architecture-pattern
+    gap_class: OBSERVATION
+    disposition: NO_ACTION
+    live_reachability: CROSS_CUTTING_OBSERVATION
+    mechanism_future: use as a design pressure signal while concrete gaps are handled in their own clusters
+    blocks_capability: false
+    capability_ids: [ASR-03]
+    root_cause_cluster: RC-16
+    lane: CONSOLIDATION
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: null
+    reason: This is an umbrella observation, not a single repairable defect.
+
+  - gap_id: gap.gmail-signal-worker-loop.gmail-signal-stage-failures-have-no-per-signal-retry
+    gap_class: OBSERVATION
+    disposition: DEFER
+    live_reachability: LIVE_PATH
+    mechanism_future: retain current item-failure persistence and manual replay; automatic per-signal replay waits for later idempotency hardening of irreversible stages
+    blocks_capability: false
+    capability_ids: [PLT-01, ASR-03]
+    root_cause_cluster: RC-11
+    lane: DECISION_DEPENDENT
+    required_proof_level: RUNTIME_READ_ONLY
+    early_decision: DQ-08
+    reason: Closed for Wave 2 by RP-12 as DEFERRED_WITH_PROOF; current tests and container proof show item failures are durable and the loop continues, but automatic replay would risk duplicate effects before broader idempotency work.
+    repair_package: RP-12
+    wave2_result: DEFERRED_WITH_PROOF
+
+  - gap_id: gap.cieplo-orchestrator-intake-to-review-email.failed-final-state-name-overstates-recoverability
+    gap_class: INCONSISTENCY
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: retain Cieplo lifecycle with truthful terminal/retryable naming
+    blocks_capability: true
+    capability_ids: [BIZ-06, ASR-01]
+    root_cause_cluster: RC-13
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: DQ-07
+    reason: Truthful status naming is required even if the workflow remains manual-retry only.
+
+  - gap_id: gap.top-instal-generator-offer-document.generator-success-status-masks-docx-fallback-degradation
+    gap_class: INCONSISTENCY
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: one truthful producer readiness contract
+    blocks_capability: true
+    capability_ids: [BIZ-02, PLT-06, ASR-01]
+    root_cause_cluster: RC-13
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: DQ-07
+    reason: Producer and consumers need one retained readiness vocabulary.
+
+  - gap_id: gap.daszek-feed-push-no-retry.operational-feed-validation-warnings-have-no-ui-consumer
+    gap_class: INCONSISTENCY
+    disposition: NO_ACTION
+    live_reachability: TELEMETRY_ONLY
+    mechanism_future: validation warnings stay telemetry/proof-only unless a later package promotes a typed warning to operator-facing UI
+    blocks_capability: false
+    capability_ids: [PLT-07, ASR-05]
+    root_cause_cluster: RC-06
+    lane: INTEGRITY
+    required_proof_level: END_TO_END
+    early_decision: DQ-09
+    reason: Closed by RP-06 closeout; the warning is not retained as an operator-facing contract in Wave 2, so no UI consumer is required.
+    repair_package: RP-06
+    wave2_result: NO_ACTION_TELEMETRY_ONLY
+
+  - gap_id: gap.daszek-feed-push-no-retry.feed-quality-readonly-has-no-ui-consumer
+    gap_class: INCONSISTENCY
+    disposition: NO_ACTION
+    live_reachability: TELEMETRY_ONLY
+    mechanism_future: quality-readonly slice remains a proof/analytics surface unless a later package promotes a typed operator signal
+    blocks_capability: false
+    capability_ids: [PLT-07, ASR-05]
+    root_cause_cluster: RC-06
+    lane: INTEGRITY
+    required_proof_level: END_TO_END
+    early_decision: DQ-09
+    reason: Closed by RP-06 closeout; the quality-readonly slice is retained as proof/analytics, not an operator-facing warning contract.
+    repair_package: RP-06
+    wave2_result: NO_ACTION_TELEMETRY_ONLY
+
+  - gap_id: gap.case-engagement-resolve-and-agent-handoff.agent-runtime-enabled-branch-depends-on-loader-order
+    gap_class: INCONSISTENCY
+    disposition: FIX
+    live_reachability: LIVE_PATH
+    mechanism_future: one deterministic config plane for retained branch selection
+    blocks_capability: true
+    capability_ids: [PLT-02, ASR-04]
+    root_cause_cluster: RC-15
+    lane: FAST
+    required_proof_level: INTEGRATION
+    early_decision: null
+    reason: The retained runtime branch selection must be deterministic.
+
+  - gap_id: gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-treats-docx-fallback-as-pdf-ready
+    gap_class: INCONSISTENCY
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: consumer semantics align with the chosen producer readiness contract
+    blocks_capability: true
+    capability_ids: [BIZ-02, PLT-06, ASR-01]
+    root_cause_cluster: RC-13
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: DQ-07
+    reason: Consumer semantics should follow the one retained readiness contract.
+
+  - gap_id: gap.cieplo-orchestrator-intake-to-review-email.cieplo-treats-docx-fallback-as-pdf-ready
+    gap_class: INCONSISTENCY
+    disposition: CONSOLIDATE
+    live_reachability: LIVE_PATH
+    mechanism_future: consumer semantics align with the chosen producer readiness contract
+    blocks_capability: true
+    capability_ids: [BIZ-06, PLT-06, ASR-01]
+    root_cause_cluster: RC-13
+    lane: ARCHITECTURAL
+    required_proof_level: INTEGRATION
+    early_decision: DQ-07
+    reason: Consumer semantics should follow the one retained readiness contract.
+
+  - gap_id: gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-lacks-direct-end-to-end-test-for-lead-to-dispatch
+    gap_class: TEST_GAP
+    disposition: FIX
+    live_reachability: LOCAL_ONLY
+    mechanism_future: retain and prove the critical lead-to-dispatch journey
+    blocks_capability: true
+    capability_ids: [BIZ-02, ASR-05]
+    root_cause_cluster: RC-17
+    lane: FAST
+    required_proof_level: END_TO_END
+    early_decision: null
+    reason: The journey is critical and needs executable proof before broader repairs rely on it.
+
+  - gap_id: gap.cieplo-orchestrator-intake-to-review-email.mocked-e2e-test-fails-at-collection
+    gap_class: TEST_DEFECT
+    disposition: FIX
+    live_reachability: LOCAL_ONLY
+    mechanism_future: retain executable proof path for Cieplo review workflow
+    blocks_capability: true
+    capability_ids: [BIZ-06, ASR-05]
+    root_cause_cluster: RC-17
+    lane: FAST
+    required_proof_level: UNIT
+    early_decision: null
+    reason: A broken proof harness must be repaired before it can enable safe workflow changes.

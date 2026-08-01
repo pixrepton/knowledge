@@ -1,0 +1,19 @@
+﻿python : {"ts": "2026-08-01 23:12:02,998", "level": "INFO", "logger": "calendar_runtime", "msg": "CALENDAR_EVENT_INGEST
+_COMPLETE", "case_id": "", "engagement_id": "", "signal_id": "", "source_kind": "", "turn": 0, "trace_id": "", "total":
+ 1}
+At line:96 char:6
++ '@ | python - 2> "$raw\runtime_read_only_calendar_proof.log" | Tee-Ob ...
++      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ({"ts": "2026-08..."", "total": 1}:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+{"ts": "2026-08-01 23:12:02,999", "level": "INFO", "logger": "calendar_runtime", "msg": "CALENDAR_EVENT_INGEST_COMPLETE
+", "case_id": "", "engagement_id": "", "signal_id": "", "source_kind": "", "turn": 0, "trace_id": "", "total": 1}
+{"ts": "2026-08-01 23:12:02,999", "level": "WARNING", "logger": "calendar_runtime", "msg": "CALENDAR_EVENT_INGEST_FAILE
+D", "case_id": "", "engagement_id": "", "signal_id": "", "source_kind": "", "turn": 0, "trace_id": "", "calendar_id": "
+primary", "event_index": 0, "event_summary": "Wizyta Anna Klient", "event_id": "", "error": "calendar_event_id is requi
+red for read-only visit lifecycle"}
+{"ts": "2026-08-01 23:12:02,999", "level": "INFO", "logger": "calendar_runtime", "msg": "CALENDAR_EVENT_INGEST_PARTIAL"
+, "case_id": "", "engagement_id": "", "signal_id": "", "source_kind": "", "turn": 0, "trace_id": "", "total": 1, "succe
+eded": 0, "failed": 1}
+

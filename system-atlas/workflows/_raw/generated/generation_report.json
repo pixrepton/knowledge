@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-07-30T22:50:04Z",
+  "mode": "verify",
+  "generated_files": {
+    "WORKFLOW_ATLAS.md": 5149,
+    "ENTRYPOINT_INVENTORY.md": 8493,
+    "CROSS_REPO_CONTRACTS.md": 10777,
+    "STATE_OWNERSHIP_MATRIX.md": 10425,
+    "ARCHITECTURAL_RULES_AUDIT.md": 1898,
+    "RUNTIME_BASELINE.md": 5720,
+    "RUNTIME_PROOF_PLAN.md": 6516,
+    "EXECUTIVE_SUMMARY.md": 1296
+  },
+  "source_sha256": {
+    "registry": "50a6417b533f6ed25cbcbab585432d18fbcb8d24b8bd8d2bc7961c7984e3bb41",
+    "evidence": "3012b36cce5d430a621da350501054af8292bc6f239aa675df733434d15093a6",
+    "gaps": "b446aabca7163aa2988f2e16925cb5b4fd0f207f9133a56c33e74c31e34bb8d3"
+  }
+}

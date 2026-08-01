@@ -1,0 +1,515 @@
+schema_version: 1
+generated_at: '2026-07-31T07:55:04Z'
+baseline_policy: Workflow Registry v1 is immutable; this DAG governs only the repair overlay.
+
+nodes:
+  - node_id: RC-17
+    node_type: REPAIR_CLUSTER
+    lane: FAST
+    title: Proof-enabling and regression coverage
+    depends_on: []
+    blocks:
+      - RC-06
+      - RC-07
+      - RC-08
+      - RC-13
+    file_conflicts: []
+    migration_required: false
+    proof_readiness: HIGH
+
+  - node_id: RC-02
+    node_type: REPAIR_CLUSTER
+    lane: FAST
+    title: Learning row-shape and false-divergence classification
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-08
+    file_conflicts: []
+    migration_required: true
+    proof_readiness: HIGH
+
+  - node_id: RC-03
+    node_type: REPAIR_CLUSTER
+    lane: FAST
+    title: Gmail send false-success contract
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-10
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/hitl_gmail_send.py
+    migration_required: true
+    proof_readiness: HIGH
+
+  - node_id: RC-04
+    node_type: REPAIR_CLUSTER
+    lane: FAST
+    title: Agent concurrency semantics
+    depends_on: []
+    blocks:
+      - RC-05
+      - RC-09
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/agent_runtime/agent_reconcile.py
+    migration_required: false
+    proof_readiness: HIGH
+
+  - node_id: RC-15
+    node_type: REPAIR_CLUSTER
+    lane: FAST
+    title: Config-plane determinism and local routing drift
+    depends_on: []
+    blocks:
+      - RC-01
+      - RC-06
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/config.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/settings.py
+      - rag-widget/*
+    migration_required: false
+    proof_readiness: HIGH
+
+  - node_id: DQ-01
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Company knowledge contract
+    depends_on:
+      - RC-15
+    blocks:
+      - RC-01
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/handlers.py
+      - rag-chat-asystent/backend/*
+    migration_required: false
+    proof_readiness: MEDIUM
+
+  - node_id: DQ-16
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: GraphRAG enrichment future
+    depends_on:
+      - RC-15
+    blocks:
+      - RC-01
+    file_conflicts:
+      - rag-chat-asystent/backend/ingest/community_summaries.py
+    migration_required: false
+    proof_readiness: HIGH
+
+  - node_id: DQ-02
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Canonical proposal/execution lifecycle
+    depends_on:
+      - RC-03
+      - RC-04
+    blocks:
+      - RC-09
+      - RC-10
+      - RC-12
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/materialize_bridge.py
+      - gmail-agent/tools/gmail_audit/api_app.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/*
+    migration_required: true
+    proof_readiness: LOW
+
+  - node_id: DQ-03
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Materialize scope by proposal type
+    depends_on:
+      - DQ-02
+    blocks:
+      - RC-09
+      - RC-14
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/materialize_bridge.py
+    migration_required: false
+    proof_readiness: MEDIUM
+
+  - node_id: DQ-04
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Calendar Source of Truth and lifecycle
+    status: RESOLVED_LOCAL
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-07
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/calendar_runtime.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/write_executors.py
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: DQ-05
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Learning scope
+    depends_on:
+      - RC-02
+    blocks:
+      - RC-08
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/divergence_loop.py
+      - gmail-agent/tools/gmail_audit/business_pulse.py
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: DQ-06
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Projection transport architecture
+    depends_on:
+      - RC-15
+    blocks:
+      - RC-06
+      - RC-11
+      - RC-14
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/daszek_bridge_queue_drain.py
+      - daszek/includes/api-v3-handlers.php
+      - daszek/includes/command-outbox.php
+    migration_required: true
+    proof_readiness: LOW
+
+  - node_id: DQ-07
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Document readiness semantics
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-13
+    file_conflicts:
+      - top-instal-generator/*
+      - fast-kalk/*
+      - cieplo-orchestrator/*
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: DQ-08
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Retry policy by side-effect class
+    status: RESOLVED_LOCAL
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-06
+      - RC-11
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+      - gmail-agent/tools/gmail_audit/daszek_bridge_queue_drain.py
+      - gmail-agent/tools/gmail_audit/sla_watcher.py
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: DQ-09
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Operator warning contract
+    status: RESOLVED_LOCAL
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-06
+      - RC-10
+    file_conflicts:
+      - daszek/public/app.js
+      - gmail-agent/tools/gmail_audit/api_app.py
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: DQ-10
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Fact supersession model
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-12
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/*fact*
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: DQ-11
+    node_type: DECISION
+    lane: DECISION_DEPENDENT
+    title: Mailbox ingest ownership
+    status: RESOLVED_LOCAL
+    depends_on:
+      - RC-17
+    blocks:
+      - RC-11
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+      - any second mailbox poller path
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: RC-05
+    node_type: REPAIR_CLUSTER
+    lane: INTEGRITY
+    title: Case-intelligence masking and non-transactional finalize
+    depends_on:
+      - RC-04
+      - RC-17
+    blocks:
+      - operator_journeys
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/agent_runtime/agent_reconcile.py
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: RC-06
+    node_type: REPAIR_CLUSTER
+    lane: INTEGRITY
+    title: Projection retry and operator visibility
+    status: CLOSED
+    depends_on:
+      - DQ-06
+      - DQ-08
+      - DQ-09
+      - RC-17
+    blocks:
+      - operator_journeys
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/daszek_bridge_queue_drain.py
+      - daszek/public/app.js
+      - daszek/includes/api-v3-handlers.php
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: RC-07
+    node_type: REPAIR_CLUSTER
+    lane: ARCHITECTURAL
+    title: Calendar canonical lifecycle
+    status: CLOSED
+    depends_on:
+      - DQ-04
+      - RC-17
+    blocks:
+      - operator_journeys
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/calendar_runtime.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/write_executors.py
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: RC-08
+    node_type: REPAIR_CLUSTER
+    lane: ARCHITECTURAL
+    title: Learning scope, outcomes and world-model reachability
+    depends_on:
+      - DQ-05
+      - RC-02
+      - RC-17
+    blocks:
+      - BIZ-05
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/divergence_loop.py
+      - gmail-agent/tools/gmail_audit/business_pulse.py
+      - gmail-agent/tools/gmail_audit/world_model*
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: RC-09
+    node_type: REPAIR_CLUSTER
+    lane: INTEGRITY
+    title: Materialize execution integrity and restart safety
+    depends_on:
+      - DQ-02
+      - DQ-03
+      - RC-03
+      - RC-04
+      - RC-17
+    blocks:
+      - operator_journeys
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/materialize_bridge.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/write_executors.py
+    migration_required: true
+    proof_readiness: LOW
+
+  - node_id: RC-10
+    node_type: REPAIR_CLUSTER
+    lane: INTEGRITY
+    title: Approval payload and clarification contract
+    depends_on:
+      - DQ-02
+      - DQ-09
+      - RC-03
+      - RC-17
+    blocks:
+      - operator_journeys
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/api_app.py
+      - daszek/public/app.js
+      - gmail-agent/tools/gmail_audit/hitl_gmail_send.py
+    migration_required: false
+    proof_readiness: MEDIUM
+
+  - node_id: RC-11
+    node_type: REPAIR_CLUSTER
+    lane: DECISION_DEPENDENT
+    title: Ingest ownership and trigger model
+    status: CLOSED
+    depends_on:
+      - DQ-06
+      - DQ-08
+      - DQ-11
+      - RC-17
+    blocks:
+      - PLT-01
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+      - gmail-agent/tools/gmail_audit/sla_watcher.py
+    migration_required: false
+    proof_readiness: COMPLETE
+
+  - node_id: RC-12
+    node_type: REPAIR_CLUSTER
+    lane: DECISION_DEPENDENT
+    title: Planning, tool activation and state-correction controls
+    depends_on:
+      - DQ-02
+      - DQ-10
+      - RC-17
+    blocks:
+      - AGT-03
+      - AGT-05
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/agent_runtime/agent_reconcile.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/handlers.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/call_kalk_top.py
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: RC-13
+    node_type: REPAIR_CLUSTER
+    lane: ARCHITECTURAL
+    title: Document generation mode and readiness semantics
+    depends_on:
+      - DQ-07
+      - RC-17
+    blocks:
+      - BIZ-02
+      - BIZ-06
+    file_conflicts:
+      - top-instal-generator/*
+      - fast-kalk/*
+      - cieplo-orchestrator/*
+    migration_required: true
+    proof_readiness: MEDIUM
+
+  - node_id: RC-14
+    node_type: REPAIR_CLUSTER
+    lane: CONSOLIDATION
+    title: Dead or executor-only proposal branches
+    depends_on:
+      - DQ-03
+      - DQ-06
+    blocks: []
+    file_conflicts:
+      - gmail-agent/tools/gmail_audit/materialize_bridge.py
+      - daszek/includes/command-outbox.php
+    migration_required: false
+    proof_readiness: HIGH
+
+  - node_id: RC-16
+    node_type: REPAIR_CLUSTER
+    lane: CONSOLIDATION
+    title: Documentation and observation-only items
+    depends_on:
+      - RC-06
+      - RC-11
+      - RC-13
+    blocks: []
+    file_conflicts:
+      - knowledge/system-atlas/workflows/*
+    migration_required: false
+    proof_readiness: HIGH
+
+  - node_id: FINAL-PROOF
+    node_type: GATE
+    lane: CLOSURE
+    title: Operator-journey proof and stability observation
+    depends_on:
+      - RC-05
+      - RC-06
+      - RC-07
+      - RC-08
+      - RC-09
+      - RC-10
+      - RC-11
+      - RC-12
+      - RC-13
+      - RC-14
+      - RC-16
+    blocks:
+      - WORKFLOW-REGISTRY-V2
+    file_conflicts: []
+    migration_required: false
+    proof_readiness: LOW
+
+  - node_id: WORKFLOW-REGISTRY-V2
+    node_type: SNAPSHOT
+    lane: CLOSURE
+    title: Generate validated Workflow Registry v2 snapshot
+    depends_on:
+      - FINAL-PROOF
+    blocks: []
+    file_conflicts:
+      - knowledge/system-atlas/workflows/*
+    migration_required: false
+    proof_readiness: HIGH
+
+parallel_windows:
+  - window_id: W1
+    description: Fast confirmed fixes that do not wait for decisions
+    nodes:
+      - RC-17
+      - RC-02
+      - RC-03
+      - RC-04
+      - RC-15
+
+  - window_id: W2
+    description: Early decision packets
+    nodes:
+      - DQ-01
+      - DQ-02
+      - DQ-03
+      - DQ-04
+      - DQ-05
+      - DQ-06
+      - DQ-07
+      - DQ-08
+      - DQ-09
+      - DQ-10
+      - DQ-11
+
+  - window_id: W3
+    description: Integrity and architectural repairs after blocking decisions
+    nodes:
+      - RC-05
+      - RC-06
+      - RC-07
+      - RC-08
+      - RC-09
+      - RC-10
+      - RC-11
+      - RC-12
+      - RC-13
+      - RC-14
+
+  - window_id: W4
+    description: Closure and re-snapshot
+    nodes:
+      - RC-16
+      - FINAL-PROOF
+      - WORKFLOW-REGISTRY-V2

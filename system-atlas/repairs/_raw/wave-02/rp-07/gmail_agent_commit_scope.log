@@ -1,0 +1,13 @@
+﻿4b9d5b4 (HEAD -> handoff/20260719-1403-latest) fix(gmail-agent): enforce read-only calendar lifecycle
+ tools/gmail_audit/calendar_models.py               |  56 ++++++++
+ tools/gmail_audit/calendar_runtime.py              |  48 +++----
+ tools/gmail_audit/calendar_signal_adapter.py       |   7 +-
+ tools/gmail_audit/daszek_engagement_feed/day.py    |   3 +
+ tools/gmail_audit/daszek_v3_operational_feed.py    |   8 +-
+ tools/gmail_audit/execution_runtime.py             |  16 +--
+ tools/gmail_audit/mailbox_memory_runtime.py        |   9 +-
+ tools/gmail_audit/reply_drafter.py                 |   4 +
+ .../tests/test_rc_d2_commitment_gating.py          |  30 ++++-
+ tools/gmail_audit/tests/test_signal_adapters.py    |   2 +
+ .../test_wave2_calendar_read_only_lifecycle.py     | 143 +++++++++++++++++++++
+ 11 files changed, 276 insertions(+), 50 deletions(-)

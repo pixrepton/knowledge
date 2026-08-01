@@ -1,0 +1,421 @@
+schema_version: 1
+generated_at: '2026-07-31T07:55:04Z'
+baseline:
+  workflow_registry: knowledge/system-atlas/workflows/WORKFLOW_REGISTRY.yaml
+  workflow_gaps: knowledge/system-atlas/workflows/WORKFLOW_GAPS.yaml
+  policy: Workflow Registry v1 is immutable; clusters are a repair overlay only.
+
+clusters:
+  - cluster_id: RC-01
+    title: Generic RAG tool and company-knowledge contract drift
+    lane: DECISION_DEPENDENT
+    targets_gaps:
+      - gap.case-scoped-rag-vs-global-rag.query-anything-rag-branch-call-signature-broken
+      - gap.case-scoped-rag-vs-global-rag.query-anything-similar-cases-import-broken
+      - gap.case-scoped-rag-vs-global-rag.query-anything-counts-source-errors-as-success
+      - gap.case-scoped-rag-vs-global-rag.query-anything-returns-ok-when-all-sources-fail
+      - gap.case-scoped-rag-vs-global-rag.gmail-agent-has-no-runtime-consumer-for-company-rag-service
+      - gap.rag-chat-asystent-query-and-ingest-pipeline.graphrag-community-summary-enrichment-has-no-callers
+    root_cause: The generic retrieval surface over-promises a multi-source capability whose live runtime contract, branch wiring and consumer ownership were never made canonical.
+    default_outcome: Retain case-scoped retrieval only, remove the generic aggregator and remove dormant enrichment branches with no proven caller.
+    early_decisions:
+      - DQ-01
+      - DQ-16
+    primary_repos:
+      - gmail-agent
+      - rag-chat-asystent
+      - rag-widget
+    primary_files:
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/handlers.py
+      - gmail-agent/tools/gmail_audit/mailbox_memory/protocol.py
+      - gmail-agent/tools/gmail_audit/similar_cases_precedent.py
+      - rag-chat-asystent/backend/*
+    historical_data_impact: NONE
+    proof_enablers:
+      - truthful per-source status reporting
+      - zero-caller proof for dormant enrichment branches
+    proof_readiness: HIGH
+
+  - cluster_id: RC-02
+    title: Learning row-shape and false-divergence classification
+    lane: FAST
+    targets_gaps:
+      - gap.learning-loop-divergence-to-candidate-evidence-only.fetch-open-proposals-uses-tuple-rows
+      - gap.learning-loop-divergence-to-candidate-evidence-only.row-to-proposal-drops-fields-on-tuple-rows
+      - gap.learning-loop-divergence-to-candidate-evidence-only.classify-operator-response-misclassifies-approve-when-proposal-type-missing
+    root_cause: Learning divergence code assumes dict-like proposal rows but current fetch paths do not preserve that shape.
+    default_outcome: Fix fetch and normalization so downstream classification sees the full proposal record.
+    early_decisions: []
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/divergence_loop.py
+      - gmail-agent/tools/gmail_audit/api_app.py
+    historical_data_impact: BACKFILL
+    proof_enablers:
+      - regression fixture with tuple-row input
+    proof_readiness: HIGH
+
+  - cluster_id: RC-03
+    title: Gmail send false-success contract
+    lane: FAST
+    targets_gaps:
+      - gap.hitl-proposal-approval-dual-path.hitl-gmail-dry-run-reports-executed-true
+      - gap.hitl-proposal-approval-dual-path.hitl-gmail-decision-status-does-not-distinguish-dry-run-from-live
+    root_cause: Dry-run and live-send branches share success-shaped top-level semantics.
+    default_outcome: Fix status contract so dry-run, live send, and unknown effect are distinct and durable.
+    early_decisions: []
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/hitl_gmail_send.py
+    historical_data_impact: MANUAL_REVIEW
+    proof_enablers:
+      - controlled Gmail runtime probe
+    proof_readiness: HIGH
+
+  - cluster_id: RC-04
+    title: Agent concurrency semantics lost in generic failure handling
+    lane: FAST
+    targets_gaps:
+      - gap.agent-graph-execute-run.agent-concurrency-error-swallowed-as-generic-failure
+      - gap.agent-graph-execute-run.cas-conflict-mislabeled-as-agent-dry-run
+    root_cause: CAS conflict is caught after its semantic identity has already been flattened.
+    default_outcome: Preserve concurrency-specific status and downstream reason codes.
+    early_decisions: []
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/agent_runtime/agent_reconcile.py
+    historical_data_impact: NONE
+    proof_enablers:
+      - deterministic CAS-conflict test harness
+    proof_readiness: HIGH
+
+  - cluster_id: RC-05
+    title: Case-intelligence masking and non-transactional finalize
+    lane: INTEGRITY
+    targets_gaps:
+      - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-stage-exceptions-are-swallowed
+      - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-collapses-to-empty-agent-signal
+      - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-preserves-reconciled-terminal-state-without-retry
+      - gap.case-engagement-resolve-and-agent-handoff.finalize-case-persists-state-in-nontransactional-multiwrite-sequence
+    root_cause: Reconcile treats degraded understanding and finalize multi-write as best-effort success instead of first-class state transitions.
+    default_outcome: Surface degraded understanding explicitly and protect finalize with durable receipt / replay semantics.
+    early_decisions: []
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/agent_runtime/agent_reconcile.py
+      - gmail-agent/tools/gmail_audit/*finalize*
+    historical_data_impact: MANUAL_REVIEW
+    proof_enablers:
+      - staged failure harness before agent handoff
+      - finalize multi-write audit query
+    proof_readiness: MEDIUM
+
+  - cluster_id: RC-06
+    title: Projection retry and operator visibility
+    lane: INTEGRITY
+    targets_gaps:
+      - gap.daszek-feed-push-no-retry.feed-push-has-no-durable-retry
+      - gap.daszek-command-outbox-drain.live-bridge-command-flow-still-depends-on-jsonl-queue
+      - gap.hitl-proposal-approval-dual-path.bridge-queue-failures-have-no-retry-or-dead-letter
+      - gap.daszek-command-outbox-drain.bridge-queue-failed-rows-become-operator-invisible
+      - gap.daszek-feed-push-no-retry.operational-feed-validation-warnings-have-no-ui-consumer
+      - gap.daszek-feed-push-no-retry.feed-quality-readonly-has-no-ui-consumer
+    root_cause: Projection and command transport promises operator convergence without durable retry or a complete failure surface.
+    default_outcome: Wave 2 constrained command transport to the bridge queue with retry/dead-letter semantics; projection-only feed push remains best-effort with explicit telemetry/proof logging and heartbeat recovery.
+    early_decisions:
+      - DQ-06
+      - DQ-08
+      - DQ-09
+    primary_repos:
+      - gmail-agent
+      - daszek
+    primary_files:
+      - gmail-agent/tools/gmail_audit/daszek_bridge_queue_drain.py
+      - gmail-agent/tools/gmail_audit/daszek_v3_operational_feed.py
+      - daszek/includes/api-v3-handlers.php
+      - daszek/public/app.js
+    historical_data_impact: NO_ACTION_REQUIRED
+    proof_enablers:
+      - failed-row query surface
+      - projection replay command
+    proof_readiness: COMPLETE
+
+  - cluster_id: RC-07
+    title: Calendar canonical lifecycle
+    lane: DECISION_DEPENDENT
+    targets_gaps:
+      - gap.calendar-two-worlds-of-visits.customer-proposed-date-risk-is-cli-only
+      - gap.calendar-two-worlds-of-visits.schedule-visit-does-not-create-real-calendar-event
+      - gap.calendar-two-worlds-of-visits.create-calendar-event-action-proposal-has-no-producer
+      - gap.calendar-two-worlds-of-visits.visit-reschedule-flow-has-no-confirmed-implementation
+      - gap.calendar-two-worlds-of-visits.visit-cancel-flow-has-no-confirmed-implementation
+      - gap.calendar-two-worlds-of-visits.calendar-signal-source-kind-does-not-match-registered-handler
+      - gap.calendar-two-worlds-of-visits.calendar-risk-has-three-independent-implementations
+    root_cause: Calendar state exists in multiple partial implementations with no single lifecycle contract covering ingest, risk, schedule, reschedule and cancel.
+    default_outcome: Closed in Wave 2 by read-only event-linked lifecycle; shadow fact-only scheduling no longer confirms visits.
+    early_decisions:
+      - DQ-04
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/calendar_models.py
+      - gmail-agent/tools/gmail_audit/calendar_runtime.py
+      - gmail-agent/tools/gmail_audit/calendar_signal_adapter.py
+      - gmail-agent/tools/gmail_audit/mailbox_memory_runtime.py
+      - gmail-agent/tools/gmail_audit/daszek_v3_operational_feed.py
+    historical_data_impact: NO_ACTION_REQUIRED
+    proof_enablers:
+      - controlled calendar sandbox
+    proof_readiness: COMPLETE
+
+  - cluster_id: RC-08
+    title: Learning scope, outcomes and world-model reachability
+    lane: ARCHITECTURAL
+    targets_gaps:
+      - gap.learning-loop-divergence-to-candidate-evidence-only.approved-learning-rules-affect-only-conditional-precedent-enrichment
+      - gap.learning-loop-divergence-to-candidate-evidence-only.business-outcome-capture-missing
+      - gap.learning-loop-divergence-to-candidate-evidence-only.auto-approve-bypasses-confidence-threshold-on-observation-volume
+      - gap.learning-loop-divergence-to-candidate-evidence-only.get-win-rate-uses-nonexistent-won-status
+      - gap.learning-loop-divergence-to-candidate-evidence-only.revenue-forecast-consumes-broken-win-rate
+      - gap.learning-loop-divergence-to-candidate-evidence-only.world-model-producer-pipeline-has-no-callers
+    root_cause: The learning surface mixes divergence evidence, business metrics and world-model aspirations without one agreed objective or canonical data model.
+    default_outcome: Define near-term learning scope, fix broken metrics, and defer or remove unproduced world-model paths until outcome capture exists.
+    early_decisions:
+      - DQ-05
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/divergence_loop.py
+      - gmail-agent/tools/gmail_audit/business_pulse.py
+      - gmail-agent/tools/gmail_audit/world_model*
+    historical_data_impact: BACKFILL
+    proof_enablers:
+      - outcome capture query and seed fixtures
+    proof_readiness: MEDIUM
+
+  - cluster_id: RC-09
+    title: Materialize execution integrity and restart safety
+    lane: INTEGRITY
+    targets_gaps:
+      - gap.hitl-proposal-approval-dual-path.materialize-side-effect-runs-before-approval-persistence
+      - gap.hitl-proposal-approval-dual-path.materialize-post-effect-errors-leave-proposal-pending-and-rerunnable
+      - gap.hitl-proposal-approval-dual-path.materialize-path-lacks-durable-effect-receipt-before-post-effect-failures
+      - gap.hitl-proposal-approval-dual-path.materialize-idempotency-enforced-only-for-composite-plan
+      - gap.hitl-proposal-approval-dual-path.materialize-idempotency-wrapper-silently-noops-without-db-url
+      - gap.hitl-proposal-approval-dual-path.materialize-idempotency-records-only-ok-results
+      - gap.hitl-proposal-approval-dual-path.proposal-execution-restart-recovery-is-inconsistent-across-lifecycles
+      - gap.hitl-proposal-approval-dual-path.proposal-execution-lifecycle-fragmentation-persists
+    root_cause: Materialize approval mixes persistence, side effects, idempotency and restart semantics in a non-canonical order.
+    default_outcome: Consolidate retained materialize paths around decision persistence, durable effect receipt and restart-safe idempotency.
+    early_decisions:
+      - DQ-02
+      - DQ-03
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/materialize_bridge.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/write_executors.py
+    historical_data_impact: MANUAL_REVIEW
+    proof_enablers:
+      - durable receipt store
+      - restart/replay harness
+    proof_readiness: LOW
+
+  - cluster_id: RC-10
+    title: Approval payload and clarification contract
+    lane: INTEGRITY
+    targets_gaps:
+      - gap.hitl-proposal-approval-dual-path.hitl-approve-ignores-operator-draft-payload
+      - gap.hitl-proposal-approval-dual-path.bridge-queue-send-ignores-operator-draft-payload
+      - gap.hitl-proposal-approval-dual-path.hitl-clarification-approval-contract-lacks-answer-payload-channel
+      - gap.hitl-proposal-approval-dual-path.reconcile-warnings-reach-rest-response-but-have-no-ui-consumer
+    root_cause: Operator-facing approval transports accept payloads and warnings that the canonical backend lifecycle never consumes consistently.
+    default_outcome: Consolidate one approval payload contract for sync, bridge and clarification paths, with explicit operator-visible warnings.
+    early_decisions:
+      - DQ-02
+      - DQ-09
+    primary_repos:
+      - gmail-agent
+      - daszek
+    primary_files:
+      - gmail-agent/tools/gmail_audit/api_app.py
+      - gmail-agent/tools/gmail_audit/hitl_gmail_send.py
+      - daszek/public/app.js
+    historical_data_impact: MANUAL_REVIEW
+    proof_enablers:
+      - operator payload fixture spanning sync and bridge paths
+    proof_readiness: MEDIUM
+
+  - cluster_id: RC-11
+    title: Ingest ownership and trigger model
+    lane: DECISION_DEPENDENT
+    targets_gaps:
+      - gap.gmail-signal-worker-loop.shared-mailbox-polled-by-two-independent-workers
+      - gap.sla-watcher-decision-escalation.sla-watcher-has-no-confirmed-automatic-trigger
+      - gap.gmail-signal-worker-loop.gmail-signal-stage-failures-have-no-per-signal-retry
+    root_cause: Trigger ownership and retry responsibility are ambiguous across mailbox polling and escalation loops.
+    default_outcome: Wave 2 selected Node B signal-worker as the active local Gmail intake owner, cleared stale Daszek cron ambiguity and deferred automatic per-signal replay with proof until irreversible-stage idempotency is hardened.
+    early_decisions:
+      - DQ-08
+      - DQ-11
+    primary_repos:
+      - gmail-agent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+      - gmail-agent/tools/gmail_audit/sla_watcher.py
+    historical_data_impact: NO_ACTION_REQUIRED
+    proof_enablers:
+      - mailbox poll ownership probe
+    proof_readiness: COMPLETE
+
+  - cluster_id: RC-12
+    title: Planning, tool activation and state-correction controls
+    lane: DECISION_DEPENDENT
+    targets_gaps:
+      - gap.case-engagement-resolve-and-agent-handoff.threadpool-executor-is-serialized-by-immediate-result-awaits
+      - gap.case-engagement-resolve-and-agent-handoff.action-planning-precedes-full-understanding
+      - gap.agent-graph-turn-loop.preplan-subagent-selection-cannot-activate-document-or-draft-scopes
+      - gap.agent-graph-turn-loop.semantic-policy-divergence-is-observed-but-never-enforced
+      - gap.agent-graph-turn-loop.request-human-handoff-handler-has-no-exposed-schema-or-caller
+      - gap.kalk-top-calculate-offer-pipeline.call-kalk-top-quote-schema-advertises-ignored-arguments
+      - gap.agent-graph-turn-loop.extract-facts-from-text-cannot-update-existing-fact-value
+    root_cause: Planning and tool-control layers expose capabilities whose activation rules, ordering and state-correction semantics are not aligned with the intended contract.
+    default_outcome: Keep only truthful tool/schema surfaces, enforce selected control semantics and replace no-op fact updates with canonical supersession.
+    early_decisions:
+      - DQ-02
+      - DQ-10
+    primary_repos:
+      - gmail-agent
+      - kalk-top
+    primary_files:
+      - gmail-agent/tools/gmail_audit/agent_runtime/agent_reconcile.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/handlers.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/call_kalk_top.py
+      - gmail-agent/tools/gmail_audit/*fact*
+    historical_data_impact: BACKFILL
+    proof_enablers:
+      - schema-vs-handler parity tests
+      - fact supersession migration script
+    proof_readiness: MEDIUM
+
+  - cluster_id: RC-13
+    title: Document generation mode and readiness semantics
+    lane: ARCHITECTURAL
+    targets_gaps:
+      - gap.top-instal-generator-offer-document.legacy-direct-config-generation-path-remains-live
+      - gap.top-instal-generator-offer-document.document-converter-path-has-two-live-modes
+      - gap.cieplo-orchestrator-intake-to-review-email.failed-final-state-name-overstates-recoverability
+      - gap.top-instal-generator-offer-document.generator-success-status-masks-docx-fallback-degradation
+      - gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-treats-docx-fallback-as-pdf-ready
+      - gap.cieplo-orchestrator-intake-to-review-email.cieplo-treats-docx-fallback-as-pdf-ready
+    root_cause: Generator producer and consumers lack one readiness contract for format, fallback and retryable state naming.
+    default_outcome: Consolidate to one readiness vocabulary and one retained generation path per intended mode.
+    early_decisions:
+      - DQ-07
+    primary_repos:
+      - top-instal-generator
+      - fast-kalk
+      - cieplo-orchestrator
+    primary_files:
+      - top-instal-generator/*
+      - fast-kalk/*
+      - cieplo-orchestrator/*
+    historical_data_impact: MANUAL_REVIEW
+    proof_enablers:
+      - fixture matrix for PDF success vs DOCX fallback
+    proof_readiness: MEDIUM
+
+  - cluster_id: RC-14
+    title: Dead or executor-only proposal branches
+    lane: DECISION_DEPENDENT
+    targets_gaps:
+      - gap.daszek-command-outbox-drain.db-command-outbox-has-no-confirmed-live-producer
+      - gap.hitl-proposal-approval-dual-path.materialize-link-existing-has-no-confirmed-creator
+      - gap.hitl-proposal-approval-dual-path.materialize-create-case-has-no-confirmed-creator
+      - gap.hitl-proposal-approval-dual-path.materialize-create-artifact-has-no-confirmed-creator
+      - gap.hitl-proposal-approval-dual-path.materialize-defer-operator-has-no-confirmed-creator
+    root_cause: Dormant branches survive in code without a live producer, creating pressure to repair mechanisms that may not be part of the future contract.
+    default_outcome: Remove dormant branches by default unless an explicit capability and producer are approved.
+    early_decisions:
+      - DQ-03
+      - DQ-06
+    primary_repos:
+      - gmail-agent
+      - daszek
+    primary_files:
+      - gmail-agent/tools/gmail_audit/materialize_bridge.py
+      - daszek/includes/command-outbox.php
+    historical_data_impact: NONE
+    proof_enablers:
+      - static creator/consumer inventory
+    proof_readiness: HIGH
+
+  - cluster_id: RC-15
+    title: Config-plane determinism and local routing drift
+    lane: FAST
+    targets_gaps:
+      - gap.rag-chat-asystent-query-and-ingest-pipeline.rag-widget-defaults-to-vps-api-url-in-local-docker
+      - gap.rag-chat-asystent-query-and-ingest-pipeline.local-stack-has-no-automated-rag-api-url-override
+      - gap.case-engagement-resolve-and-agent-handoff.agent-runtime-enabled-branch-depends-on-loader-order
+    root_cause: Runtime branch selection and local routing depend on implicit env mutation or manual override rather than a single canonical config plane.
+    default_outcome: Fix config loaders and local defaults so branch selection is deterministic and local Docker stays local by default.
+    early_decisions: []
+    primary_repos:
+      - gmail-agent
+      - rag-widget
+      - rag-chat-asystent
+    primary_files:
+      - gmail-agent/tools/gmail_audit/config.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/settings.py
+      - rag-widget/*
+    historical_data_impact: NONE
+    proof_enablers:
+      - local stack env parity test
+    proof_readiness: HIGH
+
+  - cluster_id: RC-16
+    title: Documentation and observation-only items
+    lane: CONSOLIDATION
+    targets_gaps:
+      - gap.agent-graph-turn-loop.action-dictionary-resolution-docs-conflict-and-adjudication-incomplete
+      - gap.fast-kalk-lead-widget-calculate-register-dispatch.customer-visible-price-is-fuzzed-range-not-canonical-total
+      - gap.api-surface.deprecation-metadata-is-applied-inconsistently-across-legacy-routes
+      - gap.cross-cutting.best-effort-no-durable-retry-is-a-systemic-architecture-pattern
+    root_cause: These items are not first-wave code defects; they are documentation lock, intentional behavior notes or umbrella observations.
+    default_outcome: Accept risk, defer, or re-snapshot them explicitly; do not turn them into accidental feature work.
+    early_decisions: []
+    primary_repos:
+      - knowledge
+      - fast-kalk
+      - gmail-agent
+    primary_files:
+      - knowledge/system-atlas/workflows/*
+    historical_data_impact: NONE
+    proof_enablers:
+      - documentation adjudication note
+    proof_readiness: HIGH
+
+  - cluster_id: RC-17
+    title: Proof-enabling and regression coverage
+    lane: FAST
+    targets_gaps:
+      - gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-lacks-direct-end-to-end-test-for-lead-to-dispatch
+      - gap.cieplo-orchestrator-intake-to-review-email.mocked-e2e-test-fails-at-collection
+    root_cause: Critical journeys are under-proven because one test is missing and another is broken before execution.
+    default_outcome: Restore executable regression proof before deeper architectural work depends on it.
+    early_decisions: []
+    primary_repos:
+      - fast-kalk
+      - cieplo-orchestrator
+    primary_files:
+      - fast-kalk/tests/*
+      - cieplo-orchestrator/tests/test_workflow_e2e_mocked.py
+    historical_data_impact: NONE
+    proof_enablers:
+      - stable local fixtures
+      - collection-pass gate
+    proof_readiness: HIGH

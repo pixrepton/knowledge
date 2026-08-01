@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "validator_mode": "FINAL",
+  "root": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows",
+  "manifest_required": true,
+  "manifest_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\FINAL_MANIFEST.json",
+  "results": [
+    {
+      "name": "evidence",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "registry",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "gaps",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "docs",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "progress",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "manifest",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {
+        "manifest_required": true,
+        "manifest_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\FINAL_MANIFEST.json",
+        "files_checked": 23,
+        "missing_files": [],
+        "hash_mismatches": [],
+        "size_mismatches": [],
+        "required_entry_missing": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "root": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\_raw\\final-gate-closeout\\validator-fixtures\\valid_snapshot",
+  "file_count": 23,
+  "files": [
+    {
+      "path": "WORKFLOW_EVIDENCE.jsonl",
+      "size": 295653,
+      "sha256": "3012b36cce5d430a621da350501054af8292bc6f239aa675df733434d15093a6",
+      "modified_time_ns": 1785443324462414400,
+      "modified_time_utc": 1785443324.4624145
+    },
+    {
+      "path": "WORKFLOW_REGISTRY.yaml",
+      "size": 130096,
+      "sha256": "50a6417b533f6ed25cbcbab585432d18fbcb8d24b8bd8d2bc7961c7984e3bb41",
+      "modified_time_ns": 1785443324804937200,
+      "modified_time_utc": 1785443324.8049371
+    },
+    {
+      "path": "WORKFLOW_GAPS.yaml",
+      "size": 66686,
+      "sha256": "b446aabca7163aa2988f2e16925cb5b4fd0f207f9133a56c33e74c31e34bb8d3",
+      "modified_time_ns": 1785443541314474900,
+      "modified_time_utc": 1785443541.3144748
+    },
+    {
+      "path": "WORKFLOW_GAPS.md",
+      "size": 63036,
+      "sha256": "c7ff55591038f8ec021c36ffa40e8531630da596a8c6a1ddf0c4c7fba4ec2b38",
+      "modified_time_ns": 1785443541315941600,
+      "modified_time_utc": 1785443541.3159416
+    },
+    {
+      "path": "WORKFLOW_ATLAS.md",
+      "size": 5149,
+      "sha256": "7f08f596dd1e2e97763a0d563a33186785f6cfe6a16eabf634ed19ed29ba1554",
+      "modified_time_ns": 1785451804243584400,
+      "modified_time_utc": 1785451804.2435844
+    },
+    {
+      "path": "ENTRYPOINT_INVENTORY.md",
+      "size": 8493,
+      "sha256": "d1497b393ec2435e960631b5a16a6951c820e094a1c78a8db8d1390fe37b4027",
+      "modified_time_ns": 1785443836545783900,
+      "modified_time_utc": 1785443836.545784
+    },
+    {
+      "path": "CROSS_REPO_CONTRACTS.md",
+      "size": 10777,
+      "sha256": "09e74c968c66743de25c96ac874c93cb152f24b630c76e3154bb12c67412a66a",
+      "modified_time_ns": 1785443836551442200,
+      "modified_time_utc": 1785443836.5514421
+    },
+    {
+      "path": "STATE_OWNERSHIP_MATRIX.md",
+      "size": 10425,
+      "sha256": "a77fd89a86da1d863e6ffc5074f60325775b0795d1d215252b0696107829be4c",
+      "modified_time_ns": 1785443836553453500,
+      "modified_time_utc": 1785443836.5534534
+    },
+    {
+      "path": "ARCHITECTURAL_RULES_AUDIT.md",
+      "size": 1898,
+      "sha256": "4ba515d3095f5833409fcb5f7ba1e56b1385b4ee444cc38299c6dac428715bcb",
+      "modified_time_ns": 1785443836560979300,
+      "modified_time_utc": 1785443836.5609794
+    },
+    {
+      "path": "RUNTIME_BASELINE.md",
+      "size": 5720,
+      "sha256": "cb47ff2f0591550cf1e73032b6ac3a9222b4d52f078780a4d83f3c6237681f11",
+      "modified_time_ns": 1785443836565610600,
+      "modified_time_utc": 1785443836.5656106
+    },
+    {
+      "path": "RUNTIME_PROOF_PLAN.md",
+      "size": 6516,
+      "sha256": "3dfacc6a876f3f4bcc0999ec46b3b418d4530b77132e14e2a1ea3979e42b0207",
+      "modified_time_ns": 1785443836571876500,
+      "modified_time_utc": 1785443836.5718765
+    },
+    {
+      "path": "EXECUTIVE_SUMMARY.md",
+      "size": 1296,
+      "sha256": "a08af05cc646125ffc6b2a262d401be20d6db4a9d331514f35b24470f165ad91",
+      "modified_time_ns": 1785451812976987800,
+      "modified_time_utc": 1785451812.9769878
+    },
+    {
+      "path": "PROGRESS.md",
+      "size": 1242,
+      "sha256": "3b7b44cb4902b137be074e7e8055c76f255299e41b86ccc8c0d25797950159b9",
+      "modified_time_ns": 1785451778405013000,
+      "modified_time_utc": 1785451778.405013
+    },
+    {
+      "path": "FINAL_CONSISTENCY_REPORT.md",
+      "size": 751,
+      "sha256": "03071d49ae07f9a638a532b9babb70f1b3be502b69cdc9d479264c4fae8a9991",
+      "modified_time_ns": 1785451921071451500,
+      "modified_time_utc": 1785451921.0714514
+    },
+    {
+      "path": "workflow_tools_common.py",
+      "size": 1995,
+      "sha256": "d588897c67f2cf7f2408d65d4a5bf49e5af997d13e4c2b4811a63b03f7d0a99a",
+      "modified_time_ns": 1785442372279840500,
+      "modified_time_utc": 1785442372.2798405
+    },
+    {
+      "path": "normalize_workflow_evidence.py",
+      "size": 12646,
+      "sha256": "712498cc1afa8f5b2f4e97bf5508de4fe45a77f5b50ae7976253c79264bee138",
+      "modified_time_ns": 1785442847782950300,
+      "modified_time_utc": 1785442847.7829504
+    },
+    {
+      "path": "normalize_workflow_registry.py",
+      "size": 19946,
+      "sha256": "530e6474c75ca1bbc0a0a15a73ed0265e5b5c2310b4aac492d5f745f6c108984",
+      "modified_time_ns": 1785443253095528600,
+      "modified_time_utc": 1785443253.0955286
+    },
+    {
+      "path": "normalize_workflow_gaps.py",
+      "size": 12556,
+      "sha256": "b61964376c19564e4f3b9803f8ad0e38a9cb812492927df4e7a58764cde9a40b",
+      "modified_time_ns": 1785443526959986600,
+      "modified_time_utc": 1785443526.9599867
+    },
+    {
+      "path": "generate_workflow_atlas_docs.py",
+      "size": 20945,
+      "sha256": "9739c4ae15061e9ae9d162e772e8c3553707dc0be9f1c66e8410072dba49928b",
+      "modified_time_ns": 1785451695646363800,
+      "modified_time_utc": 1785451695.6463637
+    },
+    {
+      "path": "generate_progress.py",
+      "size": 3406,
+      "sha256": "9104a684925de78d9e2d9f105662806c96af6467f12a9ef5ec3ec2b709a90f2e",
+      "modified_time_ns": 1785443965537686800,
+      "modified_time_utc": 1785443965.5376868
+    },
+    {
+      "path": "validate_workflow_atlas.py",
+      "size": 25304,
+      "sha256": "2fc76903faba4a769b36e33546a2b461929f035fe70f3cf3cbeb52f92c2bc29c",
+      "modified_time_ns": 1785451856371706700,
+      "modified_time_utc": 1785451856.3717067
+    },
+    {
+      "path": "build_final_manifest.py",
+      "size": 2122,
+      "sha256": "d346ec905cd46b80635ab65cf775fca146e8cdf5d98459460bab20a4181b4603",
+      "modified_time_ns": 1785451685071677500,
+      "modified_time_utc": 1785451685.0716774
+    },
+    {
+      "path": "run_validator_negative_tests.py",
+      "size": 12783,
+      "sha256": "25c236d3a88c377f34abcff9f02b4f2e73e4d227958022e4ff73444676f4dec0",
+      "modified_time_ns": 1785451867410363300,
+      "modified_time_utc": 1785451867.4103632
+    }
+  ]
+}

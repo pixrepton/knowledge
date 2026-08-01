@@ -1,0 +1,49 @@
+COMMAND: python C:\Users\compg\Desktop\top-code workspace\knowledge\system-atlas\workflows\validate_workflow_atlas.py --final --manifest C:\Users\compg\Desktop\top-code workspace\knowledge\system-atlas\workflows\FINAL_MANIFEST.json --report-json C:\Users\compg\Desktop\top-code workspace\knowledge\system-atlas\workflows\_raw\final-gate-closeout\final_manifest_verification_validator_payload.json
+EXIT_CODE: 0
+STDOUT:
+{
+  "ok": true,
+  "validator_mode": "FINAL",
+  "manifest_required": true,
+  "results": [
+    {
+      "name": "evidence",
+      "status": "PASS",
+      "ok": true,
+      "detail_count": 0
+    },
+    {
+      "name": "registry",
+      "status": "PASS",
+      "ok": true,
+      "detail_count": 0
+    },
+    {
+      "name": "gaps",
+      "status": "PASS",
+      "ok": true,
+      "detail_count": 0
+    },
+    {
+      "name": "docs",
+      "status": "PASS",
+      "ok": true,
+      "detail_count": 0
+    },
+    {
+      "name": "progress",
+      "status": "PASS",
+      "ok": true,
+      "detail_count": 0
+    },
+    {
+      "name": "manifest",
+      "status": "PASS",
+      "ok": true,
+      "detail_count": 0
+    }
+  ]
+}
+
+STDERR:
+

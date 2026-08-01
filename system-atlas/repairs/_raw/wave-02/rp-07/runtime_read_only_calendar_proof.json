@@ -1,0 +1,46 @@
+﻿{
+  "branch": "handoff/20260719-1403-latest",
+  "calendar_api_mode": "READ_ONLY_SYNTHETIC_CLIENT",
+  "commit": "4b9d5b413dd39842555375c7bdfbe9def2717035",
+  "dirty_status": "M .claude/skills/gitnexus/gitnexus-cli/SKILL.md\n M .claude/skills/gitnexus/gitnexus-debugging/SKILL.md\n M .claude/skills/gitnexus/gitnexus-exploring/SKILL.md\n M .claude/skills/gitnexus/gitnexus-guide/SKILL.md\n M .claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md\n M .claude/skills/gitnexus/gitnexus-refactoring/SKILL.md\n M AGENTS.md\n M CLAUDE.md\n M tools/gmail_audit/.env.example\n M tools/gmail_audit/agent_hitl_bridge.py\n M tools/gmail_audit/agent_runtime/agent_reconcile.py\n M tools/gmail_audit/agent_runtime/mcp_service.py\n M tools/gmail_audit/agent_runtime/openai_agent_client.py\n M tools/gmail_audit/agent_runtime/tools/write_executors.py\n M tools/gmail_audit/calendar_client.py\n M tools/gmail_audit/config.py\n M tools/gmail_audit/divergence_loop.py\n M tools/gmail_audit/hitl_gmail_send.py\n M tools/gmail_audit/tests/test_agent_hitl_bridge.py\n M tools/gmail_audit/tests/test_canonical_runtime_profile.py\n M tools/gmail_audit/tests/test_divergence_loop.py\n M tools/gmail_audit/tests/test_hitl_gmail_send.py\n M tools/gmail_audit/tests/test_os_event_w0.py\n M tools/gmail_audit/tests/test_signal_reconciler_agent_pr_d.py\n M tools/gmail_audit/tests/test_tool_reachability_contract.py\n?? .claude/skills/generated/\n?? tools/gmail_audit/tests/test_wave1_google_write_lock.py",
+  "expected": {
+    "calendar_write_client_methods_called": [],
+    "context_after_cancel_lifecycle": "no_calendar_event",
+    "context_after_ingest_lifecycle": "scheduled_visit",
+    "ingest_source_kind": "calendar",
+    "missing_id_errors": 1
+  },
+  "inputs": {
+    "external_cancel_status": "cancelled",
+    "ingested_event_id": "evt-rp07-proof",
+    "missing_calendar_event_id": true,
+    "proposed_visit_without_event": {
+      "facts": [
+        {
+          "fact_key": "proposed_visit",
+          "normalized_value": "2026-08-03"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Synthetic client proves local runtime contract without calling external Google Calendar."
+  ],
+  "observed": {
+    "calendar_write_client_methods_called": [],
+    "cancel_ok": true,
+    "context_after_cancel_events": [],
+    "context_after_cancel_lifecycle": "no_calendar_event",
+    "context_after_ingest_lifecycle": "scheduled_visit",
+    "context_after_ingest_risk": "calendar_event_exists",
+    "ingest_ok": true,
+    "ingest_source_kind": "calendar",
+    "missing_id_errors": 1
+  },
+  "proof_level": "INTEGRATION",
+  "repo": "gmail-agent",
+  "target": "WAVE-02 RP-07 Calendar read-only lifecycle",
+  "timestamp_utc": "2026-08-01T21:12:02.999566+00:00",
+  "verdict": "PASS"
+}
+

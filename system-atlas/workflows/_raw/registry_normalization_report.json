@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-07-30T20:28:50Z",
+  "mode": "verify",
+  "source_sha256": "50a6417b533f6ed25cbcbab585432d18fbcb8d24b8bd8d2bc7961c7984e3bb41",
+  "plan_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\_raw\\subagents\\registry\\registry_normalization_plan.yaml",
+  "plan_present": true,
+  "preview_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\_raw\\registry_normalized_preview.yaml",
+  "workflow_count": 17,
+  "validation": {
+    "ok": true,
+    "issues": [],
+    "path_status_counts": {
+      "LIVE_PATH": 16,
+      "CONDITIONAL_PATH": 7,
+      "DORMANT_PATH": 1
+    },
+    "contract_status_counts": {
+      "BROKEN_CALL": 1,
+      "MISSING_CONSUMER": 1,
+      "MISSING_PRODUCER": 1
+    },
+    "runtime_classification_counts": {
+      "UNVERIFIED": 9,
+      "CONFIRMED": 8
+    }
+  }
+}

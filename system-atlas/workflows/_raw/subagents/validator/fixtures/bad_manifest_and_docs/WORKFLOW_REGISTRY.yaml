@@ -1,0 +1,63 @@
+schema_version: 2
+generated_at: '2026-07-30T22:35:26+02:00'
+evidence_scopes:
+  - scope_id: ATLAS-GLOBAL
+    scope_type: CROSS_WORKFLOW
+    description: global
+status_taxonomy:
+  path_statuses:
+    - LIVE_PATH
+    - CONDITIONAL_PATH
+    - DORMANT_PATH
+    - LEGACY_PATH
+    - DEAD_PATH
+    - FALLBACK_PATH
+  contract_statuses:
+    - BROKEN_CALL
+    - MISSING_PRODUCER
+    - MISSING_CONSUMER
+    - MISSING_EXECUTOR
+  runtime_classification:
+    - CONFIRMED
+    - UNVERIFIED
+  runtime_evidence_scope:
+    - FULL_WORKFLOW
+    - PARTIAL_WORKFLOW
+    - ENTRYPOINT_ONLY
+    - PATH_SELECTION_ONLY
+    - ENVIRONMENT_ONLY
+    - STATIC_ONLY
+  runtime_trigger_mode:
+    - AUTOMATIC
+    - MANUAL_ONLY
+    - MIXED
+  workflow_test_statuses:
+    - NO_DIRECT_TEST_FOUND
+    - SYNTHETIC_ONLY
+    - PROOF_ONLY
+    - UNIT_COVERED
+    - INTEGRATION_COVERED
+    - END_TO_END_COVERED
+    - CHAOS_COVERED
+subflows:
+  SUBFLOW-ONE:
+    description: ok
+    evidence_ids: [EV-00001]
+workflows:
+  WF-ONE:
+    workflow_id: WF-ONE
+    domain: Demo
+    owner: repo-a
+    path_statuses: [LIVE_PATH]
+    entrypoints: ["demo"]
+    evidence_ids: [EV-00001]
+    steps: ["one"]
+    runtime:
+      classification: UNVERIFIED
+      evidence_scope: STATIC_ONLY
+      trigger_mode: MANUAL_ONLY
+      note: "draft"
+workflow_test_status:
+  WF-ONE:
+    statuses: [NO_DIRECT_TEST_FOUND]
+    evidence_ids: [EV-00001]

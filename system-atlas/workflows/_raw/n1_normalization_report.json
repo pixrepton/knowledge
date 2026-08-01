@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-07-30T20:28:50Z",
+  "mode": "verify",
+  "source_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\WORKFLOW_EVIDENCE.jsonl",
+  "preview_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\_raw\\n1_full_normalized_preview.jsonl",
+  "source_sha256": "3012b36cce5d430a621da350501054af8292bc6f239aa675df733434d15093a6",
+  "source_count": 187,
+  "normalized_count": 187,
+  "validation": {
+    "ok": true,
+    "issue_count": 0,
+    "issues": [],
+    "atlas_global_count": 13,
+    "evidence_type_counts": {
+      "CODE": 150,
+      "RUNTIME": 7,
+      "GRAPH": 6,
+      "ABSENCE_SEARCH": 20,
+      "CONFIG": 1,
+      "SYNTHESIS": 1,
+      "TEST": 2
+    },
+    "confidence_counts": {
+      "MEDIUM": 74,
+      "HIGH": 113
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "copied_validator": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows\\_raw\\final-gate-closeout\\repro_fail_open_fixture\\validate_workflow_atlas.py",
+  "check_manifest_none": {
+    "name": "manifest",
+    "ok": true,
+    "details": []
+  },
+  "check_manifest_missing_path": {
+    "name": "manifest",
+    "ok": true,
+    "details": []
+  }
+}

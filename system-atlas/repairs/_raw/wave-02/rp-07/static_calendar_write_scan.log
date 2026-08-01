@@ -1,0 +1,19 @@
+﻿--- calendar\.events\.insert ---
+NO_MATCH
+--- calendar\.events\.update ---
+NO_MATCH
+--- calendar\.events\.delete ---
+NO_MATCH
+--- \.create_event\( ---
+NO_MATCH
+--- create_calendar_event ---
+tools\gmail_audit\execution_runtime.py:25:    "create_calendar_event",
+tools\gmail_audit\execution_runtime.py:32:EXTERNAL_WRITE_ACTIONS = {"apply_gmail_label", "archive_gmail", "create_calendar_event"}
+tools\gmail_audit\execution_runtime.py:105:    if action == "create_calendar_event":
+tools\gmail_audit\execution_runtime.py:317:        elif proposal.action_type == "create_calendar_event":
+tools\gmail_audit\policy_action_proposal.py:25:    "create_calendar_event",
+tools\gmail_audit\policy_engine.py:481:    } or action_type == "create_calendar_event"
+tools\gmail_audit\policy_decision.py:24:    "create_calendar_event",
+tools\gmail_audit\tests\test_wave2_calendar_read_only_lifecycle.py:122:            "action_type": "create_calendar_event",
+tools\gmail_audit\tests\test_wave2_calendar_read_only_lifecycle.py:136:def test_dead_create_calendar_event_proposal_builder_is_tombstoned() -> None:
+tools\gmail_audit\tests\test_wave2_calendar_read_only_lifecycle.py:143:        raise AssertionError("create_calendar_event proposal builder must be fail-closed")

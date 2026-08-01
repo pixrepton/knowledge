@@ -1,0 +1,194 @@
+{
+  "EV-00042": {
+    "workflow_id": "GMAIL-RECONCILE-MODE-DISPATCH",
+    "related_workflow_ids": []
+  },
+  "EV-00043": {
+    "workflow_id": "GMAIL-RECONCILE-MODE-DISPATCH",
+    "related_workflow_ids": []
+  },
+  "EV-00066": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "AGENT-GRAPH-EXECUTE-RUN"
+    ]
+  },
+  "EV-00067": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "AGENT-GRAPH-EXECUTE-RUN"
+    ]
+  },
+  "EV-00068": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "AGENT-GRAPH-EXECUTE-RUN"
+    ]
+  },
+  "EV-00069": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "AGENT-GRAPH-EXECUTE-RUN"
+    ]
+  },
+  "EV-00070": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "AGENT-GRAPH-EXECUTE-RUN"
+    ]
+  },
+  "EV-00071": {
+    "workflow_id": "AGENT-GRAPH-EXECUTE-RUN",
+    "related_workflow_ids": [
+      "AGENT-GRAPH-TURN-LOOP"
+    ]
+  },
+  "EV-00105": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+      "CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL"
+    ]
+  },
+  "EV-00112": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": []
+  },
+  "EV-00113": {
+    "workflow_id": "KALK-TOP-CALCULATE-OFFER-PIPELINE",
+    "related_workflow_ids": [
+      "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+      "CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL"
+    ]
+  },
+  "EV-00114": {
+    "workflow_id": "GMAIL-SIGNAL-WORKER-LOOP",
+    "related_workflow_ids": [
+      "GMAIL-RECONCILE-MODE-DISPATCH"
+    ]
+  },
+  "EV-00115": {
+    "workflow_id": "HITL-PROPOSAL-APPROVAL-DUAL-PATH",
+    "related_workflow_ids": []
+  },
+  "EV-00118": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "KALK-TOP-CALCULATE-OFFER-PIPELINE"
+    ]
+  },
+  "EV-00121": {
+    "workflow_id": "GMAIL-SIGNAL-WORKER-LOOP",
+    "related_workflow_ids": []
+  },
+  "EV-00122": {
+    "workflow_id": "GMAIL-SIGNAL-WORKER-LOOP",
+    "related_workflow_ids": []
+  },
+  "EV-00123": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "GMAIL-RECONCILE-MODE-DISPATCH"
+    ]
+  },
+  "EV-00124": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": [
+      "GMAIL-RECONCILE-MODE-DISPATCH"
+    ]
+  },
+  "EV-00125": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": []
+  },
+  "EV-00126": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": []
+  },
+  "EV-00127": {
+    "workflow_id": "CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF",
+    "related_workflow_ids": []
+  },
+  "EV-00132": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+      "KALK-TOP-CALCULATE-OFFER-PIPELINE",
+      "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+      "CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL"
+    ]
+  },
+  "EV-00133": {
+    "workflow_id": "CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL",
+    "related_workflow_ids": []
+  },
+  "EV-00134": {
+    "workflow_id": "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+    "related_workflow_ids": []
+  },
+  "EV-00135": {
+    "workflow_id": "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+    "related_workflow_ids": []
+  },
+  "EV-00136": {
+    "workflow_id": "LEARNING-LOOP-DIVERGENCE-TO-CANDIDATE-EVIDENCE-ONLY",
+    "related_workflow_ids": []
+  },
+  "EV-00155": {
+    "workflow_id": "DASZEK-COMMAND-OUTBOX-DRAIN",
+    "related_workflow_ids": [
+      "DASZEK-FEED-PUSH-NO-RETRY"
+    ]
+  },
+  "EV-00156": {
+    "workflow_id": "DASZEK-FEED-PUSH-NO-RETRY",
+    "related_workflow_ids": []
+  },
+  "EV-00163": {
+    "workflow_id": "DASZEK-FEED-PUSH-NO-RETRY",
+    "related_workflow_ids": []
+  },
+  "EV-00173": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+      "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+      "DASZEK-FEED-PUSH-NO-RETRY",
+      "RAG-CHAT-ASYSTENT-QUERY-AND-INGEST-PIPELINE"
+    ]
+  },
+  "EV-00174": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+      "KALK-TOP-CALCULATE-OFFER-PIPELINE",
+      "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+      "DASZEK-COMMAND-OUTBOX-DRAIN",
+      "DASZEK-FEED-PUSH-NO-RETRY"
+    ]
+  },
+  "EV-00175": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+      "KALK-TOP-CALCULATE-OFFER-PIPELINE",
+      "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+      "CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL",
+      "DASZEK-COMMAND-OUTBOX-DRAIN",
+      "DASZEK-FEED-PUSH-NO-RETRY",
+      "RAG-CHAT-ASYSTENT-QUERY-AND-INGEST-PIPELINE"
+    ]
+  },
+  "EV-00178": {
+    "workflow_id": "ATLAS-GLOBAL",
+    "related_workflow_ids": [
+      "FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH",
+      "KALK-TOP-CALCULATE-OFFER-PIPELINE",
+      "TOP-INSTAL-GENERATOR-OFFER-DOCUMENT",
+      "CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL",
+      "GMAIL-SIGNAL-WORKER-LOOP",
+      "DASZEK-COMMAND-OUTBOX-DRAIN",
+      "DASZEK-FEED-PUSH-NO-RETRY"
+    ]
+  }
+}

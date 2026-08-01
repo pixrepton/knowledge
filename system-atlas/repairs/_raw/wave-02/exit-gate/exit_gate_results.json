@@ -1,0 +1,42 @@
+﻿[
+    {
+        "name":  "gmail_focused",
+        "exit_code":  0
+    },
+    {
+        "name":  "gmail_container",
+        "exit_code":  0
+    },
+    {
+        "name":  "daszek",
+        "exit_code":  0
+    },
+    {
+        "name":  "top_generator",
+        "exit_code":  0
+    },
+    {
+        "name":  "fast_kalk",
+        "exit_code":  0
+    },
+    {
+        "name":  "cieplo",
+        "exit_code":  0
+    },
+    {
+        "name":  "rag",
+        "exit_code":  0
+    },
+    {
+        "name":  "overlay",
+        "exit_code":  0
+    },
+    {
+        "name":  "workflow_v1",
+        "exit_code":  0
+    },
+    {
+        "name":  "docker_health",
+        "exit_code":  0
+    }
+]

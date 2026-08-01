@@ -1,0 +1,759 @@
+# WORKFLOW_REGISTRY.yaml — AI-OS TOP-INSTAL
+#
+# Compact schema per entry (expand fields only when the workflow genuinely has: concurrent
+# implementations, recovery, concurrency control, multiple terminal states, a cross-repo
+# contract, or non-trivial policy — do not pad every entry to the full brief.md §7 schema):
+#
+# workflow_id:      stable slug, SCREAMING-KEBAB, e.g. GMAIL-SIGNAL-INTAKE
+# domain:           one of the 9 domains in PROGRESS.md
+# owner:            owning repo
+# status:           LIVE_PATH | CONDITIONAL_PATH | FALLBACK_PATH | TEST_ONLY | PROOF_ONLY |
+#                    LEGACY_PATH | DORMANT_PATH | DEAD_PATH | BROKEN_CALL | MISSING_PRODUCER |
+#                    MISSING_CONSUMER | MISSING_EXECUTOR | RUNTIME_UNVERIFIED | RUNTIME_CONFIRMED
+#                    (a workflow may carry more than one, e.g. [LIVE_PATH, RUNTIME_CONFIRMED])
+# entrypoints:      [repo/file:symbol, ...]
+# uses:             [SUBFLOW-ID, ...]        — shared step sequences, see SUBFLOWS below
+# steps:            [short verbs] — omit steps already covered by a referenced subflow
+# state_reads:      [table/store/fact_key, ...]
+# state_writes:     [table/store/fact_key, ...]
+# external_calls:   [repo/service via transport, ...] — cross-repo only
+# side_effect:      one line or none
+# policy:           auth/policy gate name, or none
+# approval:         HITL gate name, or none
+# terminal:         [success states] / [failure states]
+# retry:            mechanism or "none found"
+# consumers:        [who reads the terminal result]
+# evidence_ids:     [EV-#####, ...]
+# gaps:             [short gap labels] or omit
+# runtime:          RUNTIME_CONFIRMED <cite> | RUNTIME_UNVERIFIED | n/a
+#
+# SUBFLOWS: named, reusable step sequences referenced via `uses:` instead of being
+# copy-pasted into every workflow that starts the same way. Defined in the `subflows:` map
+# below, filled in as they're identified during domain reconstruction.
+
+subflows:
+  SUBFLOW-CASE-INTELLIGENCE-TO-AGENT-HANDOFF:
+    description: >
+      FORMAL BOUNDARY: Domain 2 (Case/memory) -> Domain 3 (Understanding/decision/planner/agent
+      runtime). Everything before this subflow is Case/Identity/Engagement/Intelligence
+      resolution; everything after is the agent execution loop itself. Location:
+      agent_runtime/agent_reconcile.py:606-650, inside run_agent_reconcile, after Block 1
+      (case intelligence) and Block 2 (policy envelope) have both resolved (successfully or
+      degraded, EV-00054/55) and before Block 3 (EV-00056) invokes execute_agent_run.
+    handoff_contract:
+      target_call: "execute_agent_run(resolution.engagement_id, store=operator_store, signal=agent_signal, settings=settings, mailbox_store=mailbox_store, require_enabled=False)"
+      agent_signal_base: "signal_payload_for_agent(signal, intake) — base fields not individually enumerated this pass"
+      agent_signal_added_fields:
+        - "policy_action_envelope: PolicyActionEnvelopeV1 dict (from Block 2; freshness='unavailable' + reason_codes=[...] if Block 2 degraded, EV-00055)"
+        - "understanding_brief_pl: str, from (case_intelligence_result.get('operator_brief') or {}).get('brief_pl') or '' — empty string if Block 1 failed/skipped (EV-00054)"
+        - "case_understanding_projection: build_case_understanding_projection(case_intelligence_result, message_id=...) — projection-safe extract, empty/default shape if Block 1 failed"
+        - "case_understanding_provenance: build_case_understanding_provenance_projection(case_intelligence_result, message_id=...)"
+        - "decision_comparison_inputs: build_decision_comparison_inputs(case_intelligence_result, message_id=...)"
+      integrity_note: >
+        None of these 4 added fields carry an explicit 'this is degraded' marker of their own
+        (unlike policy_action_envelope's freshness field) when case_intelligence_result is {} —
+        they resolve to empty/default shapes that are structurally identical to a case that
+        genuinely has nothing new, not to an explicit failure state. This is the concrete
+        mechanism behind Block 1's PARTIAL_FAILURE_MASKED_AS_SUCCESS classification (EV-00054).
+    evidence_ids: [EV-00047, EV-00054, EV-00055]
+
+  SUBFLOW-CASE-LINK-ROUTE-DECISION:
+    description: >
+      Shared deterministic case-linking + routing decision used before choosing agent vs
+      staging vs legacy reconcile. Not gmail-specific despite being reached first from the
+      gmail dispatcher — orchestrator.route_signal takes any source_kind.
+    steps:
+      - "resolve_case_id_for_agent(signal, entity_link_dict, ...) — priority chain: entity_link/payload case_id -> case_proposal.case_id -> extract_case_id_from_signal heuristic -> VERIFIED entity_link -> mailbox_store.fetch_case_by_message_id DB lookup -> '' (orphan)"
+      - "orchestrator.route_signal(signal, entity_link=..., case_id=..., link_confidence=...) -> OrchestratorDecision.route in {defer, fast_link, deep_understand}"
+      - "has case_id -> always fast_link; no case_id + gmail/calendar source -> always deep_understand (staging); no case_id + drive -> deep_understand; triage defer overrides everything first"
+    evidence_ids: [EV-00042, EV-00043, EV-00123, EV-00124]
+    gaps:
+      - "RESOLVED (EV-00124): mailbox_store IS confirmed omitted (defaults to None) at the gmail-dispatcher call site (signal_reconciler.py:322) — step 5 (DB fetch_case_by_message_id fallback) is confirmed DEAD on that specific path. The sibling call site (agent_reconcile.py:554) DOES pass a real mailbox_store and would reach step 5. Not a blanket unreachability claim — split by call site, precisely as now stated."
+      - "RESOLVED (EV-00123): FAST_LINK_CONFIDENCE = 0.92 default, overridable via ORCHESTRATOR_FAST_LINK_CONFIDENCE env var. Its actual effect is narrower than the name suggests: once a case_id already exists (cid truthy), route_signal ALWAYS returns fast_link regardless of confidence — the threshold only changes the reason label ('linked_high_confidence' vs 'existing_case_id'), not the routing outcome. The threshold only gates the ACTUAL route decision when NO case_id exists yet (line 62): route reaches fast_link via 'deterministic_link' only if conf>=0.92 AND status in {deterministic,verified}; otherwise orphan gmail/calendar/drive signals fall through to deep_understand staging."
+
+  SUBFLOW-SHARED-DOWNSTREAM-STAGES:
+    description: >
+      The canonical "Case Intelligence pipeline" — intake_shared_downstream.run_shared_downstream_stages
+      (intake_shared_downstream.py:122-321). Called from BOTH the legacy reconcile path
+      (_reconcile_gmail_legacy_prepare) AND the agent-runtime path
+      (_run_mailbox_intelligence_downstream, EV-00045) — genuinely shared, not duplicated logic.
+      This IS "Brain 1" per ARCHITECTURE_DECISIONS.md's informal framing; not used as a formal
+      name here since it is not a literal identifier in THIS file (contrast SUBFLOW's sibling
+      _BRAIN1_OWNED_SNAPSHOT_FIELDS in graph.py, EV-00065, which is literal).
+    steps:
+      - "link_case_context -> ingest_mailbox_memory (produces stage_config['mailbox_memory_context_pack'], EV-00066, closes EV-00034)"
+      - "Stage 1: run_business_reasoning (LLM, independent)"
+      - "Stage 2: draft_reply (LLM, depends on business_result; skippable via opts.skip_draft_reply)"
+      - "Stage 3: plan_actions/ActionPlanner (deterministic, depends on business_result + reply_result)"
+      - "Stage 4: build_case_intelligence_layer/Understanding (LLM, depends on ALL 3 prior stage outputs — runs LAST, guarded by its own try/except with fallback_case_intelligence_result)"
+      - "finalize_mailbox_memory -> hot_state merge (mode-dependent) -> attach_policy_and_proposals (Policy stage)"
+    evidence_ids: [EV-00066, EV-00067, EV-00068, EV-00069, EV-00070, EV-00071]
+    gaps:
+      - "CONFIRMS brief.md P0/HIGH item §6.2 (Draft+ActionPlanner before Understanding) as CONFIRMED_OPEN in current code, function relocated to intake_shared_downstream.py (not gmail_intake.py:2800-2920 literally anymore)"
+      - "ThreadPoolExecutor infrastructure achieves no real concurrency given the sequential .result() awaits (EV-00068) — naming/expectation mismatch, not a correctness bug"
+      - "RESOLVED (EV-00070/71): attach_policy_and_proposals reads decision_pipeline from INSIDE case_intelligence_result (not a separate stage call); gates PolicyDecision + ActionProposalV2 creation on a real decision_candidate existing; dry_run_only defaults True in code but is RUNTIME_CONFIRMED False on the live worker (real, non-dry-run proposals are live-reachable). Divergence detection specifically not yet traced as a separate mechanism beyond Domain 1/2's learning-loop evidence (EV-00008..12) — carried forward to Domain 9."
+
+  SUBFLOW-GMAIL-SIGNAL-RECONCILE:
+    description: >
+      Durable, per-signal reconcile pipeline shared by every source_kind (gmail, drive,
+      calendar, ...). Entry: signal_reconciler.reconcile_signal(signal, runtime_context, dry_run).
+    steps:
+      - "_maybe_cleanup_staging_engagements(runtime_context) — TTL garbage collection, not a visibility gate (per ARCHITECTURE_DECISIONS.md, not yet independently verified)"
+      - "journal.record_processing_attempt(status='started') — durable attempt record written before any handler runs"
+      - "entity link: apply_entity_link(...) when runtime_context.persist_entity_links else EntityLinker(...).find_case(signal) (read-only variant)"
+      - "dispatch: SIGNAL_HANDLERS[signal.source_kind](signal, runtime_context, dry_run, entity_link_dict) — registry-pattern lookup, raises ValueError if source_kind unregistered"
+      - "journal.record_processing_attempt(status=result.processing_state) on success"
+      - "journal.record_processing_attempt(status='failed', error_text=str(exc)) then re-raise on any exception — failure is not swallowed at this layer"
+    evidence_ids: [EV-00019, EV-00020]
+    gaps:
+      - "RESOLVED_BY: EV-00028, EV-00029 — SIGNAL_HANDLERS registration fully enumerated (decorator pattern, 4 handlers: gmail signal_reconciler.py:295, calendar:819, operator_command:886, drive:1052, all unconditional at module-import time, no env/feature-flag gating)."
+
+workflows:
+  - workflow_id: FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH
+    domain: "Integracje ofertowe i WordPress"
+    owner: fast-kalk
+    participating_repos: [fast-kalk, kalk-top, gmail-agent, top-instal-generator]
+    status: [LIVE_PATH, RUNTIME_UNVERIFIED, CONDITIONAL_PATH]
+    entrypoints:
+      - "WordPress REST topinstal-lead/v1: POST /chat, POST /calculate, POST /register (topinstal-lead-widget.php:197-225, EV-00092)"
+    uses: []
+    steps:
+      - "/calculate: rate limit -> session+fingerprint cache check (real idempotency) -> call kalk-top's calculate-offer (real HTTP OR in-process REST dispatch when co-located in the same WP instance, EV-00093) -> map_offer_to_summary FUZZES the real gross price into a +-range (0.93x/1.16x) for public display, never shows the exact kalk-top price -> may synchronously trigger lead registration as a side effect -> caches result -> telemetry"
+      - "/register: dedup by session (real idempotency) unless a real email upgrades a placeholder -> blocking POST to gmail-agent /internal/registry/links (BOTH SIDES CONFIRMED LIVE, EV-00095) -> fallback to fire-and-forget async POST on sync failure, no retry/queue -> may trigger Offer_Dispatch if a real email is present"
+      - "Offer_Dispatch: requires cached OfferDTO (same idempotent cache as /calculate — a register-without-prior-calculate produces offer_not_cached, a real gap) -> cross-repo call to top-instal-generator (generator_url) -> wp_mail send -> telemetry on failure, no retry"
+      - "Os_Event_Client.emit: fire-and-forget-ish (blocking=true but no retry on failure) POST to gmail-agent /internal/os-events (BOTH SIDES CONFIRMED LIVE, EV-00095/96) — same 'best-effort, no durable retry' pattern as Daszek's push mechanisms (EV-00089/90)"
+    state_reads: ["WP transient/session store (Session_Store, exact backing not opened this pass)", "gmail-agent correlation registry (implicit, via engagement_id lookups)"]
+    state_writes: ["WP session store cache (calculate result + raw offer, keyed by session+fingerprint)", "gmail-agent correlation registry (via /internal/registry/links)", "gmail-agent unified_os_events (via /internal/os-events)"]
+    external_calls:
+      - "fast-kalk -> kalk-top: POST calculate-offer (real HTTP or in-process dispatch)"
+      - "fast-kalk -> gmail-agent: POST /internal/registry/links (auth: Bearer token) — CONFIRMED both sides live"
+      - "fast-kalk -> gmail-agent: POST /internal/os-events (auth: Bearer token) — CONFIRMED both sides live"
+      - "fast-kalk -> top-instal-generator: PDF generation (generator_url) — NOT independently verified from the generator side this pass"
+    side_effect: "lead registration in gmail-agent's correlation registry, offer PDF generation + email send, telemetry events"
+    policy: "WP nonce only on the public REST routes; Bearer token on the two cross-repo Node-B calls"
+    approval: none (fully automated, no HITL in this flow)
+    terminal:
+      success: ["ok:true responses on all 3 routes, with cached/deduplicated/queued flags distinguishing idempotent replays from fresh work"]
+      failure: ["WP_Error responses (various codes); cross-repo call failures degrade to telemetry-only, no retry, matching the system-wide 'best-effort' pattern"]
+    retry: "NONE on any of the 3 cross-repo calls (kalk-top, gmail-agent x2, top-instal-generator) — only the session-level idempotent CACHE prevents redundant work on retries the CLIENT (browser) might make, not a server-side retry of a failed outbound call"
+    consumers: ["gmail-agent correlation registry / case pipeline (registered leads)", "operator email (offer dispatch)", "customer email (offer dispatch, if not test mode)"]
+    evidence_ids: [EV-00092, EV-00093, EV-00094, EV-00095, EV-00096, EV-00097, EV-00167, EV-00186]
+    gaps:
+      - "RESOLVED (EV-00167): class-chat.php's Topinstal_Lead_Widget_Chat::handle is the POST /chat callback — a self-contained conversational intake (DeepSeek -> Anthropic -> rule-based fallback) that populates 'collected' via its own multi-field extractor (class-answer-extractor.php), independent of gmail-agent/kalk-top; a deliberate guardrail (scrub_ai_insulation_guess) prevents the AI from inferring insulation/hydraulics fields, requiring a direct user answer for those specifically."
+      - "generate_pdf's target endpoint on top-instal-generator not independently confirmed to exist — one-sided verification only."
+      - "Session_Store's actual backing (WP transients? options? a table?) not opened."
+      - "Offer_Dispatch requiring a pre-existing cached OfferDTO means calling /register before /calculate produces a real, confirmed gap (offer_not_cached) — not investigated further whether the frontend widget.js guarantees ordering."
+    runtime: "RUNTIME_UNVERIFIED — fast-kalk's WordPress stack was not confirmed running in this session's Docker inspection (RUNTIME_BASELINE.md §2 lists only gmail-agent/rag-chat-asystent/daszek stacks as Up); this entire workflow is a static-code-only finding this pass."
+
+  - workflow_id: KALK-TOP-CALCULATE-OFFER-PIPELINE
+    domain: "Integracje ofertowe i WordPress"
+    owner: kalk-top
+    participating_repos: [kalk-top, fast-kalk, cieplo-orchestrator]
+    status: [LIVE_PATH, RUNTIME_UNVERIFIED]
+    entrypoints: ["POST /wp-json/topinstal/v1/calculate-offer (CalculateOfferController.php:22-32, uniform for all callers, EV-00098)"]
+    uses: []
+    steps:
+      - "auth (nonce or agent-key with active+previous rotation) -> rate limit (45/60s per IP) -> CalcRequestDTO validation (400 on failure) -> CalculateOfferUseCase: single price_book_repository -> ozc -> selection -> buffer -> cwu -> pricing engines, fixed sequence, single production wiring (EV-00099)"
+      - "on success: persist_form_state_snapshot (session UPSERT) + emit kalk.offer.calculated (engagement_id propagated from caller, not invented) -> OfferDTO response with trace/rate-limit headers"
+    state_reads: ["price book / buffer rules / selection rules repositories (Wp-backed, exact storage not opened)"]
+    state_writes: ["session-keyed form-state snapshot table (persist_form_state_snapshot)"]
+    external_calls: ["kalk-top -> gmail-agent: TopInstal_OsEvent_Client (same os-events pattern as fast-kalk's, target URL not independently re-verified this pass but pattern strongly matches EV-00096)"]
+    side_effect: "form-state snapshot persistence, telemetry"
+    policy: "nonce or agent-key auth, rate limiting"
+    approval: none
+    terminal:
+      success: ["200 OfferDTO"]
+      failure: ["400 VALIDATION_ERROR", "401/403 auth errors", "429 RATE_LIMITED", "500 CALCULATION_FAILED"]
+    retry: "none server-side; 429 responses carry Retry-After"
+    consumers: ["fast-kalk (lead widget)", "cieplo-orchestrator (engagement_id propagation confirms this)", "any other authorized caller"]
+    evidence_ids: [EV-00098, EV-00099, EV-00168, EV-00186]
+    gaps:
+      - "D2 (agent does not compute OfferDTO) SUPPORTED by this entrypoint's purely deterministic, non-LLM computation — but only ONE call site was examined; whether any OTHER kalk-top code path (or another repo) independently computes an offer-shaped value without going through this use case is not exhaustively ruled out."
+      - "RESOLVED (EV-00168): pricing_engine internals traced to source — every line item's unitPriceNet comes directly from an injected $price_book array (pump.by_power_kw / cwu.* / buffer.* / options.* / installation_net keys), which is itself built by PriceBookRepositoryWp from MasterDataRepositoryWp::get_equipment_catalog(), which loads a static, versioned JSON file (core/infrastructure/master-data/equipment-catalog.json) checked into the repo — not a WP options table, not an admin-editable DB row. DECISIVE: the pricing engine's item schema structurally has NO cost-basis/margin field at all (sku/name/qty/unitPriceNet/vatRate/totalNet/totalGross only) — this closes WHY margin is MISSING_PRODUCER: it's not unwired telemetry, the data model never carried a cost field to begin with. Labor is likewise never decomposed into hours x rate; 'installation' is one flat installation_net catalog line."
+      - "TopInstal_OsEvent_Client's target URL not independently confirmed this pass (inferred from fast-kalk's identical pattern, not re-verified)."
+    runtime: "RUNTIME_UNVERIFIED — kalk-top-local Docker stack was not Up in this session's inspection (RUNTIME_BASELINE.md §2); static code read only."
+
+  - workflow_id: TOP-INSTAL-GENERATOR-OFFER-DOCUMENT
+    domain: "Integracje ofertowe i WordPress"
+    owner: top-instal-generator
+    participating_repos: [top-instal-generator, kalk-top]
+    status: [LIVE_PATH, CONDITIONAL_PATH, RUNTIME_UNVERIFIED]
+    entrypoints: ["POST /wp-json/topinstal/v1/offer-documents/generate (GenerateOfferDocumentController.php:17-27, EV-00100)"]
+    uses: []
+    steps:
+      - "agent-key or nonce auth -> rate limit (30/60s) -> OfferDocumentRequestDTO validation -> GenerateOfferDocumentUseCase.execute: mode='from-offer-dto' (canonical, OfferDTO input) OR mode='direct-config' (legacy, both live, EV-00101) -> template/field mapping (not traced in depth) -> converter: 'gotenberg' (real PDF conversion) or 'fallback-docx' (self-tracked degraded fallback) -> emit_document_success/failed telemetry"
+    state_reads: ["kits repository (find_kit) for direct-config mode"]
+    state_writes: ["generated document artifact (storage location not traced)"]
+    external_calls: ["top-instal-generator -> gotenberg converter service (local or VPS, not disambiguated this pass)", "top-instal-generator -> gmail-agent: TopInstal_Generator_OsEvent_Client (same pattern as EV-00096/98's clients, target not independently re-verified)"]
+    side_effect: "PDF/DOCX file generation, telemetry"
+    policy: "agent-key or nonce auth, rate limiting"
+    approval: none
+    terminal:
+      success: ["200 with document result (format, converter mode)"]
+      failure: ["400 VALIDATION_ERROR", "401/403 auth", "429 RATE_LIMITED", "structured TopInstal_OfferDocument_Exception errors", "500 DOCUMENT_GENERATION_FAILED"]
+    retry: "none server-side"
+    consumers: ["fast-kalk (Offer_Dispatch, EV-00097)", "kalk-top or any caller supplying an OfferDTO"]
+    evidence_ids: [EV-00100, EV-00101, EV-00171, EV-00182, EV-00186]
+    gaps:
+      - "RESOLVED (EV-00171): the legacy AJAX path is 2 real admin-ajax actions (wp_ajax_simple_generate, explicitly self-logged 'Deprecated'; wp_ajax_topinstal_generate_offer_document), both nopriv, both converging on the SAME TopInstal_GenerateOfferDocument_UseCase as the canonical REST route — confirmed convergent adapters, not competing implementations. build_request_from_legacy is the exact legacy-flat-POST-to-DTO field mapping (installation_type->installationType, kit_model->kitModel, has_cwu->tank.enabled, etc., forced mode='direct-config'). The converter contract is an honest degraded-fallback: DOCX is always rendered first from a template, PDF conversion (Gotenberg) is attempted only if requested, and ANY conversion failure returns the real DOCX with an explicit FALLBACK_DOCX_RETURNED warning rather than a broken/silent PDF."
+      - "converter-vps (standalone service, own docker-compose.yml per ENTRYPOINT_INVENTORY.md) vs local LibreOffice/gotenberg distinction not disambiguated — RUNTIME_UNVERIFIED which is actually wired in this environment."
+      - "no agent-key active/previous rotation found here (unlike kalk-top's EV-00098) — single static key comparison only, not confirmed as a real gap vs. simply a different design choice."
+    runtime: "RUNTIME_UNVERIFIED — not confirmed running in this session's Docker inspection."
+
+  - workflow_id: CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL
+    domain: "Integracje ofertowe i WordPress"
+    owner: cieplo-orchestrator
+    participating_repos: [cieplo-orchestrator, kalk-top, top-instal-generator]
+    status: [CONDITIONAL_PATH, RUNTIME_UNVERIFIED]
+    entrypoints: ["cieplo-worker poll CLI (cli/main.py:75-85, EV-00103) — manual/operator-triggered, not an autonomous scheduler"]
+    uses: []
+    steps:
+      - "poll cieplo.app-related Gmail messages (SEPARATE Gmail credential/poller from gmail-agent, D3) -> fetch_cieplo_html -> CieploHtmlParser.parse -> CieploCalcRequestMapper.map (external_key = deterministic hash of client_email+cieplo_url, a DIFFERENT correlation strategy than gmail-agent's message_id-based one) -> WorkflowState machine: FETCHED->PARSED->MAPPED_TO_CALC->CALCULATED->MAPPED_TO_GENERATOR->DOCUMENT_REQUESTED->PDF_READY->EMAIL_SENT->DONE (EV-00102)"
+      - "KalkTopClient.calculate_offer -> SAME kalk-top /calculate-offer endpoint as fast-kalk (EV-00098) — confirms ONE shared deterministic pricing backend for both consumer surfaces"
+      - "GeneratorClient.generate -> SAME top-instal-generator endpoint as EV-00100 -> download PDF -> send_internal_review_email via SMTP to an INTERNAL reviewer address, NOT the customer directly"
+    state_reads: ["cieplo-orchestrator's own WorkflowRow table (SEPARATE DB from gmail-agent/kalk-top)"]
+    state_writes: ["WorkflowRow state transitions (own DB), cieplo_html/parsed_result/calc_request/offer_json/generator_request/generator_response/pdf_download_url/email_sent_at fields"]
+    external_calls:
+      - "cieplo-orchestrator -> kalk-top: POST calculate-offer (KALKTOP_BASE_URL)"
+      - "cieplo-orchestrator -> top-instal-generator: POST generate (GENERATOR_BASE_URL)"
+      - "cieplo-orchestrator -> SMTP: internal review email with PDF attachment"
+    side_effect: "internal review email sent with offer PDF attached; no customer-facing action in this workflow (review step, not final delivery)"
+    policy: "none beyond config-presence checks (KALKTOP_BASE_URL/GENERATOR_BASE_URL/SMTP settings all explicit FAILED_FINAL if missing, not silent skips)"
+    approval: "the internal review email IS effectively a human-in-the-loop checkpoint before any customer-facing action, though not a formal approve/reject API — an operator receives the PDF, presumably acts on it manually outside this system"
+    terminal:
+      success: ["WorkflowState.DONE"]
+      failure: ["WorkflowState.FAILED_RETRYABLE (HTTP 5xx/transport/timeout heuristic) or FAILED_FINAL (config missing, non-retryable errors, validation)"]
+    retry: "CLOSED (EV-00169): FAILED_RETRYABLE has a real consumer — POST /api/workflows/{workflow_id}/retry (topinstal_cieplo_worker/api/routes.py, the LIVE package) requires workflow_state in (FAILED_RETRYABLE, FAILED_FINAL, PDF_READY) and re-invokes run_workflow_pipeline via background_tasks.add_task. This is MANUAL_TRIGGER_ONLY (an authenticated API call), not an automatic scheduler/cron re-poll — matches the system-wide 'manual retry exists, automatic retry does not' pattern (WORKFLOW_GAPS.md item 33's family)."
+    consumers: ["operator (reads the internal review email manually)", "an authenticated API caller invoking POST /api/workflows/{id}/retry to manually re-drive a FAILED_RETRYABLE/FAILED_FINAL/PDF_READY row"]
+    evidence_ids: [EV-00102, EV-00103, EV-00169, EV-00170, EV-00182, EV-00186]
+    gaps:
+      - "D3 CONFIRMED as a real, deliberate, separately-documented dual-Gmail-intake design (own AGENTS.md explicitly disclaims being a second case SoT) — not a silent collision; no code-level conflict with gmail-agent found (fully separate DB). CORRECTED (EV-00170): 'fully separate credentials' was WRONG — the two pollers share the exact same live mailbox account (biuro.topinstal@gmail.com, confirmed via docker-compose.cieplo-local.yml's own inline comment), not merely similar-looking ones. gmail-agent has a dedicated cieplo_orchestrator_hook.py / source_kind='cieplo_orchestrated' integration receiving structured os_events from cieplo rather than re-scraping the raw email, proving this was designed for. Whether gmail-agent's own raw poll loop also independently ingests the same email (producing a duplicate/competing case) remains a narrower open residual — gmail-agent's own live poll query was not located this pass."
+      - "RESOLVED (EV-00169): DECISIVELY classifies the two sibling run_workflow_pipeline implementations flagged as unresolved in EV-00133. topinstal_cieplo_worker is LIVE_PATH — pyproject.toml's cieplo-worker CLI script and README.md's documented 'uvicorn topinstal_cieplo_worker.main:app' launch command both point to it. topinstal_cieplo_orchestrator is DEAD_PATH — a stale duplicate package with ZERO external importers anywhere, and even its OWN main.py doesn't use its own api/routes.py (it imports topinstal_cieplo_worker's router verbatim, byte-identical to the worker's main.py), making its own retry endpoint and run_workflow_pipeline unreachable through any entrypoint, including its own."
+      - "Whether cieplo-worker poll has a production scheduler (cron/systemd) was NOT found in this pass — Dockerfile.local's CMD only initializes the DB and idles; matches the brief's own suspicion that this may be manual-only."
+      - "external_key collision/idempotency guarantee (client_email+cieplo_url) not stress-tested — e.g. two different leads from the same email would collide, not verified whether that's handled."
+    runtime: "RUNTIME_UNVERIFIED — cieplo-local Docker stack not Up in this session's inspection (RUNTIME_BASELINE.md §2); static code read only."
+
+  - workflow_id: LEARNING-LOOP-DIVERGENCE-TO-CANDIDATE-EVIDENCE-ONLY
+    domain: "Learning i outcomes"
+    owner: gmail-agent
+    status: [LIVE_PATH, CONDITIONAL_PATH, RUNTIME_UNVERIFIED]
+    entrypoints:
+      - "divergence_loop.process_operator_action (already traced Domain 2, EV-00047 call chain) -> classify_operator_response -> maybe_create_learning_candidate"
+      - "GET /learning/rule-candidates, POST /learning/rule-candidates/{id}/status (api_app.py:1204-1224, EV-00108) — operator review UI backend"
+    uses: []
+    steps:
+      - "operator action -> fetch_open_proposals_for_case (row-shape bug, EV-00008..12, Domain 2) -> classify_operator_response -> RESPONSE_DIVERGENT_ACTION or RESPONSE_EDITED_MATCH triggers maybe_create_learning_candidate"
+      - "adaptive_threshold(family, observation_count) — NOT a fixed 3 despite brief.md's framing (EV-00106); cross-family boost can lower the threshold by 30% based on OTHER families' strong candidates"
+      - "on threshold reached: learning_rule_candidates row created/incremented (status=pending)"
+      - "auto-approve: EITHER confidence+threshold met, OR parent_observation_count > threshold*2 with NO confidence check at all in the second branch (EV-00107) -> status=approved, approved_by='auto_approve'"
+      - "operator can list/approve/reject via the 2 API routes (EV-00108)"
+      - "REFINED (EV-00181): approved learning_rule_candidates DO feed a conditional precedent-enrichment path via divergence_loop.fetch_approved_rules_for_family -> similar_cases_precedent.fetch_learning_rule_precedent_refs -> mailbox_memory_runtime.fetch_similar_case_precedent_refs_v1. This is a real consumer, but it is conditional and precedent-only, not a primary planner/policy control loop."
+    state_reads: ["agent_proposal_records, operator_response_records (via classify_operator_response's row-shape-bug-affected fetch)"]
+    state_writes: ["learning_rule_candidates (status, supporting_count, approved_at/by)"]
+    external_calls: []
+    side_effect: "durable candidate row; approval can influence the conditional precedent-enrichment read path, but no primary planner/policy control-loop effect was found"
+    policy: "adaptive_threshold + cross-family boost gates candidate creation; 2 independent auto-approve triggers gate approval (EV-00107)"
+    approval: "operator MAY approve/reject via API; approval has a confirmed conditional precedent-read consequence, but no confirmed primary planner/policy control-loop consequence"
+    terminal:
+      success: ["candidate created/incremented/approved — a DB row change, not a behavior change"]
+      failure: ["none distinct — function returns None when thresholds aren't met, not an error state"]
+    retry: "none applicable"
+    consumers: ["operator (views via GET /learning/rule-candidates)", "conditional precedent enrichment via similar_cases_precedent.fetch_learning_rule_precedent_refs and fetch_world_model_precedent_refs, both reached from mailbox_memory_runtime.fetch_similar_case_precedent_refs_v1 (EV-00181)"]
+    evidence_ids: [EV-00106, EV-00107, EV-00108, EV-00109, EV-00176, EV-00181, EV-00182]
+    gaps:
+      - "REFINED (EV-00181): approved learning rules are NOT literally zero-consumer anymore — they can feed a conditional precedent-enrichment branch. The stronger remaining claim is narrower: they still have NO confirmed primary planner/policy/tool-control effect, so the learning loop still does not fully close."
+      - "Auto-approval trigger (b) (pure observation-volume, zero confidence check) is a concrete, demonstrated mechanism by which a wrong pattern COULD be auto-approved — not hypothetical."
+      - "No business-outcome capture (sale value, margin, win/loss) found anywhere (EV-00109) — Domain 9's 'later business outcome' half of the required chain is CONFIRMED MISSING, not merely unexamined. There is therefore no possible link from 'approved rule' to 'later business outcome' since neither the rule-consumption edge nor the outcome-capture edge exists."
+      - "RESOLVED (EV-00176, refined by EV-00181): pattern_learner.py IS live, wired via divergence_loop.py:305's _run_pattern_learner (triggered inline during normal proposal processing), writing into the SAME learning_rule_candidates table. That table now has a confirmed conditional consumer path through similar_cases_precedent.py; the remaining defect is not zero-consumer, but the absence of a primary control-loop effect and of business-outcome closure. pattern_discovery.py is a genuinely DIFFERENT, on-demand-only mechanism (POST /system/patterns/discover), returns proposals in the HTTP response with no persistence and no automatic consumer."
+      - "row-shape bug's downstream effect on THIS SPECIFIC chain: since classify_operator_response depends on fetch_open_proposals_for_case's proposal_type (Domain 2's confirmed bug), a real approve can already be misclassified as RESPONSE_DIVERGENT_ACTION before it even reaches maybe_create_learning_candidate — meaning some fraction of 'divergence' signals feeding this whole loop may themselves be corrupted by the unrelated Domain 2 bug, not genuine operator disagreement."
+      - "REFINED (EV-00181): world_model.py is NOT consumer-orphaned. fetch_world_model_precedent_refs is called from fetch_similar_case_precedent_refs_v1, and mailbox_memory_runtime.py does call that v1 precedent chain. The real defect is producer-side: no caller was found for ingest_corpus_message, ingest_corpus_fact, distill_insights_from_corpus, fetch_insights, or update_insight_status, so the corpus/insight writer side is unwired. Gap 29 reclassified to MISSING_PRODUCER. Also found: operator_learning_hooks.py's hook_record_action_proposal_v2/hook_record_agent_draft have zero callers — the live proposal-recording code calls divergence_loop.record_agent_proposal directly from api_app.py instead, bypassing these purpose-built hooks (minor, non-gap-worthy code-hygiene observation)."
+    runtime: "RUNTIME_UNVERIFIED — the consumer-side correction in EV-00181 is still a static code trace, not a fresh runtime probe; enough to refute the prior 'zero consumer' claim, but not a live proof of production usage frequency."
+
+  - workflow_id: GMAIL-SIGNAL-WORKER-LOOP
+    domain: "Gmail i signals"
+    owner: gmail-agent
+    status: [LIVE_PATH, RUNTIME_CONFIRMED]
+    entrypoints:
+      - "gmail-agent/tools/gmail_audit/gmail_intake.py:signal-worker CLI subcommand -> run_signal_worker_command(args)"
+      - "gmail-agent docker service gmail-agent-vps-gmail-agent-worker-1, live Cmd confirmed EV-00015"
+    uses: [SUBFLOW-GMAIL-SIGNAL-RECONCILE]
+    steps:
+      - "run_signal_loop(...) — tools/gmail_audit/signal_worker.py:391-1063, the --loop main poll loop; imports process_snapshot from gmail_intake (EV-00021)"
+      - "process_snapshot (gmail_intake_process.py:9) -> run_gmail_signal_runtime (gmail_signal_adapter.py:222-278)"
+      - "build_gmail_signals (gmail_signal_adapter.py:58-210) builds primary/thread/attachment signals via build_canonical_signal x1-3 (EV-00022)"
+      - "for each signal: context.journal.append(signal) [SignalJournal -> store.append_signal -> INSERT mailbox_memory_signals, EV-00025/EV-00026]; dedup on append_results[0].inserted, skips reconcile with processing_state='skipped_duplicate' if duplicate (EV-00023)"
+      - "-> SUBFLOW-GMAIL-SIGNAL-RECONCILE, primary signal only (thread/attachment signals journaled but not individually reconciled here — EV-00023)"
+    state_reads: ["Gmail message/thread/attachment content (via gmail_intake fetch stages, not individually re-traced this pass)"]
+    state_writes:
+      - "mailbox_memory_signals (Postgres, via SignalJournal.append -> store.append_signal, EV-00026) — the canonical post-normalization signal store"
+      - "mailbox_memory_raw_observations (Postgres, via RawObservationJournal -> store.append_raw_observation, EV-00027) — separate, earlier-stage raw-capture table, not a duplicate of the above (confirms brief.md's implied ambiguity was resolvable: these are two pipeline stages, not competing implementations)"
+      - "processing-attempt records inside SUBFLOW-GMAIL-SIGNAL-RECONCILE (table not independently re-confirmed this pass, citing prior-session OPERATOR_DECISIONS.md 2026-07-16 X14 finding only)"
+    external_calls: []
+    side_effect: "durable signal + raw-observation + processing-attempt journal writes; case/engagement mutation happens inside the dispatched SIGNAL_HANDLERS['gmail'] handler (signal_reconciler.py:295, EV-00029), not individually traced this pass"
+    policy: "TBD — source_kind-level auth/scope not yet traced"
+    approval: none (intake path, no HITL gate at this layer)
+    terminal:
+      success: ["result.processing_state (value set) or 'skipped_duplicate' on dedup, journal status recorded"]
+      failure: ["exception re-raised after journal.record_processing_attempt(status='failed'), per SUBFLOW"]
+    retry: "run_signal_loop has its own outer poll-retry logic (_poll_with_retry, signal_worker.py:233-255) — not yet examined for whether it retries a failed reconcile_signal or only a failed Gmail API poll call itself; do not assume signal-level retry without confirming"
+    consumers: ["SIGNAL_HANDLERS['gmail'] result (signal_reconciler.py:295) feeds case/engagement state — handler body not traced yet, next Domain 2 entrypoint"]
+    evidence_ids: [EV-00015, EV-00018, EV-00019, EV-00020, EV-00021, EV-00022, EV-00023, EV-00024, EV-00025, EV-00026, EV-00027, EV-00028, EV-00029, EV-00030, EV-00185, EV-00186]
+    gaps:
+      - "RESOLVED_BY: GMAIL-RECONCILE-MODE-DISPATCH + CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF (EV-00039..EV-00057) — gmail SIGNAL_HANDLER body (signal_reconciler.py:295) fully traced in Domain 2."
+      - "signal-level retry vs poll-level retry not disambiguated (still open, DOMAIN-COMPLETENESS-REVISIT item 1)"
+      - "STATIC_CONFIG_RISK: docker-compose.local-vps.yml:137 literal default is still 'doctor --skip-gmail --verbose' if GMAIL_AGENT_WORKER_COMMAND is ever unset (EV-00030) — the live container is correctly overridden (EV-00015, RUNTIME_CONFIRMED) but the checked-in default remains a footgun for any fresh/misconfigured environment"
+    runtime: "RUNTIME_CONFIRMED (worker command only) — worker container live with signal-worker --loop --verbose, EV-00015. Reconcile/journal-level behavior (SUBFLOW, build_gmail_signals chain) is a static read, not runtime-observed this pass."
+
+  - workflow_id: GMAIL-RECONCILE-MODE-DISPATCH
+    domain: "Case i memory"
+    owner: gmail-agent
+    status: [LIVE_PATH, RUNTIME_CONFIRMED, CONDITIONAL_PATH]
+    entrypoints:
+      - "signal_reconciler._reconcile_gmail_signal (signal_reconciler.py:296-386), registered as SIGNAL_HANDLERS['gmail']"
+    uses: [SUBFLOW-CASE-LINK-ROUTE-DECISION]
+    steps:
+      - "branch on signal.signal_kind: 'gmail_message_observed' is the primary/main case (matches the primary signal built by build_gmail_signals, EV-00022); thread/attachment signal_kinds get an auxiliary no-op-ish ReconcileResult (should_refresh=False) unless resolvable to a case_id for the staging agent"
+      - "for gmail_message_observed: mode selected at runtime by agent_runtime_reconcile_active()/legacy_downstream_reconcile_active() (agent_reconcile.py:224-238, EV-00040) — settings-driven (AGENT_RUNTIME_ENABLED, AGENT_RUNTIME_MODE in {prep,primary,legacy})"
+      - "if agent path active: resolve_case_id_for_agent(...) + orchestrator.route_signal(...) -> case_id present or route=='deep_understand' decides between _reconcile_gmail_signal_staging_agent and _reconcile_gmail_signal_agent"
+      - "if neither agent nor legacy active: raises RuntimeError('reconcile mode misconfigured') — fail-closed, not a silent no-op"
+      - "if legacy active: falls through to _reconcile_gmail_signal_legacy (-> run_shared_downstream_stages, intake_shared_downstream.py)"
+    state_reads: []
+    state_writes: []
+    external_calls: []
+    side_effect: "none at this dispatch layer itself — delegates entirely to the selected handler function"
+    policy: "AgentRuntimeConfigError raised if enabled=True and mode=legacy simultaneously (EV-00040) — an explicit inconsistent-config guard, fails closed rather than silently picking one"
+    approval: none
+    terminal:
+      success: ["delegates to one of: _reconcile_gmail_signal_agent | _reconcile_gmail_signal_staging_agent | _reconcile_gmail_signal_legacy | auxiliary no-op ReconcileResult"]
+      failure: ["RuntimeError('reconcile mode misconfigured: neither agent nor legacy path active')", "AgentRuntimeConfigError (inconsistent enabled+legacy combo)"]
+    retry: "none at this layer — inherits SUBFLOW-GMAIL-SIGNAL-RECONCILE's outer journal/exception handling"
+    consumers: ["whichever downstream handler is selected — _reconcile_gmail_signal_agent not yet traced (next entrypoint)"]
+    evidence_ids: [EV-00039, EV-00040, EV-00041]
+    gaps:
+      - "RESOLVED_BY: EV-00042 (resolve_case_id_for_agent), EV-00043 (orchestrator.route_signal) — see SUBFLOW-CASE-LINK-ROUTE-DECISION."
+      - "RESOLVED_BY: CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF (EV-00044..EV-00057) — _reconcile_gmail_signal_agent fully traced."
+      - "semantic difference between mode='prep' and mode='primary' not established (still open, DOMAIN-COMPLETENESS-REVISIT item 3)"
+    runtime: "RUNTIME_CONFIRMED via live process settings read (EV-00041, not a raw shell env dump — see evidence caveat): mode='prep', enabled=True on gmail-agent-vps-gmail-agent-worker-1 at snapshot time. This selects the agent-runtime branch for gmail_message_observed on the currently live container."
+
+  - workflow_id: CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF
+    domain: "Case i memory"
+    owner: gmail-agent
+    status: [LIVE_PATH, RUNTIME_CONFIRMED]
+    entrypoints:
+      - "signal_reconciler._reconcile_gmail_signal_agent (signal_reconciler.py:485-515) -> agent_reconcile.run_agent_reconcile (agent_reconcile.py:538-668+)"
+    uses: [SUBFLOW-CASE-LINK-ROUTE-DECISION]
+    steps:
+      - "resolve_case_id_for_agent(..., mailbox_store=runtime_context.resolved_store) — DB-fallback-enabled this time, unlike the earlier routing-only call"
+      - "hard requirement: raise ValueError if still no case_id (EV-00048) — orphans never reach this function, they route to _reconcile_gmail_signal_staging_agent instead (SUBFLOW-CASE-LINK-ROUTE-DECISION's deep_understand branch)"
+      - "build_registry_for_reconcile (EV-00052, FAIL-CLOSED: raises AgentRuntimeConfigError if no DB URL, no silent in-memory fallback at this call site) + resolve_engagement_for_case (EV-00053, FAIL-CLOSED throughout: requires customer_email to create a new engagement, raises on any missing piece) — Identity/Engagement resolution via correlation registry"
+      - "ensure_engagement_snapshot — writes/ensures EngagementSnapshotV2 via operator_engagement_snapshots store (this write happens BEFORE Block 3, so it persists even if the agent run itself later fails)"
+      - "Block 1 (lines 586-600, EV-00054): if _case_os_intelligence_downstream_active (RUNTIME_CONFIRMED True, EV-00046): _run_mailbox_intelligence_downstream -> run_shared_downstream_stages, wrapped in bare except Exception -> PARTIAL_FAILURE_MASKED_AS_SUCCESS, high severity (full classification in gaps below)"
+      - "-> SUBFLOW-CASE-INTELLIGENCE-TO-AGENT-HANDOFF (formal Domain 2 -> Domain 3 boundary)"
+      - "Block 2 (lines 609-626, EV-00055): build_policy_action_envelope_handoff wrapped in bare except Exception -> INTENTIONAL labeled degradation (explicit code comment confirms design intent), lower severity"
+      - "Block 3 (lines 643-656, EV-00056): execute_agent_run itself wrapped in bare except Exception -> PARTIAL_FAILURE_MASKED_AS_SUCCESS, most severe: agent never ran, run_result=None, but patch_signal_engagement + job_store.record_completed still execute unconditionally afterward"
+      - "patch_signal_engagement — writes engagement_id back onto the mailbox_memory_signals row (unconditional, even after a Block 3 failure)"
+      - "job_store.record_completed — audit/job-tracking write (unconditional, even after a Block 3 failure)"
+      - "build_agent_reconcile_result (EV-00049..51, agent_reconcile.py:887-1031+, NOT signal_reconciler.py — corrected location) assembles the final ReconcileResult: processing_state is UNCONDITIONALLY 'reconciled' (non-dry-run) regardless of any of the 3 blocks' outcome; contains its OWN 4th independent masking try/except (projection_canonical_enabled gate, EV-00049, not analyzed in depth this pass)"
+    state_reads: ["correlation registry (engagement resolution)", "operator_engagement_snapshots (via ensure_engagement_snapshot, read-before-write pattern assumed, not confirmed)"]
+    state_writes:
+      - "operator_engagement_snapshots (EngagementSnapshotV2, via ensure_engagement_snapshot BEFORE Block 3, and later execute_agent_run's own snapshot save IF Block 3 succeeds)"
+      - "mailbox_memory_signals.engagement_id (via patch_signal_engagement, unconditional)"
+      - "agent job-tracking table (via job_store.record_completed, unconditional, table name not yet confirmed)"
+      - "whatever run_shared_downstream_stages writes durably before a mid-pipeline Block-1 exception — NOT CONFIRMED transactional or all-or-nothing; flagged as an open integrity question, not asserted either way"
+    external_calls: []
+    side_effect: "engagement snapshot creation/update, agent execution (execute_agent_run — the actual LLM planner loop, Domain 3), job audit record"
+    policy: "none observed at this layer beyond the hard case_id requirement (EV-00048); registry/engagement resolution is fail-closed (EV-00052/53) — a real, load-bearing design boundary distinct from the 3 lenient blocks (EV-00057)"
+    approval: none (this is pre-HITL; proposals requiring approval are created inside execute_agent_run, Domain 3/4)
+    terminal:
+      success: ["ReconcileResult.processing_state='reconciled' — UNCONDITIONAL on the non-dry-run path, does not vary with any of the 3 blocks' outcome (EV-00049)"]
+      failure: ["ValueError('agent reconcile requires case_id...'), AgentRuntimeConfigError (registry), ValueError/RuntimeError (engagement resolution) all propagate uncaught — these are the only true hard failures in this function"]
+    retry: "none observed at this layer for any of the 3 blocks — failures degrade to warnings and continue. Natural re-delivery would not retry Block 1/2/3 since the signal is already deduped in the journal (Domain 1); only a manual signal-replay CLI (located, not traced) could reprocess."
+    consumers: ["Daszek feed (via EngagementSnapshotV2), HITL approval flow (Domain 4), downstream execute_agent_run result — not yet traced. Whether ReconcileResult.warnings/rebuild_result surfaces to Daszek/health/telemetry anywhere is an OPEN QUESTION, not yet confirmed either way."]
+    evidence_ids: [EV-00044, EV-00045, EV-00046, EV-00047, EV-00048, EV-00049, EV-00050, EV-00051, EV-00052, EV-00053, EV-00054, EV-00055, EV-00056, EV-00057, EV-00180, EV-00184]
+    gaps:
+      - "PARTIAL_FAILURE_MASKED_AS_SUCCESS (Block 1, EV-00054): Case Intelligence/Understanding/Business Reasoning/Decision Pipeline failure -> case_intelligence_result stays {} silently, execute_agent_run proceeds on a semantically blank context indistinguishable from 'nothing new', terminal status still 'reconciled'."
+      - "PARTIAL_FAILURE_MASKED_AS_SUCCESS (Block 3, EV-00056), most severe: agent never executes at all (zero tool calls/proposals/HITL escalation), yet patch_signal_engagement + job_store.record_completed run unconditionally, AND rebuild_result.update_reasons mislabels the crash as ['agent_dry_run'] (EV-00051, a separate, independently-confirmed labeling bug) — a real customer-facing miss is plausible with no operator-visible error beyond a warnings-list string."
+      - "Block 2 (policy envelope, EV-00055) is classified as INTENTIONAL, LABELED degradation, not integrity loss — the fallback value self-describes as unavailable. Lower priority than Blocks 1/3."
+      - "4th masking try/except inside build_agent_reconcile_result itself (projection_canonical_enabled gate, EV-00049) not analyzed to the same depth — same pattern family, flagged for a later pass."
+      - "RESOLVED (EV-00163, EV-00174): ReconcileResult.warnings DOES reach the browser (through api_app.py -> daszek PHP -> app.js) but is never read by the frontend — classified MISSING_CONSUMER, not fully invisible. See WORKFLOW_GAPS.md item 27."
+      - "run_shared_downstream_stages' internal transactionality on a mid-pipeline exception (Block 1) not confirmed — could leave partial durable writes."
+      - "NEW (EV-00180, reverse-audit category 6): the agent's extract_facts_from_text tool (a sibling write path in this same handoff chain) can never update a fact it already recorded for a case — append_fact_rows uses ON CONFLICT (fact_id) DO NOTHING with a fact_id derived only from case_id+fact_key, silently discarding later corrections while ToolResult reports success. New P1 gap (WORKFLOW_GAPS.md item 33)."
+    runtime: "RUNTIME_CONFIRMED — mode=prep + all 4 Case OS intelligence flags True on the live worker (EV-00041, EV-00046), so every step through Block 1 is live-reachable. execute_agent_run itself (Block 3) not runtime-probed this pass — its failure mode is a static code read, not an observed live crash."
+
+  - workflow_id: AGENT-GRAPH-EXECUTE-RUN
+    domain: "Understanding, decision i planner"
+    owner: gmail-agent
+    status: [LIVE_PATH, RUNTIME_CONFIRMED, CONDITIONAL_PATH]
+    entrypoints:
+      - "agent_runtime.run.execute_agent_run (run.py:120-263) — reached from CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF's Block 3 via SUBFLOW-CASE-INTELLIGENCE-TO-AGENT-HANDOFF"
+    uses: [SUBFLOW-CASE-INTELLIGENCE-TO-AGENT-HANDOFF]
+    steps:
+      - "require_enabled check (bypassed at the live call site, require_enabled=False, EV-00058) + hard mode!='legacy' guard (always enforced, raises AgentRuntimeConfigError otherwise)"
+      - "constitution routed by signal source_kind via get_constitution_for_signal (tool_allowlist/tool_budget/system_note — Generic Hands / Agent-as-Gateway per ARCHITECTURE_DECISIONS.md)"
+      - "snapshot = store.load_snapshot(engagement_id), or resume_from checkpoint_store.load_latest — raises ValueError if no snapshot exists (fail-closed)"
+      - "engine = AgentGraphEngine(planner, constitution, AgentToolRegistry(), turn_journal, checkpoint_store, run_id); ctx = ToolExecutionContext.from_snapshot(...)"
+      - "event-spine agent.run.started published to unified_os_events (own try/except, log.warning only on failure — low-risk degradation)"
+      - "graph_result = engine.run(snapshot, context=ctx, turn_journal=journal, start_turn_idx=..., operator_scope=...) — the plan/tool/delta loop, see AGENT-GRAPH-TURN-LOOP"
+      - "new_version = store.save_snapshot(graph_result.snapshot, expected_version=snapshot.version) — CAS write, raises AgentConcurrencyError on version conflict (EV-00060), NOT wrapped in try/except here"
+      - "event-spine agent.run.completed published (success=not hitl_gate.required)"
+      - "returns AgentRunResult(snapshot=final, graph=graph_result, version=new_version, warnings=warnings)"
+    state_reads: ["operator_engagement_snapshots (load_snapshot)", "checkpoint store (if resume_from)"]
+    state_writes:
+      - "operator_engagement_snapshots (save_snapshot, CAS via expected_version)"
+      - "unified_os_events (agent.run.started/agent.run.completed)"
+      - "turn journal (Postgres-backed when settings.enabled, per build_turn_journal — not independently opened this pass)"
+    external_calls: []
+    side_effect: "the agent's actual tool calls happen inside engine.run() (AGENT-GRAPH-TURN-LOOP) — includes any propose_mutation staging, drafts, RAG queries etc. reachable per the constitution's tool_allowlist for this source_kind"
+    policy: "constitution.tool_allowlist/tool_budget gates which tools are even offered to the planner per source_kind (Generic Hands)"
+    approval: "not at this layer — HITL gating is a property of the resulting snapshot (hitl_gate.required), set either by normal planner output or by the planner-failure safety net (EV-00061)"
+    terminal:
+      success: ["AgentRunResult returned; snapshot.hitl_gate.required determines whether the turn needs operator attention, not the function's own success/failure"]
+      failure: ["ValueError (no snapshot)", "AgentRuntimeConfigError (disabled or legacy mode)", "AgentConcurrencyError on CAS conflict (EV-00060) — NOT internally handled, propagates to the caller (run_agent_reconcile Block 3, EV-00062)"]
+    retry: "checkpoint_store + resume_from supports resuming a run from a saved turn index — this IS a real recovery mechanism, distinct from the caller's lack of retry (EV-00047's Block 3 has none); whether anything actually invokes resume_from in the live signal-worker path (vs. only manual/proof tooling) not yet confirmed"
+    consumers: ["run_agent_reconcile (caller) folds AgentRunResult into the ReconcileResult", "downstream: Daszek feed reads snapshot via EngagementSnapshotV2, HITL approval flow reads hitl_gate"]
+    evidence_ids: [EV-00058, EV-00059, EV-00060, EV-00061, EV-00062]
+    gaps:
+      - "AgentConcurrencyError (a real, correctly-detected concurrent-write race) is NOT distinguished from any other Block-3 failure at the ReconcileResult level — folds into the same generic 'agent_run_failed' + mislabeled 'agent_dry_run' pattern (EV-00062). This is arguably the single most important refinement of the whole PARTIAL_FAILURE_MASKED_AS_SUCCESS finding: a working safety mechanism (CAS) has its signal thrown away one layer up."
+      - "Whether resume_from/checkpoint recovery is actually exercised by any live path, or only by proof/test tooling, not confirmed."
+      - "RESOLVED_BY: AGENT-GRAPH-TURN-LOOP workflow entry (EV-00063..EV-00065) — AgentGraphEngine.run()'s turn loop fully traced (tool execution, working-memory field guard, journal, checkpointing, termination)."
+    runtime: "RUNTIME_CONFIRMED for the planner-failure safety net itself (EV-00061, live code read, DELIVERY-1 fix independently re-confirmed present in current HEAD). CAS conflict path and checkpoint/resume path not runtime-probed this pass (would require inducing an actual concurrent write, out of scope for a read-only pass)."
+
+  - workflow_id: AGENT-GRAPH-TURN-LOOP
+    domain: "Understanding, decision i planner"
+    owner: gmail-agent
+    status: [LIVE_PATH, RUNTIME_CONFIRMED]
+    entrypoints: ["AgentGraphEngine._run inner loop, graph.py:167-265, continuation of AGENT-GRAPH-EXECUTE-RUN", "build_planner -> OpenAIToolPlanner.plan_next_tool, openai_agent_client.py:39-42,140-259 (EV-00138)"]
+    uses: []
+    steps:
+      - "select_sub_agent(tool_name='', snapshot) -> tools_for_sub_agent(scope, allowlist) -> _filter_completed_read_once_tools -> plan_next_tool(available_tools, constitution) (graph.py:167-176)"
+      - "PLANNER INTERNALS (EV-00138): plan_next_tool is a multi-endpoint FAILOVER planner (DeepSeek/Cerebras/NVIDIA/Groq/OpenRouter/OpenAI per configured keys), each endpoint guarded by a per-provider circuit breaker (get_breaker), a hard timeout via a shared 2-worker ThreadPoolExecutor, and exponential backoff (2**index sec) on rate-limit/timeout. Hallucinated tool calls (HTTP 400 'tool call validation failed') are NEVER failed over -- raised immediately, and if terminal raise LLMHallucinationError with 'propose_mutation fallback disabled by security policy'. _parse_tool_call SYNTHESIZES ToolCallPlan(tool_name='report_gaps_and_stop') when the model returns no tool_calls with finish_reason=='stop' -- a runtime-fabricated terminal call, not one the model actually requested."
+      - "_observe_policy_plan correlates+observes the plan against snapshot.policy_action_envelope WITHOUT changing tool/arguments (own docstring, EV-00141) -- writes semantic_policy_plan_consistency + decision_divergence_observation as telemetry only; nothing reads them to block/correct/escalate. Policy DOES hard-restrict the offered set (constitution.tool_allowlist ∩ available minus forbidden, EV-00139) -- steering is real but coarse; fine-grained divergence from a decided action is measured, never enforced."
+      - "tool not offered -> safe hitl escalation (same pattern as planner-error, EV-00061)"
+      - "_execute_tool_with_timeout (real ThreadPoolExecutor timeout, EV-00064; timeout does NOT set hitl_gate, unlike planner-error/tool-not-offered — an asymmetry, not necessarily a bug)"
+      - "_apply_tool_result applies snapshot_delta through _strip_protected_snapshot_fields (EV-00065, literal 'Brain 1' code constant) — the single enforcement point preventing any tool from overwriting case_understanding/policy_action_envelope/decision_divergence_observation etc."
+      - "AgentTurnRecord appended in-memory + journal.append_turn (durable) + checkpoint_store.save_checkpoint every turn (not just at run end)"
+      - "loop breaks on hitl_gate.required OR _is_loop_terminal(operational_status.code in _LOOP_TERMINAL_CODES) — set is {pending_operator, node_a_error}, fully enumerated with its own regression gate against reintroducing ready_for_quote (EV-00120)"
+    state_reads: []
+    state_writes: ["turn journal (per-turn, durable)", "checkpoint store (per-turn)"]
+    external_calls: ["multi-provider LLM planner endpoints (DeepSeek/Cerebras/NVIDIA/Groq/OpenRouter/OpenAI), per-provider circuit-breaker gated (EV-00138)"]
+    side_effect: "actual tool execution (propose_mutation staging, RAG queries, drafts, etc. per constitution allowlist)"
+    policy: "_strip_protected_snapshot_fields field-ownership guard (EV-00065); 3-layer tool-offer enforcement (filter_planner_allowlist -> post-plan available_tools check -> guard_tool_plan+HANDLERS.get, EV-00139); semantic policy envelope is observe-only (EV-00141)"
+    approval: "hitl_gate.required, set by: planner failure (always), tool-not-offered (always), or normal tool/planner output (case-by-case) — NOT set by a tool timeout alone (EV-00064)"
+    terminal:
+      success: ["loop exits cleanly on hitl_gate or terminal operational_status code"]
+      failure: ["none at this layer — all 3 known exception classes here (planner, tool-not-offered, timeout) already convert to a ToolResult and continue/break rather than raising out of the loop", "LLMHallucinationError on exhausted-endpoint-chain hallucination (EV-00138) — never silently substitutes a write tool"]
+    retry: "tool timeout does not force escalation, so the SAME turn loop can naturally retry with a different planner choice on the next iteration, bounded by tool_call_count/steps_remaining — this is the only 'retry' in the whole reconcile chain that isn't purely accidental/absent. Planner-level: exponential backoff across provider endpoints on rate-limit/timeout (EV-00138), never on hallucination."
+    consumers: ["AGENT-GRAPH-EXECUTE-RUN (caller), turn journal readers (not yet traced), checkpoint/resume readers (not yet traced)"]
+    evidence_ids: [EV-00063, EV-00064, EV-00065, EV-00120, EV-00138, EV-00139, EV-00140, EV-00141, EV-00177]
+    gaps:
+      - "RESOLVED (EV-00120): _LOOP_TERMINAL_CODES fully enumerated as {pending_operator, node_a_error}, with its own regression gate."
+      - "DEFECT FOUND (EV-00140): select_sub_agent(tool_name='') at the one offer-restricting call site (graph.py:167) means TOOL_SCOPE_MAP lookup can never match — the 'document' and 'draft' specialist scopes are structurally unreachable as offer-set restrictions; only 'policy' (when materialize_proposals exist) or 'general' (else) can occur here. The OTHER call site (graph.py:235) passes the real tool_name but only after the tool is chosen, feeding a telemetry label, not availability."
+      - "RESOLVED (EV-00177): argument-signature conformance checked for all 24 HANDLERS entries against tool_schemas.py. 22/23 schema'd handlers conform exactly. 2 confirmed defects: request_human_handoff has NO schema entry at all and no other invocation path anywhere — genuinely dead code, not merely planner-unreachable (WORKFLOW_GAPS.md item 30); call_kalk_top_quote's schema advertises 3 parameters (heated_area_m2/location/building_type) the handler (`_plan` unused) completely ignores, building its request from ctx.snapshot instead (WORKFLOW_GAPS.md item 31). Reverse-audit category 4 (planner-schema↔handler↔executor) is now COMPLETE."
+      - "whether journal.append_turn / checkpoint writes are transactional with _apply_tool_result's in-memory delta not confirmed"
+    runtime: "RUNTIME_CONFIRMED (mode=prep live, same as parent AGENT-GRAPH-EXECUTE-RUN) for reachability; individual tool executions and timeout path not runtime-observed this pass. Tool-reachability regression test EXECUTED live in the worker container this pass: 'pytest tests/test_tool_reachability_contract.py -q' -> 7 passed in 1.49s (EV-00139) — this specific invariant (schema/allowlist/handler completeness) IS runtime-proven, not merely statically read."
+
+  - workflow_id: HITL-PROPOSAL-APPROVAL-DUAL-PATH
+    domain: "HITL i execution"
+    owner: gmail-agent
+    status: [LIVE_PATH, RUNTIME_CONFIRMED, CONDITIONAL_PATH]
+    revision_status: "approve-path CLOSED; full execution lifecycle (reject/clarification/durable-result/restart-recovery) OPEN as of EV-00142..146 — corrects this entry's own prior 'MANDATORY DOMAIN 4 CHAIN NOW CLOSED' claim, see gaps below"
+    entrypoints:
+      - "POST /engagements/{engagement_id}/hitl/approve (api_app.py:1099) -> agent_hitl_bridge.approve_hitl_engagement"
+      - "POST /engagements/{engagement_id}/materialize/approve (api_app.py:1137) -> agent_runtime.materialize_bridge.approve_materialize_proposal"
+    uses: []
+    steps:
+      - "action_proposals_v2 created gated on decision_candidate (EV-00070/72), durably persisted via policy_action_spine (append_policy_decision/append_action_proposal_v2, correlation-checked per row, EV-00073)"
+      - "hitl/approve route: action_id-based (default 'draft_reply'), operator_id always from verified principal (body value ignored+logged if mismatched), 409 on approve_hitl_engagement failure, then _record_hitl_operator_action learning hook (same connection-row-shape-bug path as EV-00008..12)"
+      - "materialize/approve route: proposal_id-based, supports a real Idempotency-Key header, imports MaterializeConflictError (real conflict detection), calls approve_materialize_proposal with mailbox_store + settings"
+      - "3rd, distinct proposal shape confirmed live (EV-00075/76): execution_runtime.ActionProposal/ExecutionResult, create/approve/reject/execute_action_proposal — real callers in calendar_runtime.py (Calendar-triggered), daszek_bridge_queue_drain.py, and gmail_intake.py (3 call sites, not yet opened)"
+      - "execute_materialize_proposal (materialize.py:332-430, EV-00142) OPENED: Python-only, 'never called from LLM'; 5 proposal-type branches (composite_plan -> _execute_composite_step over WRITE_EXECUTORS with real per-step os_event audit; link_existing; create_case with an email-level dedup lookup BEFORE creating a new case_id, falling back to linked_existing; create_artifact -> deliberate no-op stub; defer_operator)."
+      - "CRASH/ERROR-WINDOW CONFIRMED (EV-00144): approve_materialize_proposal executes the durable side effect (line 155) BEFORE the CAS retry loop (up to ~1.75s of backoff sleep) and BEFORE the proposal status patch (line 199) and snapshot save (line 209). Three non-crash return paths (MaterializeConflictError 189, CAS-exhausted 197, AgentConcurrencyError 211) all fire AFTER the side effect is already durable, while proposal.status remains 'pending' — the only re-approval guard. No durable effect receipt is written before/around the side effect; the case_os.materialize.approved os_event fires only after the snapshot save and is best-effort."
+      - "IDEMPOTENCY SCOPE NARROWER THAN DOCUMENTED (EV-00143): with_idempotency (write_executors.py:850-896) provides real check-before/record-after durable idempotency, but ONLY for composite_plan (the only type routed through WRITE_EXECUTORS) — create_case/link_existing/create_artifact/defer_operator never consult the key at all, contradicting approve_materialize_proposal's own docstring which promises it unconditionally."
+      - "TASK REJECT OPENED, distinct from materialize-proposal reject (EV-00145): POST /tasks/{case_id}/reject (api_app.py:2114) patches case metadata (task_status=rejected) via case_write_gateway.patch_case_row, and when feedback text is present RETROACTIVELY FABRICATES a synthetic agent_proposal_records + operator_response_records pair (response_type=DIVERGENT_ACTION, detection_confidence=0.8 hardcoded, engagement_id='') feeding directly into the learning/divergence tables that carry the row-shape bug (EV-00008-12)."
+      - "MATERIALIZE-PROPOSAL REJECT CONFIRMED ABSENT (EV-00151), by exhaustive route search, not non-discovery: api_app.py has exactly one materialize-related route (/materialize/approve); no /materialize/reject exists anywhere. Once created, a materialize proposal can only be approved via this API, never rejected as a first-class action."
+      - "AgentMcpService.approve_hitl_action OPENED (EV-00147): confirmed to be the function agent_hitl_bridge.approve_hitl_engagement (the /hitl/approve route) calls internally. For prop_-prefixed action_ids it delegates entirely to approve_materialize_proposal (same convergence as EV-00111). For OTHER action_ids it does NOT execute any side effect -- it only clears hitl_gate.required and sets operational_status.code=ready_for_quote via a CAS-saved snapshot delta, returning an adjudication-shaped dict. The MCP tool's own catalog description confirms this is the entire contract ('clears hitl_gate, enables action'). Whether the approved action_id causally biases the NEXT agent turn toward calling that specific tool was searched for (action.enabled consumption in graph.py/handlers.py) and NOT found -- genuinely open, not resolved either way."
+      - "CLARIFICATION PATH OPENED (EV-00148): there is no dedicated clarification route. request_operator_clarification is an AGENT-SIDE tool that sets hitl_gate.required + a gaps entry (field=operator_decision). Resolution is the SAME /hitl/approve + approve_hitl_action flow (EV-00147): mcp_service.py:212 filters out operator_decision gaps in the same delta, and the allow_gap_only_draft_reply fallback (line 201) exists precisely for the empty-actions/clarification-only shape. CONFIRMED GAP: the route/function accepts only action_id+operator_id -- there is no field anywhere for the operator's actual answer TEXT to reach the agent; any extra payload fields are only recorded for learning/audit (_record_hitl_operator_action -> operator_learning_hooks), not consumed by the next turn."
+      - "EXECUTION RESULT DURABILITY RESOLVED, asymmetrically (EV-00149, EV-00150): the 3rd proposal shape (execution_runtime.ExecutionResult) IS durably persisted on every one of its 3 exit paths (store.upsert_execution_result + an audit event) -- a well-built pattern. The Gmail-send HITL action separately has a REAL claim-based restart-recovery state machine (accepted->executing->terminal, atomic claim via _claim_effect_start, 2s poll-for-completion on a concurrent/repeat call, outcome_unknown deliberately never auto-retried per AGENTS.md). NEITHER of these durability/recovery patterns exists for the materialize-proposal path (EV-00144) -- restart-recovery quality is confirmed NOT uniform across the codebase's 3 proposal/execution shapes, it is a per-shape property, not a system-wide guarantee."
+    state_reads: []
+    state_writes:
+      - "policy_decision / action_proposal_v2 tables (via policy_action_spine, EV-00073)"
+      - "operator_engagement_snapshots (approve routes mutate snapshot state via their respective bridges)"
+      - "execution_runtime's own store (ActionProposal/ExecutionResult persistence, not independently opened this pass)"
+    external_calls: []
+    side_effect: "eventual Gmail send (hitl_gmail_send.py, EV-00013/14) for action_id='draft_reply'; other action_ids/proposal_ids not individually traced to their executors this pass"
+    policy: "_require_mutation_principal on both routes (default-deny, verified credential)"
+    approval: "this IS the approval step — both routes ARE the HITL gate being satisfied"
+    terminal:
+      success: ["hitl/approve: result dict from approve_hitl_engagement", "materialize/approve: result from approve_materialize_proposal (truncated read, not fully captured this pass)"]
+      failure: ["hitl/approve: HTTPException 409 on approve_hitl_engagement failure", "hitl/approve: HTTPException 400 if action_id empty", "materialize/approve: HTTPException 400 if proposal_id empty; MaterializeConflictError handling not fully read (truncated)"]
+    retry: "materialize path has REAL CAS retry+backoff (3 attempts, exponential, EV-00110) at the persistence layer, PLUS an explicit Idempotency-Key header at the HTTP layer; hitl/approve path shares the same materialize executor when action_id is 'prop_'-prefixed (EV-00111), otherwise goes through AgentMcpService.approve_hitl_action (its own persistence, not independently opened). Idempotency at the approval-decision level (distinct from CAS): _stable_bridge_key('approve', engagement_id, action_id, operator_id) — a deterministic key, confirmed live in current code (EV-00111), matching AGENTS.md/OPERATOR_DECISIONS.md's historical 'idempotent stable decision keys' claim."
+    consumers: ["Daszek — CONFIRMED both routes trigger best_effort_push_engagement_feed_after_hitl (EV-00111), not just materialize/approve", "execute_agent_run's downstream side effects (Gmail send for draft_reply, etc.)", "event-spine/telemetry (case_os.materialize.approved, gmail.hitl.approved, both explicitly shadow/best-effort)"]
+    evidence_ids: [EV-00008, EV-00009, EV-00010, EV-00011, EV-00012, EV-00013, EV-00014, EV-00072, EV-00073, EV-00074, EV-00075, EV-00076, EV-00110, EV-00111, EV-00142, EV-00143, EV-00144, EV-00145, EV-00146, EV-00147, EV-00148, EV-00149, EV-00150, EV-00151, EV-00152, EV-00157, EV-00158, EV-00179, EV-00182, EV-00183]
+    gaps:
+      - "CORRECTED: the prior 'MANDATORY DOMAIN 4 CHAIN NOW CLOSED' claim overstated coverage. The APPROVE path IS traced in full detail including its executor internals (EV-00142) and a confirmed, reachable-without-a-crash side-effect/result ordering defect (EV-00144, EV-00143) — but reject, clarification, AgentMcpService.approve_hitl_action's own body, exact ExecutionResult persistence, and restart recovery remain open. Status is APPROVE_PATH_CLOSED + FULL_EXECUTION_LIFECYCLE_OPEN, not CLOSED."
+      - "REFINEMENT of the 'two distinct systems' framing: hitl/approve and materialize/approve are separate HTTP entrypoints with different auth/idempotency surfaces, but CONVERGE on the same approve_materialize_proposal executor when action_id is a proposal ID (EV-00111) — not fully independent, contrary to the earlier framing."
+      - "RESOLVED: AgentMcpService.approve_hitl_action opened (EV-00147) — see steps above."
+      - "RESOLVED: ExecutionResult durability + Gmail-send restart recovery opened (EV-00149/150) — see steps above. Materialize path remains genuinely without an equivalent (EV-00144), this asymmetry is the finding, not an open question."
+      - "RESOLVED: clarification path opened (EV-00148) — same route as approve, no answer-content channel found. See steps above."
+      - "RESOLVED: materialize-proposal reject CONFIRMED ABSENT by exhaustive search (EV-00151) — see steps above."
+      - "REVISED (EV-00157): gmail_intake.py's 3 execution_runtime call sites are manual CLI subcommands (approve/reject/execute) — BUT the same 3rd-shape functions (approve_action_proposal/reject_action_proposal) are ALSO reachable live via the bridge-queue-drain path (domain=='action_decision' rows, enqueued by daszek_api_v2_append_action_decision) — not CLI-only after all, both channels exist for this shape."
+      - "RESOLVED, TWO-PHASE DESIGN CONFIRMED (EV-00157): the 'who executes after gate clears' question. Phase 1 (daszek_api_v2_agent_hitl_approve -> POST /hitl/approve, synchronous) clears hitl_gate. Phase 2 (daszek_api_v2_agent_hitl_send -> enqueues a bridge_queue row, domain='agent_hitl') is drained asynchronously by the worker loop and calls execute_hitl_send_from_bridge_row (EV-00150's restart-safe state machine), which itself enforces hitl_gate.required==False as a precondition — the two phases are deliberately sequenced, not a missing executor. Scope-limited to the draft_reply/Gmail-send action type; not independently confirmed for other action_ids."
+      - "RESOLVED, DECISIVE (EV-00158): the clarification answer-content channel is CONFIRMED MISSING, and worse than merely absent — it is a DEAD FIELD. Daszek's UI does send a free-text draft_pl/operator_draft_pl field on both the approve call and the bridge-queue send row, but NEITHER consumer (engagement_hitl_approve / approve_hitl_action, nor execute_hitl_send_from_bridge_row) ever reads it — the actual email body sent always comes from action.payload_pl (set by the agent's own turn), never from any operator-submitted field. An operator's draft edit OR a clarification answer submitted through this channel is silently discarded end to end."
+      - "NEW (EV-00179, reverse-audit category 5): 4 of 5 MaterializeProposalItem.proposal_type values (link_existing/create_case/create_artifact/defer_operator) have a real, working executor branch in execute_materialize_proposal and are even treated as first-class by materialize_bridge.py:246's post-approve reconcile trigger — but NO code path anywhere creates a proposal of any of these 4 types. The only creator function's only real caller hardcodes 'composite_plan'. MISSING_PRODUCER for 4/5 types, new P1 gap (WORKFLOW_GAPS.md item 32)."
+    runtime: "RUNTIME_CONFIRMED reachable (both routes gated by the same _require_mutation_principal pattern independently re-confirmed live in current code); neither route's internal execution actually runtime-probed this pass (would require a real mutation, out of scope)."
+
+  - workflow_id: CASE-SCOPED-RAG-VS-GLOBAL-RAG-GAP
+    domain: "RAG i documents"
+    owner: gmail-agent
+    participating_repos: [gmail-agent, rag-chat-asystent, rag-widget]
+    status: [LIVE_PATH, BROKEN_CALL, MISSING_CONSUMER, RUNTIME_CONFIRMED]
+    entrypoints:
+      - "agent_runtime.tools.handlers.search_rag_knowledge (WORKING, EV-00077)"
+      - "agent_runtime.tools.handlers.query_anything RAG branch (BROKEN, EV-00001/02)"
+      - "context_assembler.ContextAssembler.assemble (local-file-only, EV-00078)"
+      - "rag-chat-asystent backend/api/routes/chat.py POST /chat, /api/chat (EV-00079, unreachable from gmail-agent)"
+    uses: []
+    steps:
+      - "case-scoped RAG has TWO independent tool implementations: search_rag_knowledge (correct: real embedding, correct fetch() signature per protocol.py, every failure branch returns explicit status=error) vs query_anything's internal RAG attempt (broken: wrong kwargs, always TypeErrors, EV-00001/02) — same underlying store method, one caller right, one wrong"
+      - "'company knowledge' as surfaced via context_assembler/skrzat_rag_advisory is a STATIC LOCAL TEXT FILE, not a live query to rag-chat-asystent — no HTTP client found anywhere in the traced gmail-agent code"
+      - "rag-chat-asystent's own /chat endpoint is real, live, and reachable — but only from rag-widget (WordPress), not from gmail-agent"
+    state_reads: ["mailbox_memory pgvector chunks (case-scoped, via search_rag_knowledge)", "local company_context text file (context_assembler)"]
+    state_writes: []
+    external_calls: ["NONE from gmail-agent to rag-chat-asystent (the gap itself) — rag-widget to rag-chat-asystent IS a real external call, out of gmail-agent's scope"]
+    side_effect: "none (read-only capability)"
+    policy: "none observed"
+    approval: none
+    terminal:
+      success: ["search_rag_knowledge: real hits or an honest 'no chunks' result"]
+      failure: ["query_anything's RAG branch: always errors (TypeError), silently swallowed per EV-00001/06/07"]
+    retry: "none"
+    consumers: ["planner (via query_anything/search_rag_knowledge tool results)"]
+    evidence_ids: [EV-00001, EV-00002, EV-00003, EV-00004, EV-00005, EV-00006, EV-00007, EV-00077, EV-00078, EV-00079]
+    gaps:
+      - "CONFIRMED_OPEN, brief.md §6.6: gmail-agent's agent runtime has NO working path to rag-chat-asystent's global company knowledge base (pricing, catalogs, general HVAC docs) — only case-scoped mailbox chunks and a static local text file are reachable. This is a MISSING_CONSUMER gap: the producer (rag-chat-asystent /chat) works and is even documented as case-context-aware (GMAIL_AGENT_CONTEXT_PACK_URL, the OPPOSITE direction — rag-chat-asystent calling gmail-agent for case context), but nothing calls it FROM gmail-agent."
+      - "query_anything's RAG branch is REDUNDANT AND BROKEN — search_rag_knowledge already does the same job correctly. The likely-correct minimal fix (not implemented, out of scope for this target) would be for query_anything to call search_rag_knowledge's logic instead of hand-rolling a second, wrong call."
+      - "rag-chat-asystent's own internal pipeline (parser routing, chunking, embeddings, BM25/vector retrieval, reranking, citations, document facts, GraphRAG) not traced this pass beyond confirming the /chat route exists and the container is healthy — deferred, lower priority than the cross-repo gap itself which is the main finding."
+      - "similar_cases_precedent (EV-00003/04) and temporal_recall (EV-00005, sibling-repo sys.path hack) — both already covered under the query_anything P0 evidence, not re-analyzed separately here."
+    runtime: "RUNTIME_CONFIRMED: hvac-rag-backend container Up/healthy (RUNTIME_BASELINE.md §2); search_rag_knowledge's dependency chain (embedding_runtime, mailbox_memory pgvector) not individually runtime-probed this pass, only statically confirmed correct."
+
+  - workflow_id: CALENDAR-TWO-WORLDS-OF-VISITS
+    domain: "Calendar i czas"
+    owner: gmail-agent
+    status: [LIVE_PATH, DORMANT_PATH, MISSING_PRODUCER]
+    entrypoints:
+      - "CalendarRuntime.ingest_events (calendar_runtime.py:35-77) — real Calendar->Signal bridge, LIVE_PATH (reachable via calendar-ingest CLI / SIGNAL_HANDLERS['calendar'])"
+      - "CalendarRuntime.context_for_case (calendar_runtime.py:113-124) — DORMANT_PATH in practice: only caller is a manual CLI (gmail_intake.py:1494, calendar-context command)"
+      - "agent_runtime.tools.write_executors.execute_schedule_visit (777-809) — LIVE_PATH (agent-triggered tool)"
+    uses: []
+    steps:
+      - "Calendar->Signal: fetch Google Calendar events -> normalize -> link_calendar_event_to_case -> store.upsert_calendar_event(+link) -> append_raw_observation -> build_calendar_signal -> append_signal (EV-00081). CORRECTED (EV-00137): ingest_events only journals via append_signal — it does NOT itself call reconcile_signal, and build_calendar_signal's source_kind='google_calendar' does not even match the registered SIGNAL_HANDLERS['calendar'] key (a genuine naming mismatch, dispatch would raise ValueError if ever attempted). The earlier 'normal SIGNAL_HANDLERS[calendar] reconcile' phrasing overclaimed an automatic reconcile step that does not exist in code."
+      - "customer_proposed_date risk detection: infer_calendar_risk, reachable ONLY via context_for_case, reachable ONLY via a manual CLI diagnostic command (EV-00080) — not part of any automatic reconcile/CaseContextPack path"
+      - "agent-triggered 'schedule a visit': execute_schedule_visit writes ONLY mailbox_memory fact_key='scheduled_visit' — zero Calendar API interaction (EV-00082)"
+      - "3 independent calendar_risk implementations total confirmed (EV-00016/36/37): only 1 (infer_calendar_risk) can emit customer_proposed_date; the other 2 (mailbox_memory_runtime.py, gmail_intake.py) are binary-only and feed the actually-live producer chain"
+    state_reads: ["Google Calendar API (ingest_events)", "mailbox_memory facts (execute_schedule_visit consumers)"]
+    state_writes: ["calendar_events/calendar_case_links tables (ingest_events)", "mailbox_memory fact scheduled_visit (execute_schedule_visit)", "mailbox_memory_signals (calendar source_kind, via ingest_events)"]
+    external_calls: ["Google Calendar API (read, via ingest_events); none for writing an event"]
+    side_effect: "durable fact write (schedule_visit) OR durable calendar-event ingest — never both linked to each other"
+    policy: "none observed gating either path"
+    approval: "none for schedule_visit's fact write itself (may be gated upstream by the proposal-approval flow, Domain 4, not re-traced here)"
+    terminal:
+      success: ["execute_schedule_visit: status=ok fact written", "ingest_events: summary dict with ok/count/errors"]
+      failure: ["execute_schedule_visit: status=error for missing case_id/date/mailbox_store, or exception"]
+    retry: "ingest_events has per-event error isolation (try/except per event, continues on individual failures) — no retry, just isolation"
+    consumers: ["action_planner._reasoning_blockers (calendar_risk, effectively unreachable live per EV-00080)", "downstream drafts/Daszek reading the scheduled_visit fact — not traced"]
+    evidence_ids: [EV-00016, EV-00017, EV-00031, EV-00032, EV-00033, EV-00034, EV-00035, EV-00036, EV-00037, EV-00038, EV-00044, EV-00045, EV-00046, EV-00080, EV-00081, EV-00082, EV-00083, EV-00084, EV-00130, EV-00131, EV-00137, EV-00182]
+    gaps:
+      - "brief.md §5.4/§6.5 both CONFIRMED_OPEN with full, definitive evidence chains (not inference): customer_proposed_date producer unreachable from live pipeline (only manual CLI); schedule_visit never touches real Calendar."
+      - "NEW, DECISIVE (EV-00137, reverse-audit finding): build_calendar_signal produces source_kind='google_calendar', but SIGNAL_HANDLERS only registers 'calendar' — a genuine naming mismatch that makes the real, substantial _reconcile_calendar_signal handler structurally UNREACHABLE for any signal this producer creates. Currently bounded impact: ingest_events never calls reconcile_signal itself (only journals), and no generic pending-signal sweep exists, so the mismatch doesn't crash the normal flow — calendar signals just sit journaled forever. LATENT BREAK: the signal-replay CLI recovery path would raise ValueError(\"Unsupported signal source_kind: google_calendar\") if ever invoked on a calendar-sourced signal_id — recovery is specifically broken for this one source_kind."
+      - "CORRECTED (EV-00130): 'pure time-as-trigger appears MISSING' was WRONG — a genuine pure-time-as-trigger mechanism (SLA escalation, sla_watcher.py) DOES exist and IS well-built, it is simply MANUAL-CLI-ONLY-TRIGGERED (no systemd/BackgroundTask wiring found despite the module's own docstring claiming one) — same shape as this entry's own context_for_case finding, not a fundamentally different gap. See new sibling workflow_id SLA-WATCHER-DECISION-ESCALATION for the full mechanism, kept separate since it concerns proposal/decision escalation, not calendar/visits specifically."
+      - "No reconciliation code found linking the scheduled_visit text fact to a real ingested Calendar event for the same case — if an operator manually creates the Calendar event after an agent proposes/writes the fact, nothing appears to close that loop automatically."
+      - "Scheduler question resolved with strong (not exhaustive) evidence: the only periodic/cron-like mechanism found (topinstal-event-processor systemd timer, every 5min) is explicitly shadow-mode-only by its own config (EV-00083) — no live time-as-trigger scheduler confirmed to exist in gmail-agent."
+      - "NEW, DECISIVE (EV-00131): the Calendar-triggered create_action_proposal flow (build_calendar_event_action_proposal, action_type=create_calendar_event) is confirmed MISSING_PRODUCER — an exhaustive repo-wide grep found zero callers of the producer function anywhere. The EXECUTOR side (execution_runtime.execute_action_proposal's create_calendar_event branch) is genuinely real and conditionally live (calls calendar_client.create_event() if a GoogleCalendarClient is configured), unlike the confirmed-always-dead Gmail label/archive actions — but its only entrypoint (run_action_proposal_execute_command) is a manual CLI command requiring a pre-existing proposal_id that nothing in normal operation would ever create. The chain is broken at the START (producer), not the end (executor)."
+      - "NEW, DECISIVE (EV-00131): reschedule/cancel of a visit CONFIRMED ABSENT by exhaustive name search (reschedule_visit/cancel_visit/cancel_appointment: zero definitions or call sites anywhere in gmail-agent) — combined with execute_schedule_visit's already-confirmed text-only-fact behavior, this proves absence rather than merely failing to find the mechanism."
+      - "SUPERSEDED by the more exhaustive pass above (EV-00130/131): reschedule/cancel CONFIRMED ABSENT (not merely unfound); SLA CONFIRMED PRESENT but manual-CLI-only; deadline has no dedicated mechanism beyond the SLA hours_waiting computation itself. STAGNATING lifecycle enum exists and is read (EV-00084), corroborating pre-existing BACKLOG.md ambiguity items (STAGNATION-LIFECYCLE-STATE-AMBIGUITY-1) — no dedicated stagnation-detection producer beyond this enum was found even in this more thorough pass."
+    runtime: "RUNTIME_UNVERIFIED for ingest_events/execute_schedule_visit execution (not observed live this pass, only statically confirmed); EV-00080's CLI-only reachability of context_for_case is a structural/static finding, not requiring runtime proof to be conclusive."
+
+  - workflow_id: DASZEK-COMMAND-OUTBOX-DRAIN
+    domain: Daszek
+    owner: daszek
+    participating_repos: [daszek, gmail-agent]
+    status: [LIVE_PATH, RUNTIME_UNVERIFIED, CORRECTED]
+    entrypoints:
+      - "daszek/includes/api-v3-handlers.php: daszek_api_v2_append_action_decision (639-663, live REST write into bridge_queue.jsonl on operator approve/reject of an action proposal), plus 2 more append_jsonl_store('bridge_queue',...) call sites at lines 811, 1050 (not individually retraced)"
+      - "daszek/includes/store-v2-domain.php:917 (append_jsonl_store('bridge_queue',...), 3rd confirmed producer site)"
+      - "gmail-agent/tools/gmail_audit/daszek_bridge_queue_drain.py: maybe_worker_bridge_drain_tick (469-520+, called from the signal-worker loop, best-effort/non-fatal) -> fetch_remote_pending_bridge_rows -> DaszekClient.get_v2_bridge_queue(status='pending') / complete_v2_bridge_queue_item(queue_id,status,error) [REST, not direct DB]"
+      - "SEPARATE, PARALLEL, LIKELY-DORMANT mechanism (kept distinct, not merged): daszek/includes/command-outbox.php: daszek_command_outbox_enqueue, daszek_command_outbox_claim_batch, daszek_command_outbox_complete (DB-backed wp_daszek_command_outbox, claim/lease/dead-letter) — see gaps/runtime below, EV-00116/EV-00117"
+    uses: []
+    steps:
+      - "CORRECTED (EV-00117, supersedes original first-pass description below): the mechanism actually live in current operation is the JSONL-file-backed bridge_queue.jsonl store, not the DB table. Operator action (e.g. proposal approve/reject) -> daszek_api_v2_append_action_decision (and 2 other PHP call sites) -> daszek_v2_append_jsonl_store('bridge_queue', row), status='pending', file-locked append."
+      - "Node-B-side (Python, gmail-agent): the running signal-worker loop calls maybe_worker_bridge_drain_tick every tick (best-effort, non-fatal) -> fetch_remote_pending_bridge_rows via REST GET (client.get_v2_bridge_queue) -> drain_bridge_rows processes each row -> client.complete_v2_bridge_queue_item(queue_id, status, error) via REST POST. This is REST-based row fetch/complete against the JSONL store's read/write API, NOT a direct DB claim/lease against wp_daszek_command_outbox."
+      - "ORIGINAL (now understood to describe a PARALLEL, UNCONFIRMED-LIVE mechanism, not the drain path above): a DB-backed table wp_daszek_command_outbox exists with real claim_batch/lease_token/lease_expires_at/complete(status: completed|failed|skipped|dead_letter|retry) semantics. Its ONLY confirmed writer, daszek_command_outbox_enqueue, has exactly one caller anywhere in the repo: daszek_command_outbox_migrate_jsonl_once, a ONE-TIME JSONL-to-DB migration function that itself has ZERO confirmed callers (3 independent static checks, EV-00116). No code path was found that reads FROM wp_daszek_command_outbox for live drain/claim purposes on the gmail-agent side matching this session's search of daszek_bridge_queue_drain.py (it targets the JSONL REST API, not this table)."
+    state_reads: ["daszek bridge_queue.jsonl (live path, via REST get_v2_bridge_queue)", "wp_daszek_command_outbox table (claim query exists in code; live caller/consumer of this specific table not found this pass)"]
+    state_writes: ["daszek bridge_queue.jsonl (live path: 3+ PHP call sites append; gc'd at 90 days by daszek_v2_bridge_queue_gc)", "wp_daszek_command_outbox table (enqueue path confirmed reachable only from a one-time, no-confirmed-caller migration function; claim/lease/completion writes have a real implementation but no confirmed live producer feeding new rows)"]
+    external_calls: ["gmail-agent's worker-loop tick polls/drains Daszek's JSONL-backed bridge_queue via REST — direction: Daszek (producer, PHP REST routes) -> Node B (consumer, worker-loop tick)"]
+    side_effect: "whatever the drained command actually does once processed by gmail-agent (approve/reject/execute_action_proposal per EV-00076's daszek_bridge_queue_drain.py import list) — not retraced here, see HITL-PROPOSAL-APPROVAL-DUAL-PATH"
+    policy: "none observed beyond file-lock-based append/rewrite exclusivity on the JSONL store (flock LOCK_EX in daszek_v2_save_jsonl_store/append)"
+    approval: "N/A at this layer — the outbox carries already-decided operator commands, not proposals awaiting approval"
+    terminal:
+      success: ["JSONL path: status via complete_v2_bridge_queue_item, exact status vocabulary not re-verified this pass", "DB-table path (likely-dormant): status='completed'"]
+      failure: ["JSONL path: CONFIRMED (EV-00165) — bridge_status='failed' is appended once via _append_completion_result, no requeue, no dead-letter store; GC after 90 days is the only observed cleanup and it applies uniformly, not as a retry mechanism", "DB-table path (likely-dormant): status='failed' | 'dead_letter' | 'retry' — well-built but apparently unfed"]
+    retry: "CORRECTED and now CONFIRMED (EV-00165): the claim/lease/dead-letter durable-retry mechanism described in the original first pass belongs to the DB-backed table, which is NOT the live path (no confirmed feeder beyond a one-time, untriggered migration). The mechanism ACTUALLY draining live operator commands (the JSONL bridge_queue via REST) has NO retry, requeue, or dead-letter semantics at all — a failed row is marked terminal on the first attempt and is treated identically to a successful one by every downstream reader, including the one operator-facing bridge-queue summary dashboard. This REVERSES the earlier positive framing used as a durable-retry counterexample in WORKFLOW_ATLAS.md's cross-cutting pattern #1 and WORKFLOW_GAPS.md; both were corrected across EV-00117 and EV-00165."
+    consumers: ["gmail-agent's execution_runtime/agent_hitl_bridge functions triggered by the drained command payload"]
+    evidence_ids: ["EV-00116", "EV-00117", "EV-00165", "EV-00182", "EV-00185", "EV-00186"]
+    gaps:
+      - "This is the DASZEK -> NODE B direction (operator commands/adjudication items) — kept as a SEPARATE workflow from DASZEK-FEED-PUSH-NO-RETRY (NODE B -> DASZEK feed projection) per explicit instruction not to merge the two directions just because both involve Daszek."
+      - "CLOSED (EV-00155): two parallel, structurally different 'bridge queue' implementations coexist in daszek (JSONL-file-based, live, GC'd by a real scheduled WP-Cron event daszek_bridge_queue_gc; DB-table-based with claim/lease/dead-letter, unfed). The dynamic-WordPress-hook caveat is now closed: an exhaustive search of add_action/do_action/register_activation_hook/wp_schedule_event across the whole repo found exactly 3 real cron registrations (backup, bridge_queue_gc, mail_ingest) and confirmed NONE of them (nor the activation hook) reference the DB outbox's enqueue/migration functions. Classification upgraded to DORMANT_PATH with the hook-search exhausted, not merely 'static caller not found'."
+      - "CLOSED (EV-00165): the JSONL path's retry-on-failure semantics are confirmed NONE — drain_bridge_rows marks any exception as bridge_status='failed' via one completion call, with no requeue/backoff/dead-letter anywhere; Daszek's own daszek_v2_bridge_queue_completion_ids treats 'completed'/'failed'/'skipped' as identically terminal, so a failed row is excluded from 'pending' exactly like a success. Worse than 'no retry': the one operator-facing summary (daszek_api_v3_system_bridge_queue_summary) only counts pending/stuck rows, so a failed row is invisible in the only dashboard that exists for this queue — new P1 gap (WORKFLOW_GAPS.md item 28)."
+      - "daszek_bridge_queue_drain.py's manual-CLI vs. worker-loop-tick triggering is now partially resolved (maybe_worker_bridge_drain_tick is called from the worker loop per EV-00117) but the exact tick cadence/frequency was not measured."
+      - "What specifically gets enqueued into bridge_queue.jsonl beyond action-proposal approve/reject (the 2 other PHP call sites at api-v3-handlers.php:811/1050 and store-v2-domain.php:917) not individually retraced this pass."
+      - "No dedicated EV-##### evidence records were written for the ORIGINAL first-pass claims in this entry during the Domain 7 pass — flagged for backfill during the reverse-audit; the CORRECTED claims above are properly cited (EV-00116, EV-00117)."
+    runtime: "RUNTIME_UNVERIFIED — not runtime-probed this pass, confirmed only via static code read of both sides of the contract; the JSONL-vs-DB-table liveness split is itself a static-analysis finding (3 independent methods) that would benefit from a live runtime check per RUNTIME_PROOF_PLAN.md."
+
+  - workflow_id: DASZEK-FEED-PUSH-NO-RETRY
+    domain: Daszek
+    owner: gmail-agent
+    participating_repos: [gmail-agent, daszek]
+    status: [LIVE_PATH, RUNTIME_CONFIRMED]
+    entrypoints:
+      - "agent_hitl_bridge.best_effort_push_engagement_feed_after_hitl (218-279), called from api_app.py POST /engagements/{id}/materialize/approve (line 1193)"
+    uses: []
+    steps:
+      - "gated by settings.daszek_operational_feed_auto_push_enabled — CONFIRMED True on the live production worker (EV-00119, runtime introspection, not merely coded), so this is no longer a conditional path"
+      - "build_operational_feed_from_engagement_store (daszek_engagement_feed, EV-00088-confirmed-live package) -> client.post_v3_operational_feed_snapshot(snapshot) [real HTTP POST push]"
+      - "success: publish_gmail_feed_push_event(ok=True, snapshot_id, ...) telemetry"
+      - "ANY failure (2 except blocks, one narrow + one bare Exception catch-all): publish_gmail_feed_push_event(ok=False, error=str(exc), ...) telemetry, return {ok:False, error:...} — function returns to caller, caller does not appear to act further on failure"
+    state_reads: ["operator_engagement_snapshots (via build_operational_feed_from_engagement_store)"]
+    state_writes: ["unified_os_events (gmail_feed_push telemetry, via publish_gmail_feed_push_event)"]
+    external_calls: ["gmail-agent -> daszek: POST v3 operational feed snapshot ingest endpoint"]
+    side_effect: "Daszek-side feed snapshot update on success; none on failure beyond the telemetry event"
+    policy: "none beyond the auto-push feature flag"
+    approval: "triggered by/after a HITL materialize/approve action — not itself an approval gate"
+    terminal:
+      success: ["{ok: True, snapshot_id: ...}"]
+      failure: ["{ok: False, skipped: True, reason: 'auto_push_disabled'} if flag off", "{ok: False, skipped: False, error: str(exc)} on any push exception"]
+    retry: "NONE — confirmed, this is the function's entire failure handling"
+    consumers: ["Daszek (receives the pushed snapshot on success)", "telemetry/observability readers of unified_os_events (on both success and failure)"]
+    evidence_ids: [EV-00085, EV-00086, EV-00087, EV-00088, EV-00089, EV-00090, EV-00091, EV-00119, EV-00164, EV-00166, EV-00183, EV-00184, EV-00185, EV-00186]
+    gaps:
+      - "DECISIVELY CONFIRMS brief.md §6.7 (no durable outbox for Daszek feed push) on the correct live path — 'best_effort' by design, no retry/queue/dead-letter. CORRECTED (EV-00116/EV-00117): the DB-backed table originally cited as the durable-outbox counterexample for the opposite direction (daszek/includes/command-outbox.php) appears unfed in current operation; the mechanism actually live for Daszek->NodeB (a JSONL-file-backed bridge_queue.jsonl store) does NOT have confirmed claim/lease/dead-letter durability either — see DASZEK-COMMAND-OUTBOX-DRAIN and WORKFLOW_GAPS.md P1 item 14. The clean 'one direction has a real outbox, the other doesn't' asymmetry framing no longer holds as previously stated."
+      - "RESOLVED (EV-00166): non-HITL triggers DO exist and are real — maybe_push_operational_feed_after_reconcile fires from ordinary Gmail signal-reconcile paths (gmail_intake_process.py, signal_worker.py), and _maybe_push_feed_after_bridge_drain fires after every bridge-queue drain tick, both independent of and in addition to the HITL-specific best_effort_push_engagement_feed_after_hitl entrypoint documented above. A case that changes without a HITL action is NOT stranded without a push path."
+      - "RESOLVED (EV-00164): Karta dnia and Business Pulse, both downstream/adjacent consumers of this domain's data, confirmed LIVE — see RAG/Daszek Domain 7 canonical status in PROGRESS.md for the full trace (compose_day_sections + daszek_v2_build_day_read_model for Karta dnia; 9 agent-callable Business Pulse tools, honest about untracked values; get_revenue_forecast inherits get_win_rate's CONTRACT_DRIFT bug, WORKFLOW_GAPS.md item 8)."
+    runtime: "RUNTIME_CONFIRMED: the route it's called from is live, AND (EV-00119) the auto_push_enabled gate is confirmed True on the live production worker via direct settings introspection — this workflow is unconditionally live now, not merely conditionally reachable. The push call itself and its failure path are still not runtime-observed this pass (would require inducing a real failure or a real approve action, out of scope for read-only)."
+
+  - workflow_id: RAG-CHAT-ASYSTENT-QUERY-AND-INGEST-PIPELINE
+    domain: RAG i documents
+    owner: rag-chat-asystent
+    participating_repos: [rag-chat-asystent, gmail-agent]
+    status: [LIVE_PATH, RUNTIME_UNVERIFIED]
+    entrypoints:
+      - "POST /chat -> main.py:chat -> api/routes/chat_handler.py:handle_chat_request -> application/use_cases/handle_chat_message.py:handle_chat_message"
+      - "POST /ingest -> api/handlers/ingest.py:ingest_documents_handler -> engine.py:RAGEngine.ingest_knowledge_base_delta -> _ingest_knowledge_base_delta_impl"
+    uses: []
+    steps:
+      - "QUERY SIDE (EV-00128): deterministic-command short-circuit -> KB-readiness guard -> IntentRouter.route() -> [no case/engagement scope: legacy services/chat_service.py:handle_kb_first via run_kb_context_preflight] OR [case/engagement scope or other intent: AssistantOrchestrator (EvidenceService/ExplanationService/DraftingService/ContextHub)] -> AudiencePipeline.process() redaction/policy layer -> ConversationManager turn logging. Traced stage sequence (real, from SSE trace_events): retrieval_plan_params -> retrieval -> diversity -> evidence/rerank -> gating -> llm_call -> citation_check -> audience -> final."
+      - "CASE CONTEXT FROM NODE B (EV-00128): ContextHub instantiates CaseContextSource/EngagementContextSource, which call integrations/node_b_read.py's fetch_case_context_pack/fetch_engagement_snapshot — a real, purpose-built HTTP client to gmail-agent, env-var gated (GMAIL_AGENT_CONTEXT_PACK_URL etc). This is the OPPOSITE direction from CASE-SCOPED-RAG-VS-GLOBAL-RAG-GAP's finding (gmail-agent has no client INTO rag-chat-asystent) — both are independently true, not contradictory. CORRECTED (EV-00153): NO live caller was found anywhere that populates case_context/engagement_id on /chat requests. Daszek's proxy-agent-chat.php was opened in full and proxies to gmail-agent's OWN /agent-chat feature, NOT rag-chat-asystent — a different repo and feature entirely, previously wrongly presumed to be the caller. rag-widget's client (the one confirmed live /chat consumer, EV-00104) was grepped and does not send these fields either. This mechanism is real, wired CODE with no confirmed live CALLER — same shape as the SLA watcher / calendar-proposal / DB command-outbox findings."
+      - "INGEST SIDE (EV-00129): manifest-gated delta ingest (hash+stat+fingerprint) skips unchanged files; fingerprint-change safe-default is delta mode with a loud warning, NOT auto full-rebuild (opt-in via FINGERPRINT_FULL_REBUILD=1); write-locked (self._lock) for concurrency safety; Chroma parent/child collections + in-memory BM25 index, rebuilt together on full rebuild."
+      - "PARSER ROUTING (EV-00129): UniversalParser extension map (.pdf/.docx/.doc at minimum) -> Unstructured library with configurable strategy (hi_res/fast/ocr_only); a SEPARATE, real OCR fallback lane (_parse_pdf_with_ocr, Tesseract, pol+eng) exists for scanned/hard PDFs, with its own attempted/success/chars/failures telemetry."
+      - "GraphRAG (EV-00129): a real graphrag/ package plus ingest/community_summaries.py exist as production code; internals not traced further this pass. 'World model' does NOT map to any concept in this repo — it belongs to gmail-agent (similar_cases_precedent.py), not confused here."
+    state_reads: ["Chroma vector store (parent+child collections)", "in-memory BM25 index", "ingest manifest + chunk manifest (local disk, JSON)", "gmail-agent case/engagement context pack (via node_b_read.py, when configured)"]
+    state_writes: ["Chroma collections (on ingest)", "manifest files (on ingest)", "conversation history (ConversationManager, on chat)"]
+    external_calls: ["rag-chat-asystent -> gmail-agent: GET case/engagement context pack (node_b_read.py, env-var gated, live-wired but runtime config not probed)"]
+    side_effect: "index updated (ingest) or a chat response returned (query); no cross-repo write side effects found on the query path"
+    policy: "audience-based redaction/policy (AudiencePipeline), fail-closed-never: top-level try/except in handle_chat_message always returns a degraded response instead of raising"
+    approval: "N/A — no HITL gate found on this pipeline; it is a read/answer service, not a mutation surface"
+    terminal:
+      success: ["mode_out: kb_answer | command", "status: ok"]
+      failure: ["mode_out: degraded, status: degraded (any unexpected exception)", "mode: index_not_ready, status: blocked (KB not ready, reasons individually labeled)"]
+    retry: "not characterized this pass beyond the ingest delta-vs-full-rebuild safety logic; no query-side retry found"
+    consumers: ["rag-widget (WordPress, confirmed live client, EV-00104) — does not populate case_context", "no confirmed consumer of the Node-B-context-read capability found anywhere (EV-00153) — the mechanism appears CALLER-DORMANT, most plausibly exercised only via a manual debug script (scripts/vps_debug_used_contexts.py, not opened)"]
+    evidence_ids: [EV-00128, EV-00129, EV-00153, EV-00154, EV-00159, EV-00160, EV-00161, EV-00162, EV-00104, EV-00172, EV-00186]
+    gaps:
+      - "RESOLVED (EV-00153): the Node-B-context caller question is now CLOSED — no live caller found anywhere (Daszek's proxy-agent-chat presumption was wrong, it targets gmail-agent's own /agent-chat, a different feature). Caller-dormant capability, not a missing producer of the mechanism itself."
+      - "Live runtime configuration of node_b_read.py's env vars (GMAIL_AGENT_CONTEXT_PACK_URL etc.) not probed — moot in practice since no caller was found regardless."
+      - "RESOLVED (EV-00159, EV-00160): hybrid_search/_single_hybrid_search/_reciprocal_rank_fusion/query rewriting/HyDE/gating/diversity all traced, no defect found. rerank confirmed via FlashRank+_NoopRanker fallback (EV-00154). _apply_domain_boosts/_apply_entity_boosts remain untraced (minor residual)."
+      - "RESOLVED (EV-00161): entities/reflection/adaptive_retrieval packages confirmed wired with real production callers, no defect found. GraphRAG is SPLIT: retrieval side (GraphQueryBuilder/RetrievalPlanExecutor) is live and wired into services/chat_service.py; the ingest-time community-summary enrichment (build_community_summary) is CONFIRMED ORPHANED, zero callers anywhere."
+      - "RESOLVED (EV-00162): ingest partial-failure isolation confirmed real (per-file try/except, ERROR-logged, continues to next file); hard-PDF fallback is a genuine multi-backend cascade (parser -> Docling -> Unstructured -> pdfplumber-text, picks longest successful extraction) — a strong positive finding, not a defect. Ownership: Chroma parent/child + BM25 corpus (chunks/embeddings), on-disk KNOWLEDGE_BASE_DIR + in-memory document_index (documents), manifest/chunk_manifest JSON (delta tracking)."
+      - "document_intelligence/structured_extraction confirmed wired (callers in agent_kb_build/builder.py and engine.py, EV-00161-adjacent, not individually cited) — internals (QualityScorer thresholds, SpecKV/PriceRow extraction accuracy) not traced at the field level, a genuinely minor residual."
+
+  - workflow_id: SLA-WATCHER-DECISION-ESCALATION
+    domain: "Calendar i czas"
+    owner: gmail-agent
+    participating_repos: [gmail-agent]
+    status: [LIVE_PATH, MANUAL_TRIGGER_ONLY, RUNTIME_UNVERIFIED]
+    entrypoints:
+      - "gmail_intake.py CLI subcommand 'sla-watcher' (--oneshot or --loop, lines 348-364) -> sla_watcher.sla_watcher_oneshot -> check_sla_violations + maybe_escalate"
+    uses: []
+    steps:
+      - "divergence_loop.fetch_decision_queue(sla_warning_hours=4, sla_critical_hours=24): SELECT unresponded agent_proposal_records (LEFT JOIN operator_response_records WHERE response_id IS NULL) ordered by created_at, compared against wall-clock now() -- pure time-as-trigger, no event needed"
+      - "maybe_escalate: for each critical/high violation, checks last 60min of os_events for a prior sla.violation.* escalation on the same case/proposal (dedup) before emitting a new one via publish_os_event"
+      - "CLI --loop implements the module docstring's claimed 'every 15 min' cadence (900s sleep) -- but this is a manual, operator-launched process, not an automatic BackgroundTask/systemd timer (confirmed absent from all deploy/docker-compose/systemd files in the repo)"
+    state_reads: ["agent_proposal_records + operator_response_records (unresponded proposal detection)", "unified_os_events (dedup lookback)"]
+    state_writes: ["unified_os_events (sla.violation.critical / sla.violation.high)"]
+    external_calls: []
+    side_effect: "os_event emission only -- no proposal state mutation, no notification/paging integration found"
+    policy: "hardcoded thresholds (4h high, 24h critical), not configurable via settings this pass"
+    approval: "N/A -- observational/escalation only, not a mutation gate"
+    terminal:
+      success: ["escalated event list returned, os_events emitted"]
+      failure: ["sla_watcher_oneshot returns {ok: False, error: 'Database not configured.'} if no db_url"]
+    retry: "N/A -- each --loop iteration is independent; dedup window (60min) prevents re-escalation spam, not a retry mechanism"
+    consumers: ["unified_os_events readers (telemetry/observability) -- no confirmed operator-facing UI surface for sla.violation.* events found this pass"]
+    evidence_ids: [EV-00130]
+    gaps:
+      - "No automatic trigger confirmed (BackgroundTask/systemd/cron) despite the module's own docstring claiming one -- MANUAL CLI ONLY, same shape as several other 'real mechanism, no confirmed automatic trigger' findings this session (daszek command-outbox, calendar context_for_case)."
+      - "No consumer surface confirmed for the emitted sla.violation.* events beyond the generic os_events log -- whether any operator/Daszek UI actually surfaces these escalations was not traced this pass."
+      - "Hardcoded 4h/24h thresholds not cross-checked against any documented SLA policy (brief.md or ARCHITECTURE_DECISIONS.md) for consistency."
+    runtime: "RUNTIME_UNVERIFIED -- not executed this pass (would require a live DB connection and real pending proposals); structurally sound based on direct code read."
+
+workflow_test_status:
+  FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH:
+    statuses: [NO_DIRECT_TEST_FOUND, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  KALK-TOP-CALCULATE-OFFER-PIPELINE:
+    statuses: [UNIT_COVERED, INTEGRATION_COVERED, END_TO_END_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  TOP-INSTAL-GENERATOR-OFFER-DOCUMENT:
+    statuses: [PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL:
+    statuses: [UNIT_COVERED, SYNTHETIC_ONLY]
+    evidence_ids: [EV-00187]
+  LEARNING-LOOP-DIVERGENCE-TO-CANDIDATE-EVIDENCE-ONLY:
+    statuses: [UNIT_COVERED]
+    evidence_ids: [EV-00187]
+  GMAIL-SIGNAL-WORKER-LOOP:
+    statuses: [UNIT_COVERED, INTEGRATION_COVERED, CHAOS_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  GMAIL-RECONCILE-MODE-DISPATCH:
+    statuses: [UNIT_COVERED]
+    evidence_ids: [EV-00187]
+  CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF:
+    statuses: [UNIT_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  AGENT-GRAPH-EXECUTE-RUN:
+    statuses: [UNIT_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  AGENT-GRAPH-TURN-LOOP:
+    statuses: [UNIT_COVERED, INTEGRATION_COVERED, CHAOS_COVERED]
+    evidence_ids: [EV-00187]
+  HITL-PROPOSAL-APPROVAL-DUAL-PATH:
+    statuses: [UNIT_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  CASE-SCOPED-RAG-VS-GLOBAL-RAG-GAP:
+    statuses: [UNIT_COVERED, SYNTHETIC_ONLY]
+    evidence_ids: [EV-00187]
+  CALENDAR-TWO-WORLDS-OF-VISITS:
+    statuses: [UNIT_COVERED, SYNTHETIC_ONLY]
+    evidence_ids: [EV-00187]
+  DASZEK-COMMAND-OUTBOX-DRAIN:
+    statuses: [UNIT_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  DASZEK-FEED-PUSH-NO-RETRY:
+    statuses: [UNIT_COVERED, CHAOS_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  RAG-CHAT-ASYSTENT-QUERY-AND-INGEST-PIPELINE:
+    statuses: [UNIT_COVERED, INTEGRATION_COVERED, PROOF_ONLY]
+    evidence_ids: [EV-00187]
+  SLA-WATCHER-DECISION-ESCALATION:
+    statuses: [UNIT_COVERED, SYNTHETIC_ONLY]
+    evidence_ids: [EV-00187]

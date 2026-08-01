@@ -1,0 +1,35 @@
+﻿ system-atlas/repairs/EARLY_DECISION_QUEUE.md       |   9 ++
+ system-atlas/repairs/EXECUTION_MODEL_VALIDATION.md |   6 +-
+ system-atlas/repairs/GAP_DISPOSITIONS.yaml         |  46 +++----
+ system-atlas/repairs/README.md                     |   6 +-
+ system-atlas/repairs/REPAIR_DAG.yaml               |  15 ++-
+ system-atlas/repairs/REPAIR_REGISTRY.yaml          | 108 ++++++++++++++-
+ system-atlas/repairs/ROOT_CAUSE_CLUSTERS.yaml      |   9 +-
+ .../repairs/WAVE_02_IMPLEMENTATION_PLAN.md         |   4 +-
+ system-atlas/repairs/WAVE_02_PROBLEM_ANALYSIS.md   |   4 +-
+ .../repairs/_raw/wave-02/rp-01/EXECUTION.md        | 145 +++++++++++++++++++++
+ .../rp-01/gitnexus_query_anything_impact.log       | Bin 0 -> 960 bytes
+ .../wave-02/rp-01/gmail_agent_commit_scope.log     | Bin 0 -> 1400 bytes
+ .../_raw/wave-02/rp-01/gmail_agent_patch.diff      | Bin 0 -> 41718 bytes
+ .../rp-01/gmail_agent_post_commit_status.log       | Bin 0 -> 1888 bytes
+ .../wave-02/rp-01/gmail_agent_retrieval_tests.log  | Bin 0 -> 204 bytes
+ .../gmail_agent_retrieval_tests_post_commit.log    | Bin 0 -> 204 bytes
+ .../wave-02/rp-01/repo_state_after_commit.json     |  28 ++++
+ .../wave-02/rp-01/repo_state_before_commit.json    |  41 ++++++
+ .../wave-02/rp-01/rp01_rp20_active_code_scan.log   |   1 +
+ .../_raw/wave-02/rp-01/staged_diff_stat.log        | Bin 0 -> 1268 bytes
+ .../repairs/_raw/wave-02/rp-01/staged_paths.log    | Bin 0 -> 876 bytes
+ .../repairs/_raw/wave-02/rp-20/EXECUTION.md        | 127 ++++++++++++++++++
+ .../gitnexus_build_community_summary_impact.log    | Bin 0 -> 916 bytes
+ .../wave-02/rp-20/rag_backend_commit_scope.log     | Bin 0 -> 746 bytes
+ .../wave-02/rp-20/rag_backend_graphrag_tests.log   | Bin 0 -> 202 bytes
+ .../rag_backend_graphrag_tests_post_commit.log     | Bin 0 -> 202 bytes
+ .../_raw/wave-02/rp-20/rag_backend_patch.diff      | Bin 0 -> 5960 bytes
+ .../rp-20/rag_backend_post_commit_status.log       | Bin 0 -> 382 bytes
+ .../wave-02/rp-20/repo_state_after_commit.json     |  13 ++
+ .../wave-02/rp-20/repo_state_before_commit.json    |  41 ++++++
+ .../wave-02/rp-20/rp01_rp20_active_code_scan.log   |   1 +
+ .../_raw/wave-02/rp-20/staged_diff_stat.log        | Bin 0 -> 390 bytes
+ .../repairs/_raw/wave-02/rp-20/staged_paths.log    | Bin 0 -> 184 bytes
+ 33 files changed, 568 insertions(+), 36 deletions(-)
+

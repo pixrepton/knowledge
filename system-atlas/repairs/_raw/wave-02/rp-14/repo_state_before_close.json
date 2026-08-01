@@ -1,0 +1,15 @@
+﻿{
+    "captured_at_utc":  "2026-07-31T07:28:47Z",
+    "top_instal_generator":  {
+                                 "head":  "7e5279551b3919b7ab84547227b3355f45c44bf4",
+                                 "branch":  "handoff/20260719-1403-latest"
+                             },
+    "fast_kalk":  {
+                      "head":  "06a470da94db6069f42c0d20a860815212e80f00",
+                      "branch":  "handoff/20260719-1403-latest"
+                  },
+    "cieplo_orchestrator":  {
+                                "head":  "e68f05386722b4034ca36bd39d169eba759f44e6",
+                                "branch":  "handoff/20260719-1403-latest"
+                            }
+}

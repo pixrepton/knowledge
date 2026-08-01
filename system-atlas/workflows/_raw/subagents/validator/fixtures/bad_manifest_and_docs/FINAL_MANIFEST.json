@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "WORKFLOW_EVIDENCE.jsonl",
+      "size": 1,
+      "sha256": "deadbeef",
+      "modified_at": "2026-07-30T22:35:26+02:00"
+    },
+    {
+      "path": "WORKFLOW_REGISTRY.yaml",
+      "size": 1,
+      "sha256": "deadbeef",
+      "modified_at": "2026-07-30T22:35:26+02:00"
+    }
+  ]
+}

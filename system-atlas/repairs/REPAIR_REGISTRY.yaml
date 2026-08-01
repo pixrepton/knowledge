@@ -1,0 +1,936 @@
+schema_version: ai_os.repair_registry.v1
+updated_at: '2026-07-31T07:55:04Z'
+baseline_policy: Workflow Registry v1 remains immutable. This registry tracks the repair delta across Wave 1 and active Wave 2 execution.
+wave_status:
+  wave_id: WAVE-01
+  name: Truthfulness and Proof Foundations
+  status: COMPLETE
+  completion_basis:
+    - all 11 scoped Wave 1 packages completed in required scope
+    - focused proofs green
+    - repo-scoped local gates green
+    - runtime read-only and parity proofs required by Wave 1 captured separately
+
+repairs:
+  - repair_id: RP-02
+    title: Learning row-shape repair
+    macro_cluster_refs: [RC-02]
+    target_gaps:
+      - gap.learning-loop-divergence-to-candidate-evidence-only.fetch-open-proposals-uses-tuple-rows
+      - gap.learning-loop-divergence-to-candidate-evidence-only.row-to-proposal-drops-fields-on-tuple-rows
+      - gap.learning-loop-divergence-to-candidate-evidence-only.classify-operator-response-misclassifies-approve-when-proposal-type-missing
+    execution_class: CLASS-A
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [PLT-08, ASR-01]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - tools/gmail_audit/divergence_loop.py
+      - tools/gmail_audit/tests/test_divergence_loop.py
+    dependencies: []
+    required_proof: [UNIT]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: BACKFILL
+      notes: Historical divergence candidates were not auto-mutated; bounded follow-up review/backfill may still be needed.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: current-turn focused tests green
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_divergence_loop.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.learning-loop-divergence-to-candidate-evidence-only.fetch-open-proposals-uses-tuple-rows
+        - gap.learning-loop-divergence-to-candidate-evidence-only.row-to-proposal-drops-fields-on-tuple-rows
+        - gap.learning-loop-divergence-to-candidate-evidence-only.classify-operator-response-misclassifies-approve-when-proposal-type-missing
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-06
+    title: Durable Daszek transport
+    macro_cluster_refs: [RC-06]
+    target_gaps:
+      - gap.daszek-feed-push-no-retry.feed-push-has-no-durable-retry
+      - gap.daszek-command-outbox-drain.db-command-outbox-has-no-confirmed-live-producer
+      - gap.daszek-command-outbox-drain.live-bridge-command-flow-still-depends-on-jsonl-queue
+      - gap.hitl-proposal-approval-dual-path.bridge-queue-failures-have-no-retry-or-dead-letter
+      - gap.daszek-command-outbox-drain.bridge-queue-failed-rows-become-operator-invisible
+      - gap.daszek-feed-push-no-retry.operational-feed-validation-warnings-have-no-ui-consumer
+      - gap.daszek-feed-push-no-retry.feed-quality-readonly-has-no-ui-consumer
+    execution_class: CLASS-B
+    lane: INTEGRITY
+    disposition: [REPLACE, REMOVE]
+    status: CLOSED
+    decision_refs: [DQ-06, DQ-08, DQ-09]
+    capability_refs: [PLT-07, ASR-03, ASR-05]
+    repositories: [gmail-agent, daszek]
+    conflict_surfaces:
+      - gmail-agent/tools/gmail_audit/daszek_bridge_queue_drain.py
+      - daszek/includes/api-v3-handlers.php
+      - daszek/includes/command-outbox.php
+      - daszek/public/app.js
+    dependencies: []
+    required_proof: [UNIT, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NO_ACTION_REQUIRED
+      notes: Historical bridge queue rows were left in place; local proof showed no active recovery campaign, and no automated replay, queue rewrite, production data mutation or projection rebuild was required.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: Wave 2 baseline overlay frozen
+      - status: RUNTIME_VERIFIED
+        at: '2026-07-31T07:20:00Z'
+        evidence: local runtime proved JSONL bridge as the only live transport; DB outbox removed; retry/dead-letter semantics verified
+      - status: CLOSED
+        at: '2026-08-01T22:06:08Z'
+        evidence: Wave 2 exit gate proved bridge retry/dead-letter on host and current container; feed-push classified as projection-only best-effort with explicit telemetry/proof logging and heartbeat recovery, not a durable side-effect transport
+    proofs:
+      before:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-06/EXECUTION.md
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_daszek_bridge_queue_drain.py
+        - gmail-agent/tools/gmail_audit/tests/test_daszek_v3_feed_runtime.py
+      runtime:
+        - .artifacts/wave2-rp06-rp12-rp15/wp_runtime_probe_post_commit.json
+        - .artifacts/wave2-rp06-rp12-rp15/post_commit_repo_state.json
+        - knowledge/system-atlas/repairs/_raw/wave-02/exit-gate/gmail_focused.log
+        - knowledge/system-atlas/repairs/_raw/wave-02/exit-gate/gmail_container.log
+        - knowledge/system-atlas/repairs/_raw/wave-02/exit-gate/docker_health.log
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.daszek-command-outbox-drain.db-command-outbox-has-no-confirmed-live-producer
+        - gap.daszek-command-outbox-drain.live-bridge-command-flow-still-depends-on-jsonl-queue
+        - gap.hitl-proposal-approval-dual-path.bridge-queue-failures-have-no-retry-or-dead-letter
+        - gap.daszek-command-outbox-drain.bridge-queue-failed-rows-become-operator-invisible
+        - gap.daszek-feed-push-no-retry.feed-push-has-no-durable-retry
+        - gap.daszek-feed-push-no-retry.operational-feed-validation-warnings-have-no-ui-consumer
+        - gap.daszek-feed-push-no-retry.feed-quality-readonly-has-no-ui-consumer
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha:
+        gmail-agent: a82c28270f982bbdd3c7e3c77d4fa60a6b19ff84
+        daszek: c73726873db41bb1b249d784400b54db0f946ed6
+      residual_risks: []
+
+  - repair_id: RP-12
+    title: Mailbox intake ownership
+    macro_cluster_refs: [RC-11]
+    target_gaps:
+      - gap.gmail-signal-worker-loop.shared-mailbox-polled-by-two-independent-workers
+      - gap.gmail-signal-worker-loop.gmail-signal-stage-failures-have-no-per-signal-retry
+    execution_class: CLASS-B
+    lane: DECISION_DEPENDENT
+    disposition: [CONSOLIDATE, DEFER]
+    status: CLOSED
+    decision_refs: [DQ-11, DQ-08]
+    capability_refs: [PLT-01, ASR-03]
+    repositories: [gmail-agent, daszek, cieplo-orchestrator]
+    conflict_surfaces:
+      - daszek.php
+      - gmail-agent/tools/gmail_audit/gmail_intake.py
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/ingress/processor.py
+    dependencies: []
+    required_proof: [STATIC, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NO_ACTION_REQUIRED
+      notes: Current proof did not show active duplicate local polling or contaminated local history; no quarantine, migration or replay campaign was required.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: Wave 2 baseline overlay frozen
+      - status: RUNTIME_VERIFIED
+        at: '2026-07-31T07:20:00Z'
+        evidence: one active local poller proven; stale Daszek cron cleared; Cieplo poller remains disabled code path
+      - status: CLOSED
+        at: '2026-08-01T22:06:08Z'
+        evidence: Wave 2 exit gate proved one active local poller model, stale Daszek cron removal, and host/container signal-worker item-failure recovery; automatic per-signal replay is deferred with proof because retrying irreversible stages needs later idempotency hardening
+    proofs:
+      before:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-12/EXECUTION.md
+      tests:
+        - php -l daszek.php
+        - gmail-agent/tools/gmail_audit/tests/test_signal_worker.py
+      runtime:
+        - .artifacts/wave2-rp06-rp12-rp15/wp_runtime_probe_post_commit.json
+        - .artifacts/wave2-rp06-rp12-rp15/post_commit_repo_state.json
+        - knowledge/system-atlas/repairs/_raw/wave-02/exit-gate/gmail_focused.log
+        - knowledge/system-atlas/repairs/_raw/wave-02/exit-gate/gmail_container.log
+        - knowledge/system-atlas/repairs/_raw/wave-02/exit-gate/docker_health.log
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.gmail-signal-worker-loop.shared-mailbox-polled-by-two-independent-workers
+      partially_resolved_gaps: []
+      deferred_with_proof_gaps:
+        - gap.gmail-signal-worker-loop.gmail-signal-stage-failures-have-no-per-signal-retry
+      unresolved_gaps: []
+      commit_sha:
+        gmail-agent: a82c28270f982bbdd3c7e3c77d4fa60a6b19ff84
+        daszek: c73726873db41bb1b249d784400b54db0f946ed6
+      residual_risks: []
+
+  - repair_id: RP-15
+    title: Temporal trigger ownership
+    macro_cluster_refs: [RC-11, RC-16]
+    target_gaps:
+      - gap.sla-watcher-decision-escalation.sla-watcher-has-no-confirmed-automatic-trigger
+    execution_class: CLASS-B
+    lane: DECISION_DEPENDENT
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: [DQ-15, DQ-08]
+    capability_refs: [PLT-06, ASR-03]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - gmail-agent/tools/gmail_audit/sla_watcher.py
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+    dependencies: []
+    required_proof: [UNIT, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Forward trigger ownership only; no historical data rewrite needed.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: Wave 2 baseline overlay frozen
+      - status: CLOSED
+        at: '2026-07-31T07:20:00Z'
+        evidence: signal-worker became the proven automatic owner and runtime oneshot escalated successfully
+    proofs:
+      before:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-15/EXECUTION.md
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_sla_watcher.py
+        - gmail-agent/tools/gmail_audit/tests/test_signal_worker.py
+      runtime:
+        - .artifacts/wave2-rp06-rp12-rp15/sla_watcher_runtime_post_commit.log
+        - .artifacts/wave2-rp06-rp12-rp15/post_commit_repo_state.json
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.sla-watcher-decision-escalation.sla-watcher-has-no-confirmed-automatic-trigger
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha:
+        gmail-agent: fb8b42e4ed3adffd96bb41d7d22264046002c696
+      residual_risks: []
+
+  - repair_id: RP-01
+    title: Knowledge aggregator replacement
+    macro_cluster_refs: [RC-01]
+    target_gaps:
+      - gap.case-scoped-rag-vs-global-rag.query-anything-rag-branch-call-signature-broken
+      - gap.case-scoped-rag-vs-global-rag.query-anything-similar-cases-import-broken
+      - gap.case-scoped-rag-vs-global-rag.query-anything-counts-source-errors-as-success
+      - gap.case-scoped-rag-vs-global-rag.query-anything-returns-ok-when-all-sources-fail
+      - gap.case-scoped-rag-vs-global-rag.gmail-agent-has-no-runtime-consumer-for-company-rag-service
+    execution_class: CLASS-B
+    lane: DECISION_DEPENDENT
+    disposition: [REMOVE, CONSOLIDATE]
+    status: CLOSED
+    decision_refs: [DQ-01]
+    capability_refs: [AGT-02, PLT-03, ASR-01]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - gmail-agent/tools/gmail_audit/agent_runtime/constitution_chat.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tool_schemas.py
+      - gmail-agent/tools/gmail_audit/agent_runtime/tools/handlers.py
+      - gmail-agent/tools/gmail_audit/signal_reconciler.py
+    dependencies: [RP-19]
+    required_proof: [STATIC, INTEGRATION]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Retrieval surface narrowed only; no history rewrite or projection rebuild was performed.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: Wave 2 baseline overlay frozen
+      - status: CLOSED
+        at: '2026-07-31T07:55:04Z'
+        evidence: generic query_anything retired; case-scoped search_rag_knowledge retained as the only live Node B retrieval contract
+    proofs:
+      before:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-01/EXECUTION.md
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_constitution.py
+        - gmail-agent/tools/gmail_audit/tests/test_search_rag_knowledge_tool.py
+        - gmail-agent/tools/gmail_audit/tests/test_tool_reachability_contract.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.case-scoped-rag-vs-global-rag.query-anything-rag-branch-call-signature-broken
+        - gap.case-scoped-rag-vs-global-rag.query-anything-similar-cases-import-broken
+        - gap.case-scoped-rag-vs-global-rag.query-anything-counts-source-errors-as-success
+        - gap.case-scoped-rag-vs-global-rag.query-anything-returns-ok-when-all-sources-fail
+        - gap.case-scoped-rag-vs-global-rag.gmail-agent-has-no-runtime-consumer-for-company-rag-service
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha:
+        gmail-agent: 1ccc39229df2ca2600bb2cb4bb5c89aa87457562
+      residual_risks: []
+
+  - repair_id: RP-20
+    title: GraphRAG enrichment decision
+    macro_cluster_refs: [RC-01]
+    target_gaps:
+      - gap.rag-chat-asystent-query-and-ingest-pipeline.graphrag-community-summary-enrichment-has-no-callers
+    execution_class: CLASS-A
+    lane: DECISION_DEPENDENT
+    disposition: [REMOVE]
+    status: CLOSED
+    decision_refs: [DQ-16]
+    capability_refs: [PLT-03]
+    repositories: [rag-chat-asystent]
+    conflict_surfaces:
+      - rag-chat-asystent/backend/ingest/community_summaries.py
+    dependencies: [RP-01]
+    required_proof: [STATIC, UNIT]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Dormant helper removal only; no data-plane mutation was required.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: Wave 2 baseline overlay frozen
+      - status: CLOSED
+        at: '2026-07-31T07:55:04Z'
+        evidence: zero-caller GraphRAG enrichment removed from the shipped backend
+    proofs:
+      before:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-20/EXECUTION.md
+      tests:
+        - rag-chat-asystent/backend/tests/test_topinstal_company_context.py
+        - rag-chat-asystent/backend/tests/test_graphrag_enrichment_contract.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.rag-chat-asystent-query-and-ingest-pipeline.graphrag-community-summary-enrichment-has-no-callers
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha:
+        rag-chat-asystent: d7dff7d897ec4641673e451a661b771bda0db148
+      residual_risks: []
+
+  - repair_id: RP-14
+    title: Document readiness contract
+    macro_cluster_refs: [RC-13]
+    target_gaps:
+      - gap.top-instal-generator-offer-document.legacy-direct-config-generation-path-remains-live
+      - gap.top-instal-generator-offer-document.document-converter-path-has-two-live-modes
+      - gap.top-instal-generator-offer-document.generator-success-status-masks-docx-fallback-degradation
+      - gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-treats-docx-fallback-as-pdf-ready
+      - gap.cieplo-orchestrator-intake-to-review-email.cieplo-treats-docx-fallback-as-pdf-ready
+      - gap.cieplo-orchestrator-intake-to-review-email.failed-final-state-name-overstates-recoverability
+    execution_class: CLASS-B
+    lane: ARCHITECTURAL
+    disposition: [CONSOLIDATE, FIX]
+    status: CLOSED
+    decision_refs: [DQ-07, DQ-12]
+    capability_refs: [BIZ-02, BIZ-06, PLT-06, ASR-01]
+    repositories: [top-instal-generator, fast-kalk, cieplo-orchestrator]
+    conflict_surfaces:
+      - top-instal-generator/core/application/GenerateOfferDocumentUseCase.php
+      - top-instal-generator/wp-adapter/ajax/GenerateOfferDocumentAjaxController.php
+      - fast-kalk/wp-content/plugins/topinstal-lead-widget/includes/class-offer-dispatch.php
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/workflow/runner.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/workflow/states.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/workflow/row_updates.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/api/routes.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/integrations/event_spine/workflow_events.py
+    dependencies: []
+    required_proof: [STATIC, CONTRACT, INTEGRATION]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: MANUAL_REVIEW
+      notes: Historical generator success rows and Cieplo PDF_READY rows may include pre-fix DOCX fallback semantics; no historical rewrite or replay was performed.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: Wave 2 baseline overlay frozen
+      - status: CLOSED
+        at: '2026-07-31T07:36:01Z'
+        evidence: typed readiness contract implemented across producer and consumers; degraded DOCX and FAILED_FINAL semantics proven locally
+    proofs:
+      before:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-14/EXECUTION.md
+      tests:
+        - top-instal-generator/core/application/harness/document-readiness.contract.php
+        - top-instal-generator/core/application/harness/generate-offer-document.smoke.php
+        - fast-kalk/scripts/document-readiness-contract.php
+        - fast-kalk/scripts/e2e-scenarios-smoke.php
+        - cieplo-orchestrator/tests/test_workflow_e2e_mocked.py
+        - cieplo-orchestrator/tests/test_cieplo_workflow_os_events.py
+        - cieplo-orchestrator/tests/test_workflow_row_updates.py
+        - cieplo-orchestrator/tests/test_ingress_integration.py
+      runtime:
+        - knowledge/system-atlas/repairs/_raw/wave-02/rp-14/fast_kalk_e2e_smoke.log
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.top-instal-generator-offer-document.legacy-direct-config-generation-path-remains-live
+        - gap.top-instal-generator-offer-document.document-converter-path-has-two-live-modes
+        - gap.top-instal-generator-offer-document.generator-success-status-masks-docx-fallback-degradation
+        - gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-treats-docx-fallback-as-pdf-ready
+        - gap.cieplo-orchestrator-intake-to-review-email.cieplo-treats-docx-fallback-as-pdf-ready
+        - gap.cieplo-orchestrator-intake-to-review-email.failed-final-state-name-overstates-recoverability
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha:
+        top-instal-generator: 2afd4484b3c1372222b637ccd0cb1a41a573617d
+        fast-kalk: 40bdd7bc21d0c827ddcc919202ecc0ac278d0bda
+        cieplo-orchestrator: 8e2ad74b4a22a4c1f0567129c010cf2c4f82b067
+      residual_risks:
+        - historical pre-fix readiness rows remain semantically ambiguous and need manual interpretation if audited
+
+  - repair_id: RP-03
+    title: Gmail dry-run/live truth split
+    macro_cluster_refs: [RC-03]
+    target_gaps:
+      - gap.hitl-proposal-approval-dual-path.hitl-gmail-dry-run-reports-executed-true
+      - gap.hitl-proposal-approval-dual-path.hitl-gmail-decision-status-does-not-distinguish-dry-run-from-live
+    execution_class: CLASS-B
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [BIZ-01, BIZ-04, ASR-01]
+    repositories: [gmail-agent, daszek]
+    conflict_surfaces:
+      - tools/gmail_audit/hitl_gmail_send.py
+      - tools/gmail_audit/agent_hitl_bridge.py
+      - tools/gmail_audit/agent_runtime/mcp_service.py
+      - daszek/public/app.js
+    dependencies: []
+    required_proof: [UNIT, INTEGRATION, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: MANUAL_REVIEW
+      notes: Historical dry-run/live status rows may need manual interpretation; Wave 1 did not rewrite history.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: focused Gmail write-lock tests plus runtime read-only proof
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_hitl_gmail_send.py
+        - gmail-agent/tools/gmail_audit/tests/test_agent_hitl_bridge.py
+        - gmail-agent/tools/gmail_audit/tests/test_wave1_google_write_lock.py
+      runtime:
+        - .artifacts/ai-os-wave1-closeout-20260731T021724Z/runtime_read_only_proof.json
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.hitl-proposal-approval-dual-path.hitl-gmail-dry-run-reports-executed-true
+        - gap.hitl-proposal-approval-dual-path.hitl-gmail-decision-status-does-not-distinguish-dry-run-from-live
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-04
+    title: Concurrency conflict semantics
+    macro_cluster_refs: [RC-04]
+    target_gaps:
+      - gap.agent-graph-execute-run.agent-concurrency-error-swallowed-as-generic-failure
+      - gap.agent-graph-execute-run.cas-conflict-mislabeled-as-agent-dry-run
+    execution_class: CLASS-A
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [PLT-04, ASR-01]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - tools/gmail_audit/agent_runtime/agent_reconcile.py
+      - tools/gmail_audit/tests/test_signal_reconciler_agent_pr_d.py
+    dependencies: []
+    required_proof: [INTEGRATION]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Semantics change only; no historical data rewrite performed.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: current-turn focused reconcile tests green
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_signal_reconciler_agent_pr_d.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.agent-graph-execute-run.agent-concurrency-error-swallowed-as-generic-failure
+        - gap.agent-graph-execute-run.cas-conflict-mislabeled-as-agent-dry-run
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-05A
+    title: Case-intelligence failure convergence
+    macro_cluster_refs: [RC-05]
+    target_gaps:
+      - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-stage-exceptions-are-swallowed
+      - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-collapses-to-empty-agent-signal
+      - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-preserves-reconciled-terminal-state-without-retry
+    execution_class: CLASS-B
+    lane: INTEGRITY
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [AGT-01, PLT-02, ASR-01, ASR-03]
+    repositories: [gmail-agent, daszek]
+    conflict_surfaces:
+      - tools/gmail_audit/agent_runtime/agent_reconcile.py
+      - tools/gmail_audit/signal_reconciler.py
+      - daszek/public/app.js
+    dependencies: [RP-04]
+    required_proof: [INTEGRATION, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: MANUAL_REVIEW
+      notes: Existing reconciled rows created under masked failure semantics may require manual operator review.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: focused reconcile tests plus runtime read-only proof
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_signal_reconciler_agent_pr_d.py
+      runtime:
+        - .artifacts/ai-os-wave1-closeout-20260731T021724Z/runtime_read_only_proof.json
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-stage-exceptions-are-swallowed
+        - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-collapses-to-empty-agent-signal
+        - gap.case-engagement-resolve-and-agent-handoff.case-intelligence-failure-preserves-reconciled-terminal-state-without-retry
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-07A
+    title: Calendar write-path fail-closed lock
+    macro_cluster_refs: [RC-07]
+    target_gaps:
+      - gap.calendar-two-worlds-of-visits.schedule-visit-does-not-create-real-calendar-event
+      - gap.calendar-two-worlds-of-visits.create-calendar-event-action-proposal-has-no-producer
+    execution_class: CLASS-B
+    lane: FAST
+    disposition: [REPLACE]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [BIZ-03, PLT-05, ASR-01]
+    repositories: [gmail-agent, daszek]
+    conflict_surfaces:
+      - tools/gmail_audit/calendar_client.py
+      - tools/gmail_audit/agent_runtime/tools/write_executors.py
+      - tools/gmail_audit/agent_runtime/tool_schemas.py
+      - daszek/includes/api-v3-handlers.php
+      - daszek/public/app.js
+    dependencies: [RP-03]
+    required_proof: [UNIT, INTEGRATION, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: REBUILD_PROJECTION
+      notes: Existing projection/history may still contain legacy write-shaped visit states; Wave 1 only removed the false live path.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: focused Google write-lock tests plus runtime read-only proof
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_wave1_google_write_lock.py
+      runtime:
+        - .artifacts/ai-os-wave1-closeout-20260731T021724Z/runtime_read_only_proof.json
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.calendar-two-worlds-of-visits.schedule-visit-does-not-create-real-calendar-event
+        - gap.calendar-two-worlds-of-visits.create-calendar-event-action-proposal-has-no-producer
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-07
+    title: Calendar read-only event-linked visit lifecycle
+    macro_cluster_refs: [RC-07]
+    target_gaps:
+      - gap.calendar-two-worlds-of-visits.customer-proposed-date-risk-is-cli-only
+      - gap.calendar-two-worlds-of-visits.visit-reschedule-flow-has-no-confirmed-implementation
+      - gap.calendar-two-worlds-of-visits.visit-cancel-flow-has-no-confirmed-implementation
+      - gap.calendar-two-worlds-of-visits.calendar-signal-source-kind-does-not-match-registered-handler
+      - gap.calendar-two-worlds-of-visits.calendar-risk-has-three-independent-implementations
+    execution_class: CLASS-B
+    lane: DECISION_DEPENDENT
+    disposition: [FIX, REPLACE, CONSOLIDATE]
+    status: CLOSED
+    decision_refs: [DQ-04]
+    capability_refs: [BIZ-03, PLT-05, ASR-01]
+    repositories: [gmail-agent, daszek]
+    conflict_surfaces:
+      - tools/gmail_audit/calendar_models.py
+      - tools/gmail_audit/calendar_runtime.py
+      - tools/gmail_audit/calendar_signal_adapter.py
+      - tools/gmail_audit/execution_runtime.py
+      - tools/gmail_audit/mailbox_memory_runtime.py
+      - tools/gmail_audit/daszek_v3_operational_feed.py
+      - tools/gmail_audit/daszek_engagement_feed/day.py
+      - tools/gmail_audit/reply_drafter.py
+      - daszek/public/app.js
+    dependencies: [RP-07A]
+    required_proof: [UNIT, CONTRACT, INTEGRATION, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NO_ACTION_REQUIRED
+      notes: Legacy textual scheduled_visit facts are no longer accepted as confirmation without a real calendar_event_id; no destructive data mutation was required.
+    status_history:
+      - status: PROPOSED
+        at: '2026-07-31T00:00:00Z'
+        evidence: WAVE_02_IMPLEMENTATION_PLAN.md
+      - status: CLOSED
+        at: '2026-08-01T21:12:02Z'
+        evidence: _raw/wave-02/rp-07/EXECUTION.md
+    proofs:
+      before:
+        - _raw/wave-02/rp-07/static_calendar_write_scan.log
+      tests:
+        - _raw/wave-02/rp-07/gmail_agent_rp07_focused_tests_post_commit.log
+        - _raw/wave-02/rp-07/gmail_agent_rp07_regression_tests_post_commit.log
+      runtime:
+        - _raw/wave-02/rp-07/runtime_read_only_calendar_proof.json
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.calendar-two-worlds-of-visits.customer-proposed-date-risk-is-cli-only
+        - gap.calendar-two-worlds-of-visits.visit-reschedule-flow-has-no-confirmed-implementation
+        - gap.calendar-two-worlds-of-visits.visit-cancel-flow-has-no-confirmed-implementation
+        - gap.calendar-two-worlds-of-visits.calendar-signal-source-kind-does-not-match-registered-handler
+        - gap.calendar-two-worlds-of-visits.calendar-risk-has-three-independent-implementations
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: gmail-agent:4b9d5b413dd39842555375c7bdfbe9def2717035
+      residual_risks: []
+
+  - repair_id: RP-16A
+    title: Local tool-contract cleanup
+    macro_cluster_refs: [RC-12]
+    target_gaps:
+      - gap.agent-graph-turn-loop.request-human-handoff-handler-has-no-exposed-schema-or-caller
+      - gap.kalk-top-calculate-offer-pipeline.call-kalk-top-quote-schema-advertises-ignored-arguments
+    execution_class: CLASS-A
+    lane: FAST
+    disposition: [FIX, CONSOLIDATE]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [AGT-03, AGT-04, ASR-05]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - tools/gmail_audit/agent_runtime/tools/handlers.py
+      - tools/gmail_audit/agent_runtime/tool_schemas.py
+      - tools/gmail_audit/tests/test_tool_reachability_contract.py
+    dependencies: []
+    required_proof: [UNIT]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Static schema/handler cleanup only.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: tool-contract focused tests green
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_tool_reachability_contract.py
+        - gmail-agent/tools/gmail_audit/tests/test_wave1_google_write_lock.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.agent-graph-turn-loop.request-human-handoff-handler-has-no-exposed-schema-or-caller
+        - gap.kalk-top-calculate-offer-pipeline.call-kalk-top-quote-schema-advertises-ignored-arguments
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-17A
+    title: Critical operator visibility
+    macro_cluster_refs: [RC-06, RC-10]
+    target_gaps: []
+    execution_class: CLASS-B
+    lane: INTEGRITY
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [ASR-05]
+    repositories: [gmail-agent, daszek]
+    conflict_surfaces:
+      - tools/gmail_audit/agent_runtime/agent_reconcile.py
+      - daszek/public/app.js
+    dependencies: [RP-04, RP-05A]
+    required_proof: [INTEGRATION, RUNTIME_READ_ONLY]
+    deployment_required: false
+    runtime_proof_required: true
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Scoped Wave 1 package added typed critical-failure surfacing only. Deferred warning/UI gaps from RC-06 and RC-10 were not claimed as resolved.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: typed failure surfaces proven in current-turn focused tests and local runtime
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_signal_reconciler_agent_pr_d.py
+      runtime:
+        - .artifacts/ai-os-wave1-closeout-20260731T021724Z/runtime_read_only_proof.json
+      observation: []
+    result:
+      resolved_gaps: []
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-19
+    title: Local RAG routing safety
+    macro_cluster_refs: [RC-15]
+    target_gaps:
+      - gap.rag-chat-asystent-query-and-ingest-pipeline.rag-widget-defaults-to-vps-api-url-in-local-docker
+      - gap.rag-chat-asystent-query-and-ingest-pipeline.local-stack-has-no-automated-rag-api-url-override
+    execution_class: CLASS-B
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [PLT-03, ASR-04]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - docker-compose.daszek-local.yml
+    dependencies: []
+    required_proof: [INTEGRATION]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Local routing/config only.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: local stack health and synthetic routing proof green
+    proofs:
+      before: []
+      tests:
+        - fast-kalk/scripts/e2e-scenarios-smoke.php
+      runtime:
+        - .artifacts/ai-os-wave1-closeout-20260731T021724Z/fullstack_health.log
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.rag-chat-asystent-query-and-ingest-pipeline.rag-widget-defaults-to-vps-api-url-in-local-docker
+        - gap.rag-chat-asystent-query-and-ingest-pipeline.local-stack-has-no-automated-rag-api-url-override
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-22A
+    title: Cieplo proof recovery
+    macro_cluster_refs: [RC-17]
+    target_gaps:
+      - gap.cieplo-orchestrator-intake-to-review-email.mocked-e2e-test-fails-at-collection
+    execution_class: CLASS-A
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [BIZ-06, ASR-05]
+    repositories: [cieplo-orchestrator]
+    conflict_surfaces:
+      - src/topinstal_cieplo_worker/ingress/__init__.py
+      - tests/test_workflow_e2e_mocked.py
+    dependencies: []
+    required_proof: [INTEGRATION]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Test/runtime bootstrap repair only.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: mocked E2E 3/3 green
+    proofs:
+      before: []
+      tests:
+        - cieplo-orchestrator/tests/test_workflow_e2e_mocked.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.cieplo-orchestrator-intake-to-review-email.mocked-e2e-test-fails-at-collection
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-23
+    title: Fast-kalk end-to-end proof
+    macro_cluster_refs: [RC-17]
+    target_gaps:
+      - gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-lacks-direct-end-to-end-test-for-lead-to-dispatch
+    execution_class: CLASS-B
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [BIZ-02, ASR-05]
+    repositories: [fast-kalk, kalk-top, top-instal-generator]
+    conflict_surfaces:
+      - fast-kalk/scripts/configure-local.php
+      - fast-kalk/scripts/e2e-scenarios-smoke.php
+      - kalk-top/heatpump-calculator.php
+      - kalk-top/scripts/configure-runtime-wp.php
+    dependencies: [RP-22A]
+    required_proof: [END_TO_END]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Proof-path and local runtime bootstrap only; no historical business data migration.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: fast-kalk synthetic lead-to-dispatch smoke green
+    proofs:
+      before: []
+      tests:
+        - fast-kalk/scripts/local-rest-smoke.php
+        - fast-kalk/scripts/e2e-scenarios-smoke.php
+      runtime:
+        - .artifacts/ai-os-wave1-closeout-20260731T021724Z/fullstack_health.log
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.fast-kalk-lead-widget-calculate-register-dispatch.fast-kalk-lacks-direct-end-to-end-test-for-lead-to-dispatch
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []
+
+  - repair_id: RP-24A
+    title: Config plane canonicalization
+    macro_cluster_refs: [RC-15]
+    target_gaps:
+      - gap.case-engagement-resolve-and-agent-handoff.agent-runtime-enabled-branch-depends-on-loader-order
+    execution_class: CLASS-A
+    lane: FAST
+    disposition: [FIX]
+    status: CLOSED
+    decision_refs: []
+    capability_refs: [PLT-02, ASR-04]
+    repositories: [gmail-agent]
+    conflict_surfaces:
+      - tools/gmail_audit/agent_runtime/tools/handlers.py
+    dependencies: []
+    required_proof: [UNIT, INTEGRATION]
+    deployment_required: false
+    runtime_proof_required: false
+    observation_required: false
+    migration_required: false
+    historical_data_impact:
+      classification: NONE
+      notes: Deterministic loader/config behavior only.
+    status_history:
+      - status: CLOSED
+        at: '2026-07-31T04:45:00Z'
+        evidence: loader-order focused tests green
+    proofs:
+      before: []
+      tests:
+        - gmail-agent/tools/gmail_audit/tests/test_agent_extract_facts_llm.py
+        - gmail-agent/tools/gmail_audit/tests/test_agent_persist_facts.py
+        - gmail-agent/tools/gmail_audit/tests/test_signal_runtime_settings.py
+      runtime: []
+      observation: []
+    result:
+      resolved_gaps:
+        - gap.case-engagement-resolve-and-agent-handoff.agent-runtime-enabled-branch-depends-on-loader-order
+      partially_resolved_gaps: []
+      unresolved_gaps: []
+      commit_sha: null
+      residual_risks: []

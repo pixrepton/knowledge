@@ -1,0 +1,28 @@
+﻿{
+    "timestamp_utc":  "2026-07-31T07:56:11Z",
+    "repo":  "gmail-agent",
+    "branch":  "handoff/20260719-1403-latest",
+    "head":  "1ccc39229df2ca2600bb2cb4bb5c89aa87457562",
+    "status":  [
+                   " M AGENTS.md",
+                   " M CLAUDE.md",
+                   " M tools/gmail_audit/.env.example",
+                   " M tools/gmail_audit/agent_hitl_bridge.py",
+                   " M tools/gmail_audit/agent_runtime/agent_reconcile.py",
+                   " M tools/gmail_audit/agent_runtime/mcp_service.py",
+                   " M tools/gmail_audit/agent_runtime/openai_agent_client.py",
+                   " M tools/gmail_audit/agent_runtime/tools/write_executors.py",
+                   " M tools/gmail_audit/calendar_client.py",
+                   " M tools/gmail_audit/config.py",
+                   " M tools/gmail_audit/divergence_loop.py",
+                   " M tools/gmail_audit/hitl_gmail_send.py",
+                   " M tools/gmail_audit/tests/test_agent_hitl_bridge.py",
+                   " M tools/gmail_audit/tests/test_canonical_runtime_profile.py",
+                   " M tools/gmail_audit/tests/test_divergence_loop.py",
+                   " M tools/gmail_audit/tests/test_hitl_gmail_send.py",
+                   " M tools/gmail_audit/tests/test_os_event_w0.py",
+                   " M tools/gmail_audit/tests/test_signal_reconciler_agent_pr_d.py",
+                   " M tools/gmail_audit/tests/test_tool_reachability_contract.py",
+                   "?? tools/gmail_audit/tests/test_wave1_google_write_lock.py"
+               ]
+}

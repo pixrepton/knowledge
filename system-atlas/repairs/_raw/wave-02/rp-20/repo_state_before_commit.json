@@ -1,0 +1,41 @@
+﻿{
+    "timestamp_utc":  "2026-07-31T07:52:32Z",
+    "gmail_agent":  {
+                        "branch":  "master",
+                        "status":  [
+                                       "M  .cursor/hooks.json",
+                                       "M  .cursor/rules/40-context7-auto-docs.mdc",
+                                       "M  .cursor/rules/91-architecture-first.mdc",
+                                       "M  .cursor/rules/91-impact-analysis.mdc",
+                                       "M  .cursor/rules/92-ownership-validation.mdc",
+                                       "M  .cursor/rules/93-contract-validation.mdc",
+                                       "M  .cursor/rules/94-refactoring-guard.mdc",
+                                       "MM .mcp.json",
+                                       " M AGENTS.md",
+                                       "MM CLAUDE.md",
+                                       " M docker-compose.daszek-local.yml",
+                                       " M top-code.code-workspace"
+                                   ],
+                        "head":  "beb8309f52576df181c04e965e1353aedeba9de1",
+                        "repo":  "gmail-agent"
+                    },
+    "rag_chat_asystent":  {
+                              "branch":  "master",
+                              "status":  [
+                                             "M  .cursor/hooks.json",
+                                             "M  .cursor/rules/40-context7-auto-docs.mdc",
+                                             "M  .cursor/rules/91-architecture-first.mdc",
+                                             "M  .cursor/rules/91-impact-analysis.mdc",
+                                             "M  .cursor/rules/92-ownership-validation.mdc",
+                                             "M  .cursor/rules/93-contract-validation.mdc",
+                                             "M  .cursor/rules/94-refactoring-guard.mdc",
+                                             "MM .mcp.json",
+                                             " M AGENTS.md",
+                                             "MM CLAUDE.md",
+                                             " M docker-compose.daszek-local.yml",
+                                             " M top-code.code-workspace"
+                                         ],
+                              "head":  "beb8309f52576df181c04e965e1353aedeba9de1",
+                              "repo":  "rag-chat-asystent"
+                          }
+}

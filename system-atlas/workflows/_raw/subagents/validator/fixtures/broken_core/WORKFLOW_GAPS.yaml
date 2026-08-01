@@ -1,0 +1,16 @@
+schema_version: 2
+generated_at: '2026-07-30T22:35:26+02:00'
+legacy_item_count: 1
+atomic_gap_count: 2
+gap_registry:
+  - gap_id: gap.demo-broken
+    legacy_items: [1]
+    priority: P0
+    workflow_ids: [WF-TWO]
+    evidence_ids: [EV-99999]
+    producer: producer
+    consumer: consumer
+    break_point: broken
+    technical_impact: broken
+    business_impact: broken
+    status: not_allowed

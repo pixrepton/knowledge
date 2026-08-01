@@ -1,0 +1,19 @@
+﻿commit 4b9d5b413dd39842555375c7bdfbe9def2717035
+Author:     Milosz m13 <TOP-kot>
+AuthorDate: Sat Aug 1 23:09:21 2026 +0200
+Commit:     Milosz m13 <TOP-kot>
+CommitDate: Sat Aug 1 23:09:21 2026 +0200
+
+    fix(gmail-agent): enforce read-only calendar lifecycle
+
+M	tools/gmail_audit/calendar_models.py
+M	tools/gmail_audit/calendar_runtime.py
+M	tools/gmail_audit/calendar_signal_adapter.py
+M	tools/gmail_audit/daszek_engagement_feed/day.py
+M	tools/gmail_audit/daszek_v3_operational_feed.py
+M	tools/gmail_audit/execution_runtime.py
+M	tools/gmail_audit/mailbox_memory_runtime.py
+M	tools/gmail_audit/reply_drafter.py
+M	tools/gmail_audit/tests/test_rc_d2_commitment_gating.py
+M	tools/gmail_audit/tests/test_signal_adapters.py
+A	tools/gmail_audit/tests/test_wave2_calendar_read_only_lifecycle.py

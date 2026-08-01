@@ -1,0 +1,77 @@
+{
+  "ok": true,
+  "tests": [
+    {
+      "name": "final without manifest flag and missing default manifest",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "final with explicit missing manifest path",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "empty manifest object",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "invalid JSON manifest",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "hash mismatch after one-byte mutation",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "size mismatch after append",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "missing file referenced by manifest",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "duplicate path in manifest",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "path traversal in manifest",
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "name": "pre-manifest without manifest",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true
+    },
+    {
+      "name": "valid final snapshot",
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "passed": true
+    },
+    {
+      "name": "both modes at once",
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "passed": true
+    }
+  ]
+}

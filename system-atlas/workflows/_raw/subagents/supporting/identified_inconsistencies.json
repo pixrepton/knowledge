@@ -1,0 +1,86 @@
+[
+  {
+    "artifact": "PROGRESS.md",
+    "issue_type": "STALE_COUNTERS_AND_INTERIM_STATE",
+    "severity": "HIGH",
+    "details": "Older sections still report 180 evidence records, 61 unattached evidence rows, and reverse-audit states such as 8/12 COMPLETE, while later sections reflect the current on-disk state of 187 evidence and 12/12 COMPLETE.",
+    "proposed_resolution": "Regenerate the canonical progress summary from current machine-readable core artifacts and keep only append-only historical checkpoints in PROGRESS_HISTORY.md or _raw artifacts."
+  },
+  {
+    "artifact": "ENTRYPOINT_INVENTORY.md",
+    "issue_type": "SELF_CONTRADICTORY_ROUTE_ENUMERATION",
+    "severity": "HIGH",
+    "details": "The gmail-agent route section claims the 52 api_app.py routes are individually enumerated, but preserved prose still says individual route paths/handlers are not yet enumerated line-by-line.",
+    "proposed_resolution": "Regenerate the inventory from a machine source and remove stale preserved prose that predates the current route table."
+  },
+  {
+    "artifact": "ENTRYPOINT_INVENTORY.md",
+    "issue_type": "ROUTE_COUNTER_AMBIGUITY",
+    "severity": "MEDIUM",
+    "details": "The document mixes direct decorator count, dynamic registration count, and possible duplicate path registration for /agent-chat without disambiguating unique method/path routes.",
+    "proposed_resolution": "Track separate counters for direct registration sites, dynamic registration sites, and unique method/path routes, with an explicit duplicate-registration flag."
+  },
+  {
+    "artifact": "ENTRYPOINT_INVENTORY.md",
+    "issue_type": "SCHEDULER_TRUTH_INCOMPLETE",
+    "severity": "HIGH",
+    "details": "The inventory foregrounds VPS systemd timers, but category 11 proof established stronger current scheduler truth: 3 real Daszek WP-cron hooks and the live gmail-agent signal_worker loop with tick-callers driving bridge-drain and feed-heartbeat behavior.",
+    "proposed_resolution": "Regenerate the scheduler section from category 11 results and represent process loops, WP-cron hooks, and deployment-only systemd timers as distinct entrypoint classes."
+  },
+  {
+    "artifact": "CROSS_REPO_CONTRACTS.md",
+    "issue_type": "MISSING_STABLE_CONTRACT_IDS",
+    "severity": "MEDIUM",
+    "details": "The contract table is human-usable but lacks stable contract identifiers and normalized fields for workflow attachment, durability class, and recovery semantics.",
+    "proposed_resolution": "Introduce a machine source with stable contract_id rows and regenerate the markdown from it."
+  },
+  {
+    "artifact": "CROSS_REPO_CONTRACTS.md",
+    "issue_type": "GRAPH_DIFF_DEFERRED",
+    "severity": "LOW",
+    "details": "The document explicitly states that TOPINSTAL-KERNEL-GRAPH.yaml was not diffed line-by-line against the currently proven contract table.",
+    "proposed_resolution": "Add a post-regeneration consistency check between the hand-maintained graph and the normalized contract registry, recording explicit drift items when present."
+  },
+  {
+    "artifact": "STATE_OWNERSHIP_MATRIX.md",
+    "issue_type": "AMBIGUOUS_OWNER_CALENDAR_RISK",
+    "severity": "HIGH",
+    "details": "The matrix correctly notes three independent calendar_risk implementations with no single owner, but this ambiguity is not normalized into a stable ownership record linked to the affected workflow and gap set.",
+    "proposed_resolution": "Create a dedicated ownership row for calendar_risk with ownership_status=AMBIGUOUS, list all writers, and attach the relevant workflow and evidence IDs."
+  },
+  {
+    "artifact": "STATE_OWNERSHIP_MATRIX.md",
+    "issue_type": "PARALLEL_PROPOSAL_MODELS_NOT_NORMALIZED",
+    "severity": "HIGH",
+    "details": "At least three proposal/execution representations coexist (action_proposals_v2, materialize proposals, execution_runtime ActionProposal/ExecutionResult), but the matrix keeps them as prose ambiguity rather than stable state-model rows.",
+    "proposed_resolution": "Split the proposal/execution area into separate normalized state records and add explicit reader/writer/retry semantics for each model."
+  },
+  {
+    "artifact": "STATE_OWNERSHIP_MATRIX.md",
+    "issue_type": "PROJECTION_STORE_IDENTIFIER_MISSING",
+    "severity": "MEDIUM",
+    "details": "Daszek projection persistence is acknowledged as projection-only, but exact underlying tables are not identified, leaving the state registry unable to point to concrete storage ownership.",
+    "proposed_resolution": "Keep the projection-only SoT conclusion, but add an explicit unresolved state row until exact tables are proven or intentionally declared out of scope."
+  },
+  {
+    "artifact": "ARCHITECTURAL_RULES_AUDIT.md",
+    "issue_type": "BYPASS_INVENTORY_PROSE_ONLY",
+    "severity": "HIGH",
+    "details": "The audit correctly documents case_write_gateway bypasses and other rule exceptions, but bypasses are not represented as stable rule-linked records, which prevents machine validation and deduplication across workflows.",
+    "proposed_resolution": "Normalize architectural rules into rule records with explicit bypass arrays, evidence IDs, workflow IDs, and runtime classification."
+  },
+  {
+    "artifact": "ARCHITECTURAL_RULES_AUDIT.md",
+    "issue_type": "RUNTIME_SEMANTICS_GAPS_NOT_SURFACED",
+    "severity": "MEDIUM",
+    "details": "Supporting docs do not currently surface newer runtime-semantics findings from reverse-audit, including loader-order-sensitive AGENT_RUNTIME_ENABLED, live JSONL bridge queue vs dormant DB outbox, and Cieplo FAILED_FINAL being retryable.",
+    "proposed_resolution": "Add a runtime-semantics section or attach these findings to normalized rule/state records during regeneration."
+  },
+  {
+    "artifact": "Supporting registries set",
+    "issue_type": "PROJECTION_READER_WRITER_GAPS_UNDERREPRESENTED",
+    "severity": "MEDIUM",
+    "details": "Category 9 proved projection-contract drift such as quality_readonly and validation_warnings being stored without a proven frontend reader, while mailbox-detail readers expect fields from a parallel model; these truths are not surfaced in the current supporting docs.",
+    "proposed_resolution": "Reflect projection-reader/writer mismatches in regenerated supporting registries, either in entrypoint/contract notes or in a dedicated projection-support section."
+  }
+]

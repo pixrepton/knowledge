@@ -1,0 +1,299 @@
+plan_id: WORKFLOW_REGISTRY_NORMALIZATION_V2_PREVIEW
+generated_at: "2026-07-30 22:15:56 +02:00"
+repo_sha:
+  knowledge: "597b1091a296930ed32afb379ec19b8ab425d4fa"
+scope:
+  canonical_registry: "knowledge/system-atlas/workflows/WORKFLOW_REGISTRY.yaml"
+  canonical_evidence: "knowledge/system-atlas/workflows/WORKFLOW_EVIDENCE.jsonl"
+  supporting_artifacts:
+    - "knowledge/system-atlas/workflows/WORKFLOW_GAPS.md"
+    - "knowledge/system-atlas/workflows/PROGRESS.md"
+    - "knowledge/system-atlas/workflows/_raw/status_value_writer_consumer_cross_reference.md"
+    - "knowledge/system-atlas/workflows/_raw/test_evidence_mapping_cross_reference.md"
+  write_scope: "knowledge/system-atlas/workflows/_raw/subagents/registry/"
+  mcp_used: false
+current_state:
+  workflow_count: 17
+  subflow_count: 4
+  workflow_test_status_entries: 17
+  current_status_values:
+    - BROKEN_CALL
+    - CONDITIONAL_PATH
+    - CORRECTED
+    - DORMANT_PATH
+    - LIVE_PATH
+    - MANUAL_TRIGGER_ONLY
+    - MISSING_CONSUMER
+    - MISSING_PRODUCER
+    - RUNTIME_CONFIRMED
+    - RUNTIME_UNVERIFIED
+  current_evidence_types:
+    - ABSENCE_SEARCH
+    - CODE
+    - TEST
+  current_confidence_values:
+    - HIGH
+    - MEDIUM
+target_schema:
+  top_level_required:
+    - subflows
+    - workflows
+    - workflow_test_status
+  subflow:
+    required:
+      - description
+      - evidence_ids
+    optional:
+      - steps
+      - handoff_contract
+      - gaps
+  workflow:
+    required:
+      - workflow_id
+      - domain
+      - owner
+      - path_statuses
+      - entrypoints
+      - evidence_ids
+      - runtime
+    conditional_required:
+      - "at least one of steps or uses must be present"
+      - "participating_repos when more than one repo materially participates"
+      - "terminal when success/failure end states are explicitly known"
+      - "retry when retry/replay semantics were confirmed or explicitly searched"
+      - "consumers when a durable output has a confirmed reader"
+    optional:
+      - participating_repos
+      - uses
+      - steps
+      - contract_statuses
+      - state_reads
+      - state_writes
+      - external_calls
+      - side_effect
+      - policy
+      - approval
+      - terminal
+      - retry
+      - consumers
+      - gaps
+  runtime:
+    required:
+      - classification
+      - evidence_scope
+      - trigger_mode
+      - note
+    optional:
+      - evidence_ids
+taxonomy:
+  path_statuses:
+    allowed:
+      - LIVE_PATH
+      - CONDITIONAL_PATH
+      - DORMANT_PATH
+      - LEGACY_PATH
+      - DEAD_PATH
+      - FALLBACK_PATH
+    rules:
+      - "Array field. At least one value required."
+      - "Only path/liveness semantics belong here."
+      - "May contain both LIVE_PATH and CONDITIONAL_PATH when a workflow has a live canonical path plus gated branches."
+  contract_statuses:
+    allowed:
+      - BROKEN_CALL
+      - MISSING_PRODUCER
+      - MISSING_CONSUMER
+      - MISSING_EXECUTOR
+    rules:
+      - "Optional array field."
+      - "Only structural defect or contract-gap semantics belong here."
+      - "Do not place runtime proof, manual trigger, correction history, or test coverage here."
+  runtime_classification:
+    allowed:
+      - CONFIRMED
+      - UNVERIFIED
+  runtime_evidence_scope:
+    allowed:
+      - FULL_WORKFLOW
+      - PARTIAL_WORKFLOW
+      - ENTRYPOINT_ONLY
+      - PATH_SELECTION_ONLY
+      - ENVIRONMENT_ONLY
+      - STATIC_ONLY
+    rules:
+      - "Use FULL_WORKFLOW only when the observed proof covers the end-to-end workflow surface, not merely a guard or container."
+      - "Use PARTIAL_WORKFLOW for a live-observed slice that excludes meaningful branches or later stages."
+      - "Use ENTRYPOINT_ONLY when only route/worker/CLI reachability is proven."
+      - "Use PATH_SELECTION_ONLY when only config/branch selection is proven."
+      - "Use ENVIRONMENT_ONLY when only container/process/health/runtime-up state is proven."
+      - "Use STATIC_ONLY only with runtime.classification=UNVERIFIED."
+  runtime_trigger_mode:
+    allowed:
+      - AUTOMATIC
+      - MANUAL_ONLY
+      - MIXED
+    rules:
+      - "MANUAL_ONLY is for operator/CLI/API-triggered workflows with no confirmed autonomous scheduler or live feeder."
+      - "AUTOMATIC is for worker, event, queue, poller, hook, or route-driven flows that run without operator initiation."
+      - "MIXED is for workflows with both a confirmed automatic path and a confirmed manual replay/retry path."
+  workflow_test_status:
+    placement: "top-level workflow_test_status map keyed by workflow_id"
+    required_fields:
+      - statuses
+      - evidence_ids
+    allowed_statuses:
+      - NO_DIRECT_TEST_FOUND
+      - SYNTHETIC_ONLY
+      - PROOF_ONLY
+      - UNIT_COVERED
+      - INTEGRATION_COVERED
+      - END_TO_END_COVERED
+      - CHAOS_COVERED
+    rules:
+      - "Do not duplicate test statuses inside workflow.status/path_statuses/contract_statuses/runtime."
+      - "Every workflow_id in workflows must have exactly one workflow_test_status entry."
+  confidence:
+    placement: "WORKFLOW_EVIDENCE.jsonl only"
+    allowed_values:
+      - HIGH
+      - MEDIUM
+      - LOW
+    registry_policy:
+      - "Forbidden on workflow entries."
+      - "Forbidden on subflows."
+      - "Forbidden on runtime nodes."
+      - "Forbidden on workflow_test_status nodes."
+    rationale: "Confidence is evidence-row metadata. A workflow-level rollup would collapse multiple EV records with different scopes and certainty into one lossy, subjective value."
+normalization_rules:
+  - id: STATUS-001
+    input_pattern: "status contains RUNTIME_CONFIRMED or RUNTIME_UNVERIFIED"
+    action: "Move to runtime.classification and remove from status arrays."
+    detected_workflows:
+      - FAST-KALK-LEAD-WIDGET-CALCULATE-REGISTER-DISPATCH
+      - KALK-TOP-CALCULATE-OFFER-PIPELINE
+      - TOP-INSTAL-GENERATOR-OFFER-DOCUMENT
+      - CIEPLO-ORCHESTRATOR-INTAKE-TO-REVIEW-EMAIL
+      - LEARNING-LOOP-DIVERGENCE-TO-CANDIDATE-EVIDENCE-ONLY
+      - GMAIL-SIGNAL-WORKER-LOOP
+      - GMAIL-RECONCILE-MODE-DISPATCH
+      - CASE-ENGAGEMENT-RESOLVE-AND-AGENT-HANDOFF
+      - AGENT-GRAPH-EXECUTE-RUN
+      - AGENT-GRAPH-TURN-LOOP
+      - HITL-PROPOSAL-APPROVAL-DUAL-PATH
+      - CASE-SCOPED-RAG-VS-GLOBAL-RAG-GAP
+      - DASZEK-COMMAND-OUTBOX-DRAIN
+      - DASZEK-FEED-PUSH-NO-RETRY
+      - RAG-CHAT-ASYSTENT-QUERY-AND-INGEST-PIPELINE
+      - SLA-WATCHER-DECISION-ESCALATION
+  - id: STATUS-002
+    input_pattern: "status contains MANUAL_TRIGGER_ONLY"
+    action: "Remove from status arrays; set runtime.trigger_mode=MANUAL_ONLY."
+    detected_workflows:
+      - SLA-WATCHER-DECISION-ESCALATION
+  - id: STATUS-003
+    input_pattern: "status contains CORRECTED"
+    action: "Remove from canonical schema; preserve correction history in gaps or runtime.note only."
+    detected_workflows:
+      - DASZEK-COMMAND-OUTBOX-DRAIN
+  - id: STATUS-004
+    input_pattern: "flat status array mixes path semantics with contract defects"
+    action: "Split the field into path_statuses and contract_statuses."
+    detected_workflows:
+      - CASE-SCOPED-RAG-VS-GLOBAL-RAG-GAP
+      - CALENDAR-TWO-WORLDS-OF-VISITS
+  - id: STATUS-005
+    input_pattern: "header comment documents TEST_ONLY or PROOF_ONLY as workflow status"
+    action: "Remove test semantics from status documentation; keep them only under workflow_test_status."
+  - id: STATUS-006
+    input_pattern: "header comment documents runtime literals as workflow status"
+    action: "Remove runtime literals from status documentation; document them under runtime.classification instead."
+  - id: CONF-001
+    input_pattern: "workflow-level confidence or runtime-level confidence requested"
+    action: "Reject placement in registry; keep confidence only on evidence rows referenced by evidence_ids."
+mapping_examples:
+  - workflow_id: CASE-SCOPED-RAG-VS-GLOBAL-RAG-GAP
+    current_status:
+      - LIVE_PATH
+      - BROKEN_CALL
+      - MISSING_CONSUMER
+      - RUNTIME_CONFIRMED
+    target:
+      path_statuses:
+        - LIVE_PATH
+      contract_statuses:
+        - BROKEN_CALL
+        - MISSING_CONSUMER
+      runtime:
+        classification: CONFIRMED
+        evidence_scope: ENVIRONMENT_ONLY
+        trigger_mode: AUTOMATIC
+        note: "Backend container is up and healthy; downstream dependency chain remains only statically confirmed."
+  - workflow_id: CALENDAR-TWO-WORLDS-OF-VISITS
+    current_status:
+      - LIVE_PATH
+      - DORMANT_PATH
+      - MISSING_PRODUCER
+    target:
+      path_statuses:
+        - LIVE_PATH
+        - DORMANT_PATH
+      contract_statuses:
+        - MISSING_PRODUCER
+      runtime:
+        classification: UNVERIFIED
+        evidence_scope: STATIC_ONLY
+        trigger_mode: MIXED
+        note: "Static proof only; family contains both live and dormant branches plus a missing producer."
+  - workflow_id: DASZEK-COMMAND-OUTBOX-DRAIN
+    current_status:
+      - LIVE_PATH
+      - RUNTIME_UNVERIFIED
+      - CORRECTED
+    target:
+      path_statuses:
+        - LIVE_PATH
+      contract_statuses: []
+      runtime:
+        classification: UNVERIFIED
+        evidence_scope: STATIC_ONLY
+        trigger_mode: AUTOMATIC
+        note: "Correction history stays in gaps/note; it is not a status literal."
+  - workflow_id: SLA-WATCHER-DECISION-ESCALATION
+    current_status:
+      - LIVE_PATH
+      - MANUAL_TRIGGER_ONLY
+      - RUNTIME_UNVERIFIED
+    target:
+      path_statuses:
+        - LIVE_PATH
+      contract_statuses: []
+      runtime:
+        classification: UNVERIFIED
+        evidence_scope: STATIC_ONLY
+        trigger_mode: MANUAL_ONLY
+        note: "CLI/API/manual trigger is the semantics; it must not be encoded as a workflow status."
+validation_invariants:
+  - "workflow_id values are unique."
+  - "Every workflow_id in workflows has exactly one workflow_test_status entry."
+  - "workflow_test_status contains no orphan keys absent from workflows."
+  - "path_statuses values are a subset of taxonomy.path_statuses.allowed."
+  - "contract_statuses values are a subset of taxonomy.contract_statuses.allowed."
+  - "runtime.classification is CONFIRMED or UNVERIFIED only."
+  - "runtime.evidence_scope is STATIC_ONLY whenever runtime.classification=UNVERIFIED."
+  - "runtime.trigger_mode is AUTOMATIC, MANUAL_ONLY, or MIXED only."
+  - "No workflow status field contains RUNTIME_CONFIRMED, RUNTIME_UNVERIFIED, MANUAL_TRIGGER_ONLY, CORRECTED, TEST_ONLY, or PROOF_ONLY."
+  - "No confidence field exists anywhere in WORKFLOW_REGISTRY.yaml outside evidence references."
+  - "All evidence_ids referenced by workflows, subflows, runtime.evidence_ids, and workflow_test_status exist in WORKFLOW_EVIDENCE.jsonl."
+validation_commands:
+  - "rg -n \"^  - workflow_id:|^workflow_test_status:|statuses: \\[|status: \\[|runtime:\" knowledge/system-atlas/workflows/WORKFLOW_REGISTRY.yaml"
+  - "rg -n \"MANUAL_TRIGGER_ONLY|CORRECTED|RUNTIME_CONFIRMED|RUNTIME_UNVERIFIED|TEST_ONLY|PROOF_ONLY\" knowledge/system-atlas/workflows/WORKFLOW_REGISTRY.yaml"
+  - "rg -n '\"confidence\"|\"evidence_type\"' knowledge/system-atlas/workflows/WORKFLOW_EVIDENCE.jsonl"
+  - "python -c \"import pathlib, re, sys; p=pathlib.Path(r'knowledge/system-atlas/workflows/WORKFLOW_REGISTRY.yaml'); txt=p.read_text(encoding='utf-8'); ids=re.findall(r'^  - workflow_id: (.+)$', txt, re.M); tests=re.findall(r'^  ([A-Z0-9-]+):$', txt[txt.index('workflow_test_status:'):], re.M); print({'workflow_count': len(ids), 'unique_workflows': len(set(ids)), 'test_status_entries': len(tests), 'unique_test_keys': len(set(tests))})\""
+  - "python -c \"import json, pathlib, re; ev={json.loads(line)['id'] for line in pathlib.Path(r'knowledge/system-atlas/workflows/WORKFLOW_EVIDENCE.jsonl').read_text(encoding='utf-8').splitlines() if line.strip()}; txt=pathlib.Path(r'knowledge/system-atlas/workflows/WORKFLOW_REGISTRY.yaml').read_text(encoding='utf-8'); refs=set(re.findall(r'EV-\\d{5}', txt)); missing=sorted(refs-ev); print({'referenced_evidence_ids': len(refs), 'missing': missing[:20], 'missing_count': len(missing)})\""
+migration_order:
+  - "Rewrite the registry header comment to document path_statuses, contract_statuses, runtime, and workflow_test_status."
+  - "For each workflow, replace flat status with path_statuses plus optional contract_statuses."
+  - "Convert runtime from free-text scalar to structured object with classification, evidence_scope, trigger_mode, and note."
+  - "Preserve existing narrative text by moving runtime explanation into runtime.note and keeping detailed caveats in gaps."
+  - "Keep workflow_test_status as the only home of test-coverage semantics."
+  - "Do not add confidence to registry nodes; rely on evidence rows plus evidence_ids."

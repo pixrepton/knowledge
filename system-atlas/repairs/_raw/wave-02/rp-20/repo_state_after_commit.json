@@ -1,0 +1,13 @@
+﻿{
+    "timestamp_utc":  "2026-07-31T07:56:11Z",
+    "repo":  "rag-chat-asystent",
+    "branch":  "handoff/20260719-1403-latest",
+    "head":  "d7dff7d897ec4641673e451a661b771bda0db148",
+    "status":  [
+                   " M backend/core_chat/pipeline.py",
+                   " M backend/core_chat/pipeline_extractive.py",
+                   " M backend/tests/unit/test_groq_multi_key.py",
+                   "?? .github/workflows/gitnexus-index.yml",
+                   "?? subset_3_local.json"
+               ]
+}

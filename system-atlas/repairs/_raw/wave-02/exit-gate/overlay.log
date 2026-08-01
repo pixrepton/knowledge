@@ -1,0 +1,5 @@
+﻿COMMAND: python validate_repairs_overlay.py
+WORKDIR: C:\Users\compg\Desktop\top-code workspace\knowledge\system-atlas\repairs
+START_UTC: 2026-08-01T22:05:35.3850686Z
+EXIT_CODE: 0
+END_UTC: 2026-08-01T22:05:36.3003648Z

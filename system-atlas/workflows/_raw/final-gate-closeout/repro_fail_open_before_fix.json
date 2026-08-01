@@ -1,0 +1,7 @@
+{
+  "fixture": "repro_fail_open_fixture",
+  "manifest_present": false,
+  "exit_code": 1,
+  "stdout": "{\n  \"ok\": false,\n  \"results\": [\n    {\n      \"name\": \"evidence\",\n      \"ok\": false,\n      \"detail_count\": 187\n    },\n    {\n      \"name\": \"registry\",\n      \"ok\": true,\n      \"detail_count\": 0\n    },\n    {\n      \"name\": \"gaps\",\n      \"ok\": true,\n      \"detail_count\": 0\n    },\n    {\n      \"name\": \"docs\",\n      \"ok\": true,\n      \"detail_count\": 0\n    },\n    {\n      \"name\": \"progress\",\n      \"ok\": true,\n      \"detail_count\": 0\n    },\n    {\n      \"name\": \"manifest\",\n      \"ok\": true,\n      \"detail_count\": 0\n    }\n  ]\n}\n",
+  "stderr": ""
+}

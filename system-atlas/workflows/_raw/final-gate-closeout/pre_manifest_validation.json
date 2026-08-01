@@ -1,0 +1,59 @@
+{
+  "ok": true,
+  "validator_mode": "PRE_MANIFEST",
+  "root": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\system-atlas\\workflows",
+  "manifest_required": false,
+  "manifest_path": null,
+  "results": [
+    {
+      "name": "evidence",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "registry",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "gaps",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "docs",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "progress",
+      "status": "PASS",
+      "ok": true,
+      "details": [],
+      "meta": {}
+    },
+    {
+      "name": "manifest",
+      "status": "NOT_APPLICABLE_PRE_MANIFEST",
+      "ok": true,
+      "details": [],
+      "meta": {
+        "manifest_required": false,
+        "manifest_path": null,
+        "files_checked": 0,
+        "missing_files": [],
+        "hash_mismatches": [],
+        "size_mismatches": [],
+        "required_entry_missing": []
+      }
+    }
+  ]
+}

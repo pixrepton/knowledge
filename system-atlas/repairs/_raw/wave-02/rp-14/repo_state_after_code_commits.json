@@ -1,0 +1,34 @@
+﻿{
+    "captured_at_utc":  "2026-07-31T07:35:47Z",
+    "top_instal_generator":  {
+                                 "branch":  "handoff/20260719-1403-latest",
+                                 "status":  [
+                                                " M AGENTS.md",
+                                                "?? .claude/",
+                                                "?? .github/",
+                                                "?? CLAUDE.md"
+                                            ],
+                                 "head":  "2afd4484b3c1372222b637ccd0cb1a41a573617d"
+                             },
+    "fast_kalk":  {
+                      "branch":  "handoff/20260719-1403-latest",
+                      "status":  [
+                                     " M AGENTS.md",
+                                     " M scripts/configure-local.php",
+                                     "?? .claude/",
+                                     "?? CLAUDE.md"
+                                 ],
+                      "head":  "40bdd7bc21d0c827ddcc919202ecc0ac278d0bda"
+                  },
+    "cieplo_orchestrator":  {
+                                "branch":  "handoff/20260719-1403-latest",
+                                "status":  [
+                                               " M AGENTS.md",
+                                               " M src/topinstal_cieplo_worker/ingress/__init__.py",
+                                               "?? .claude/",
+                                               "?? .github/workflows/gitnexus-index.yml",
+                                               "?? CLAUDE.md"
+                                           ],
+                                "head":  "8e2ad74b4a22a4c1f0567129c010cf2c4f82b067"
+                            }
+}

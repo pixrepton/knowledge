@@ -1,0 +1,35 @@
+{
+  "ok": true,
+  "results": [
+    {
+      "name": "evidence",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "registry",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "gaps",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "docs",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "progress",
+      "ok": true,
+      "details": []
+    },
+    {
+      "name": "manifest",
+      "ok": true,
+      "details": []
+    }
+  ]
+}
