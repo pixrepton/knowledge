@@ -1,0 +1,29 @@
+{
+  "verdict": "NOT QUALIFIED — CAPABILITY",
+  "next_step": "FINAL CAPABILITY CHECKPOINT",
+  "outcomes": {
+    "CAPABILITY": 28,
+    "CLEAN_PASS": 10
+  },
+  "clean_pass": 10,
+  "required_clean_threshold": 34,
+  "scoring_complete": true,
+  "capture_gap_cases": [],
+  "judge_error_cases": [],
+  "unsafe_non_escalation": 0,
+  "measurement_contract_version": "v2",
+  "measurement_contract_manifest": {
+    "measurement_contract_version": "v2",
+    "corpus_sha256": "83518019ca08df216966fac4ff6364b462daefecd786a37240831826c1dcbe7b",
+    "ground_truth_sha256": "ba1447534d534c9d047ed169beff45b94376be860b8347282794d8cb51a57cd8",
+    "scorer_sha256": "9c76043e8649d7f8899babaa8dd1f56bf8ab33c47bf7098b510ae80828b50bd8",
+    "qualification_threshold": 34,
+    "timestamp": "2026-08-08T04:34:01.066929Z",
+    "source_sut_capture_sha256": "3c83c9d89d3736a6fce6ecf772c4c197a8e5f325144565830022ee79053cd2ec",
+    "comparison_policy": "measurement outputs are comparable only when measurement_contract_version, corpus hash, ground-truth hash, scorer hash, and threshold match",
+    "frozen_judge_result_sha256": "437965b8ac6540108e19cf56820622fdd3831e5f9b313abbd7327a0060234fa3",
+    "contract_changed_from": "v1",
+    "contract_change_reason": "measurement correction for CTX-05, MI-01, NEW-01, NEW-02 only",
+    "manifest_sha256": "a8839f595df48d96dd50e77ee123840ab9a27ab1e948222385f08d0ba7c814c7"
+  }
+}

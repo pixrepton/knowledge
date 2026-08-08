@@ -1,0 +1,14 @@
+{
+  "note": "Successful fallback after empty/DeepSeek failure is DELIVERY recovery, not CAPABILITY.",
+  "mi02_historical": {
+    "provider": "deepseek",
+    "symptom": "HTTP 200 with empty message.content",
+    "pre_fix_classification": "contract/non-retryable; deepseek_error_allows_fallback=false (backtick mismatch)",
+    "post_fix": "empty_content retryable → LLM_FALLBACK_DEEPSEEK_TO_PREVIOUS_CHAIN → classifiable capture"
+  },
+  "controlled_proof": [
+    "mi02-run1: DeepSeek failed then fallback; stage=full",
+    "mi02-run2: stage=full",
+    "full38 MI-02: stage=full, Understanding SCORED"
+  ]
+}

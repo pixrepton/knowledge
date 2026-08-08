@@ -1,0 +1,42 @@
+[
+  {
+    "path": "breakdown-v2.json",
+    "sha256": "7f116746df4a14e2eead5c4b28a420e49c5beb1abddab1c2876bc7911edb22a1",
+    "bytes": 1820
+  },
+  {
+    "path": "fresh-full38-results.json",
+    "sha256": "3c83c9d89d3736a6fce6ecf772c4c197a8e5f325144565830022ee79053cd2ec",
+    "bytes": 2288659
+  },
+  {
+    "path": "fresh-understanding-judge.json",
+    "sha256": "437965b8ac6540108e19cf56820622fdd3831e5f9b313abbd7327a0060234fa3",
+    "bytes": 74326
+  },
+  {
+    "path": "frozen_sut_manifest.json",
+    "sha256": "03fbcfa5de9f5e50e5f81a11ea388ae577b64fdc2d4ab95fd7caada5d8d8068a",
+    "bytes": 1583
+  },
+  {
+    "path": "mi02-before-after-proof.json",
+    "sha256": "219ff6f03667364afb4e3b3b8d3ea265c5514716e0fe6970f623e539e1e6acc4",
+    "bytes": 736
+  },
+  {
+    "path": "qualification-v2.json",
+    "sha256": "4c1969add3104c605f1703c3bbe0f0cb9dc9348e171c38692c2a77922ad5784f",
+    "bytes": 1422
+  },
+  {
+    "path": "rescore-v2.json",
+    "sha256": "08aa028e45812d88ef93a37d6acc19991dfc3fe12c51690d64db47fafea0ac59",
+    "bytes": 143010
+  },
+  {
+    "path": "summary-v2.json",
+    "sha256": "4d80deb506d133d6c07d9d78eaca50b6296ce72e459bae3f6c217a17e4fc0680",
+    "bytes": 1289
+  }
+]

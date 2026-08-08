@@ -1,17 +1,22 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (GOV-09).
+Status: active only. Last updated: 2026-08-08 (FRESH38-RECAPTURE-01).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
-## Open â€” residuals (after RESIDUALS-WAVE-02)
+## Open — residuals (after FRESH38 closeout)
 
 | ID                   | Area              | Status          | Next action                                                                 |
 | -------------------- | ----------------- | --------------- | --------------------------------------------------------------------------- |
-| FRESH38-RECAPTURE-01 | eval              | open, UNCERTAIN | Resume only `MI-02` into exit2 artifact; do not quote Fresh 38 until 38/38  |
 | FACT-4.1-HIGH-01     | gmail-agent       | open, P2        | Ticketize HIGH gaps from `AIOS_4_1_FACT_SUPERSESSION_CONSUMER_AUDIT.md`     |
 | GOV-06               | knowledge         | PARTIAL         | `.serena` policy monitor (tracked project.yml; cache gitignored)            |
 | IQ-01-ADJUDICATED    | eval              | DEFERRED        | Human-adjudicated labels (conscious bound; machine_proposed only today)     |
+
+## Closed — FRESH38-RECAPTURE-01 (2026-08-08)
+
+| ID                   | Disposition        | Note |
+| -------------------- | ------------------ | ---- |
+| FRESH38-RECAPTURE-01 | COMPLETE / CONFIRMED_LOCAL | Empty `message.content` → retryable `empty_content` + fallback; Variant2 full Fresh 38 @ `gmail-agent:fea458f`; 38/38; `scoring_complete=true`; CLEAN_PASS=10 CAPABILITY=28; artifacts `knowledge/eval/fresh38-recapture-20260808/` |
 
 ## Closed — GOV-09 (2026-08-08)
 

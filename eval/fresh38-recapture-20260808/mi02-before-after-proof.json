@@ -1,0 +1,26 @@
+{
+  "before": {
+    "artifact": "C:\\top-code-session-scratch\\exit2-recapture-20260803T215611",
+    "status": "missing_capture",
+    "error": "GroqClientError empty message.content via DeepSeek; classify contract non-retryable; deepseek_error_allows_fallback False due to backtick mismatch",
+    "classification": "DELIVERY/provider (not CAPABILITY)"
+  },
+  "after_controlled": [
+    {
+      "run": "mi02-run1",
+      "stage": "full",
+      "is_valid": true
+    },
+    {
+      "run": "mi02-run2",
+      "stage": "full",
+      "is_valid": true
+    }
+  ],
+  "after_full38": {
+    "stage": "full",
+    "is_valid": true,
+    "in_fresh_full38": true
+  },
+  "fix_commit": "fea458f73dbfc43e8bc98f957cc61b303918f973"
+}

@@ -1,0 +1,21 @@
+﻿{
+    "run_id":  "fresh38-recapture-20260808T045859",
+    "timestamp_utc":  "2026-08-08T03:02:03.6440130Z",
+    "measurement_contract":  "v2",
+    "mode":  "production_faithful",
+    "git_head":  "fea458f73dbfc43e8bc98f957cc61b303918f973",
+    "dirty_status":  "clean",
+    "runtime_image_id":  "sha256:fd7af0c47ee7cc726b7dc13cb9d5a7739fdba9950bf33b3cc82f3ba0a27d1943",
+    "corpus_path":  "c:\\Users\\compg\\Desktop\\top-code workspace\\.artifacts\\ai-os-post-stage6-fresh-baseline\\corpus-v2.json",
+    "corpus_sha256":  "6550a075d5180d492a35b983a4cdc30624756d80cc3b398ae75fa310c470c043",
+    "file_hashes":  {
+                        "tools/gmail_audit/groq_client.py":  "e8b1b5ad712a3faffa117a8962b918d2ef59fca67e1b03fe55e1c98e4525f578",
+                        "tools/gmail_audit/central_llm_stage.py":  "e2126e87d9af17995638b46d6683f025680d979be901f29f5ed3ab0e3365b4d6",
+                        "tools/gmail_audit/llm_provider_router.py":  "d5fd14a7d75723299cc26d4410e88c29806dd103d98601f171395dfc58d8d92c",
+                        "tools/gmail_audit/understanding_output.py":  "ec91e95719511fd8054c1b28b4a9564a0bfd60ea741f85f14985cc0476c63f57",
+                        "tools/gmail_audit/agent_runtime/openai_agent_client.py":  "422f2be46cb7b1913fce20f9a7085e83eb0175663e6d70401a5146f98024c5cf"
+                    },
+    "decision_F":  "VARIANT_2_FULL_FRESH38_SUT_CHANGED",
+    "empty_content_fix_commit":  "fea458f73dbfc43e8bc98f957cc61b303918f973",
+    "note":  "SUT rebuilt into gmail-agent-runtime:local; hot sync also applied by batch harness"
+}
