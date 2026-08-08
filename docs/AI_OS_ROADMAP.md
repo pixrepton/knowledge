@@ -656,16 +656,18 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 
 ### Open technical residuals (post consolidation 2026-08-08)
 
-| ID                           | Area              | Status                                     |
-| ---------------------------- | ----------------- | ------------------------------------------ |
-| **RAG-TEMPORAL-COMPLETE-01** | rag-chat-asystent | OPEN P1 (blocks authorized staged cutover) |
-| **RAG-IMAGE-BAKE-01**        | rag-chat-asystent | OPEN P2 (reproducible image)               |
+| ID | Area | Status |
+| -- | ---- | ------ |
+| *(none for RAG technical gate)* | — | Closed by `RAG-V2-FINAL-TECHNICAL-GATE-01` → `STAGED_ACTIVATION_EXECUTED` |
+
+Optional only: `IQ-01-ADJUDICATED`, `GOV-06`.
 
 ### P1 — RAG (po 1.6 COMPLETE_BOUNDED)
 
-Historyczny closure 2026-08-06: 1.6 shadow ≠ live plane. **Aktualizacja 2026-08-08:** live data plane + host Gate B
-udowodnione (`RAG-V2-LIVE-CUTOVER-READINESS-01`); produktowy default nadal `RAG_CORE=legacy`. Otwarte gate’y
-techniczne staged cutover: `RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`.
+Historyczny closure 2026-08-06: 1.6 shadow ≠ live plane. **Aktualizacja 2026-08-08 (final gate):** live data plane +
+container Temporal COMPLETE + tracked ingest image bake + staged activation executed for
+`technical_manual,price_list`. Produktowy **global** default nadal nie jest `RAG_CORE=v2` dla wszystkich intentów
+— tylko opt-in staged compose.
 
 | ID         | Zadanie                                                              | Status closure (Delivery / Proof)                                                                                                                                                                                        |
 | ---------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -673,14 +675,14 @@ techniczne staged cutover: `RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`.
 | **RAG-02** | Live MinIO blob + checksum/lifecycle                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — compose `rag-v2-data-plane` put/get via live ingest                                                                                                                            |
 | **RAG-03** | Postgres DocumentVersion / generation / supersession docs            | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live DocumentVersion in Gate B companion                                                                                                                                       |
 | **RAG-04** | Live Qdrant dense+sparse + fusion                                    | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live upsert + retrieve evidence                                                                                                                                                |
-| **RAG-05** | Temporal durable ingest/retry/resume                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — worker + start_ingest; container COMPLETE under CPU Docling = residual/flake                                                                                                   |
+| **RAG-05** | Temporal durable ingest/retry/resume                                 | **COMPLETE** / `proven_local` — heartbeat+retry; 3/3 COMPLETE + resume + idempotency (`RAG-TEMPORAL-COMPLETE-01` / final technical gate)                                                                                 |
 | **RAG-06** | Szerszy gold set                                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — `rag-chat-asystent:e30ebcb`                                                                                                                                                     |
 | **RAG-07** | Więcej niż jedna instrukcja (katalogi, skany, OCR)                   | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — multidoc fixtures; OCR soft-path only                                                                                                                                           |
 | **RAG-08** | Shadow → wpływ na produkt                                            | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — side-channel metrics; `affects_legacy=false`                                                                                                                                    |
-| **RAG-09** | Opt-in odpowiedzi z V2                                               | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — staged compose ready; **Activation: `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`** (Temporal COMPLETE + image bake); legacy default; **no** global `RAG_CORE=v2` |
+| **RAG-09** | Opt-in odpowiedzi z V2                                               | **COMPLETE** / `proven_local` — **Activation: `STAGED_ACTIVATION_EXECUTED`** (allowlist TM/price); rollback+restore proven; **no** global `RAG_CORE=v2`                                                                  |
 | **RAG-10** | **1.7** Price List / Exact Facts                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — patrz slice 1.7                                                                                                                                                                 |
 | **RAG-11** | **1.8** dual-read / staged cutover / rollback                        | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — dual-read/rollback proof + opt-in staged file                                                                                                                                  |
-| **RAG-12** | Formalny live Gate B RAG stack                                       | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — host E2E PASS `eval/rag-v2-live-cutover-20260808/`; Temporal COMPLETE PARTIAL                                                                                                  |
+| **RAG-12** | Formalny live Gate B RAG stack                                       | **COMPLETE** / `proven_local` — container-only Gate B PASS (`eval/rag-v2-final-technical-gate-20260808/`)                                                                                                                |
 | **RAG-13** | Naming: `RAG_PIPELINE_V2`/Core Chat V2 ≠ `backend/rag_v2/` strangler | **COMPLETE** / docs — `rag-chat-asystent:a463d1f`                                                                                                                                                                        |
 | **RAG-14** | Śledzenie stubów live adapterów                                      | **COMPLETE** / `FOCUSED_LOCAL` — `/rag_v2/status` + `adapters/status.py`                                                                                                                                                 |
 
@@ -758,11 +760,11 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 
 | Priorytet | Tor             | Następne                                 | Uwaga                                                     |
 | --------- | --------------- | ---------------------------------------- | --------------------------------------------------------- |
-| **P1**    | RAG technical   | **RAG-TEMPORAL-COMPLETE-01**             | blocker autoryzowanego staged cutover                     |
-| **P2**    | RAG bake        | **RAG-IMAGE-BAKE-01**                    | reproducible image; potem wykonać staged (zgoda już jest) |
+| **P1**    | RAG technical   | **RAG-TEMPORAL-COMPLETE-01**             | **CLOSED** `proven_local` (final technical gate)          |
+| **P2**    | RAG bake        | **RAG-IMAGE-BAKE-01**                    | **CLOSED** `proven_local`; staged activation executed     |
 | **P3**    | Product quality | Fresh38 CAPABILITY analysis / real cases | **nie** budować 5.3–8.x „z listy 51”                      |
 
-**RAG activation status:** `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` — nie pytaj ponownie o zgodę na staged.
+**RAG activation status:** `STAGED_ACTIVATION_EXECUTED` — allowlist TM/price; no global `RAG_CORE=v2`.
 
 **4.4:** `REJECTED_BY_OPERATOR` — nie rozwijać.
 

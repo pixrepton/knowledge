@@ -1,0 +1,174 @@
+{
+  "proof_id": "rag-v2-final-dual-read-20260808",
+  "started_at": "2026-08-08T15:10:03.155576+00:00",
+  "bounds": [
+    "Does not permanently flip RAG_CORE in compose/product defaults",
+    "Staged intents only: technical_manual,price_list",
+    "Process-local env mutation for dual-read/rollback proof"
+  ],
+  "rows": [
+    {
+      "case_id": "tm_fact",
+      "label": "legacy",
+      "intent": "technical_manual",
+      "query": "moc grzewcza pompy ciepla",
+      "rag_core": "legacy",
+      "cutover": {
+        "intent_staged": false,
+        "serve_product_answer": false,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+      },
+      "mode": null,
+      "activated": null,
+      "answer_preview": null,
+      "error": null,
+      "elapsed_ms": 1,
+      "ok": true
+    },
+    {
+      "case_id": "tm_absent",
+      "label": "legacy",
+      "intent": "technical_manual",
+      "query": "kolor obudowy modelu NIEISTNIEJACY-999",
+      "rag_core": "legacy",
+      "cutover": {
+        "intent_staged": false,
+        "serve_product_answer": false,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+      },
+      "mode": null,
+      "activated": null,
+      "answer_preview": null,
+      "error": null,
+      "elapsed_ms": 0,
+      "ok": true
+    },
+    {
+      "case_id": "price_fact",
+      "label": "legacy",
+      "intent": "price_list",
+      "query": "cena pompy ciepla",
+      "rag_core": "legacy",
+      "cutover": {
+        "intent_staged": false,
+        "serve_product_answer": false,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+      },
+      "mode": null,
+      "activated": null,
+      "answer_preview": null,
+      "error": null,
+      "elapsed_ms": 0,
+      "ok": true
+    },
+    {
+      "case_id": "tm_fact",
+      "label": "v2_staged",
+      "intent": "technical_manual",
+      "query": "moc grzewcza pompy ciepla",
+      "rag_core": "v2",
+      "cutover": {
+        "intent_staged": true,
+        "serve_product_answer": true,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+      },
+      "mode": "no_answer",
+      "activated": true,
+      "answer_preview": "{'rag_core': 'v2', 'reason': 'rag_v2_empty_evidence', 'fallback_reason': 'rag_v2_empty_evidence', 'activated': True, 'pr",
+      "error": null,
+      "elapsed_ms": 133,
+      "ok": true
+    },
+    {
+      "case_id": "tm_absent",
+      "label": "v2_staged",
+      "intent": "technical_manual",
+      "query": "kolor obudowy modelu NIEISTNIEJACY-999",
+      "rag_core": "v2",
+      "cutover": {
+        "intent_staged": true,
+        "serve_product_answer": true,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+      },
+      "mode": "no_answer",
+      "activated": true,
+      "answer_preview": "{'rag_core': 'v2', 'reason': 'rag_v2_empty_evidence', 'fallback_reason': 'rag_v2_empty_evidence', 'activated': True, 'pr",
+      "error": null,
+      "elapsed_ms": 0,
+      "ok": true
+    },
+    {
+      "case_id": "price_fact",
+      "label": "v2_staged",
+      "intent": "price_list",
+      "query": "cena pompy ciepla",
+      "rag_core": "v2",
+      "cutover": {
+        "intent_staged": true,
+        "serve_product_answer": true,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+      },
+      "mode": "answer",
+      "activated": true,
+      "answer_preview": "{'rag_core': 'v2', 'reason': 'rag_v2_activated', 'activated': True, 'product_answers_enabled': True, 'shadow_metrics_all",
+      "error": null,
+      "elapsed_ms": 2,
+      "ok": true
+    }
+  ],
+  "comparison": [
+    {
+      "case": "tm_fact",
+      "legacy_ok": true,
+      "v2_ok": true,
+      "legacy_activated": null,
+      "v2_activated": true,
+      "winner": "v2",
+      "reason": "v2_activated_path"
+    },
+    {
+      "case": "tm_absent",
+      "legacy_ok": true,
+      "v2_ok": true,
+      "legacy_activated": null,
+      "v2_activated": true,
+      "winner": "v2",
+      "reason": "v2_activated_path"
+    },
+    {
+      "case": "price_fact",
+      "legacy_ok": true,
+      "v2_ok": true,
+      "legacy_activated": null,
+      "v2_activated": true,
+      "winner": "v2",
+      "reason": "v2_activated_path"
+    }
+  ],
+  "rollback": {
+    "ok": true,
+    "rows": [
+      {
+        "case_id": "tm_fact",
+        "label": "rollback_legacy",
+        "intent": "technical_manual",
+        "query": "moc grzewcza pompy ciepla",
+        "rag_core": "legacy",
+        "cutover": {
+          "intent_staged": false,
+          "serve_product_answer": false,
+          "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS."
+        },
+        "mode": null,
+        "activated": null,
+        "answer_preview": null,
+        "error": null,
+        "elapsed_ms": 1,
+        "ok": true
+      }
+    ]
+  },
+  "recommendation": "B_STAGED_CUTOVER",
+  "overall": "PASS",
+  "finished_at": "2026-08-08T15:10:03.155576+00:00"
+}

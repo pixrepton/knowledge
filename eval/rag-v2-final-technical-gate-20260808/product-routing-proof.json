@@ -1,0 +1,59 @@
+{
+  "container_rag_core": "v2",
+  "container_live_data_plane": false,
+  "container_activated_adapters": [
+    "docling",
+    "postgres"
+  ],
+  "routing_proofs": [
+    {
+      "intent": "technical_manual",
+      "serve": true,
+      "intent_staged": true,
+      "cutover": {
+        "rag_core": "v2",
+        "intent": "technical_manual",
+        "intent_staged": true,
+        "generation_mode": "answer",
+        "serve_product_answer": true,
+        "shadow_metrics_allowed": true,
+        "activated": true,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS.",
+        "default_core": "legacy"
+      }
+    },
+    {
+      "intent": "price_list",
+      "serve": true,
+      "intent_staged": true,
+      "cutover": {
+        "rag_core": "v2",
+        "intent": "price_list",
+        "intent_staged": true,
+        "generation_mode": "answer",
+        "serve_product_answer": true,
+        "shadow_metrics_allowed": true,
+        "activated": true,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS.",
+        "default_core": "legacy"
+      }
+    },
+    {
+      "intent": "other_intent",
+      "serve": false,
+      "intent_staged": false,
+      "cutover": {
+        "rag_core": "v2",
+        "intent": "other_intent",
+        "intent_staged": false,
+        "generation_mode": "answer",
+        "serve_product_answer": false,
+        "shadow_metrics_allowed": true,
+        "activated": false,
+        "rollback": "Set RAG_CORE=legacy (or unset) to restore the product path; clear RAG_V2_ACTIVATED_INTENTS.",
+        "default_core": "legacy"
+      }
+    }
+  ],
+  "allowlist_ok": true
+}

@@ -1,0 +1,70 @@
+{
+  "proof": "RAG-TEMPORAL-COMPLETE-01",
+  "stamp": "2026-08-08T14:59:33.653328+00:00",
+  "runs": [
+    {
+      "ok": true,
+      "index": 1,
+      "workflow_id": "rag-v2-stability:stability-1-2227237a",
+      "run_id": "383e5218-c945-4596-a4e5-a2bab0b48e60",
+      "document_id": "stability-1-2227237a",
+      "source_uri": "minio://rag-v2/stability/stability-1-2227237a.pdf",
+      "workflow_status": "COMPLETED",
+      "started_at": "2026-08-08T14:53:04.080768+00:00",
+      "ended_at": "2026-08-08T14:55:52.839170+00:00",
+      "duration_sec": 168.75,
+      "error": null
+    },
+    {
+      "ok": true,
+      "index": 2,
+      "workflow_id": "rag-v2-stability:stability-2-71500be0",
+      "run_id": "c4134f13-b55a-4197-8129-a3a11ba916c0",
+      "document_id": "stability-2-71500be0",
+      "source_uri": "minio://rag-v2/stability/stability-2-71500be0.pdf",
+      "workflow_status": "COMPLETED",
+      "started_at": "2026-08-08T14:55:52.869917+00:00",
+      "ended_at": "2026-08-08T14:57:46.134883+00:00",
+      "duration_sec": 113.26,
+      "error": null
+    },
+    {
+      "ok": true,
+      "index": 3,
+      "workflow_id": "rag-v2-stability:stability-3-0d4a129c",
+      "run_id": "f6520b8f-4ce6-4c0d-a381-91251a9f9e8b",
+      "document_id": "stability-3-0d4a129c",
+      "source_uri": "minio://rag-v2/stability/stability-3-0d4a129c.pdf",
+      "workflow_status": "COMPLETED",
+      "started_at": "2026-08-08T14:57:46.135610+00:00",
+      "ended_at": "2026-08-08T14:59:33.651688+00:00",
+      "duration_sec": 107.52,
+      "error": null
+    }
+  ],
+  "complete_3_of_3": true,
+  "stuck": [],
+  "resume": {
+    "ok": true,
+    "workflow_id": "rag-v2-resume:resume-8c4f4deb",
+    "run_id": "56d05e87-22e6-417f-843c-c55e8dde88f2",
+    "document_id": "resume-8c4f4deb",
+    "workflow_status": "COMPLETED",
+    "started_at": "2026-08-08T14:59:33.656861+00:00",
+    "ended_at": "2026-08-08T15:05:17.847770+00:00",
+    "stop_exit": 0,
+    "start_exit": 0,
+    "worker_health_after_restart": "healthy",
+    "error": null,
+    "same_workflow_id": true
+  },
+  "idempotency": {
+    "ok": true,
+    "workflow_id_1": "rag-v2-idem:idem-d5dd0d79",
+    "workflow_id_2": "rag-v2-idem:idem-d5dd0d79",
+    "same_workflow_id": true,
+    "workflow_status": "COMPLETED",
+    "document_id": "idem-d5dd0d79",
+    "error": null
+  }
+}

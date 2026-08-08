@@ -1,0 +1,29 @@
+﻿{
+    "stamp":  "2026-08-08T14:53:13.3864388Z",
+    "dockerfile":  "rag-chat-asystent/backend/Dockerfile.rag-v2-ingest",
+    "dockerfile_sha256":  "A10F51196192B62FBE6B7F7F92BEDE39DC30F912772BBB8B960DC0F45A4B5651",
+    "lockfile":  "rag-chat-asystent/backend/requirements-deploy.lock",
+    "lock_sha256":  "9EECEA5365187E16728EA0CF3C5F560E6DFEAA33313A406AEE51831CDC2F6951",
+    "image_tag":  "rag-chat-asystent-rag-v2-ingest-worker:local",
+    "image_id":  "sha256:38eadd62457dff4293a9a688ceca192fe15663dd88bf564e19ce196908bc4e19",
+    "image_created":  "2026-08-08T14:27:09.819973072Z",
+    "runtime_container_image":  "rag-chat-asystent-rag-v2-ingest-worker:local",
+    "runtime_image_id":  "sha256:d2192e5c25d792163f00c17c8005eff5a0bd664d7818d39c528200cf13de0c89",
+    "commit_tag_dataplane_sdk_id":  "51c91cd263d4",
+    "commit_tag_with_dataplane_sdk_id":  {
+
+                                         },
+    "runtime_uses_commit_tag":  false,
+    "runtime_image_distinct_from_commit_tags":  false,
+    "sdk_probe":  [
+                      "minio 7.2.20",
+                      "temporalio 1.31.0",
+                      "docling_ok"
+                  ],
+    "in_image_heartbeat_matches":  [
+                                       "1",
+                                       "1"
+                                   ],
+    "build_command":  "docker compose --profile rag-v2-data-plane -f docker-compose.yml -f docker-compose.rag-v2-data-plane.yml build rag-v2-ingest-worker",
+    "no_docker_commit":  true
+}

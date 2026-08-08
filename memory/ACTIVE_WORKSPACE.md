@@ -1,16 +1,15 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01).
+Status: current direction only. Last updated: 2026-08-08 (RAG-V2-FINAL-TECHNICAL-GATE-01).
 
 ## Current program (canonical)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
-**Strategic posture (after Fresh38 + residuals waves):** infrastruktura pomiaru i Case OS
-rdzeń są w dużej mierze zamknięte. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na
-roadmapie”. Następny rozwój produktu: (1) opcjonalnie staged RAG V2 po gate’ach technicznych,
-(2) potem jakość capability na podstawie Fresh38 (`NOT QUALIFIED — CAPABILITY`, CLEAN_PASS=10 /
-CAPABILITY=28) i realnych spraw firmy.
+**Strategic posture:** infrastruktura pomiaru, Case OS rdzeń i RAG V2 staged path są
+zamknięte lokalnie. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
+Następny rozwój produktu: jakość capability na podstawie Fresh38
+(`NOT QUALIFIED — CAPABILITY`, CLEAN_PASS=10 / CAPABILITY=28) i realnych spraw firmy.
 
 ### Zamknięte programy (nie wracać)
 
@@ -24,16 +23,17 @@ CAPABILITY=28) i realnych spraw firmy.
 | `FACT-4.1-HIGH-01` (read-side)               | CLOSED `COMPLETE / CONFIRMED_LOCAL`                                  |
 | `FACT-SUPERSESSION-WRITE-01`                 | CLOSED `COMPLETE / CONFIRMED_LOCAL`                                  |
 | `RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01`      | CLOSED `COMPLETE / CONFIRMED_LOCAL` (P0-4/P0-5)                      |
-| `RAG-V2-LIVE-CUTOVER-READINESS-01`           | CLOSED `PARTIAL` — host Gate B + dual-read PASS                      |
+| `RAG-V2-LIVE-CUTOVER-READINESS-01`           | CLOSED `PARTIAL` — superseded by final technical gate                |
+| `RAG-V2-FINAL-TECHNICAL-GATE-01`             | CLOSED `COMPLETE / proven_local` — `STAGED_ACTIVATION_EXECUTED`      |
 
 ### RAG staged activation (binding)
 
 ```text
-STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE
+STAGED_ACTIVATION_EXECUTED
 ```
 
-Operator already authorized staged (`technical_manual`, `price_list`). **Do not** re-ask.
-Blocked on `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01`. **No** global `RAG_CORE=v2`.
+Allowlist: `technical_manual`, `price_list` via opt-in staged compose. **No** global
+`RAG_CORE=v2`. Expanding allowlist / global flip = new operator decision.
 
 ### 4.4 Install-prep (binding)
 
@@ -47,12 +47,11 @@ without blast-radius review (`OPERATOR_DECISIONS.md`).
 ### Otwarte residuale (jedyne realne)
 
 ```text
-P1 RAG gate:    RAG-TEMPORAL-COMPLETE-01
-P2 RAG bake:    RAG-IMAGE-BAKE-01
 P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 ```
 
 **Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01,
-RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01, Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs,
-FRESH38-RECAPTURE-01 (harness), 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08/09, PH3 harness,
-X1 live PW, FG-01/04, PF-01, IQ frozen machine baseline.
+RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01, RAG-V2-FINAL-TECHNICAL-GATE-01 / TEMPORAL / IMAGE-BAKE,
+Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01 (harness),
+1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08/09, PH3 harness, X1 live PW, FG-01/04, PF-01,
+IQ frozen machine baseline.

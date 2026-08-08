@@ -1,0 +1,86 @@
+{
+  "proof_id": "rag-v2-final-gate-b-20260808T170906",
+  "started_at": "2026-08-08T15:10:03.282421+00:00",
+  "pdf_path": "C:\\top-code-session-scratch\\rag-v2-final-tech-gate\\stability.pdf",
+  "document_id": "final-gate-b-20260808T170906",
+  "query": "AC-100 Power kW outdoor unit clearance",
+  "container_only": true,
+  "bounds": [
+    "Does not flip RAG_CORE=v2 globally",
+    "Does not perform staged product cutover",
+    "Exercises live data-plane ingest/retrieve against compose profile rag-v2-data-plane",
+    "Container-only: Docling ingest via Temporal worker only (no host Docling substitute)"
+  ],
+  "steps": {
+    "pdf": {
+      "ok": true,
+      "bytes": 3171
+    },
+    "minio_bucket": {
+      "ok": true,
+      "bucket": "rag-v2",
+      "created": false,
+      "endpoint_host": "127.0.0.1"
+    },
+    "live_stores": {
+      "ok": true,
+      "blob": true,
+      "graphs": true,
+      "index": true
+    },
+    "ingest_live": {
+      "ok": true,
+      "status": "SKIPPED",
+      "reason": "container_only_no_host_docling"
+    },
+    "temporal_start_ingest": {
+      "ok": true,
+      "status": "COMPLETED",
+      "workflow_id": "live-cutover-container-rag-v2-final-gate-b-20260808T170906",
+      "workflow_status_initial": "RUNNING",
+      "workflow_status": "COMPLETED",
+      "wait_elapsed_sec": 111.38,
+      "transient_rpc_retries": 0,
+      "error": null,
+      "ingest_runtime": "rag-v2-ingest-worker"
+    },
+    "retrieve_pre_restart": {
+      "ok": true,
+      "query": "AC-100 Power kW outdoor unit clearance",
+      "evidence_count": 5,
+      "facts_count": 5,
+      "sample_quotes": [
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer."
+      ],
+      "empty": false
+    },
+    "worker_restart": {
+      "ok": true,
+      "container": "hvac-rag-v2-ingest-worker",
+      "elapsed_sec": 7.06
+    },
+    "retrieve_post_restart": {
+      "ok": true,
+      "query": "AC-100 Power kW outdoor unit clearance",
+      "evidence_count": 5,
+      "facts_count": 5,
+      "sample_quotes": [
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer.",
+        "Page 2 - installation notes\nEnsure condensate drain slope and outdoor unit clearance per manufacturer."
+      ],
+      "empty": false
+    }
+  },
+  "overall": "PASS",
+  "finished_at": "2026-08-08T15:12:18.399357+00:00",
+  "summary_path": "c:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\rag-v2-final-technical-gate-20260808\\gate-b-container-only-20260808T170906.json",
+  "git_sha": "3fc0d5f",
+  "repo": "C:\\Users\\compg\\Desktop\\top-code workspace\\rag-chat-asystent"
+}

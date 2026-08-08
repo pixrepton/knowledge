@@ -24,13 +24,13 @@ Format:
 
 ---
 
-## [ACTIVE] 2026-08-08 — RAG V2 staged cutover: STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE
+## [ACTIVE] 2026-08-08 — RAG V2 staged cutover: STAGED_ACTIVATION_EXECUTED
 
-- **Scope:** `rag-chat-asystent` RAG V2 product path / `RAG-V2-LIVE-CUTOVER-READINESS-01`.
-- **Decyzja:** Operator **już autoryzował** staged activation (`ZEZWALAM NA ACTIVATION`) dla verticali `technical_manual` / `price_list` via opt-in `docker-compose.rag-v2-staged-cutover.yml`. **Nie** pytaj ponownie o zgodę na staged. **Nie** ustawiaj globalnego defaultu `RAG_CORE=v2` dla wszystkich intentów. Execution staged cutover jest **zablokowane technicznie** do domknięcia `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01` (albo jawnej akceptacji residualu PARTIAL). Status: `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` — **nie** `OPERATOR_DECISION_REQUIRED`.
-- **Supersedes:** mylące etykiety `READY_FOR_OPERATOR_CUTOVER_DECISION` / `Activation: OPERATOR_DECISION_REQUIRED` z raportu cutover readiness (zgoda już jest; brakuje gate'ów technicznych).
-- **Proof:** `knowledge/eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md`; Gate A rag **681**/22; host Gate B companion PASS; dual-read/rollback PASS.
-- **Review:** po PASS Temporal COMPLETE + reproducible image bake — wtedy wykonać staged compose lokalnie bez ponownej decyzji operatorskiej.
+- **Scope:** `rag-chat-asystent` RAG V2 product path / `RAG-V2-FINAL-TECHNICAL-GATE-01`.
+- **Decyzja:** Staged activation **wykonana lokalnie** dla verticali `technical_manual` / `price_list` via opt-in `docker-compose.rag-v2-staged-cutover.yml`. Status: `STAGED_ACTIVATION_EXECUTED`. **Nie** ustawiaj globalnego defaultu `RAG_CORE=v2` dla wszystkich intentów. Allowlist pozostaje wąski. Rollback (omit staged file → legacy) i restore staged udowodnione.
+- **Supersedes:** `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` (technical gates closed).
+- **Proof:** `knowledge/eval/rag-v2-final-technical-gate-20260808/PROOF_SUMMARY.md`; Gate A rag **684**/22; Temporal 3/3+resume+idempotency PASS; IMAGE-BAKE tracked Dockerfile PASS; container-only Gate B PASS; dual-read/rollback PASS; staged activate/rollback/restore PASS.
+- **Review:** rozszerzenie allowlisty lub global `RAG_CORE=v2` wymaga osobnej decyzji operatorskiej.
 
 ---
 

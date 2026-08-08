@@ -1,0 +1,43 @@
+{
+    "rag_core":  "v2",
+    "live_data_plane":  false,
+    "note":  "Slice 1.6 shadow vertical â?  live data plane; check adapters[].activated (RAG-01..05). Product cutover is RAG-11 / 1.8. Opt-in: RAG_V2_LIVE_DATA_PLANE=1 only when MinIO+Qdrant+Temporal soft-activated.",
+    "adapters":  [
+                     {
+                         "name":  "docling",
+                         "roadmap_id":  "RAG-01",
+                         "activated":  true,
+                         "inactive_reason":  ""
+                     },
+                     {
+                         "name":  "minio",
+                         "roadmap_id":  "RAG-02",
+                         "activated":  false,
+                         "inactive_reason":  "minio_sdk_missing"
+                     },
+                     {
+                         "name":  "postgres",
+                         "roadmap_id":  "RAG-03",
+                         "activated":  true,
+                         "inactive_reason":  ""
+                     },
+                     {
+                         "name":  "qdrant",
+                         "roadmap_id":  "RAG-04",
+                         "activated":  false,
+                         "inactive_reason":  "qdrant_sdk_missing"
+                     },
+                     {
+                         "name":  "temporal",
+                         "roadmap_id":  "RAG-05",
+                         "activated":  false,
+                         "inactive_reason":  "temporal_sdk_missing"
+                     }
+                 ],
+    "activated":  [
+                      "docling",
+                      "postgres"
+                  ],
+    "activated_count":  2,
+    "adapter_count":  5
+}

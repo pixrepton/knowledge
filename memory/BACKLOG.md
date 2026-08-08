@@ -1,21 +1,27 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01).
+Status: active only. Last updated: 2026-08-08 (RAG-V2-FINAL-TECHNICAL-GATE-01).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
-## Open — only real residuals (post write-side closeout)
+## Open — only real residuals (post RAG final technical gate)
 
-| ID                       | Area              | Status   | Next action                                                                                      |
-| ------------------------ | ----------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| RAG-TEMPORAL-COMPLETE-01 | rag-chat-asystent | open, P1 | Stabilize container Temporal COMPLETE under Gate B (blocker for authorized staged cutover)       |
-| RAG-IMAGE-BAKE-01        | rag-chat-asystent | open, P2 | Reproducible image bake from lock (minio/qdrant/temporalio); interim docker-commit is not enough |
-| IQ-01-ADJUDICATED        | eval              | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                     |
-| GOV-06                   | knowledge         | PARTIAL  | `.serena` policy monitor — ignore by default                                                     |
+| ID                | Area      | Status   | Next action                                                  |
+| ----------------- | --------- | -------- | ------------------------------------------------------------ |
+| IQ-01-ADJUDICATED | eval      | DEFERRED | Human-adjudicated labels (optional measurement; not product) |
+| GOV-06            | knowledge | PARTIAL  | `.serena` policy monitor — ignore by default                 |
 
-**RAG staged activation:** `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` (see `OPERATOR_DECISIONS.md`). Not an open “ask operator again” ticket.
+**RAG staged activation:** `STAGED_ACTIVATION_EXECUTED` (see `OPERATOR_DECISIONS.md`). Allowlist `technical_manual,price_list` only. **No** global `RAG_CORE=v2`.
 
 **4.4 Install-prep:** `REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION` — scaffold may exist; do not develop.
+
+## Closed — RAG-V2-FINAL-TECHNICAL-GATE-01 (2026-08-08)
+
+| ID                         | Disposition                | Note                                                                                                                                                                                                                          |
+| -------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| RAG-V2-FINAL-TECHNICAL-GATE-01 | COMPLETE / proven_local | Closed `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01`; container-only Gate B; dual-read; staged activate/rollback/restore; proof `eval/rag-v2-final-technical-gate-20260808/`; status `STAGED_ACTIVATION_EXECUTED` |
+| RAG-TEMPORAL-COMPLETE-01   | COMPLETE / proven_local    | 3/3 COMPLETE + resume + idempotency on tracked ingest worker                                                                                                                                                                  |
+| RAG-IMAGE-BAKE-01          | COMPLETE / proven_local    | Tracked `Dockerfile.rag-v2-ingest` + lock; runtime `:local` (not docker-commit tags)                                                                                                                                           |
 
 ## Closed — RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01 (2026-08-08)
 
