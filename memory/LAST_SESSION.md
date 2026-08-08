@@ -1,15 +1,15 @@
 # Last Session
 
-Updated: 2026-08-08 — **FACT-SUPERSESSION-WRITE-01** CLOSED.
+Updated: 2026-08-08 — **RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01** CLOSED.
 
 ## Done this session
 
-- Canonical write-side fact supersession across `replace_message_facts`, merge
-  (`reassign_case_facts` + reconcile), append parity PG/InMemory.
-- RED→GREEN tests A–E + legal same-message conflict preserved.
-- Bounded Postgres proof PASS; illegal dual-active reconciled locally (4 groups / 12 rows);
-  50 legal same-message conflicts left untouched.
-- Gate A: full run 2345 passed / 31 skipped; 4 ConnectionTimeout while PG was down → re-run 4/4 PASS.
+- Verified historical P0-4/P0-5 still open on `rag-widget` HEAD, then fixed:
+  - option register/update/read now share canonical `hvac_rag_chat_*` names;
+  - removed `wp_ajax_nopriv_*` for document admin;
+  - replaced PIN/`0000` boundary with logged-in `manage_options` + nonce;
+  - MIME/size validation on upload proxy; public shortcode no longer exposes admin proxy attrs.
+- Gate A: `php -l`, `node --check`, jest **43 passed** (incl. PHP security harness).
 
 ## Still open
 
@@ -19,4 +19,4 @@ Updated: 2026-08-08 — **FACT-SUPERSESSION-WRITE-01** CLOSED.
 
 ## Stop
 
-Do not auto-start next roadmap item.
+Do not auto-start next roadmap item. Next product program = Fresh38 CAPABILITY analysis (separate).

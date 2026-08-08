@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (FACT-SUPERSESSION-WRITE-01).
+Status: current direction only. Last updated: 2026-08-08 (RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01).
 
 ## Current program (canonical)
 
@@ -14,16 +14,17 @@ CAPABILITY=28) i realnych spraw firmy.
 
 ### Zamknięte programy (nie wracać)
 
-| Program / ID | Status |
-| ------------ | ------ |
-| `AIOS-ROADMAP-32-ORCH-01` | `ROADMAP_32_RUN_CLOSED_LOCAL_VERIFIED` |
-| `POST32-COMMIT-01` (4.3/5.1/5.2/6.1/6.2/6.3) | CLOSED in HEAD |
-| `RESIDUALS-WAVE-01` / `RESIDUALS-WAVE-02` | CLOSED |
-| `GOV-09` | CLOSED `COMPLETE_BOUNDED` |
-| `FRESH38-RECAPTURE-01` | CLOSED — measurement healthy; product **NOT QUALIFIED — CAPABILITY** |
-| `FACT-4.1-HIGH-01` (read-side) | CLOSED `COMPLETE / CONFIRMED_LOCAL` |
-| `FACT-SUPERSESSION-WRITE-01` | CLOSED `COMPLETE / CONFIRMED_LOCAL` |
-| `RAG-V2-LIVE-CUTOVER-READINESS-01` | CLOSED `PARTIAL` — host Gate B + dual-read PASS |
+| Program / ID                                 | Status                                                               |
+| -------------------------------------------- | -------------------------------------------------------------------- |
+| `AIOS-ROADMAP-32-ORCH-01`                    | `ROADMAP_32_RUN_CLOSED_LOCAL_VERIFIED`                               |
+| `POST32-COMMIT-01` (4.3/5.1/5.2/6.1/6.2/6.3) | CLOSED in HEAD                                                       |
+| `RESIDUALS-WAVE-01` / `RESIDUALS-WAVE-02`    | CLOSED                                                               |
+| `GOV-09`                                     | CLOSED `COMPLETE_BOUNDED`                                            |
+| `FRESH38-RECAPTURE-01`                       | CLOSED — measurement healthy; product **NOT QUALIFIED — CAPABILITY** |
+| `FACT-4.1-HIGH-01` (read-side)               | CLOSED `COMPLETE / CONFIRMED_LOCAL`                                  |
+| `FACT-SUPERSESSION-WRITE-01`                 | CLOSED `COMPLETE / CONFIRMED_LOCAL`                                  |
+| `RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01`      | CLOSED `COMPLETE / CONFIRMED_LOCAL` (P0-4/P0-5)                      |
+| `RAG-V2-LIVE-CUTOVER-READINESS-01`           | CLOSED `PARTIAL` — host Gate B + dual-read PASS                      |
 
 ### RAG staged activation (binding)
 
@@ -52,5 +53,6 @@ P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore
 ```
 
 **Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01,
-Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01 (harness), 1.7/1.8 scaffolding,
-RAG-13/14, GOV-02/07/08/09, PH3 harness, X1 live PW, FG-01/04, PF-01, IQ frozen machine baseline.
+RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01, Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs,
+FRESH38-RECAPTURE-01 (harness), 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08/09, PH3 harness,
+X1 live PW, FG-01/04, PF-01, IQ frozen machine baseline.
