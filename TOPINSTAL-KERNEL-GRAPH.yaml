@@ -1,0 +1,411 @@
+# TOP-INSTAL kernel graph — kuratorowany (nie generowany z GitNexus).
+# Folder: knowledge/ — uzupełnia SYSTEM_ATLAS.md (procesy, luki, env, cross-repo).
+# agent_note: Gaps = missing edges in As-Is; proposing new edges is expected in Discovery (EVOLUTION_BOUNDARIES.md, rfc/).
+version: 1
+name: topinstal-kernel
+updated: 2026-06-11
+wiki_sync: 2026-05-25
+superseded_paths_note: >
+  Legacy folder names in wiki_refs (topinstal-cieplo-orchestrator/, RAG Chat Asystent/) are historical.
+  Monorepo paths: cieplo-orchestrator/, rag-chat-asystent/, daszek/docs/core/PROJECT_README.md.
+epistemic_control_plane: CONTROL_PLANE.md
+code_intelligence: TOOLING_POLICY.md
+gitnexus_unified: topinstal-unified
+agent_note: "Gaps describe As-Is holes, not permanent product bans. Discovery mode → RFC before new cross-repo code. Runtime default = local Docker (OPERATOR_DECISIONS 2026-05-30); see CONTROL_PLANE.md §3."
+
+nodes:
+  # --- Repositories ---
+  - id: repo:gmail-agent
+    kind: repo
+    label: gmail-agent
+    role: Node B — case intake, mailbox_memory, Daszek projection
+    path: top-code workspace/gmail-agent
+  - id: repo:kalk-top
+    kind: repo
+    label: kalk-top
+    role: OfferDTO producer — jedyne HVAC + pricing authority
+    path: top-code workspace/kalk-top
+  - id: repo:orchestrator
+    kind: repo
+    label: cieplo-orchestrator
+    role: Cieplo pipeline — workflows DB, worker egress (PyPI pkg topinstal_cieplo_worker)
+    path: top-code workspace/cieplo-orchestrator
+  - id: repo:generator
+    kind: repo
+    label: top-instal-generator
+    role: PDF/DOCX from OfferDTO (from-offer-dto)
+    path: top-code workspace/top-instal-generator
+  - id: repo:rag
+    kind: repo
+    label: rag-chat-asystent
+    role: RAG /chat — advisory; optional Node B context fetch
+    path: top-code workspace/rag-chat-asystent/backend
+  - id: repo:daszek
+    kind: repo
+    label: daszek
+    role: Node A operator UI — projection only (v1.3.3)
+    path: top-code workspace/daszek
+  - id: repo:rag-widget
+    kind: repo
+    label: rag-widget
+    role: Node A RAG chat widget — HTTP client to backend
+    path: top-code workspace/rag-widget
+  - id: repo:fast-kalk
+    kind: repo
+    label: fast-kalk
+    role: Node A lead widget — proxies calculate-offer
+    path: top-code workspace/fast-kalk
+  - id: repo:wp-bridges
+    kind: repo
+    label: wp-bridges
+    role: Node A integration audit surface (thin)
+    path: top-code workspace/wp-bridges
+
+  # --- Domain contracts (JSON / DTO) ---
+  - id: contract:CalcRequestDTO
+    kind: contract
+    label: CalcRequestDTO
+    schema: kalk-top/docs/ecosystem/schemas/calc-request-dto.v1.json
+  - id: contract:OfferDTO
+    kind: contract
+    label: OfferDTO
+    schema: kalk-top/docs/ecosystem/schemas/offer-dto.v1.json
+  - id: contract:CaseContextPack
+    kind: contract
+    label: CaseContextPack
+    note: gmail-agent → Daszek / Skrzat API
+  - id: contract:cieplo_app_lead_v1
+    kind: contract
+    label: cieplo_app_lead_v1
+    note: orchestrator ingress envelope
+
+  # --- Business processes ---
+  - id: process:cieplo-pipeline
+    kind: process
+    label: Cieplo lead → calc → PDF → SMTP
+    atlas_ref: SYSTEM_ATLAS.md#12
+  - id: process:gmail-case-hitl
+    kind: process
+    label: Gmail case → Daszek → reconcile
+    atlas_ref: SYSTEM_ATLAS.md#11
+  - id: process:rag-advisory
+    kind: process
+    label: RAG chat / KB (not production offer gate)
+    atlas_ref: SYSTEM_ATLAS.md#0
+
+  # --- Architecture gaps (from atlas §1.1) — evolution invitations, not STOP ---
+  - id: gap:D1-rag-not-in-cieplo
+    kind: gap
+    semantics: evolution_gap
+    label: RAG not in Cieplo/WWW production path
+    atlas_ref: SYSTEM_ATLAS.md#d1
+  - id: gap:D2-gmail-to-kalk
+    kind: gap
+    semantics: evolution_gap
+    label: gmail-agent does not call calculate-offer
+    atlas_ref: SYSTEM_ATLAS.md#d2
+  - id: gap:D3-dual-gmail-poller
+    kind: gap
+    semantics: evolution_gap
+    label: Two Gmail pollers — no shared message_id in one DB
+    atlas_ref: SYSTEM_ATLAS.md#d3
+  - id: gap:D4-daszek-projection
+    kind: gap
+    semantics: evolution_gap
+    label: Daszek is projection — SoT is mailbox_memory Postgres
+    atlas_ref: SYSTEM_ATLAS.md#d4
+  - id: gap:P0-case-workflow-identity
+    kind: gap
+    semantics: evolution_gap
+    label: P0 correlation registry shipped (registry layer; DB merge remains P1)
+    atlas_ref: SYSTEM_ATLAS.md#3.3
+    resolved_at: "2026-05-22"
+    proof_ref: knowledge/artifacts/proof-packs/p0-correlation-registry-gateb-2026-05-22.md
+  - id: contract:EngagementSnapshot
+    kind: contract
+    label: EngagementSnapshot read-model v1
+  - id: contract:correlation_links
+    kind: contract
+    label: correlation_links registry (Node B Postgres)
+
+  # --- GitNexus impact anchors ---
+  - id: anchor:TopInstal_CalculateOffer_UseCase
+    kind: anchor
+    label: TopInstal_CalculateOffer_UseCase
+    repo: kalk-top
+  - id: anchor:TopInstal_GenerateOfferDocument_UseCase
+    kind: anchor
+    label: TopInstal_GenerateOfferDocument_UseCase
+    repo: generator
+  - id: anchor:extract_offer_email_facts
+    kind: anchor
+    label: extract_offer_email_facts
+    repo: orchestrator
+  - id: anchor:build_generator_request_from_offer_v1
+    kind: anchor
+    label: build_generator_request_from_offer_v1
+    repo: rag
+
+edges:
+  # --- Cieplo pipeline (production offer) ---
+  - from: process:cieplo-pipeline
+    to: repo:orchestrator
+    kind: owns
+  - from: process:cieplo-pipeline
+    to: contract:cieplo_app_lead_v1
+    kind: uses
+  - from: repo:orchestrator
+    to: contract:CalcRequestDTO
+    kind: produces
+    note: CieploCalcRequestMapper
+  - from: repo:orchestrator
+    to: repo:kalk-top
+    kind: http
+    contract: POST /wp-json/topinstal/v1/calculate-offer
+    env: KALKTOP_BASE_URL
+    gitnexus_link: manifest
+    wiki_ref:
+      - topinstal-cieplo-orchestrator/.gitnexus/wiki/orchestrator-integrations.md
+      - kalk-top/.gitnexus/wiki/offer-calculation-orchestration.md
+      - kalk-top/.gitnexus/wiki/wordpress-rest-adapter-plugin-runtime-rest.md
+  - from: repo:kalk-top
+    to: contract:OfferDTO
+    kind: produces
+    anchor: anchor:TopInstal_CalculateOffer_UseCase
+  - from: repo:orchestrator
+    to: contract:OfferDTO
+    kind: stores
+    note: workflows.offer_json snapshot
+  - from: repo:orchestrator
+    to: repo:generator
+    kind: http
+    contract: POST /wp-json/topinstal/v1/offer-documents/generate
+    env: GENERATOR_BASE_URL
+    gitnexus_link: manifest
+    wiki_ref:
+      - topinstal-cieplo-orchestrator/.gitnexus/wiki/orchestrator-integrations.md
+      - top-instal-generator/.gitnexus/wiki/api-integration-docs.md
+      - top-instal-generator/.gitnexus/wiki/ecosystem-docs.md
+  - from: repo:generator
+    to: contract:OfferDTO
+    kind: consumes
+    anchor: anchor:TopInstal_GenerateOfferDocument_UseCase
+
+  # --- Gmail / case path ---
+  - from: process:gmail-case-hitl
+    to: repo:gmail-agent
+    kind: owns
+  - from: repo:gmail-agent
+    to: contract:CaseContextPack
+    kind: produces
+  - from: process:gmail-case-hitl
+    to: gap:D4-daszek-projection
+    kind: manual
+  - from: process:gmail-case-hitl
+    to: gap:D2-gmail-to-kalk
+    kind: manual
+  - from: repo:gmail-agent
+    to: contract:correlation_links
+    kind: produces
+    note: topinstal_identities, topinstal_engagements, correlation_links tables
+  - from: repo:gmail-agent
+    to: contract:EngagementSnapshot
+    kind: produces
+    note: GET /engagements/{id}/snapshot
+  - from: repo:orchestrator
+    to: contract:correlation_links
+    kind: http
+    contract: POST /internal/registry/links
+    env: NODE_B_REGISTRY_BASE_URL
+    note: best-effort after workflow persist
+  - from: repo:orchestrator
+    to: contract:EngagementSnapshot
+    kind: http
+    contract: GET /engagements/{id}/snapshot
+    note: via NODE_B_REGISTRY_BASE_URL
+  - from: repo:orchestrator
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /internal/email/personalize-offer
+    env: NODE_B_REGISTRY_BASE_URL
+    note: Fala C1 — EMAIL_PERSONALIZATION_MODE=llm
+  - from: repo:rag
+    to: contract:EngagementSnapshot
+    kind: optional_http
+    env: GMAIL_AGENT_CONTEXT_PACK_URL
+    note: variant B/C when GMAIL_AGENT_FETCH_* enabled
+  - from: repo:rag-widget
+    to: repo:rag
+    kind: http
+    contract: POST /chat
+    note: widget UI only; no mailbox SoT
+  - from: repo:daszek
+    to: repo:gmail-agent
+    kind: http
+    contract: GET /engagements/{id}/os-events
+    note: read-only os_event projection W0
+  - from: repo:daszek
+    to: repo:gmail-agent
+    kind: http
+    contract: GET /system/os-events/recent
+    note: zakładka System W1
+  - from: repo:daszek
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /cases/{id}/skrzat/ask
+    env: DASZEK_NODE_B_API_BASE
+    note: WP proxy only; C2 Skrzat
+  - from: repo:daszek
+    to: repo:gmail-agent
+    kind: http
+    contract: operational feed ingest + bridge-queue drain
+    note: projection transport; SoT remains Node B
+  - from: repo:fast-kalk
+    to: repo:kalk-top
+    kind: http
+    contract: POST /wp-json/topinstal/v1/calculate-offer
+    note: lead widget session
+  - from: repo:fast-kalk
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /internal/registry/links
+    note: engagement registration when configured
+  - from: repo:fast-kalk
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /internal/os-events
+    note: W2 fastkalk.* telemetry
+  - from: repo:kalk-top
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /internal/os-events
+    note: W2 kalk.offer.* telemetry
+  - from: repo:top-instal-generator
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /internal/os-events
+    note: W2 generator.document.* telemetry
+  - from: repo:rag
+    to: repo:gmail-agent
+    kind: http
+    contract: POST /internal/os-events
+    note: W3 rag.ingest.* + rag.kb_health.snapshot
+  - from: repo:rag
+    to: repo:daszek
+    kind: http
+    contract: POST daszek/v3/system-health-snapshots
+    note: W3 system_health health strip (channel B)
+  - from: process:gmail-case-hitl
+    to: gap:P0-case-workflow-identity
+    kind: resolved
+    note: P0 Gate B 2026-05-22 — registry + snapshot + Daszek proxy + RAG fetch; merge DB P1
+
+  # --- RAG (parallel channel) ---
+  - from: process:rag-advisory
+    to: repo:rag
+    kind: owns
+  - from: repo:rag
+    to: contract:OfferDTO
+    kind: optional_payload
+    note: offer_context / offer_v1 in chat body — not Cieplo worker
+    anchor: anchor:build_generator_request_from_offer_v1
+  - from: process:rag-advisory
+    to: gap:D1-rag-not-in-cieplo
+    kind: manual
+  - from: process:cieplo-pipeline
+    to: gap:D1-rag-not-in-cieplo
+    kind: manual
+
+  # --- Cross-cutting gaps ---
+  - from: process:cieplo-pipeline
+    to: gap:D3-dual-gmail-poller
+    kind: manual
+  - from: process:cieplo-pipeline
+    to: gap:P0-case-workflow-identity
+    kind: resolved
+    note: orchestrator POST /internal/registry/links + workflow context-pack (P0 Gate B 2026-05-22)
+
+  # --- WWW (same engine as orchestrator calc) ---
+  - from: repo:kalk-top
+    to: contract:CalcRequestDTO
+    kind: accepts
+    note: WWW form → calculate-offer REST
+
+# --- Wiki validation (verify-knowledge 2026-05-24) — odnośniki, nie treść ---
+wiki_validation:
+  last_verify: "2026-06-01"
+  gitnexus_reindex: "artifacts/proof-packs/gitnexus-refresh-2026-05-25.md"
+  runtime_proof_overlay: "SYSTEM_ATLAS.md#02a-primary--local-docker"
+  note_2026_06_01: "Paths aligned to top-code workspace; added daszek/rag-widget/fast-kalk; C1/C2/skatzat edges; VPS overlay historical per CONTROL_PLANE"
+  note_2026_05_25: "VPS proofs archived — not default agent gate"
+  status:
+    generator: { md: 8, index: true, provider: cerebras }
+    orchestrator:
+      {
+        md: 19,
+        index: true,
+        provider: cerebras,
+        failedModules: 3,
+        incrementalRetryAt: "2026-05-22",
+        note: "Worker Ingress/Integrations, Other—tests; retry up-to-date",
+      }
+    kalk-top:
+      {
+        md: 67,
+        index: true,
+        provider: cursor,
+        generatedAt: "2026-05-21T19:41:09Z",
+      }
+    gmail-agent:
+      {
+        md: 37,
+        index: true,
+        provider: cursor,
+        generatedAt: "2026-05-22T01:21:17Z",
+        failedModules: 2,
+        incrementalRetryAt: "2026-05-22",
+        note: "Daszek WordPress Operator Surface; retry up-to-date (known Windows)",
+      }
+    rag:
+      {
+        md: 73,
+        index: true,
+        provider: cursor,
+        generatedAt: "2026-05-21T21:13:30Z",
+      }
+  gaps:
+    D1-rag-not-in-cieplo:
+      kernel: gap:D1-rag-not-in-cieplo
+      wiki_confirms:
+        - top-instal-generator/.gitnexus/wiki/ecosystem-docs.md
+        - "RAG Chat Asystent/backend/.gitnexus/wiki/overview.md"
+        - "RAG Chat Asystent/backend/.gitnexus/wiki/rag-engine-chat-orchestration.md"
+      note: RAG → generator REST opisany; brak RAG w worker Cieplo; wiki RAG opisuje chat/orchestration advisory
+    D2-gmail-to-kalk:
+      kernel: gap:D2-gmail-to-kalk
+      wiki_confirms:
+        - kalk-top/.gitnexus/wiki/documentation-corpus-governance-agent.md
+        - gmail-agent/.gitnexus/wiki/overview.md
+      note: mail-ingress uzupełnia workflow; brak POST calculate-offer z gmail-agent
+    D3-dual-gmail-poller:
+      kernel: gap:D3-dual-gmail-poller
+      wiki_confirms:
+        - topinstal-cieplo-orchestrator/.gitnexus/wiki/overview.md
+        - topinstal-cieplo-orchestrator/.gitnexus/wiki/other-readme-md.md
+      note: orchestrator Gmail poll + wspólne GOOGLE_* z gmail-agent
+    D4-daszek-projection:
+      kernel: gap:D4-daszek-projection
+      wiki_confirms:
+        - gmail-agent/.gitnexus/wiki/overview.md
+        - gmail-agent/.gitnexus/wiki/daszek-bridge-projection-transport.md
+      note: projection Daszek; 2 podmoduły Daszek known failure (atlas §5.11); overview + bridge wiki OK; prod 1.2.2 + operational feed 2026-05-23 → knowledge/artifacts/proof-packs/daszek-1.2.2-prod-feed-2026-05-23.md
+    P0-case-workflow-identity:
+      kernel: gap:P0-case-workflow-identity
+      wiki_confirms:
+        - gmail-agent/docs/runbooks/P0_CORRELATION_REGISTRY_BACKFILL.md
+      note: P0 Gate B green_bounded 2026-05-22; proof engagement 6048589a…; identity dedup cleanup P1
+  new_rest_edges:
+    - gmail-agent POST/GET internal registry + engagements snapshot
+    - orchestrator POST Node B registry + GET workflow context-pack
+    - Daszek v3 proxy /cases/{id}/engagement
+  note: Żadna nowa krawędź HTTP poza manifest calculate-offer + offer-documents/generate

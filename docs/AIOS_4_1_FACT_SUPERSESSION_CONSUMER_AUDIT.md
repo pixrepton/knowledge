@@ -134,7 +134,7 @@ FACT-01…05 landed as `COMPLETE_BOUNDED` / `CONFIRMED_LOCAL` (`gmail-agent:b2bd
 - FACT-04 `normalize_facts` no longer remaps `superseded→inferred`
 - FACT-05 hub `build_case_context_pack` passes filtered winners into embedded snapshot path
 
-This audit document remains the consumer inventory SoT; status of fixes lives in `docs/AI_OS_ROADMAP.md` residual FACT table. Remaining product gaps for 4.2+: Daszek conflict UI + live Drive E2E.
+This audit document remains the consumer inventory SoT; status of fixes lives in `docs/AI_OS_ROADMAP.md` residual FACT table. Product UI/Drive gaps from the historical 4.2 row were closed in `RESIDUALS-WAVE-01`. Remaining Case OS correctness residual: **`FACT-SUPERSESSION-WRITE-01`** (write-side).
 
 ---
 

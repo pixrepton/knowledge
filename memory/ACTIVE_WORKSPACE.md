@@ -1,35 +1,56 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (RAG-V2-LIVE-CUTOVER-READINESS-01).
+Status: current direction only. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-01).
 
 ## Current program (canonical)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
-**Run `AIOS-ROADMAP-32-ORCH-01`:** `ROADMAP_32_RUN_CLOSED_LOCAL_VERIFIED` (2026-08-06).
+**Strategic posture (after Fresh38 + residuals waves):** infrastruktura pomiaru i Case OS
+rdzeń są w dużej mierze zamknięte. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na
+roadmapie”. Następny rozwój produktu: (1) correctness residuals poniżej, (2) opcjonalnie
+staged RAG V2 po gate’ach technicznych, (3) potem jakość capability na podstawie Fresh38
+(`NOT QUALIFIED — CAPABILITY`, CLEAN_PASS=10 / CAPABILITY=28) i realnych spraw firmy.
 
-**Post-closure `POST32-COMMIT-01`:** CLOSED — 4.3/5.1/5.2/6.1/6.2/6.3 in HEAD (`LOCAL_ONLY`).
+### Zamknięte programy (nie wracać)
 
-**`RESIDUALS-WAVE-01`:** CLOSED locally — 4.2 UI+Drive, 4.4, FG-01B, FG-04, PF-01, IQ-01 frozen, RAG-02/04 ephemeral.
+| Program / ID | Status |
+| ------------ | ------ |
+| `AIOS-ROADMAP-32-ORCH-01` | `ROADMAP_32_RUN_CLOSED_LOCAL_VERIFIED` |
+| `POST32-COMMIT-01` (4.3/5.1/5.2/6.1/6.2/6.3) | CLOSED in HEAD |
+| `RESIDUALS-WAVE-01` / `RESIDUALS-WAVE-02` | CLOSED |
+| `GOV-09` | CLOSED `COMPLETE_BOUNDED` |
+| `FRESH38-RECAPTURE-01` | CLOSED — measurement healthy; product **NOT QUALIFIED — CAPABILITY** |
+| `FACT-4.1-HIGH-01` (read-side) | CLOSED `COMPLETE / CONFIRMED_LOCAL` |
+| `RAG-V2-LIVE-CUTOVER-READINESS-01` | CLOSED `PARTIAL` — host Gate B + dual-read PASS |
 
-**`RESIDUALS-WAVE-02`:** CLOSED locally — RAG-05 worker live, RAG-12 compose profile + smoke, RAG-01 Docling live host, RAG-09 opt-in live_data_plane, X1 live PW, SPINE tick, HITL harness, GROQ dead-key disable.
-
-**`FRESH38-RECAPTURE-01`:** CLOSED `COMPLETE / CONFIRMED_LOCAL` — empty-content DELIVERY fix + honest Fresh 38/38 (`knowledge/eval/fresh38-recapture-20260808/`).
-
-**`FACT-4.1-HIGH-01`:** CLOSED `COMPLETE / CONFIRMED_LOCAL` — residual CURRENT_STATE consumers + canonical active-facts contract; Gate A **2357**/15; bounded Postgres proof.
-
-**`RAG-V2-LIVE-CUTOVER-READINESS-01`:** CLOSED `PARTIAL` — live data-plane + host Gate B PASS + dual-read/rollback; **READY_FOR_OPERATOR_CUTOVER_DECISION** (staged file ready; **no** global `RAG_CORE=v2`). Proof: `knowledge/eval/rag-v2-live-cutover-20260808/`.
-
-Repair = `PROGRAM_COMPLETE_LOCAL`. Fazy 3 **nie** otwierać bez regresji.
-
-### Otwarte residuale (operator wybiera)
+### RAG staged activation (binding)
 
 ```text
-P1 RAG:      Temporal container COMPLETE under Gate B (CPU Docling); image bake lock SDKs
-P2 Write:    FACT-SUPERSESSION-WRITE-01 (replace_message_facts / merge write path)
-P3 Monitor:  GOV-06 .serena; IQ-01-ADJUDICATED (human labels)
+STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE
 ```
 
-**GOV-09:** CLOSED `COMPLETE_BOUNDED` — remotes in sync; knowledge via sanitized branch (not poison history).
+Operator already authorized staged (`technical_manual`, `price_list`). **Do not** re-ask.
+Blocked on `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01`. **No** global `RAG_CORE=v2`.
 
-**Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01, Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08, PH3 harness.
+### 4.4 Install-prep (binding)
+
+```text
+REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION
+```
+
+Scaffold may exist in code from WAVE-01; **do not** develop or product-activate. No auto-revert
+without blast-radius review (`OPERATOR_DECISIONS.md`).
+
+### Otwarte residuale (jedyne realne)
+
+```text
+P1 Correctness: FACT-SUPERSESSION-WRITE-01
+P1 RAG gate:    RAG-TEMPORAL-COMPLETE-01
+P2 RAG bake:    RAG-IMAGE-BAKE-01
+P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
+```
+
+**Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), Faza 3, POST32
+spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01 (harness), 1.7/1.8 scaffolding,
+RAG-13/14, GOV-02/07/08/09, PH3 harness, X1 live PW, FG-01/04, PF-01, IQ frozen machine baseline.

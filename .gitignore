@@ -1,0 +1,42 @@
+# GitNexus unified mirror (local copy of 5 repos — regenerate via mirror-workspace.ps1)
+gitnexus/unified-workspace/mirror/
+gitnexus/unified-workspace/root/
+gitnexus/unified-workspace/_probe/
+
+# Graphify corpus mirror + generated graph (regenerate via build-knowledge-graph.ps1)
+graphify/graphify-out/
+graphify/_semantic-batch/
+
+# Never version credentials or key dumps
+klucze/
+Desktop/
+
+# Plaintext imports — use .local-secrets/*.dpapi instead
+wp-config.php
+wp-config*.php
+*.unsealed.env
+.env
+.env.*
+
+.local-secrets/*.dpapi
+.local-secrets/*.unsealed.env
+.local-secrets/wp-config*.php
+
+# Reproducible System Atlas build/test residue
+**/__pycache__/
+*.py[cod]
+system-atlas/workflows/ENTRYPOINT_INVENTORY.md.tmp
+system-atlas/workflows/workflows.zip
+system-atlas/workflows/_raw/backups/
+system-atlas/workflows/_raw/generated/
+system-atlas/workflows/_raw/final-gate-closeout/validator-fixtures/
+system-atlas/workflows/_raw/final-gate-closeout/validator_negative_tests.*
+system-atlas/workflows/_raw/gap_registry_preview.generated.md
+system-atlas/workflows/_raw/gap_registry_preview.generated.yaml
+system-atlas/workflows/_raw/n1_full_normalized_preview.jsonl
+system-atlas/workflows/_raw/registry_normalized_preview.yaml
+system-atlas/workflows/_raw/final_consistency_report.json
+system-atlas/workflows/_raw/gap_registry_normalization_report.json
+system-atlas/workflows/_raw/n1_normalization_report.json
+system-atlas/workflows/_raw/n1_unattached_preview_seed.json
+system-atlas/workflows/_raw/registry_normalization_report.json

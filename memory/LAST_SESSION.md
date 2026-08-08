@@ -1,29 +1,33 @@
 # Last Session
 
-Updated: 2026-08-08 — **RAG-V2-LIVE-CUTOVER-READINESS-01**.
+Updated: 2026-08-08 — **KNOWLEDGE-SYNC-6CHAT-01** (consolidation of last 6 chats).
 
 ## Done this session
 
-- **RAG-V2-LIVE-CUTOVER-READINESS-01** CLOSED `PARTIAL` / readiness for operator decision
-  - Canonical ingest = `rag-v2-ingest-worker` (Docling), not Docling-in-every-API-image
-  - Live plane: MinIO + Postgres DocumentVersion + Qdrant + Temporal wired via compose profile
-  - Host Gate B companion **PASS** (`summary-20260808T081726.json`)
-  - Dual-read + rollback **PASS**; recommendation **B staged cutover**
-  - Gate A rag: **681 passed, 22 skipped**
-  - Product default remains `RAG_CORE=legacy`; staged compose file opt-in only
-  - Operator authorization recorded; **no auto global cutover**
+- Synchronized `knowledge/` with operator consolidation across POST32 → residuals waves →
+  Fresh38 → FACT-4.1 → RAG live cutover readiness.
+- Fixed two doc/decision inconsistencies:
+  1. RAG activation → `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`
+     (not `OPERATOR_DECISION_REQUIRED`)
+  2. Slice 4.4 Install-prep → `REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION`
+- Restored missing root contracts onto clean branch `docs/aios-residuals-wave-sync`
+  from `master` tip content (`INDEX.md`, `CONTROL_PLANE.md`, policies, `source-of-truth.md`, …)
+  — branch had been truncated when secret ancestry was removed.
 
-## Prior this day
+## Prior same day (already closed in prior chats)
 
-- **FACT-4.1-HIGH-01** CLOSED
-- **FRESH38-RECAPTURE-01** CLOSED
+- RAG-V2-LIVE-CUTOVER-READINESS-01 `PARTIAL`
+- FACT-4.1-HIGH-01 read-side CLOSED
+- FRESH38-RECAPTURE-01 CLOSED (10 CLEAN_PASS / 28 CAPABILITY → NOT QUALIFIED — CAPABILITY)
 
-## Still open
+## Still open (only)
 
-- Temporal container COMPLETE under Gate B (CPU Docling flake) — residual
-- Image bake with lock SDKs (torch CDN) — interim commit/`Dockerfile.rag-v2-ingest`
-- FACT-SUPERSESSION-WRITE-01 · GOV-06 · IQ-01 human labels
+1. `FACT-SUPERSESSION-WRITE-01`
+2. `RAG-TEMPORAL-COMPLETE-01`
+3. `RAG-IMAGE-BAKE-01`
+4. Optional: IQ human adjudication; GOV-06 monitor
 
 ## Proof labels
 
-`knowledge/eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md` — RAG-01/09/12 `COMPLETE_BOUNDED` / `PROVEN_RUNTIME` with Activation `OPERATOR_DECISION_REQUIRED`.
+See `OPERATOR_DECISIONS.md` [ACTIVE] 2026-08-08 entries; roadmap Faza 4 / RAG residual table;
+`eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md`.

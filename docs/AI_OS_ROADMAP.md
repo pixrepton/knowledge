@@ -1,6 +1,6 @@
 # AI-OS Roadmap — plan programu i przyszłe wdrożenia
 
-Status: **active program plan**. Last updated: 2026-08-07 (POST32-COMMIT-01).
+Status: **active program plan**. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-01).
 
 **Rola dokumentu:** kanoniczny plan AI-OS — zamknięte fazy/slice’y, kolejność przyszłych wdrożeń, **rejestr residuali** (świadomie bounded / odłożone / do weryfikacji) oraz granice proofu. To nie jest tylko lista „następnych slice’ów”.
 
@@ -433,10 +433,10 @@ Live LLM quality podczas journey = `NOT_PROVEN`.
 | 4.1       | **Audit consumerów fact supersession** | #18     | wszyscy konsumenci zidentyfikowani | **COMPLETE** / `FOCUSED_LOCAL` — patrz niżej                                                                                                                                               |
 | 4.2       | **Documents→facts**                    | #19     | cytat, konflikt, UI operatorski    | **COMPLETE_BOUNDED** / `PROVEN_LOCAL` — backend `0ffef08` + Daszek UI whitelist/`superseded_facts` + live Drive ingest (`processed_count=5`) + pack projection; pełny RAG-12 poza zakresem |
 | 4.3       | **PDF readiness honesty**              | #20     | `PDF_READY` ≠ „coś powstało”       | **COMPLETE_BOUNDED** / `CONFIRMED_LOCAL` — `cieplo:49c8ef1` + `gmail-agent:b2f071d` (`test_aios_4_3*`); Gate A 2322/14                                                                     |
-| 4.4       | **Install-prep**                       | #9      | projekcja Case, nie drugi SoT      | **COMPLETE_BOUNDED** / `CONFIRMED_LOCAL` — `install_prep_projection` + feed `install_prep` + Daszek whitelist; Gate A focused green                                                        |
+| 4.4       | **Install-prep**                       | #9      | projekcja Case, nie drugi SoT      | **REJECTED_BY_OPERATOR** / `NO PRODUCT ACTIVATION` — scaffold z WAVE-01 może istnieć w kodzie; **nie** rozwijać ani aktywować produktowo (decyzja 2026-08-08) |
 
-**Zależność:** 4.1 → 4.2 → 4.4. Fixy HIGH z audytu 4.1 **nie** są częścią 4.2 ad-hoc —
-albo wchodzą jako jawny podzakres 4.2, albo osobne tickety backlogu.
+**Zależność historyczna:** 4.1 → 4.2. Slice **4.4 jest odrzucony przez operatora** (scaffold
+bez product activation) — nie planować go jako next.
 
 ### Slice 4.1 — zapis finalny
 
@@ -490,17 +490,16 @@ Proof: PROVEN_LOCAL (Drive ingest) + CONFIRMED_BY_LOCAL_TESTS (UI/whitelist/herm
 ### Slice 4.4 — Install-prep projection
 
 ```text
-Delivery: COMPLETE_BOUNDED
-Proof: CONFIRMED_LOCAL
+Delivery: REJECTED_BY_OPERATOR
+Proof: NO PRODUCT ACTIVATION
+Code: scaffold may remain from RESIDUALS-WAVE-01 (do not develop / do not auto-revert)
 ```
 
-- Owner: `gmail-agent/tools/gmail_audit/install_prep_projection.py`
-- Feed: `assemble_mailbox_pack_dict` → `install_prep` (from `active_facts` only; `second_sot: false`)
-- Daszek: whitelist `install_prep` (projection-only; no WP SoT)
-- Tests: `tests/test_aios_4_4_install_prep_projection.py`
-- Live pack proof: `PACK_INSTALL_PREP_PROOF_OK` on case with incomplete keys
+- Owner (historical scaffold): `gmail-agent/tools/gmail_audit/install_prep_projection.py`
+- Feed / Daszek whitelist may still exist — **not** a planned product feature.
+- Operator decision 2026-08-08: rezygnacja z Install-prep jako produktu (`OPERATOR_DECISIONS.md`).
 
-**Nie twierdzę:** pełny operator UI card dla install-prep; change of HVAC sizing SoT.
+**Nie twierdzę:** product readiness, operator UI card, HVAC SoT change.
 
 ---
 
@@ -642,57 +641,68 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 
 **Closure audit 2026-08-06:** Gate A gmail-agent **2314 passed, 14 skipped**. Commity `gmail-agent:b2bd4d4` (FACT-01…05 + `active_facts`).
 
-| ID          | Zadanie                                              | Status closure (Delivery / Proof)                                                                 |
-| ----------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| **FACT-01** | Snapshot / hot-state readers respektują supersession | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — focused tests green; live Neo4j nie re-proven |
-| **FACT-02** | Neo4j graph projection / readers                     | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — unit/mocked Neo4j                             |
-| **FACT-03** | Parity `append_fact_rows` Postgres ↔ InMemory        | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — parity 8 tests                                |
-| **FACT-04** | `normalize_facts` nie mapuje `superseded→inferred`   | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS`                                                 |
-| **FACT-05** | Hub `build_case_context_pack` consistency            | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — consumer-audit re-check opcjonalny            |
+| ID                   | Zadanie                                              | Status closure (Delivery / Proof)                                                                                                                                                                                                  |
+| -------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **FACT-01**          | Snapshot / hot-state readers respektują supersession | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — focused tests green; live Neo4j nie re-proven                                                                                                                                  |
+| **FACT-02**          | Neo4j graph projection / readers                     | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — unit/mocked Neo4j                                                                                                                                                              |
+| **FACT-03**          | Parity `append_fact_rows` Postgres ↔ InMemory        | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — parity 8 tests                                                                                                                                                                 |
+| **FACT-04**          | `normalize_facts` nie mapuje `superseded→inferred`   | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS`                                                                                                                                                                                  |
+| **FACT-05**          | Hub `build_case_context_pack` consistency            | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — consumer-audit re-check opcjonalny                                                                                                                                             |
 | **FACT-4.1-HIGH-01** | Residual CURRENT_STATE consumers (fresh delta-audit) | **COMPLETE** / `CONFIRMED_LOCAL` — calendar + precedent SQL/InMemory + pattern discovery; PG supersede metadata JSON; Gate A **2357**/15; bounded PG proof; FACT-01…05 not reopened. Write residual → `FACT-SUPERSESSION-WRITE-01` |
+| **FACT-SUPERSESSION-WRITE-01** | Write-side supersession (`replace_message_facts` dual-active / merge append) | **OPEN** P1 — read-side CLOSED; does not reopen FACT-01…05 / FACT-4.1-HIGH-01 |
 
 ---
 
+### Open technical residuals (post consolidation 2026-08-08)
+
+| ID | Area | Status |
+| --- | --- | --- |
+| **FACT-SUPERSESSION-WRITE-01** | gmail-agent Case OS | OPEN P1 |
+| **RAG-TEMPORAL-COMPLETE-01** | rag-chat-asystent | OPEN P1 (blocks authorized staged cutover) |
+| **RAG-IMAGE-BAKE-01** | rag-chat-asystent | OPEN P2 (reproducible image) |
+
 ### P1 — RAG (po 1.6 COMPLETE_BOUNDED)
 
-1.6 **nie** oznacza live data plane. Closure audit: `live_data_plane=false`; MinIO/Qdrant/Temporal **SKIP** w RAG-12 smoke.
+Historyczny closure 2026-08-06: 1.6 shadow ≠ live plane. **Aktualizacja 2026-08-08:** live data plane + host Gate B
+udowodnione (`RAG-V2-LIVE-CUTOVER-READINESS-01`); produktowy default nadal `RAG_CORE=legacy`. Otwarte gate’y
+techniczne staged cutover: `RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`.
 
-| ID         | Zadanie                                                              | Status closure (Delivery / Proof)                                                                            |
-| ---------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| ID         | Zadanie                                                              | Status closure (Delivery / Proof)                                                                                                                                                  |
+| ---------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **RAG-01** | Live Docling: real PDF → DocumentGraphV1                             | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — host PDF→graph + containerized `rag-v2-ingest-worker` Docling path (`RAG-V2-LIVE-CUTOVER-READINESS-01`); not required in every API image |
-| **RAG-02** | Live MinIO blob + checksum/lifecycle                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — compose `rag-v2-data-plane` put/get via live ingest |
-| **RAG-03** | Postgres DocumentVersion / generation / supersession docs            | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live DocumentVersion in Gate B companion |
-| **RAG-04** | Live Qdrant dense+sparse + fusion                                    | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live upsert + retrieve evidence |
-| **RAG-05** | Temporal durable ingest/retry/resume                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — worker + start_ingest; container COMPLETE under CPU Docling = residual/flake |
-| **RAG-06** | Szerszy gold set                                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — `rag-chat-asystent:e30ebcb`                                         |
-| **RAG-07** | Więcej niż jedna instrukcja (katalogi, skany, OCR)                   | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — multidoc fixtures; OCR soft-path only                               |
-| **RAG-08** | Shadow → wpływ na produkt                                            | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — side-channel metrics; `affects_legacy=false`                        |
-| **RAG-09** | Opt-in odpowiedzi z V2                                               | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — `RAG_V2_LIVE_DATA_PLANE` + staged compose file; **Activation: OPERATOR_DECISION_REQUIRED** (legacy default) |
-| **RAG-10** | **1.7** Price List / Exact Facts                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — patrz slice 1.7                                                     |
-| **RAG-11** | **1.8** dual-read / staged cutover / rollback                        | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — dual-read/rollback proof + opt-in staged file |
-| **RAG-12** | Formalny live Gate B RAG stack                                       | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — host E2E PASS `eval/rag-v2-live-cutover-20260808/`; Temporal COMPLETE PARTIAL |
-| **RAG-13** | Naming: `RAG_PIPELINE_V2`/Core Chat V2 ≠ `backend/rag_v2/` strangler | **COMPLETE** / docs — `rag-chat-asystent:a463d1f`                                                            |
-| **RAG-14** | Śledzenie stubów live adapterów                                      | **COMPLETE** / `FOCUSED_LOCAL` — `/rag_v2/status` + `adapters/status.py`                                     |
+| **RAG-02** | Live MinIO blob + checksum/lifecycle                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — compose `rag-v2-data-plane` put/get via live ingest                                                                                      |
+| **RAG-03** | Postgres DocumentVersion / generation / supersession docs            | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live DocumentVersion in Gate B companion                                                                                                 |
+| **RAG-04** | Live Qdrant dense+sparse + fusion                                    | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live upsert + retrieve evidence                                                                                                          |
+| **RAG-05** | Temporal durable ingest/retry/resume                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — worker + start_ingest; container COMPLETE under CPU Docling = residual/flake                                                             |
+| **RAG-06** | Szerszy gold set                                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — `rag-chat-asystent:e30ebcb`                                                                                                               |
+| **RAG-07** | Więcej niż jedna instrukcja (katalogi, skany, OCR)                   | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — multidoc fixtures; OCR soft-path only                                                                                                     |
+| **RAG-08** | Shadow → wpływ na produkt                                            | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — side-channel metrics; `affects_legacy=false`                                                                                              |
+| **RAG-09** | Opt-in odpowiedzi z V2                                               | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — staged compose ready; **Activation: `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`** (Temporal COMPLETE + image bake); legacy default; **no** global `RAG_CORE=v2` |
+| **RAG-10** | **1.7** Price List / Exact Facts                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — patrz slice 1.7                                                                                                                           |
+| **RAG-11** | **1.8** dual-read / staged cutover / rollback                        | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — dual-read/rollback proof + opt-in staged file                                                                                            |
+| **RAG-12** | Formalny live Gate B RAG stack                                       | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — host E2E PASS `eval/rag-v2-live-cutover-20260808/`; Temporal COMPLETE PARTIAL                                                            |
+| **RAG-13** | Naming: `RAG_PIPELINE_V2`/Core Chat V2 ≠ `backend/rag_v2/` strangler | **COMPLETE** / docs — `rag-chat-asystent:a463d1f`                                                                                                                                  |
+| **RAG-14** | Śledzenie stubów live adapterów                                      | **COMPLETE** / `FOCUSED_LOCAL` — `/rag_v2/status` + `adapters/status.py`                                                                                                           |
 
 ---
 
 ### P1 — Inteligencja (po fidelity planera)
 
-| ID        | Zadanie                                                 | Status closure (Delivery / Proof)                                                                                                      |
-| --------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| ID        | Zadanie                                                 | Status closure (Delivery / Proof)                                                                                                                              |
+| --------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **IQ-01** | `UNDERSTANDING-TO-DECISION-QUALITY-01`                  | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — synthetic 13/13 + frozen dual-score PROTOCOL (`PROTOCOL.md`, capture sha256 pinned); labels = `machine_proposed` only |
-| **PF-01** | Draft sanity gate — wszystkie ścieżki do `enabled=true` | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — gate + exhaustive inventory `knowledge/docs/PF01_ENABLED_DRAFT_INVENTORY.md` (RESIDUALS-WAVE-01)            |
+| **PF-01** | Draft sanity gate — wszystkie ścieżki do `enabled=true` | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — gate + exhaustive inventory `knowledge/docs/PF01_ENABLED_DRAFT_INVENTORY.md` (RESIDUALS-WAVE-01)           |
 
 ---
 
 ### P2 — Follow-up Guardian (3.1 residuale)
 
-| ID        | Residual                                                               | Status closure (Delivery / Proof)                                                          |
-| --------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| ID        | Residual                                                               | Status closure (Delivery / Proof)                                                                                      |
+| --------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | **FG-01** | Tylko lifecycle mapowalny z `OperationalStatus`→`SLA_HOURS` (~3 stany) | **RESOLVED_OPTION_B** — RFC `FG-01-lifecycle-state-sot.md`; Guardian joins mailbox `case_status` (case-status-primary) |
-| **FG-02** | Brak `lifecycle_state_since` — proxy `updated_at`                      | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — `gmail-agent:d9fef33`                  |
-| **FG-03** | Brak join closed/merged/cancelled                                      | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — `gmail-agent:d9fef33`                  |
-| **FG-04** | Postgres reader + real worker tick proof                               | **COMPLETE_BOUNDED** / `PROVEN_LOCAL` — CLI `follow-up-guardian` oneshot against live Postgres (RESIDUALS-WAVE-01) |
+| **FG-02** | Brak `lifecycle_state_since` — proxy `updated_at`                      | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — `gmail-agent:d9fef33`                                              |
+| **FG-03** | Brak join closed/merged/cancelled                                      | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — `gmail-agent:d9fef33`                                              |
+| **FG-04** | Postgres reader + real worker tick proof                               | **COMPLETE_BOUNDED** / `PROVEN_LOCAL` — CLI `follow-up-guardian` oneshot against live Postgres (RESIDUALS-WAVE-01)     |
 
 Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 
@@ -734,7 +744,7 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 | **GOV-06** | `.serena/` policy                                                          | **PARTIAL** — `knowledge/.serena/project.yml` tracked; cache/local gitignored |
 | **GOV-07** | Non-secret proof summary/hash w repo (obok gitignored artifacts/)          | **COMPLETE** — `knowledge:e916ff6` `PHASE3_RUNTIME_PROOF_SUMMARY.json`        |
 | **GOV-08** | Pełne pola manifestu (`test_command` często puste; trace/screenshot puste) | **COMPLETE** — harness enforcement `gmail-agent:d2ce80d`                      |
-| **GOV-09** | LOCAL_ONLY commits bez push — ryzyko dysku                                 | intentional; push gdy operator odblokuje auth                                 |
+| **GOV-09** | LOCAL_ONLY commits bez push — ryzyko dysku                                 | **COMPLETE_BOUNDED** 2026-08-08 — remotes pushed; knowledge clean branch `docs/aios-residuals-wave-sync` (no poison secret ancestry). Workspace root: no `origin` (N/A). |
 
 ---
 
@@ -746,25 +756,32 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 
 ## Rekomendowany następny ruch
 
-| Priorytet | Tor        | Następne                                              | Uwaga                                              |
-| --------- | ---------- | ----------------------------------------------------- | -------------------------------------------------- |
-| **P0**    | RAG Gate B | **pełny RAG-12** (compose image + HTTP status matrix) | ephemeral MinIO/Qdrant live PASS; Temporal bounded |
-| **P2**    | X1 / spine | **X1-01/02 live PW** · **SPINE-WORKER-TICK-01**       | optional                                           |
-| **P2**    | Auth       | **GOV-09** GitHub push                                | operator: credential-manager login                 |
+| Priorytet | Tor              | Następne                                                         | Uwaga                                                                 |
+| --------- | ---------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **P1**    | Case OS write    | **FACT-SUPERSESSION-WRITE-01**                                   | ostatni znany correctness residual supersession                       |
+| **P1**    | RAG technical    | **RAG-TEMPORAL-COMPLETE-01**                                     | blocker autoryzowanego staged cutover                                 |
+| **P2**    | RAG bake         | **RAG-IMAGE-BAKE-01**                                            | reproducible image; potem wykonać staged (zgoda już jest)            |
+| **P3**    | Product quality  | Fresh38 CAPABILITY analysis / real cases                         | **nie** budować 5.3–8.x „z listy 51”                                  |
 
-Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, Faza 3, POST32 spine (4.3/5.x/6.1–6.3), 4.2/4.4 residuals wave, FG-01/04, IQ-01/PF-01 exhaustive, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08, PH3-06 harness (bez regresji).
+**RAG activation status:** `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` — nie pytaj ponownie o zgodę na staged.
+
+**4.4:** `REJECTED_BY_OPERATOR` — nie rozwijać.
+
+Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, FACT-4.1-HIGH-01 (read), Faza 3, POST32 spine (4.3/5.x/6.1–6.3), 4.2, FG-01/04, IQ-01/PF-01 exhaustive, FRESH38 harness, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08/09, PH3 harness, X1, SPINE tick (bez regresji).
 
 **Roadmap 32 ORCH:** zamknięty 2026-08-06 — `ROADMAP_32_RUN_CLOSED_LOCAL_VERIFIED`.
 
 **POST32-COMMIT-01:** zamknięty 2026-08-07 — `gmail-agent:b2f071d` (Gate A **2322**/14), `daszek:8929945`, `cieplo:49c8ef1`, `workspace:1c5137e`.
 
-## **RESIDUALS-WAVE-01:** 2026-08-07 — 4.2 UI+Drive, 4.4 projection, FG-01B, FG-04 oneshot, PF-01 inventory, IQ-01 frozen dual-score, RAG-02/04 ephemeral live.
+## **RESIDUALS-WAVE-01:** 2026-08-07 — 4.2 UI+Drive, 4.4 scaffold (later **REJECTED_BY_OPERATOR**), FG-01B, FG-04, PF-01, IQ-01 frozen, RAG-02/04 ephemeral.
 
-## **RESIDUALS-WAVE-02:** 2026-08-07 — RAG-05 worker live PASS; RAG-12 compose profile + smoke PASS; RAG-01 Docling live host; RAG-09 opt-in live_data_plane; X1 live PW 2/2; SPINE tick; HITL 16/16; GROQ dead-key disable. Later closed same day-window: GOV-09, FRESH38-RECAPTURE-01, FACT-4.1-HIGH-01. Open after: FACT-SUPERSESSION-WRITE-01, GOV-06, IQ-01-ADJUDICATED.
+## **RESIDUALS-WAVE-02:** 2026-08-07 — RAG-05/12/01/09 progress, X1 PW, SPINE tick, HITL, GROQ. Later same window: GOV-09, FRESH38-RECAPTURE-01, FACT-4.1-HIGH-01, RAG-V2-LIVE-CUTOVER-READINESS-01. Open after consolidation: FACT-SUPERSESSION-WRITE-01, RAG-TEMPORAL-COMPLETE-01, RAG-IMAGE-BAKE-01.
 
-## **FRESH38-RECAPTURE-01:** 2026-08-08 — CLOSED `COMPLETE / CONFIRMED_LOCAL`. Empty `message.content` → retryable `empty_content` + provider fallback (`gmail-agent:fea458f`). Variant2 full Fresh 38/38; `scoring_complete=true`; CLEAN_PASS=10 CAPABILITY=28; artifacts `knowledge/eval/fresh38-recapture-20260808/`.
+## **FRESH38-RECAPTURE-01:** 2026-08-08 — CLOSED measurement. CLEAN_PASS=10 CAPABILITY=28 → **NOT QUALIFIED — CAPABILITY**.
 
-## **FACT-4.1-HIGH-01:** 2026-08-08 — CLOSED `COMPLETE / CONFIRMED_LOCAL`. Fresh residual sweep (not re-open of 4.1/FACT-01…05). Canonical: history=`fetch_facts_for_case`, current=`fetch_active_facts_for_case`/`fetch_current_facts_for_case`. Fixed calendar + precedent overlap SQL + pattern discovery + Postgres supersede metadata. Gate A **2357 passed, 15 skipped**. Post-fix inventory `unsafe=0`. Write-side → `FACT-SUPERSESSION-WRITE-01`.
+## **FACT-4.1-HIGH-01:** 2026-08-08 — CLOSED read-side. Write → `FACT-SUPERSESSION-WRITE-01`.
+
+## **RAG-V2-LIVE-CUTOVER-READINESS-01:** 2026-08-08 — CLOSED `PARTIAL`. Host Gate B + dual-read PASS. Activation authorized, blocked by Temporal COMPLETE + image bake.
 
 ## Powiązane dokumenty
 
@@ -785,8 +802,11 @@ Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, Faza 3, POST32 spi
 
 | Data       | Zmiana                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-08-08 | **FRESH38-RECAPTURE-01 CLOSED.** Empty `message.content` DELIVERY fix (`empty_content` retryable; DeepSeek fallback); Gate A gmail **2352**/14 @ `fea458f`; Variant2 Fresh 38/38; `scoring_complete=true`; CLEAN_PASS=10 CAPABILITY=28; eval `knowledge/eval/fresh38-recapture-20260808/`. |
-| 2026-08-07 | **RESIDUALS-WAVE-01.** 4.2 UI+live Drive; 4.4 install-prep projection; FG-01 Option B; FG-04 CLI oneshot live; PF-01 inventory; IQ-01 frozen dual-score PROTOCOL; RAG-02/04 ephemeral live PASS; RAG-05 Temporal PASS_BOUNDED; RAG-12/GOV-09 nadal otwarte.                                                                                                                                                                                                                                                                                                                                                   |
+| 2026-08-08 | **KNOWLEDGE-SYNC-6CHAT-01.** Operator consolidation: 4.4 → `REJECTED_BY_OPERATOR`; RAG activation → `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`; open list → FACT write + RAG Temporal + image bake; restored missing root contracts (`INDEX.md`, `CONTROL_PLANE.md`, …) onto clean knowledge branch. |
+| 2026-08-08 | **RAG-V2-LIVE-CUTOVER-READINESS-01 PARTIAL.** Host Gate B + dual-read PASS; ingest worker Docling; Activation authorized, blocked by Temporal COMPLETE + image bake. Proof `eval/rag-v2-live-cutover-20260808/`. |
+| 2026-08-08 | **FACT-4.1-HIGH-01 CLOSED (read).** CURRENT_STATE safe 12/12; Gate A **2357**/15; write residual → `FACT-SUPERSESSION-WRITE-01`. |
+| 2026-08-08 | **FRESH38-RECAPTURE-01 CLOSED.** Empty `message.content` DELIVERY fix (`empty_content` retryable; DeepSeek fallback); Gate A gmail **2352**/14 @ `fea458f`; Variant2 Fresh 38/38; `scoring_complete=true`; CLEAN_PASS=10 CAPABILITY=28; product **NOT QUALIFIED — CAPABILITY**; eval `knowledge/eval/fresh38-recapture-20260808/`. |
+| 2026-08-07 | **RESIDUALS-WAVE-01.** 4.2 UI+live Drive; 4.4 install-prep **scaffold** (later **REJECTED_BY_OPERATOR** 2026-08-08); FG-01 Option B; FG-04 CLI oneshot live; PF-01 inventory; IQ-01 frozen dual-score PROTOCOL; RAG-02/04 ephemeral live PASS. (RAG-12/GOV-09 closed in later same window — see WAVE-02 / 2026-08-08 rows.) |
 | 2026-08-07 | **POST32-COMMIT-01 CLOSED.** Gate A gmail **2322**/14 @ `b2f071d`; daszek **17** @ `8929945`; cieplo **106** @ `49c8ef1`; workspace E2E @ `1c5137e`. Slices 4.3/5.1/5.2/6.1/6.2/6.3 → `CONFIRMED_LOCAL` (6.2 nadal `PROVEN_RUNTIME`). Harness `e2e_full_flow` aligned to spine 6.3; async script tracked.                                                                                                                                                                                                                                                                                                     |
 | 2026-08-07 | **Post-closure spine session (pre-commit).** Implemented 4.3/5.1/5.2/6.1/6.2/6.3; preflight FullStack PASS; async E2E 6/6; then committed same day (row above).                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | 2026-08-06 | **Roadmap 32 closure audit.** Independent verifier + Gate A: gmail **2314**/14 skip, rag **677**/22 skip, daszek **17** pass. Statusy uczciwe (nie „31/32”): FACT **COMPLETE_BOUNDED**; 4.2/1.7/1.8/RAG-08/09/12 **COMPLETE_BOUNDED**; RAG-02/04/05 **PARTIAL**; FG-01 **BLOCKED**; IQ-01/PF-01 **COMPLETE_BOUNDED**. **18** LOCAL_ONLY commits. Artefakty: `C:\top-code-session-scratch\AIOS_ROADMAP_32_CLOSURE_AUDIT\`.                                                                                                                                                                                     |

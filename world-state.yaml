@@ -1,0 +1,709 @@
+# TOP-INSTAL canonical world state — single queryable model for agents/dev.
+# Not a narrative doc. Views (AUDIT, CLOSEOUT, Canvas) render FROM this + compiler inputs.
+# On conflict: runtime code > world-state > markdown views.
+schema: world-state.v1
+# compiled: 2026-07-13T23:22:11+00:00
+updated_at: 2026-07-13
+updated_by: docs_120_percent_session
+supersedes_router: ECOSYSTEM_MAP.yaml # ECOSYSTEM_MAP becomes compiler input, not parallel SoT
+
+deployment:
+  active: local_docker
+  production_status: suspended # OPERATOR_DECISIONS 2026-06-17 — firma w zawieszeniu; brak VPS
+  legacy_prod: dual_vps # historical only — nie używać do proof ani backlogu
+  target_prod: unified_vps # frozen future — rfc: knowledge/rfc/single-unified-vps.md
+  git_push: local_only # commity bez push per CLOSEOUT 2026-06-07
+  agent_scope: >
+    Lokalny multi-repo (Windows + Git) + Docker. Prod deploy / live www / VPS = poza zakresem
+    dopóki operator nie powiadomi o wznowieniu działalności (OPERATOR_DECISIONS 2026-06-17).
+
+deferred_production: # NIE open_p0 — tylko gdy operator wznowi firmę i poprosi explicit
+  - fast-kalk:prod_deploy_missing # proven_local e2e OK 2026-06-08; prod WP = on hold
+  - unified_vps_deploy
+
+local_endpoints:
+  gmail_agent_api: http://127.0.0.1:8766 # host; container 8765; sync-local-stack-env.ps1 default 8766
+  daszek: http://127.0.0.1:8090
+  kalk_top_runtime: http://127.0.0.1:8091
+  rag_backend: http://127.0.0.1:8000
+  postgres_mailbox: localhost:54129 # Windows: 54329 w excluded range Hyper-V — OPERATOR_DECISIONS §2026-06-18
+  postgres_graphstore: localhost:54130 # rag-chat-asystent graphstore-postgres
+  preflight: scripts/preflight-local-stack.ps1
+  preflight_scope: core # default: gmail_agent_api + rag_backend
+  preflight_full: scripts/preflight-local-stack.ps1 -FullStack # + daszek :8090, kalk-top :8091, PG :54129/:54130
+  verify_gates: scripts/verify-local-gates.ps1
+
+workspace_harness:
+  git: workspace root sparse meta-repo
+  tracked:
+    - scripts/
+    - AGENTS.md
+    - docker-compose.*-local.yml
+    - .cursor/rules/35-local-stack-harness-workflow.mdc
+  backlog_ref: knowledge/BACKLOG_ROADMAP_2026-06.md
+  cursor_rule: .cursor/rules/35-local-stack-harness-workflow.mdc
+
+proof_tiers:
+  gate_a: repo tests pass
+  gate_b: bounded local smoke Docker
+  gate_c: VPS — operator explicit only; default off
+
+ecosystem_p0: [] # Problem 7 zamknięty przez operatora 2026-06-08 — by design, nie implementować
+
+ownership:
+  offer_dto: kalk-top
+  mailbox_case: gmail-agent
+  operator_ui_projection: daszek
+  cieplo_workflow: cieplo-orchestrator
+  pdf_render: top-instal-generator
+  kb_retrieval: rag-chat-asystent
+  rag_widget_client: rag-widget
+
+gaps:
+  D1:
+    status: closed
+    severity: low
+    label: RAG not in Cieplo/WWW offer pipeline
+    by_design: true
+    closed_by_operator: 2026-06-08
+    note: Intentional boundary — RAG serves widget/case context, not Cieplo offer math
+  D2:
+    status: closed
+    severity: medium
+    label: gmail-agent cannot auto-calculate OfferDTO from mail
+    by_design: true
+    closed_by_operator: 2026-06-08
+    note: Operator decision — mail→OfferDTO trigger not required; do not implement
+    rfc: knowledge/rfc/P1-D2-daszek-trigger-calc.md
+  D3:
+    status: closed
+    severity: low
+    by_design: true
+    label: dual Gmail read — scoped pipelines, separate DBs (NOT a collision to fix with skip)
+    closed_by_operator: 2026-06-08
+    note: >
+      gmail-agent polls full mailbox → mailbox_memory (cases, Daszek, HITL).
+      cieplo-orchestrator polls ONLY (cieplo.app OR cieplowlasciwie.pl) → cieplo PG → offer pipeline.
+      cieplo MUST NOT skip mails already seen by gmail-agent. Legacy PHP mail-ingress retirement is separate (cieplo P0).
+    rfc: knowledge/rfc/D3-signal-runtime-active-as-default.md
+    code_anchors:
+      - gmail-agent/tools/gmail_audit/signal_worker.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/ingress/processor.py
+      - cieplo-orchestrator/src/topinstal_cieplo_worker/settings.py#TOPINSTAL_GMAIL_QUERY
+  D4:
+    status: closed
+    severity: info
+    label: Daszek projection only — SoT is mailbox_memory Postgres
+    by_design: true
+    closed_by_operator: 2026-06-08
+    note: Operator decision — projection-only Daszek is correct architecture; do not change
+
+repos:
+  gmail-agent:
+    folder: gmail-agent
+    node: B
+    role: node_b_sot
+    criticality: highest
+    risk: high
+    proof: proven_local
+    proof_ref: gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md
+    proof_date: 2026-07-13
+    docs_ref:
+      deep: gmail-agent/docs/core/PROJECT_README.md
+      stub: gmail-agent/README.md
+      onboarding: knowledge/docs/WORKSPACE_ONBOARDING.md
+    master_proof: AR_2026_REMEDIATION_PROOF_OK
+    critical_findings_2026_07_13: # source: gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md; local only, not VPS/production
+      case_concurrency: POSTGRES_ATOMIC_MUTATION_CONFIRMED
+      AUTH-01: CLOSED_PASS
+      IDEMP-01: CLOSED_PASS
+      IDEMP-02: CLOSED_PASS
+      DEC-01: CLOSED_PASS
+      autonomy_verdict: "YES, WITH EXPLICIT LIMITS"
+      scope: local_only
+    version_code: "275ea0e6793574052fa6d0bd806b499ed0a3920a" # I0-I4 + closure 2026-06-25
+    runtime_defaults:
+      case_os_runtime_profile: full
+      agent_runtime_mode: prep
+      primary_mode: blocked # ConfigError at startup
+      emergency_killswitch: EMERGENCY_INTELLIGENCE_KILLSWITCH=1
+      daszek_feed_source: engagement_snapshot_v2 # profile=full override in config.py
+    learning_loops:
+      mechanism_a: divergence_loop # agent_proposal_records, operator_response_records, learning_rule_candidates
+      mechanism_b: world_model # historical_corpus_* offline, world_model_insights
+      similar_cases: v1 # v0 SQL + approved A + approved B
+      api:
+        - GET /learning/rule-candidates
+        - POST /learning/rule-candidates/{id}/status
+        - GET /learning/world-model-insights
+        - POST /learning/world-model-insights/{id}/status
+        - GET /engagements/{id}/timeline
+        - POST /identity/binding-suggestions/scan
+        - GET /identity/binding-suggestions
+        - POST /identity/binding-suggestions/{id}/status
+    boundaries:
+      - signal_runtime_mode_active_only
+      - do_not_break_D4
+      - local_docker_default
+      - agent_prep_only_no_primary
+      - policy_guardrails_permanent
+    open_p0: []
+    open_p1:
+      - git_push_pending
+    open_p2: []
+    closed_p2_2026_07_10:
+      - pytest_suite_green_1256 # tools/gmail_audit/tests; ACTIVE_WORKSPACE
+      - gate_b_gaps_closed_proof # LPS §GATE_B_GAPS_CLOSED; CT-FU-5 materialize
+      - layered_docs_phase_1_2 # WORKSPACE_ONBOARDING + daszek/docs/core/PROJECT_README
+      - layered_docs_phase_3_full # PRO trim + daszek §17 app.js deep dive
+    closed_p2_2026_07_08:
+      - ar_2026_audit_remediation # AR-P0..P2 + CASE_TASK phases 0-10
+      - customer_identity_poziom3_merge_ui # IDENTITY_OPERATOR_UI_PROOF_OK
+      - project_readme_technical_regen # docs/core/PROJECT_README.md 2026-07-08
+      - signal_reconciler_nameerror_fix # build_projection_preview + drive fact_rows
+      - operational_feed_snapshot_retention # Daszek store-v3 retention=40; fixes PHP OOM on feed push
+    closed_p2_2026_06_20:
+      - p2_graph_reindex # GitNexus unified + UA + Graphify structural; preflight-workspace OK
+      - customer_identity_poziom2_suggest_only # CUSTOMER_IDENTITY_P2_PROOF_OK
+      - engagement_snapshot_v2_full_migration # ENGAGEMENT_SNAPSHOT_V2_FULL_MIGRATION_PROOF_OK
+      - rag_engine_split_gate # RAG_D1_BOUNDARY_PROOF_OK; Default*Engine delegation
+    closed_p1_2026_06_08:
+      - hitl_send_wired # AGENT_HITL_EXECUTE_SEND → hitl_gmail_send.py
+      - skrzat_bounded_operator_proof # kroki 5–6 w daszek_local_133_proof
+      - live_feed_readback_eng-feed-9cc5eb2c
+      - move5_v2_push_retired # config forces daszek_v2_push_enabled=false
+    closed_p1_2026_06_16:
+      - worker_image_rebuild_registry_audit # gmail-agent-runtime:local; audit 98.59% baked
+      - registry_coverage_audit_script # tools/gmail_audit/scripts/registry_coverage_audit.py
+      - mega_run_batch_finalize # closeout-20260616; registry 98.59%
+    closed_p1_2026_06_17:
+      - p1_gmail_att_download_proof # GET /cases/.../attachments/... Gate B @8766; 412941 bytes
+    closed_p1_2026_06_19:
+      - case_os_full_intelligence_closure # CASE_OS_FULL_INTELLIGENCE_CLOSURE_PROOF_OK
+      - merged_timeline_api # GET /engagements/{id}/timeline
+      - rag_d1_context_hub # scope case/engagement → ContextHub not KB-first
+      - similar_cases_v0_precedent
+    closed_p1_2026_06_20:
+      - case_os_learning_loops_fale_a_f # CASE_OS_LEARNING_LOOPS_CLOSURE_PROOF_OK
+      - single_runtime_full_default # CASE_OS_SINGLE_RUNTIME_PROOF_OK
+      - operator_agent_divergence_loop # OPERATOR_AGENT_DIVERGENCE_LOOP_PROOF_OK
+      - world_model_bootstrap # WORLD_MODEL_BOOTSTRAP_PROOF_OK
+      - similar_cases_v1 # SIMILAR_CASES_V1_PROOF_OK
+      - customer_identity_rfc_v1 # CUSTOMER_IDENTITY_RFC_PROOF_OK — docs only
+      - customer_identity_poziom2 # CUSTOMER_IDENTITY_P2_PROOF_OK — suggest-only binding API
+      - engagement_snapshot_v2_feed # profile full → DASZEK_FEED_SOURCE
+      - daszek_system_diagrams_sync # DASZEK_SYSTEM_DIAGRAMS_PROOF_OK
+      - max_stack_m6_full_closure # MAX_STACK_10_PROOF_OK; verify-max-stack.ps1
+      - tum_materialize_bridge # MATERIALIZE_FULL_CHAIN_PROOF_OK; prop_* + /materialize/approve
+      - temporal_memory_pg_live # TEMPORAL_MEMORY_MAX_PROOF_OK + LOCOMO ≥85% @ :54130
+      - agent_runtime_checkpoint_strict # AGENT_RUNTIME_MAX_PROOF_OK; AGENT_CHECKPOINT_STRICT
+      - observability_contract_v1 # OBSERVABILITY_CONTRACT_V1_PROOF_OK
+    closed_p1_2026_06_24:
+      - generic_hands_reprogramming # W1_1_PROPOSE_PLAN_PROOF_OK + W1_2_QUERY_ANYTHING_PROOF_OK + W2_2_WRITE_EXECUTION_PROOF_OK
+      - runtime_auth_gate_d1 # D1_RUNTIME_AUTH_PROOF_OK
+      - snapshot_versioning_e1 # E1_SNAPSHOT_VERSIONING_PROOF_OK
+      - idempotent_writes_f1 # F1_IDEMPOTENT_WRITES_PROOF_OK
+      - signal_source_registry # SIGNAL_REGISTRY_PROOF_OK
+      - case_merge_split # CASE_MERGE_SPLIT_PROOF_OK
+      - rag_bm25_rebuild_fix # dodana metoda _rebuild_bm25_from_collection() w engine.py
+      - rag_pricing_conflict_resolution # _resolve_pricing_conflicts w hybrid_retriever.py
+      - p1_rag_cen_extended_proof # proof rozszerzony o BM25 + pricing conflict assertion
+      - live_heartbeat_system_tab # GET /system/health/status + health_monitor.py + Daszek UI
+      - cieplo_timeline_integration # showEngagementTimeline w Daszku
+      - documentation_cleanup
+      - ecosystem_map_freshness # ECOSYSTEM_MAP.yaml updated: 2026-06-24
+      - drive_legacy_inline_refactor # _reconcile_drive_signal_legacy_inline wyodrebniony
+      - single_memory_canon
+      - engine_rbac_guard # role-based sensitivity w query()
+      - gmail_intake_parser_extraction # build_parser() -> gmail_intake_parser.py
+      - bitwarden_full_migration # 21 secrets w vault + load-secrets.ps1 + 6 .env injected
+    closed_p1_2026_06_25:
+      - entity_registry_deprecated # Correlation Registry facade in entity_linker.py
+      - lifecycle_finalize_case_mapping # infer_lifecycle_from_case_status in finalize_case
+      - lifecycle_executor_validation # update_case_status/archive/restore validate transitions
+      - generic_hands_dead_handlers_removed # 7 dead functions removed from handlers.py
+      - master_harness_i1_i4 # case_lifecycle/coherence/dashboard/gateway proofs in verify-max-stack
+      - drive_signals_agent_runtime # route== checks removed from signal_reconciler
+      - rag_chroma_1_4_1_rebuild # clean chroma_clean + Docker image rebuild
+      - system_integration_test_script # scripts/system_integration_test.py
+    depends_on: []
+    depended_by: [daszek, rag-chat-asystent, cieplo-orchestrator, fast-kalk]
+
+  kalk-top:
+    folder: kalk-top
+    node: A
+    role: offer_dto_producer
+    criticality: high
+    risk: low
+    proof: proven_local
+    proof_ref: npm run proof @8091
+    proof_date: 2026-06-04
+    version_code: "1.0.0" # compiler: package.json .version
+    boundaries:
+      - sole_hvac_math_authority
+      - backend_first_engines
+    open_p0: []
+    open_p1: []
+    closed_by_operator_2026_06_08:
+      - p0-2_floor_area_ui # poprawne zachowanie — nie błąd
+      - p0-5-6_annual_cost_presentation # poprawne zachowanie — nie błąd
+      - problem-7_offer_dto_pdf # świadoma decyzja — generator zostaje jak jest
+    open_p2:
+      - event_model_proposed
+    depends_on: []
+    depended_by:
+      [top-instal-generator, cieplo-orchestrator, fast-kalk, gmail-agent]
+
+  top-instal-generator:
+    folder: top-instal-generator
+    node: A
+    role: pdf_render
+    criticality: high
+    risk: medium
+    proof: implemented_local
+    proof_ref: docs/RUNTIME_E2E_RESULTS.json # historical 13/13 2026-03-06 @8090
+    version_code: "1.0.0" # top-instal-generator.php plugin header
+    boundaries:
+      - consumes_offer_dto_only
+    open_p0: []
+    closed_by_operator_2026_06_08:
+      - problem-7_offer_dto_pdf # by design — generator stays as-is
+    open_p1:
+      - dead_code_top-instal-generator.php
+    depends_on: [kalk-top]
+    depended_by: [cieplo-orchestrator, kalk-top]
+
+  daszek:
+    folder: daszek
+    node: A
+    role: operator_ui_projection
+    criticality: medium
+    risk: low
+    proof: proven_local
+    proof_ref: gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md
+    proof_date: 2026-07-13
+    docs_ref:
+      deep: daszek/docs/core/PROJECT_README.md
+      runbook: daszek/docs/core/PROJECT_README.md
+      onboarding: knowledge/docs/WORKSPACE_ONBOARDING.md
+    version_code: "1.3.4"
+    case_detail_ui:
+      - merged_timeline # GET /daszek/v3/engagements/{id}/timeline proxy
+      - learning_suggestions # Sugestie z obserwacji — /learning/rule-candidates proxy
+    boundaries:
+      - projection_only_not_sot
+      - not_architect_dashboard
+      - system_observability_projection
+      - system_diagrams_mermaid_read_only
+      - learning_approve_gate_only # approve/reject candidates, not auto-apply
+    open_p0: []
+    open_p1:
+      - git_push_pending
+    closed_p1_2026_06_24:
+      - move5_full_v2_push_retire # potwierdzono brak dead paths
+    open_p2:
+      - operator_actions_beyond_hitl
+    depends_on: [gmail-agent]
+    depended_by: []
+
+  cieplo-orchestrator:
+    folder: cieplo-orchestrator
+    node: B
+    role: cieplo_pipeline
+    criticality: medium
+    risk: high
+    proof: proven_local
+    proof_ref: cieplo-worker poll status:DONE x2 2026-06-08
+    proof_date: 2026-06-08
+    local_proof: fresh # Gate B lokalny 2026-06-08 — e2e DONE x2
+    boundaries:
+      - separate_db_workflows
+      - contributes_to_D3
+    open_p0: []
+    open_p1: []
+    closed_p0_2026_06_11:
+      - ambiguous_parse_2_new_emails # detector+parser; message_id 19ea8640f273, 19ea863de173; pytest ingress 18/18
+      - preflight_no_downstream_validation # Gate B docker preflight exit 0; tests/test_cli_preflight.py
+      - php_mail_ingress_retire_not_proven # tests/test_ingress_retirement.py; docs/P0_CP2_PHP_INGRESS_RETIREMENT_PROOF.md
+    closed_p1_2026_06_11:
+      - no_ci_pytest # .github/workflows/pytest.yml exists
+    depends_on: [kalk-top, top-instal-generator, gmail-agent]
+    depended_by: []
+
+  rag-chat-asystent:
+    folder: rag-chat-asystent
+    node: B
+    role: kb_retrieval
+    criticality: medium
+    risk: medium
+    proof: proven_local
+    proof_ref: rag-chat-asystent/backend/runs/smoke_sequential_report.json
+    local_proof_date: 2026-06-16
+    prod_proof: proven_historical_vps
+    boundaries:
+      - does_not_write_mailbox_memory
+      - advisory_not_offer_gate
+    open_p0: []
+    open_p1: []
+    closed_p1_2026_06_20:
+      - unified_pipeline_v2 # grade/rewrite + optional AgenticGraphRunner
+      - temporal_ingest_pg # temporal_ingest.py + live proofs (GRAPHSTORE_DSN)
+      - p1_rag_cen_hierarchical_proof # P1_RAG_CEN_PROOF_OK fixture; bulk S3 re-ingest deferred
+      - agentic_adaptive_router # AGENTIC_ADAPTIVE_ROUTER_PROOF_OK
+      - community_summaries_v2 # optional LLM polish pilot
+    closed_p1_2026_06_24:
+      - rag_bm25_rebuild_fix # _rebuild_bm25_from_collection() dodana w engine.py
+      - rag_pricing_conflict_resolution # _resolve_pricing_conflicts w hybrid_retriever.py
+      - p1_rag_cen_extended_proof # proof rozszerzony o BM25 + pricing conflict
+      - engine_rbac_guard_role_based # role-based sensitivity guard w query()
+    closed_p1_2026_06_17:
+      - p1_rag_reg_bounded_ingest # regulaminy/ + REGULAMIN-CZYSTE-POWIETRZE/*; policy smoke 2/2
+    closed_p1_2026_06_16:
+      - eval_gate_prod_0_84 # live 15/15 sequential eval_agentic_graph_sequential_report.json
+      - smoke_8_8_sequential # faktura_tabela 9,90 + ocr_scan_skm
+      - policy_lookup_bounded_regulamin # 1 row sample_gwarancja_pomp
+      - rag_image_rebuild_proof # smoke+eval PASS on compose-built image
+      - gmail_batch_finalize_closeout # batch ok, cursor closeout-20260616
+    closed_p1_2026_06_12:
+      - compare_brands_smoke # 6/8 sequential smoke; compare_brands PASS
+      - policy_graph_edges_v1 # regulamin_extractor + SUPERSEDES traverse
+      - ab_pdf_pymupdf_blocks # 50 PDF benchmark; mineru not justified
+    closed_p1_2026_06_10:
+      - agentic_graph_rag_spine # P2 DONE: executor + GraphStore read + graph_extract + docker local stack
+      - graph_rag_local_docker # graphstore-postgres :54130 + migrate + drive_kb_import script
+      - eval_gate_grounding_at_k # EVAL_MIN_GROUNDING_AT_K=0.3 CI; pass rate 0.65
+      - compliance_map_section8_stale
+      - r1_unified_verify
+      - r2_context_hub_search_engagement
+      - r4_relevant_chunks_evidence
+    depends_on: [gmail-agent] # optional fetch
+    depended_by: [rag-widget]
+
+  rag-widget:
+    folder: rag-widget
+    node: A
+    role: rag_http_client
+    criticality: low
+    risk: low
+    proof: implemented_local
+    boundaries:
+      - http_client_only
+    open_p1: []
+    closed_p1_2026_06_11:
+      - no_root_readme # rag-widget/README.md exists
+    depends_on: [rag-chat-asystent]
+    depended_by: []
+
+  fast-kalk:
+    folder: fast-kalk
+    node: A
+    role: lead_widget
+    criticality: low
+    risk: medium
+    proof: proven_local
+    proof_ref: fast-kalk/scripts/e2e-scenarios-smoke.php
+    proof_date: 2026-06-08
+    version_code: "0.6.7"
+    boundaries:
+      - proxies_kalk_top_only
+      - offer_pdf_via_generator_from_offer_dto
+      - refinement_ui_disabled_by_design
+    open_p0: []
+    open_p1:
+      - git_history_stub # lokalna higiena repo
+    deferred_production:
+      - prod_deploy_missing
+    depends_on: [kalk-top, top-instal-generator, gmail-agent]
+    depended_by: []
+
+  wp-bridges:
+    folder: wp-bridges
+    node: A
+    role: integration_audit_harness
+    criticality: none
+    risk: low
+    proof: not_applicable
+    production: false
+    note: deprecated mail-ingress test surface
+    depends_on: [top-instal-generator]
+    depended_by: []
+
+  knowledge:
+    folder: knowledge
+    node: meta
+    role: docs_and_world_state
+    criticality: medium
+    risk: medium # doc drift vs code
+    proof: not_applicable
+    boundaries:
+      - world_state_is_canonical_structural_sot
+      - markdown_files_are_views
+    depends_on: []
+    depended_by: []
+
+dependencies:
+  # cross-repo HTTP — subset of TOPINSTAL-KERNEL-GRAPH edges
+  - from: cieplo-orchestrator
+    to: kalk-top
+    contract: POST /wp-json/topinstal/v1/calculate-offer
+  - from: cieplo-orchestrator
+    to: top-instal-generator
+    contract: POST /wp-json/topinstal/v1/offer-documents/generate
+  - from: cieplo-orchestrator
+    to: gmail-agent
+    contract: POST /internal/registry/links
+  - from: fast-kalk
+    to: kalk-top
+    contract: POST /wp-json/topinstal/v1/calculate-offer
+  - from: fast-kalk
+    to: top-instal-generator
+    contract: POST /wp-json/topinstal/v1/offer-documents/generate
+  - from: gmail-agent
+    to: daszek
+    contract: POST daszek/v3/operational-feed-snapshots
+  - from: daszek
+    to: gmail-agent
+    contract: GET /engagements/{id}/os-events
+  - from: daszek
+    to: gmail-agent
+    contract: GET /system/os-events/recent
+  - from: daszek
+    to: gmail-agent
+    contract: HITL approve + Skrzat proxy + bridge drain
+  - from: fast-kalk
+    to: gmail-agent
+    contract: POST /internal/os-events
+  - from: kalk-top
+    to: gmail-agent
+    contract: POST /internal/os-events
+  - from: top-instal-generator
+    to: gmail-agent
+    contract: POST /internal/os-events
+  - from: rag-chat-asystent
+    to: gmail-agent
+    contract: POST /internal/os-events
+  - from: rag-chat-asystent
+    to: daszek
+    contract: POST daszek/v3/system-health-snapshots
+  - from: rag-widget
+    to: rag-chat-asystent
+    contract: POST /chat
+  - from: rag-chat-asystent
+    to: gmail-agent
+    contract: GET /cases/{id}/context-pack # optional
+  - from: kalk-top
+    to: top-instal-generator
+    contract: POST /wp-json/topinstal/v1/offer-documents/generate
+
+drift:
+  # docs↔code mismatches — compiler should refresh or flag
+  - id: daszek-version
+    code: "1.3.4"
+    docs:
+      - file: knowledge/TOPINSTAL-KERNEL-GRAPH.yaml
+        claims: v1.3.3 in repo:daszek role
+        status: fixed_2026-07-10
+    severity: low
+    status: fixed_2026-07-10
+
+  - id: fast-kalk-version
+    code: "0.6.7"
+    docs:
+      - file: fast-kalk/PROJECT_README.md
+        claims: "0.6.7"
+        status: fixed_2026-06-08
+    severity: low
+
+  - id: truth-flow-header
+    code: current
+    docs:
+      - file: gmail-agent/docs/core/PROJECT_README.md
+        claims: "2026-06-24 audit — current after P0 + Generic Hands + Architectural Gap Closure"
+    severity: closed
+    note: merytoryka OK per ARCHITECTURE_FRESHNESS
+
+  - id: rag-compliance-map
+    code: node_b_fetch_shipped
+    docs:
+      - file: rag-chat-asystent/docs/COMPLIANCE_MAP_RAG_INTELLIGENT_LAYERS.md
+        claims: "§8 stale — R7 done, R2 partial"
+    severity: medium
+
+  - id: world-state-age
+    note: ECOSYSTEM_MAP updated 2026-06-01; CLOSEOUT/AUDIT 2026-06-07 — compiler should merge
+
+compiler:
+  # Files the compiler READS to refresh world-state (inputs)
+  inputs:
+    structural:
+      - ECOSYSTEM_MAP.yaml
+      - knowledge/TOPINSTAL-KERNEL-GRAPH.yaml
+      - knowledge/memory/OPERATOR_DECISIONS.md
+    proof:
+      - gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md
+      - scripts/preflight-local-stack.ps1 # exit code
+      - knowledge/artifacts/proof-packs/
+    backlog:
+      - knowledge/CLOSEOUT_8_PROJECTS_TOP_INSTAL.md
+    code_facts:
+      - daszek/daszek.php # DASZEK_VERSION
+      - fast-kalk/wp-content/plugins/topinstal-lead-widget/topinstal-lead-widget.php
+      - gmail-agent/tools/gmail_audit/agent_hitl_bridge.py # HITL send wired check
+      - top-instal-generator/core/application/OfferDocumentInputMapper.php
+    git:
+      - per-repo HEAD SHA # kalk-top, daszek, gmail-agent, knowledge
+    optional:
+      - knowledge/ARCHITECTURE_FRESHNESS.md
+      - GitNexus group impact
+
+  # Files that become VIEWS — generated from or validated against world-state
+  views:
+    narrative:
+      - knowledge/reviews/full-ecosystem-audit.md
+      - knowledge/CLOSEOUT_8_PROJECTS_TOP_INSTAL.md
+      - knowledge/SYSTEM_ATLAS.md    epistemic:
+      - knowledge/CONTROL_PLANE.md # rules how to read layers — not duplicated here
+      - knowledge/source-of-truth.md # matrix expands ownership — pointer to world-state
+    session:
+      - knowledge/memory/ACTIVE_WORKSPACE.md
+      - knowledge/memory/LAST_SESSION.md
+      - knowledge/memory/engrams/
+    ui:
+      - canvases/*.canvas.tsx # render world-state + drift
+    deprecated_as_parallel_sot:
+      - ECOSYSTEM_MAP.yaml # merge into world-state; keep verify commands only
+
+  refresh_triggers:
+    - after_cross_repo_merge
+    - after_LPS_update
+    - after_CLOSEOUT_refresh
+    - session_end_hook # delta only
+
+  outputs:
+    - knowledge/world-state.yaml
+    - optional: knowledge/world-state.drift-report.json
+
+# ---------------------------------------------------------------------------
+# FIELD METADATA — for compile-world-state.py
+# Maps field paths to update_mode and authoritative source.
+# update_mode:
+#   auto  — compiler reads source and writes value directly
+#   semi  — compiler reads source, but a Gate B run must have triggered it
+#   manual — operator decision; compiler can flag staleness but cannot update
+# ---------------------------------------------------------------------------
+field_meta:
+  # Top-level
+  updated_at:
+    update_mode: auto
+    source: "date.now() at compile time"
+  updated_by:
+    update_mode: auto
+    source: "compiler constant: script"
+
+  # deployment section
+  deployment.active:
+    update_mode: manual
+    source: knowledge/memory/OPERATOR_DECISIONS.md
+  deployment.legacy_prod:
+    update_mode: manual
+    source: knowledge/memory/OPERATOR_DECISIONS.md
+  deployment.target_prod:
+    update_mode: manual
+    source: knowledge/rfc/single-unified-vps.md
+  deployment.git_push:
+    update_mode: manual
+    source: knowledge/CLOSEOUT_8_PROJECTS_TOP_INSTAL.md
+
+  # local_endpoints section
+  local_endpoints.gmail_agent_api:
+    update_mode: manual
+    source: gmail-agent/docker-compose.local-vps.yml
+  local_endpoints.daszek:
+    update_mode: manual
+    source: docker-compose.daszek-local.yml
+  local_endpoints.kalk_top_runtime:
+    update_mode: manual
+    source: kalk-top/package.json (KALK_TOP_RUNTIME_PORT)
+  local_endpoints.rag_backend:
+    update_mode: manual
+    source: rag-chat-asystent/docker-compose*.yml
+  local_endpoints.postgres_mailbox:
+    update_mode: manual
+    source: gmail-agent/docker-compose.local-vps.yml
+
+  # per-repo proof fields (pattern: repos.<name>.*)
+  repos.*.proof:
+    update_mode: semi
+    source: gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md or per-repo proof pack
+    note: "compiler reads LPS section headers; only updates after Gate B trigger"
+  repos.*.proof_date:
+    update_mode: semi
+    source: gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md or per-repo proof pack
+  repos.*.proof_ref:
+    update_mode: manual
+    source: per-repo AGENTS.md or CLOSEOUT
+  repos.*.local_proof:
+    update_mode: semi
+    source: scripts/preflight-local-stack.ps1 exit code
+
+  repos.gmail-agent.critical_findings_2026_07_13:
+    update_mode: manual
+    source: gmail-agent/docs/runbooks/LAST_PROVEN_STATE.md §Zamrożone gwarancje
+    note: "local-only closure snapshot; do not extend to VPS/production without a fresh proof"
+
+  # version_code — auto-extractable from files
+  repos.gmail-agent.version_code:
+    update_mode: auto
+    source: "git -C gmail-agent log -1 --format=%H"
+  repos.kalk-top.version_code:
+    update_mode: auto
+    source: 'node -e "console.log(require(''./kalk-top/package.json'').version)"'
+  repos.daszek.version_code:
+    update_mode: auto
+    source: "Select-String 'DASZEK_VERSION' daszek/daszek.php"
+  repos.fast-kalk.version_code:
+    update_mode: auto
+    source: "Select-String 'Version:' fast-kalk/wp-content/plugins/topinstal-lead-widget/topinstal-lead-widget.php"
+  repos.top-instal-generator.version_code:
+    update_mode: auto
+    source: "cat top-instal-generator/composer.json | jq .version"
+
+  # open_p0 / open_p1 — manual; compiler can flag if CLOSEOUT references differ
+  repos.*.open_p0:
+    update_mode: manual
+    source: knowledge/CLOSEOUT_8_PROJECTS_TOP_INSTAL.md
+    note: "compiler may diff CLOSEOUT P0 list vs this field and flag mismatch"
+  repos.*.open_p1:
+    update_mode: manual
+    source: knowledge/CLOSEOUT_8_PROJECTS_TOP_INSTAL.md
+
+  # ecosystem_p0
+  ecosystem_p0:
+    update_mode: manual
+    source: knowledge/CLOSEOUT_8_PROJECTS_TOP_INSTAL.md (P0 mapa priorytetĂłw)
+
+  # gaps
+  gaps.D1.status:
+    update_mode: manual
+    source: by_design — no trigger
+  gaps.D2.status:
+    update_mode: manual
+    source: knowledge/rfc/P1-D2-daszek-trigger-calc.md
+  gaps.D3.status:
+    update_mode: semi
+    source: "cieplo-orchestrator/src/topinstal_cieplo_worker/ingress/processor.py + gmail-agent signal_worker.py — check if dual poller is resolved"
+  gaps.D4.status:
+    update_mode: manual
+    source: by_design — no trigger
+
+  # drift entries — compiler should regenerate from code_facts
+  drift:
+    update_mode: semi
+    source: "compiler.code_facts list (daszek.php, fast-kalk plugin header, etc.)"
+    note: "compiler reads version strings from code, compares to drift.*.code, flags mismatches"
+
+  # hitl wired check (special case — code fact, not version)
+  repos.gmail-agent.hitl_send_wired:
+    update_mode: auto
+    source: "grep 'AGENT_HITL_EXECUTE_SEND' gmail-agent/tools/gmail_audit/agent_hitl_bridge.py"
+    note: "virtual field — compiler writes True/False based on grep"

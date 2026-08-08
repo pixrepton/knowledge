@@ -15,13 +15,22 @@ Format:
 
 ---
 
-## [ACTIVE] 2026-08-08 — RAG V2 staged cutover: authorized but not auto-flipped
+## [ACTIVE] 2026-08-08 — 4.4 Install-prep: REJECTED_BY_OPERATOR (no product activation)
+
+- **Scope:** Roadmap slice 4.4 / `install_prep_projection` / Daszek `install_prep` feed.
+- **Decyzja:** Operator **rezygnuje** z produktu Install-prep. Kod z `RESIDUALS-WAVE-01` może pozostać w repo jako uśpiony scaffold (**nie** rozwijać, **nie** traktować jako planowanego feature'u, **nie** aktywować produktowo). Status dokumentacyjny: `REJECTED_BY_OPERATOR` / `NO PRODUCT ACTIVATION`. Automatyczny revert bez osobnego blast-radius review jest **zabroniony**.
+- **Supersedes:** wcześniejsze „next = 4.4” / traktowanie 4.4 jako otwartego P0 produktu.
+- **Review:** tylko jeśli operator jawnie każe usunąć/revertować scaffold.
+
+---
+
+## [ACTIVE] 2026-08-08 — RAG V2 staged cutover: STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE
 
 - **Scope:** `rag-chat-asystent` RAG V2 product path / `RAG-V2-LIVE-CUTOVER-READINESS-01`.
-- **Decyzja:** Operator authorized staged activation after live readiness proof. **Do not** set global default `RAG_CORE=v2` for all intents. Preferred model: intent → V2 only if vertical ready (`technical_manual`, `price_list`), else legacy. Opt-in compose: `docker-compose.rag-v2-staged-cutover.yml`. Until Temporal container COMPLETE is stably green under Gate B, keep product default legacy and treat cutover as `READY_FOR_OPERATOR_CUTOVER_DECISION` / `Activation: OPERATOR_DECISION_REQUIRED` (staged file ready, not applied as default).
-- **Supersedes:** none — refines `[ACTIVE] 2026-08-04` strangler/legacy default (still binding).
+- **Decyzja:** Operator **już autoryzował** staged activation (`ZEZWALAM NA ACTIVATION`) dla verticali `technical_manual` / `price_list` via opt-in `docker-compose.rag-v2-staged-cutover.yml`. **Nie** pytaj ponownie o zgodę na staged. **Nie** ustawiaj globalnego defaultu `RAG_CORE=v2` dla wszystkich intentów. Execution staged cutover jest **zablokowane technicznie** do domknięcia `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01` (albo jawnej akceptacji residualu PARTIAL). Status: `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` — **nie** `OPERATOR_DECISION_REQUIRED`.
+- **Supersedes:** mylące etykiety `READY_FOR_OPERATOR_CUTOVER_DECISION` / `Activation: OPERATOR_DECISION_REQUIRED` z raportu cutover readiness (zgoda już jest; brakuje gate'ów technicznych).
 - **Proof:** `knowledge/eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md`; Gate A rag **681**/22; host Gate B companion PASS; dual-read/rollback PASS.
-- **Review:** after Temporal COMPLETE residual closes, or explicit operator order to apply staged compose locally.
+- **Review:** po PASS Temporal COMPLETE + reproducible image bake — wtedy wykonać staged compose lokalnie bez ponownej decyzji operatorskiej.
 
 ---
 
@@ -47,8 +56,9 @@ Format:
 ## [ACTIVE] 2026-08-04 — RAG V2 strangler: legacy default, shadow metrics-only, live_data_plane=false
 
 - **Scope:** `rag-chat-asystent` / `backend/rag_v2/` oraz cutover policy.
-- **Decyzja:** Migracja RAG V2 = **strangler**, nie big-bang. Produktowy default `RAG_CORE=legacy`. Shadow może wpływać tylko na metrics (`affects_legacy=false`) do jawnego opt-in cutover. `live_data_plane` pozostaje `false` aż adapters (MinIO/Qdrant/Temporal) są realnie live. Rollback = `RAG_CORE=legacy` / pusta allowlista / `mode=abstain`. Soft-activation kodu ≠ live data plane.
-- **Review:** przy RAG-02/04/05 live albo decyzji cutover.
+- **Decyzja:** Migracja RAG V2 = **strangler**, nie big-bang. Produktowy default `RAG_CORE=legacy`. Shadow może wpływać tylko na metrics (`affects_legacy=false`) do jawnego opt-in cutover. Rollback = `RAG_CORE=legacy` / pusta allowlista / `mode=abstain`. Soft-activation kodu ≠ live data plane.
+- **Update 2026-08-08:** opt-in live data plane + host Gate B są **udowodnione** (`RAG-V2-LIVE-CUTOVER-READINESS-01`). Staged product activation jest **authorized** ale **blocked by technical gate** (`OPERATOR_DECISIONS` 2026-08-08). Zdanie „`live_data_plane` pozostaje `false` aż adapters live” jest **historyczne** — adapters są live na plane opt-in; default produktu nadal legacy.
+- **Review:** po `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01` wykonać staged compose bez ponownej zgody; nadal **nie** global `RAG_CORE=v2`.
 
 ---
 

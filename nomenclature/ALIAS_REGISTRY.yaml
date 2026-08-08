@@ -1,0 +1,416 @@
+# TOP-INSTAL — rejestr aliasów L3 → L2
+# Governance faza 2. Nie zmienia kodu w 5 repo.
+version: 1
+updated: "2026-05-22"
+schema: topinstal-nomenclature-alias-registry
+source_discovery: discovery/2026-05-22-nomenclature-discovery-report.md
+
+# Pola wpisu:
+#   canonical: ID z CANONICAL_GLOSSARY.md (L2)
+#   repo: gmail-agent | kalk-top | orchestrator | generator | rag
+#   token: dokładny symbol w kodzie (L3)
+#   kind: column | field | class | function | table | route | env | contract | payload_type
+#   immutable: true = zakaz rename bez RFC + impact
+#   display_only: true = można zmienić etykietę UI/API v2, nie schema DB/kontraktu
+#   ui_label_pl: zalecana etykieta L1 (nowe UI)
+#   file_hint: reprezentatywna ścieżka (Desktop-relative)
+
+aliases:
+  # --- Identity / contact ---
+  - canonical: identity.contact_email
+    repo: gmail-agent
+    token: customer_email
+    kind: column
+    immutable: true
+    ui_label_pl: E-mail klienta
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: identity.contact_name
+    repo: gmail-agent
+    token: customer_name
+    kind: column
+    immutable: true
+    ui_label_pl: Nazwa klienta
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: identity.contact_email
+    repo: orchestrator
+    token: client_email
+    kind: field
+    immutable: true
+    ui_label_pl: E-mail klienta (Cieplo)
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/ingress/validator.py
+
+  - canonical: offer.calc_request.lead
+    repo: kalk-top
+    token: lead
+    kind: contract_field
+    immutable: true
+    ui_label_pl: Dane kontaktu (kalkulacja)
+    file_hint: kalk-top/core/contracts/CalcRequestDTO.js
+
+  - canonical: identity.contact_name
+    repo: rag
+    token: customer_name
+    kind: field
+    immutable: true
+    display_only: true
+    ui_label_pl: Nazwa klienta (kontekst czatu)
+    file_hint: "rag-chat-asystent/backend/domain/context/models.py"
+
+  # --- Case / mailbox ---
+  - canonical: case.mail_case_id
+    repo: gmail-agent
+    token: case_id
+    kind: column
+    immutable: true
+    ui_label_pl: ID sprawy
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: case.case_key
+    repo: gmail-agent
+    token: case_key
+    kind: column
+    immutable: true
+    ui_label_pl: Klucz sprawy
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: case.thread
+    repo: gmail-agent
+    token: thread_id
+    kind: column
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: case.message
+    repo: gmail-agent
+    token: message_id
+    kind: column
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: case.mailbox_memory
+    repo: gmail-agent
+    token: mailbox_memory_cases
+    kind: table
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: case.mailbox_memory
+    repo: gmail-agent
+    token: mailbox_memory_messages
+    kind: table
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_store.py
+
+  - canonical: case.context_pack
+    repo: gmail-agent
+    token: CaseContextPack
+    kind: class
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_models.py
+
+  - canonical: case.context_pack
+    repo: gmail-agent
+    token: build_case_context_pack
+    kind: function
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/mailbox_memory_runtime.py
+
+  - canonical: case.context_pack_vnext
+    repo: gmail-agent
+    token: build_case_context_pack_vnext
+    kind: function
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/case_context_contract.py
+
+  - canonical: readapi.context_pack
+    repo: gmail-agent
+    token: "GET /cases/{case_id}/context-pack"
+    kind: route
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/api_app.py
+
+  - canonical: case.reconcile
+    repo: gmail-agent
+    token: reconcile_signal
+    kind: function
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/signal_reconciler.py
+
+  - canonical: case.external_ref
+    repo: gmail-agent
+    token: external_ref
+    kind: field
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/dash_preview.py
+
+  - canonical: case.mail_case_id
+    repo: gmail-agent
+    token: derive_canonical_case_id
+    kind: function
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/case_identity.py
+
+  # --- Cieplo workflow ---
+  - canonical: cieplo.workflow
+    repo: orchestrator
+    token: workflows
+    kind: table
+    immutable: true
+    ui_label_pl: Zlecenia Cieplo
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.workflow
+    repo: orchestrator
+    token: WorkflowRow
+    kind: class
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.workflow_id
+    repo: orchestrator
+    token: lead_id
+    kind: field
+    immutable: true
+    display_only: true
+    ui_label_pl: ID zlecenia Cieplo
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/ingress/processor.py
+
+  - canonical: cieplo.workflow_id
+    repo: orchestrator
+    token: id
+    kind: column
+    immutable: true
+    ui_label_pl: ID zlecenia Cieplo
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.workflow_state
+    repo: orchestrator
+    token: workflow_state
+    kind: column
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.payload_type
+    repo: orchestrator
+    token: cieplo_app_lead_v1
+    kind: payload_type
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/ingress/envelope.py
+
+  - canonical: cieplo.offer_snapshot
+    repo: orchestrator
+    token: offer_json
+    kind: column
+    immutable: true
+    ui_label_pl: Snapshot oferty (historia)
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.external_key
+    repo: orchestrator
+    token: build_external_key
+    kind: function
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/integrations/cieplo/text_utils.py
+
+  - canonical: correlation.message_gmail
+    repo: orchestrator
+    token: message_id
+    kind: column
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: correlation.trace_pipeline
+    repo: orchestrator
+    token: trace_id
+    kind: column
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.calc_request_snapshot
+    repo: orchestrator
+    token: calc_request
+    kind: column
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/db/models.py
+
+  - canonical: cieplo.workflow
+    repo: orchestrator
+    token: map_offer_to_generator_request
+    kind: function
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/integrations/generator/mapping.py
+
+  # --- Offer / kalk-top ---
+  - canonical: offer.numeric_offer
+    repo: kalk-top
+    token: OfferDTO
+    kind: contract
+    immutable: true
+    file_hint: kalk-top/core/contracts/OfferDTO.js
+
+  - canonical: offer.calc_request
+    repo: kalk-top
+    token: CalcRequestDTO
+    kind: contract
+    immutable: true
+    file_hint: kalk-top/core/contracts/CalcRequestDTO.js
+
+  - canonical: offer.schema_version
+    repo: kalk-top
+    token: schemaVersion
+    kind: contract_field
+    immutable: true
+    file_hint: kalk-top/core/contracts/OfferDTO.js
+
+  - canonical: offer.trace
+    repo: kalk-top
+    token: traceId
+    kind: contract_field
+    immutable: true
+    file_hint: kalk-top/core/contracts/OfferDTO.js
+
+  - canonical: offer.calculate_action
+    repo: kalk-top
+    token: calculate-offer
+    kind: route
+    immutable: true
+    file_hint: kalk-top/wp-adapter/rest/CalculateOfferController.php
+
+  - canonical: offer.calculate_action
+    repo: kalk-top
+    token: TopInstal_CalculateOffer_UseCase
+    kind: class
+    immutable: true
+    file_hint: kalk-top/core/application/CalculateOfferUseCase.php
+
+  - canonical: offer.trace
+    repo: orchestrator
+    token: traceId
+    kind: field
+    immutable: true
+    file_hint: cieplo-orchestrator/src/topinstal_cieplo_worker/integrations/kalktop/client.py
+
+  # --- Generator ---
+  - canonical: document.offer_pdf
+    repo: generator
+    token: from-offer-dto
+    kind: mode
+    immutable: true
+    file_hint: top-instal-generator/core/application/GenerateOfferDocumentUseCase.php
+
+  - canonical: document.generate_action
+    repo: generator
+    token: offer-documents/generate
+    kind: route
+    immutable: true
+    file_hint: top-instal-generator/wp-adapter/rest/GenerateOfferDocumentController.php
+
+  - canonical: document.input_mapper
+    repo: generator
+    token: map_from_offer_dto
+    kind: function
+    immutable: true
+    file_hint: top-instal-generator/core/application/OfferDocumentInputMapper.php
+
+  - canonical: document.generate_action
+    repo: generator
+    token: TopInstal_GenerateOfferDocument_UseCase
+    kind: class
+    immutable: true
+    file_hint: top-instal-generator/core/application/GenerateOfferDocumentUseCase.php
+
+  # --- RAG ---
+  - canonical: rag.advisory_chat
+    repo: rag
+    token: /chat
+    kind: route
+    immutable: true
+    file_hint: "rag-chat-asystent/backend/main.py"
+
+  - canonical: rag.offer_context
+    repo: rag
+    token: offer_context
+    kind: field
+    immutable: true
+    file_hint: "rag-chat-asystent/backend/api/schemas/chat.py"
+
+  - canonical: rag.case_context
+    repo: rag
+    token: case_context
+    kind: field
+    immutable: true
+    file_hint: "rag-chat-asystent/backend/api/schemas/chat.py"
+
+  - canonical: rag.cieplo_ingress_disabled
+    repo: rag
+    token: CIEPLO_INGRESS_ENABLED
+    kind: env
+    immutable: true
+    file_hint: "rag-chat-asystent/backend/config.py"
+
+  - canonical: rag.knowledge_base
+    repo: rag
+    token: hvac_knowledge
+    kind: chroma_collection
+    immutable: true
+    file_hint: "rag-chat-asystent/backend/engine.py"
+
+  - canonical: rag.generator_bridge
+    repo: rag
+    token: build_generator_request_from_offer_v1
+    kind: function
+    immutable: false
+    file_hint: "rag-chat-asystent/backend/application/services"
+
+  # --- Operator / Daszek ---
+  - canonical: operator.projection_v2
+    repo: gmail-agent
+    token: store-v2
+    kind: module
+    immutable: true
+    file_hint: daszek/includes/store-v2.php
+
+  - canonical: operator.bridge_queue
+    repo: gmail-agent
+    token: bridge_queue.jsonl
+    kind: file
+    immutable: true
+    file_hint: daszek/includes/store-v2.php
+
+  - canonical: operator.case_archive
+    repo: gmail-agent
+    token: operator_case_archive.json
+    kind: file
+    immutable: false
+    file_hint: daszek/includes/store-v2-operator.php
+
+  - canonical: decision.action_proposal
+    repo: gmail-agent
+    token: action_proposal.v1
+    kind: schema_version
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/policy_action_proposal.py
+
+  - canonical: operator.skrzat_ask
+    repo: gmail-agent
+    token: "/cases/{case_id}/skrzat/ask"
+    kind: route
+    immutable: true
+    file_hint: gmail-agent/tools/gmail_audit/api_app.py
+
+# Greenfield (L2 only — brak L3 do czasu RFC P0)
+greenfield:
+  - canonical: os.identity_id
+    status: proposed
+    forbidden_aliases: [user_id, lead_id, client_id]
+  - canonical: os.engagement_id
+    status: proposed
+    forbidden_aliases: [lead_id, case_id, global_lead_id]
+  - canonical: os.correlation_link
+    status: proposed
+    table: correlation_links
+  - canonical: os.canonical_trace_id
+    status: proposed
+    maps_aliases: [traceId, trace_id]
