@@ -1,0 +1,369 @@
+{
+  "program": "UNDERSTANDING-TO-DECISION-QUALITY-01",
+  "roadmap_id": "IQ-01",
+  "schema_version": "iq01-summary.v1",
+  "generated_at_utc": "2026-08-06T13:16:50.981061+00:00",
+  "cohort_path": "C:/Users/compg/Desktop/top-code workspace/knowledge/eval/understanding-to-decision-quality-01/cohort.json",
+  "cases": 13,
+  "passed": 13,
+  "failed": 0,
+  "failed_case_ids": [],
+  "verdict": "PASS",
+  "decision_state_counts": {
+    "execute": 2,
+    "reply": 4,
+    "complete-info": 3,
+    "consciously-do-nothing": 1,
+    "approve": 1,
+    "wait": 1,
+    "close": 1
+  },
+  "decision_states_covered": [
+    "approve",
+    "close",
+    "complete-info",
+    "consciously-do-nothing",
+    "execute",
+    "reply",
+    "wait"
+  ],
+  "all_roadmap_states_present": true,
+  "metrics": [
+    "recommended_next_step_not_vague",
+    "decision_state_clear",
+    "gaps_vs_risks_separated",
+    "follow_up_delta"
+  ],
+  "results": [
+    {
+      "case_id": "IQ-INT-01",
+      "verdict": "PASS",
+      "decision_state": "execute",
+      "expected_decision_state": "execute",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "call_kalk_top_quote_or_draft",
+      "fresh38_ref": "INT-01",
+      "sharpened_next_step_len": 138
+    },
+    {
+      "case_id": "IQ-FU-06",
+      "verdict": "PASS",
+      "decision_state": "reply",
+      "expected_decision_state": "reply",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": true,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 1,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": "FU-06",
+      "sharpened_next_step_len": 120
+    },
+    {
+      "case_id": "IQ-FU-07",
+      "verdict": "PASS",
+      "decision_state": "reply",
+      "expected_decision_state": "reply",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": true,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "call_kalk_top_quote_or_draft",
+      "fresh38_ref": "FU-07",
+      "sharpened_next_step_len": 194
+    },
+    {
+      "case_id": "IQ-SVC-01",
+      "verdict": "PASS",
+      "decision_state": "complete-info",
+      "expected_decision_state": "complete-info",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 2,
+        "risk_count": 1,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": "SVC-01",
+      "sharpened_next_step_len": 116
+    },
+    {
+      "case_id": "IQ-MI-01",
+      "verdict": "PASS",
+      "decision_state": "reply",
+      "expected_decision_state": "reply",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": true,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 1,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": "MI-01",
+      "sharpened_next_step_len": 120
+    },
+    {
+      "case_id": "IQ-DOC-01",
+      "verdict": "PASS",
+      "decision_state": "consciously-do-nothing",
+      "expected_decision_state": "consciously-do-nothing",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": true,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 1,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "request_operator_clarification",
+      "fresh38_ref": "DOC-01",
+      "sharpened_next_step_len": 143
+    },
+    {
+      "case_id": "IQ-CTX-01",
+      "verdict": "PASS",
+      "decision_state": "complete-info",
+      "expected_decision_state": "complete-info",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 1,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": "CTX-01",
+      "sharpened_next_step_len": 165
+    },
+    {
+      "case_id": "IQ-DEC-01",
+      "verdict": "PASS",
+      "decision_state": "reply",
+      "expected_decision_state": "reply",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": "DEC-01",
+      "sharpened_next_step_len": 182
+    },
+    {
+      "case_id": "IQ-HITL-01",
+      "verdict": "PASS",
+      "decision_state": "approve",
+      "expected_decision_state": "approve",
+      "raw_next_step_was_vague": false,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": null,
+      "sharpened_next_step_len": 77
+    },
+    {
+      "case_id": "IQ-WAIT-01",
+      "verdict": "PASS",
+      "decision_state": "wait",
+      "expected_decision_state": "wait",
+      "raw_next_step_was_vague": false,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": null,
+      "sharpened_next_step_len": 76
+    },
+    {
+      "case_id": "IQ-CLOSE-01",
+      "verdict": "PASS",
+      "decision_state": "close",
+      "expected_decision_state": "close",
+      "raw_next_step_was_vague": false,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": null,
+      "sharpened_next_step_len": 43
+    },
+    {
+      "case_id": "IQ-NEW-01",
+      "verdict": "PASS",
+      "decision_state": "execute",
+      "expected_decision_state": "execute",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 0,
+        "risk_count": 0,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "call_kalk_top_quote_or_draft",
+      "fresh38_ref": "NEW-01",
+      "sharpened_next_step_len": 138
+    },
+    {
+      "case_id": "IQ-GAPS-01",
+      "verdict": "PASS",
+      "decision_state": "complete-info",
+      "expected_decision_state": "complete-info",
+      "raw_next_step_was_vague": true,
+      "meaningful_follow_up_delta": false,
+      "gaps_vs_risks": {
+        "separated": true,
+        "gap_count": 2,
+        "risk_count": 1,
+        "overlap_count": 0,
+        "questionish_gap_count": 0
+      },
+      "checks": {
+        "recommended_next_step_not_vague": true,
+        "decision_state_clear": true,
+        "gaps_vs_risks_separated": true,
+        "follow_up_delta": true
+      },
+      "failed_checks": [],
+      "planner_action_hint": "generate_draft_reply",
+      "fresh38_ref": "FU-01",
+      "sharpened_next_step_len": 173
+    }
+  ],
+  "notes": [
+    "Synthetic fixtures; Fresh38 refs are labels only.",
+    "No live Gmail / no full Fresh 38.",
+    "follow_up_guardian untouched (FG-02/03 isolation)."
+  ]
+}

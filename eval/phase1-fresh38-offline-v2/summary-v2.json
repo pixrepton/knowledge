@@ -1,0 +1,27 @@
+{
+  "cases": 38,
+  "outcomes": {
+    "CAPABILITY": 20,
+    "CLEAN_PASS": 13,
+    "HARNESS": 5
+  },
+  "clean_pass_cases": 13,
+  "quality_scored_cases": 32,
+  "quality_passed_cases": 13,
+  "capture_gap_cases": 5,
+  "measurement_contract_version": "v2",
+  "measurement_contract_manifest": {
+    "measurement_contract_version": "v2",
+    "corpus_sha256": "83518019ca08df216966fac4ff6364b462daefecd786a37240831826c1dcbe7b",
+    "ground_truth_sha256": "ba1447534d534c9d047ed169beff45b94376be860b8347282794d8cb51a57cd8",
+    "scorer_sha256": "9c76043e8649d7f8899babaa8dd1f56bf8ab33c47bf7098b510ae80828b50bd8",
+    "qualification_threshold": 34,
+    "timestamp": "2026-08-04T12:14:10.114049Z",
+    "source_sut_capture_sha256": "e11f76e645390f5bfe9de869e86719bc72a51ad7fcb39cbdd0cc55e054f05db9",
+    "comparison_policy": "measurement outputs are comparable only when measurement_contract_version, corpus hash, ground-truth hash, scorer hash, and threshold match",
+    "frozen_judge_result_sha256": "e825afab53591478e0d4c2fce61a141c9fd82e33a1d54bc97a28c392a0517819",
+    "contract_changed_from": "v1",
+    "contract_change_reason": "measurement correction for CTX-05, MI-01, NEW-01, NEW-02 only",
+    "manifest_sha256": "eb80de3bcaaa65bfe514a965fa9e4208fa9f4032c8562da841e535c321f7dc91"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "slice": "PLANNER-EXECUTION-FIDELITY-AND-TOOL-BUDGET-INTEGRITY-01",
+  "generated_at": "2026-08-04T14:24:17.798878Z",
+  "fresh38_rerun": false,
+  "send_performed": false,
+  "cases": {
+    "INT-01": {
+      "case_id": "INT-01",
+      "effective_tools_without_kalk": [
+        "search_gmail_thread",
+        "list_drive_folder",
+        "read_google_drive_file",
+        "extract_facts_from_text",
+        "search_rag_knowledge",
+        "check_cp2025_eligibility",
+        "generate_draft_reply",
+        "request_operator_clarification",
+        "report_gaps_and_stop"
+      ],
+      "filter_reasons": [
+        "call_kalk_top_quote: KALK_TOP_BASE_URL is not configured"
+      ],
+      "effective_tools_with_kalk": [
+        "search_gmail_thread",
+        "list_drive_folder",
+        "read_google_drive_file",
+        "extract_facts_from_text",
+        "search_rag_knowledge",
+        "check_cp2025_eligibility",
+        "call_kalk_top_quote",
+        "generate_draft_reply",
+        "request_operator_clarification",
+        "report_gaps_and_stop"
+      ],
+      "known_fact_reask_blocked": true,
+      "reask_keys": [
+        "raw_geographic_signal"
+      ],
+      "policy_correlation": "correlated",
+      "policy_decision_id": "pd_int01",
+      "action_proposal_id": "ap_int01",
+      "kalk_offered_without_config": false
+    },
+    "NEW-03": {
+      "case_id": "NEW-03",
+      "known_area": 180,
+      "known_city": "Kraków",
+      "kalk_failure_class": "TOOL_CONFIGURATION_MISSING",
+      "kalk_owner": "infra",
+      "reask_blocked": true
+    },
+    "INT-04": {
+      "case_id": "INT-04",
+      "handler_status": "error",
+      "failure_class": "DRAFT_SANITY_FAILED",
+      "sanity_ok": false,
+      "sanity_reasons": [
+        "service_draft_asks_sales_fields",
+        "service_missing_info_intent"
+      ],
+      "draft_enabled": false
+    },
+    "FU-06_FU-07": {
+      "case_id": "FU-06/FU-07",
+      "brain1_present": true,
+      "what_changed_pl": "Metraż z 100 na 120 m2",
+      "heated_area_m2": 120,
+      "change_detection_owner": "Brain1_case_understanding",
+      "planner_ignores_change": false
+    },
+    "budget_envelope": {
+      "budget_before": {
+        "max_turns": 2,
+        "max_total_tool_calls": 4,
+        "max_research_calls": 5,
+        "max_repeated_objective_calls": 1,
+        "max_tokens": 0,
+        "max_tool_failures": 2,
+        "deadline_seconds": 0,
+        "turns_used": 0,
+        "tool_calls_used": 0,
+        "research_calls_used": 0,
+        "tool_failures_used": 0,
+        "tokens_used": 0,
+        "exhausted_reason": "",
+        "research_tools": [
+          "search_rag_knowledge",
+          "search_gmail_thread"
+        ],
+        "remaining": {
+          "turns": 2,
+          "tool_calls": 4,
+          "research_calls": 5,
+          "tool_failures": 2,
+          "tokens": -1
+        }
+      },
+      "budget_exhausted_reason": "PLANNER_BUDGET_EXCEEDED:max_turns",
+      "harness_envelope": "expected_absence",
+      "wiring_envelope": "wiring_failure",
+      "fail_closed_failure_class": "POLICY_ENVELOPE_MISSING",
+      "kalk_not_offered": true,
+      "offered_tools": [
+        "check_cp2025_eligibility",
+        "extract_facts_from_text",
+        "generate_draft_reply",
+        "list_drive_folder",
+        "read_google_drive_file",
+        "report_gaps_and_stop",
+        "request_operator_clarification",
+        "search_gmail_thread",
+        "search_rag_knowledge"
+      ]
+    }
+  }
+}

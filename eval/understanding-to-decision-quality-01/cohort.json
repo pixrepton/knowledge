@@ -1,0 +1,352 @@
+{
+  "program": "UNDERSTANDING-TO-DECISION-QUALITY-01",
+  "roadmap_id": "IQ-01",
+  "schema_version": "iq01-cohort.v1",
+  "description": "Bounded cohort (synthetic Understanding fixtures). IDs align with Fresh38 labels where applicable; payloads are PII-free and do not require live Gmail.",
+  "source_note": "Scenario shapes inspired by knowledge/eval/phase1-fresh38-merged-v2 (NBA vague + FU delta + gaps/risks). Not a Fresh38 re-run.",
+  "decision_states": [
+    "execute",
+    "approve",
+    "reply",
+    "complete-info",
+    "wait",
+    "close",
+    "consciously-do-nothing"
+  ],
+  "metrics": [
+    "recommended_next_step_not_vague",
+    "decision_state_clear",
+    "gaps_vs_risks_separated",
+    "follow_up_delta"
+  ],
+  "cases": [
+    {
+      "case_id": "IQ-INT-01",
+      "fresh38_ref": "INT-01",
+      "case_kind": "wycena_oferta",
+      "business_area": "sales",
+      "expected_decision_state": "execute",
+      "require_follow_up_delta": false,
+      "policy_allowed": true,
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Wczesniej ustalone dane pozostaja wazne (heated_area_m2: 150).",
+          "changes": []
+        },
+        "operator_explanation": {"essence_pl": "Lead wyceny 150 m2 — lokalizacja znana"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_internal",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-FU-06",
+      "fresh38_ref": "FU-06",
+      "case_kind": "zapytanie_klienta",
+      "business_area": "sales",
+      "expected_decision_state": "reply",
+      "require_follow_up_delta": true,
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [
+          {
+            "risk_type": "interpretation_risk",
+            "summary_pl": "Klient ma niezałatwione pytanie wymagające odpowiedzi przed dalszym ruchem."
+          }
+        ],
+        "open_loops": [],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Wczesniej ustalone dane pozostaja wazne i wiazace (scope: ogrzewanie).",
+          "changes": []
+        },
+        "operator_explanation": {"essence_pl": "Re: Wycena - dodatkowe pytanie"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "Business reasoning could not be confirmed safely.",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-FU-07",
+      "fresh38_ref": "FU-07",
+      "case_kind": "wycena_oferta",
+      "business_area": "sales",
+      "expected_decision_state": "reply",
+      "require_follow_up_delta": true,
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Klient dodał: jeszcze jedna rzecz — bufor CWU 300l.",
+          "changes": [{"change_type": "new_request", "summary_pl": "bufor CWU 300l"}]
+        },
+        "operator_explanation": {"essence_pl": "Re: Wycena - jeszcze jedna rzecz"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_review",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-SVC-01",
+      "fresh38_ref": "SVC-01",
+      "case_kind": "awaria_naprawa",
+      "business_area": "service",
+      "expected_decision_state": "complete-info",
+      "require_follow_up_delta": false,
+      "understanding": {
+        "situation_summary": {"case_family": "awaria_naprawa", "business_area": "service"},
+        "missing_critical_fields": ["objaw", "model_urzadzenia"],
+        "risks": [{"summary_pl": "Awaria bez pełnego opisu urządzenia opóźnia diagnostykę."}],
+        "open_loops": [],
+        "thread_delta": {"operator_visible_delta_summary": "", "changes": []},
+        "operator_explanation": {"essence_pl": "Reklamacja - instalacja nie działa poprawnie"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_internal",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-MI-01",
+      "fresh38_ref": "MI-01",
+      "case_kind": "zapytanie_klienta",
+      "business_area": "service",
+      "expected_decision_state": "reply",
+      "require_follow_up_delta": true,
+      "understanding": {
+        "situation_summary": {"case_family": "unknown", "business_area": "service"},
+        "missing_critical_fields": [],
+        "risks": [
+          {
+            "risk_type": "interpretation_risk",
+            "severity": "high",
+            "summary_pl": "Klient ma niezałatwione pytanie wymagające odpowiedzi przed dalszym ruchem."
+          }
+        ],
+        "open_loops": ["Po pieciu dniach brak odpowiedzi na pytanie techniczne"],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Temat trafil do recznej oceny zamiast bezposredniej automatyzacji.",
+          "changes": []
+        },
+        "operator_explanation": {"essence_pl": "Dwie sprawy — pytanie techniczne"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_internal",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-DOC-01",
+      "fresh38_ref": "DOC-01",
+      "case_kind": "ksiegowosc",
+      "business_area": "finance",
+      "expected_decision_state": "consciously-do-nothing",
+      "require_follow_up_delta": false,
+      "understanding": {
+        "situation_summary": {"case_family": "finance_settlement", "business_area": "finance"},
+        "missing_critical_fields": [],
+        "risks": [
+          {
+            "risk_type": "interpretation_risk",
+            "summary_pl": "Klient przeslal dokument finansowy (np. fakture) wymagajacy przetworzenia."
+          }
+        ],
+        "open_loops": [],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Klient przeslal dokument finansowy do przetworzenia",
+          "changes": [{"change_type": "new_document_signal", "summary_pl": "faktura"}]
+        },
+        "operator_explanation": {"essence_pl": "Faktura — bez ścieżki HVAC"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_internal",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-CTX-01",
+      "fresh38_ref": "CTX-01",
+      "case_kind": "niezaklasyfikowane",
+      "business_area": "operations",
+      "expected_decision_state": "complete-info",
+      "require_follow_up_delta": false,
+      "understanding": {
+        "situation_summary": {"case_family": "unknown", "business_area": "operations"},
+        "missing_critical_fields": [
+          "Potwierdzenie realizacji wcześniej ustalonej wizyty (termin znany)"
+        ],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Wczesniej ustalone dane pozostaja wazne (ustalony termin wizyty).",
+          "changes": []
+        },
+        "operator_explanation": {"essence_pl": "Re: Wizja lokalna — brak potwierdzenia outcome"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_internal",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-DEC-01",
+      "fresh38_ref": "DEC-01",
+      "case_kind": "niezaklasyfikowane",
+      "business_area": "operations",
+      "expected_decision_state": "reply",
+      "require_follow_up_delta": false,
+      "understanding": {
+        "situation_summary": {"case_family": "unknown", "business_area": "operations"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": ["escalate_review"],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Pojawil sie nowy temat operacyjny wymagajacy prowadzenia jako sprawa.",
+          "changes": []
+        },
+        "operator_explanation": {"essence_pl": "Rozważam rozwiązanie umowy — wymaga jednej decyzji operatorskiej"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_review",
+          "action_type": "review_required"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-HITL-01",
+      "fresh38_ref": null,
+      "case_kind": "wycena_oferta",
+      "business_area": "sales",
+      "expected_decision_state": "approve",
+      "require_follow_up_delta": false,
+      "draft_ready": true,
+      "hitl_required": true,
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {"operator_visible_delta_summary": "", "changes": []},
+        "operator_explanation": {"essence_pl": "Draft oferty gotowy do HITL"},
+        "next_best_action_recommendation": {
+          "title_pl": "Zatwierdź draft odpowiedzi (HITL approve)",
+          "reason_pl": "Draft sanity OK — wymaga operatora",
+          "action_type": "prepare_reply_draft"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-WAIT-01",
+      "fresh38_ref": null,
+      "case_kind": "wycena_oferta",
+      "business_area": "sales",
+      "expected_decision_state": "wait",
+      "require_follow_up_delta": false,
+      "lifecycle_hint": "waiting_client",
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {"operator_visible_delta_summary": "", "changes": []},
+        "operator_explanation": {"essence_pl": "Wysłano dopytanie — czekamy na klienta w SLA"},
+        "next_best_action_recommendation": {
+          "title_pl": "Czekaj na odpowiedź klienta (waiting_client)",
+          "reason_pl": "SLA waiting OK — nie stagnacja",
+          "action_type": "no_action"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-CLOSE-01",
+      "fresh38_ref": null,
+      "case_kind": "wycena_oferta",
+      "business_area": "sales",
+      "expected_decision_state": "close",
+      "require_follow_up_delta": false,
+      "lifecycle_hint": "closed",
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {"operator_visible_delta_summary": "", "changes": []},
+        "operator_explanation": {"essence_pl": "Oferta przyjęta — sprawa terminalna"},
+        "next_best_action_recommendation": {
+          "title_pl": "Zamknij sprawę — terminal",
+          "reason_pl": "Lifecycle closed",
+          "action_type": "no_action"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-NEW-01",
+      "fresh38_ref": "NEW-01",
+      "case_kind": "wycena_oferta",
+      "business_area": "sales",
+      "expected_decision_state": "execute",
+      "require_follow_up_delta": false,
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [],
+        "risks": [],
+        "open_loops": [],
+        "thread_delta": {
+          "operator_visible_delta_summary": "Wczesniej ustalone dane pozostaja wazne (typ budynku: dom).",
+          "changes": []
+        },
+        "operator_explanation": {"essence_pl": "Zapytanie ofertowe — znany typ budynku"},
+        "next_best_action_recommendation": {
+          "title_pl": "Przekaż dalej wewnętrznie",
+          "reason_pl": "escalate_internal",
+          "action_type": "escalate_internal"
+        }
+      }
+    },
+    {
+      "case_id": "IQ-GAPS-01",
+      "fresh38_ref": "FU-01",
+      "case_kind": "przeglad_konserwacja",
+      "business_area": "sales",
+      "expected_decision_state": "complete-info",
+      "require_follow_up_delta": false,
+      "understanding": {
+        "situation_summary": {"case_family": "lead_opportunity", "business_area": "sales"},
+        "missing_critical_fields": [
+          "Jednoznaczne powiązanie wiadomości z istniejącą sprawą",
+          "Precyzyjna data kontaktu"
+        ],
+        "risks": [
+          {
+            "risk_type": "lead_loss_risk",
+            "summary_pl": "Lead jest aktywny, ale bez krytycznych danych może utknąć na etapie kwalifikacji."
+          }
+        ],
+        "open_loops": [],
+        "thread_delta": {"operator_visible_delta_summary": "", "changes": []},
+        "operator_explanation": {"essence_pl": "Re: Oferta — brak powiązania i daty"},
+        "next_best_action_recommendation": {
+          "title_pl": "Wymagana ręczna ocena",
+          "reason_pl": "escalate_internal",
+          "action_type": "review_required"
+        }
+      }
+    }
+  ]
+}

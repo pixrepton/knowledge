@@ -1,0 +1,146 @@
+{
+  "slice": "PLANNER-FIDELITY-CLOSEOUT-02",
+  "generated_at": "2026-08-04T15:27:52.077413Z",
+  "fresh38_rerun": false,
+  "send_performed": false,
+  "cases": {
+    "INT-01": {
+      "case_id": "INT-01",
+      "mode": "deterministic",
+      "envelope_presence": {
+        "status": "present_current",
+        "expected": true,
+        "wiring_ok": true,
+        "reason_codes": [],
+        "policy_decision_id": "pdec_d0b4186120334066cb10b2",
+        "action_proposal_id": "apv2_785ec6e10b5483eb4883e7",
+        "decision_candidate_id": "dc_harness_case_INT-01",
+        "source_signal_id": "sig_INT-01"
+      },
+      "policy_decision_id": "pdec_d0b4186120334066cb10b2",
+      "action_proposal_id": "apv2_785ec6e10b5483eb4883e7",
+      "envelope_freshness": "current",
+      "recommended_next_step_pl": "Oferta: nie pytaj ponownie o znany metraż/miasto; policz wycenę gdy narzędzie dostępne, inaczej generate_draft_reply(intent=quote) i HITL.",
+      "kalk_offered": false,
+      "filtered_tools": [
+        "call_kalk_top_quote: KALK_TOP_BASE_URL is not configured"
+      ],
+      "first_tool": "generate_draft_reply",
+      "hitl_required": true,
+      "hitl_reason": "draft_ready_for_approval",
+      "actions": [
+        {
+          "id": "draft_reply",
+          "enabled": true,
+          "payload_pl": "Dzień dobry,\n\ndziękujemy za zapytanie dotyczące pompy ciepła dla budynku ok. 150 m2 w Wrocław. Przygotowaliśmy wstępną kalkulację — prosimy o chwilę na weryfikację przez operatora.\n\nZespół TOP-INSTAL",
+          "disabled_reason_pl": null,
+          "parent_policy_decision_id": "pdec_d0b4186120334066cb10b2",
+          "parent_action_proposal_v2_id": "apv2_785ec6e10b5483eb4883e7",
+          "parent_decision_candidate_id": "dc_harness_case_INT-01",
+          "source_signal_id": "sig_INT-01",
+          "draft_id": "draft_9276db93240f5464f169",
+          "revision": 1,
+          "body_hash": "cf176662c4eef1b9",
+          "case_id": "case_INT-01",
+          "identity_state": "complete"
+        }
+      ],
+      "planner_run_budget": {
+        "max_turns": 3,
+        "max_total_tool_calls": 39,
+        "max_research_calls": 5,
+        "max_repeated_objective_calls": 1,
+        "max_tokens": 0,
+        "max_tool_failures": 2,
+        "deadline_seconds": 0,
+        "turns_used": 1,
+        "tool_calls_used": 1,
+        "research_calls_used": 0,
+        "tool_failures_used": 0,
+        "tokens_used": 0,
+        "exhausted_reason": "",
+        "research_tools": [
+          "search_rag_knowledge",
+          "search_gmail_thread"
+        ],
+        "remaining": {
+          "turns": 2,
+          "tool_calls": 38,
+          "research_calls": 5,
+          "tool_failures": 2,
+          "tokens": -1
+        }
+      },
+      "brain1_present": true
+    },
+    "INT-04": {
+      "case_id": "INT-04",
+      "mode": "deterministic",
+      "envelope_presence": {
+        "status": "present_current",
+        "expected": true,
+        "wiring_ok": true,
+        "reason_codes": [],
+        "policy_decision_id": "pdec_f0aae67c85ab7c34e78d56",
+        "action_proposal_id": "apv2_d2e106313739c0cf2b977d",
+        "decision_candidate_id": "dc_harness_case_INT-04",
+        "source_signal_id": "sig_INT-04"
+      },
+      "policy_decision_id": "pdec_f0aae67c85ab7c34e78d56",
+      "action_proposal_id": "apv2_d2e106313739c0cf2b977d",
+      "envelope_freshness": "current",
+      "recommended_next_step_pl": "Serwis: dopytaj o objaw/urządzenie (objaw_szczegoly), przygotuj draft serwisowy bez metrażu/OZC, HITL approve.",
+      "kalk_offered": false,
+      "filtered_tools": [
+        "call_kalk_top_quote: KALK_TOP_BASE_URL is not configured"
+      ],
+      "first_tool": "generate_draft_reply",
+      "hitl_required": true,
+      "hitl_reason": "draft_sanity_failed:service_draft_asks_sales_fields,service_missing_info_intent",
+      "actions": [
+        {
+          "id": "draft_reply",
+          "enabled": false,
+          "payload_pl": "Dzień dobry,\n\nprosimy o uzupełnienie danych technicznych (metraż, OZC) dla instalacji w Państwa lokalizacji.\n\nZespół TOP-INSTAL",
+          "disabled_reason_pl": "DRAFT_SANITY_FAILED: service_draft_asks_sales_fields,service_missing_info_intent",
+          "parent_policy_decision_id": "pdec_f0aae67c85ab7c34e78d56",
+          "parent_action_proposal_v2_id": "apv2_d2e106313739c0cf2b977d",
+          "parent_decision_candidate_id": "dc_harness_case_INT-04",
+          "source_signal_id": "sig_INT-04",
+          "draft_id": "",
+          "revision": 1,
+          "body_hash": "",
+          "case_id": "",
+          "identity_state": "complete"
+        }
+      ],
+      "planner_run_budget": {
+        "max_turns": 3,
+        "max_total_tool_calls": 39,
+        "max_research_calls": 5,
+        "max_repeated_objective_calls": 1,
+        "max_tokens": 0,
+        "max_tool_failures": 2,
+        "deadline_seconds": 0,
+        "turns_used": 1,
+        "tool_calls_used": 1,
+        "research_calls_used": 0,
+        "tool_failures_used": 1,
+        "tokens_used": 0,
+        "exhausted_reason": "",
+        "research_tools": [
+          "search_rag_knowledge",
+          "search_gmail_thread"
+        ],
+        "remaining": {
+          "turns": 2,
+          "tool_calls": 38,
+          "research_calls": 5,
+          "tool_failures": 1,
+          "tokens": -1
+        }
+      },
+      "brain1_present": true
+    }
+  }
+}

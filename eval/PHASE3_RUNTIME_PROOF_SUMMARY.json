@@ -1,0 +1,27 @@
+{
+  "manifest_version": "phase3-runtime-proof-summary.v1",
+  "status": "PASS",
+  "proof_id": "phase3-runtime-20260807T203432Z-b727c779",
+  "completed_at": "2026-08-07T20:36:41.584469+00:00",
+  "git_head_sha": "5141397b05e30789e800735b12cc52754b2249a0",
+  "test_command": "C:\\Users\\compg\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages\\pytest\\__main__.py tools/gmail_audit/tests/test_aios_x1_01_playwright_feed_visibility_override.py tools/gmail_audit/tests/test_aios_x1_02_exceptions_only_toggle.py -q --tb=line",
+  "full_manifest_sha256": "75f3b752a4361bdf4f65174914ca3daffda204302658cd78853dff2587f75caa",
+  "journey_verdicts": {
+    "x1_01": "PASS"
+  },
+  "counts": {
+    "journeys": 1,
+    "trace_paths": 2,
+    "screenshot_paths": 2,
+    "live_send_invocations": 0
+  },
+  "working_tree_dirty": true,
+  "tracked_working_tree_dirty": true,
+  "untracked_paths_present": true,
+  "pytest_result": {
+    "passed": 2,
+    "skipped": 0,
+    "failed": 0
+  },
+  "full_manifest_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\gmail-agent\\tools\\gmail_audit\\artifacts\\phase3-runtime-proof\\20260807T203641Z\\proof-manifest.json"
+}

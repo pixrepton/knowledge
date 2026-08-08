@@ -1,0 +1,46 @@
+{
+  "manifest_version": "post-closure-gate-b-summary.v1",
+  "status": "PASS",
+  "session_date": "2026-08-07",
+  "program_context": "POST32-COMMIT-01 closed — slices 4.3/5.1/5.2/6.1/6.2/6.3",
+  "committed_head": {
+    "gmail-agent": "b2f071d8451606d564e04237557b5f2f9986d277",
+    "daszek": "89299457fc06e195fd23007413ea083637bfad2b",
+    "cieplo-orchestrator": "49c8ef1a0db403f603d57655d6910713a8c2b8be",
+    "workspace": "1c5137ef63b02074d7a8aba1544427dac1b99701",
+    "note": "LOCAL_ONLY; no push"
+  },
+  "gate_a": {
+    "gmail-agent": {"passed": 2322, "skipped": 14, "subtests": 24, "duration_s": 407},
+    "daszek": {"passed": 17, "php_l": true, "node_check": true},
+    "cieplo-orchestrator": {"passed": 106}
+  },
+  "preflight_fullstack": {
+    "result": "PASS",
+    "exit_code": 0
+  },
+  "e2e_async_agent_chat": {
+    "script": "scripts/e2e_async_agent_chat.py",
+    "result": "PASS",
+    "steps_passed": 6,
+    "steps_total": 6,
+    "tracked": true,
+    "proof_label": "PROVEN_RUNTIME"
+  },
+  "e2e_full_flow": {
+    "script": "scripts/e2e_full_flow.py",
+    "harness_fix": "COMPLETE",
+    "notes": [
+      "step() now uses last tuple element as verdict (no false-pass on side-effect tuples)",
+      "accepts hitl_required with empty proposals (spine 6.3)"
+    ],
+    "live_rerun": "optional"
+  },
+  "backlog_closed": [
+    "POST32-COMMIT-01",
+    "GATEA-POST-6X-01",
+    "E2E-FULLFLOW-ASSERT-01",
+    "E2E-FULLFLOW-FALSEPASS-01",
+    "E2E-ASYNC-TRACK-01"
+  ]
+}

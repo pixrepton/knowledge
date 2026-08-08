@@ -1,0 +1,27 @@
+{
+  "workspace": "C:\\Users\\compg\\Desktop\\top-code workspace",
+  "verdict": "PASS",
+  "repositories": [
+    {
+      "repo": "top-code workspace",
+      "root": "C:\\Users\\compg\\Desktop\\top-code workspace",
+      "tracked_files_scanned": 195,
+      "issues": [],
+      "verdict": "PASS"
+    },
+    {
+      "repo": "gmail-agent",
+      "root": "C:\\Users\\compg\\Desktop\\top-code workspace\\gmail-agent",
+      "tracked_files_scanned": 955,
+      "issues": [],
+      "verdict": "PASS"
+    },
+    {
+      "repo": "knowledge",
+      "root": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge",
+      "tracked_files_scanned": 263,
+      "issues": [],
+      "verdict": "PASS"
+    }
+  ]
+}

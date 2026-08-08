@@ -1,0 +1,39 @@
+{
+  "manifest_version": "phase0-measurement-snapshot.v1",
+  "status": "FROZEN_REFERENCE",
+  "updated_at_utc": "2026-08-04T00:00:00Z",
+  "program": "AIOS-PHASE0-01",
+  "contract_doc": "knowledge/docs/MEASUREMENT_INTEGRITY_V3.md",
+  "fixture_bundle": {
+    "path": "gmail-agent/tools/gmail_audit/tests/fixtures/measurement_contract_v1/fixture-manifest.json",
+    "description": "Byte-identical frozen captures from final-capability-recovery arc"
+  },
+  "primary_outcomes": [
+    "CLEAN_PASS",
+    "CAPABILITY",
+    "CAPACITY",
+    "DELIVERY",
+    "HARNESS"
+  ],
+  "rules": {
+    "judge_errors_are_not_capability_failures": true,
+    "measurement_change_not_product_change_when_ground_truth_unchanged": true,
+    "manual_scoring_required": false,
+    "no_measurement_changes_between_run_a_and_run_b": true
+  },
+  "scorer_entrypoints": [
+    "gmail-agent/tools/gmail_audit/eval_measurement_scoring.py",
+    "gmail-agent/tools/gmail_audit/eval_final_rescore.py",
+    "gmail-agent/tools/gmail_audit/eval_final_rescore_versioned.py",
+    "gmail-agent/tools/gmail_audit/eval_understanding_judge.py"
+  ],
+  "harness_entrypoints": [
+    "gmail-agent/tools/gmail_audit/eval_capability_batch_harness.py",
+    "gmail-agent/tools/gmail_audit/eval_measurement_manifest.py"
+  ],
+  "qualification_tests": [
+    "gmail-agent/tools/gmail_audit/tests/test_judge_error_is_not_a_pass.py",
+    "gmail-agent/tools/gmail_audit/tests/test_measurement_integrity_v3.py",
+    "gmail-agent/tools/gmail_audit/tests/test_eval_capability_batch_harness.py"
+  ]
+}
