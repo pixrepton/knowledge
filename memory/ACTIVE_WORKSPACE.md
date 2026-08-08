@@ -1,25 +1,25 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (`AI-OS-FINAL-INFRA-CLOSEOUT-01` — **NO-GO**).
+Status: current direction only. Last updated: 2026-08-08 (`OPERATOR-COMMAND-RECONCILE-BYPASS-01` — **CLOSED**).
 
 ## Current program (canonical)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
 **Strategic posture:** `AI-OS-FINAL-INFRA-CLOSEOUT-01` (final read-only audit before the
-28-CAPABILITY program) ran 2026-08-08 and returned **NO-GO**. One real blocker found:
-`OPERATOR-COMMAND-RECONCILE-BYPASS-01` (`REQUIRED_OPEN`, see `BACKLOG.md`). Every other
+28-CAPABILITY program) ran 2026-08-08 and originally returned **NO-GO** with one real blocker:
+`OPERATOR-COMMAND-RECONCILE-BYPASS-01`. That blocker is now **CLOSED** in `gmail-agent`
+with Gate A passing and the current registry at `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`.
+Every other
 historical program/residual checked (Fresh38, FACT read+write, RAG-widget P0-4/P0-5,
 RAG-V2-FINAL-TECHNICAL-GATE-01, Calendar dispatch topology, desk membership, projection
 seam, 4.4, credential history) came back clean/closed/intentional — **do not reopen those
 without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` changelog
 2026-08-08 and this session’s report.
 
-**Next step:** a dedicated fix task for `OPERATOR-COMMAND-RECONCILE-BYPASS-01`, then
-re-run `AI-OS-FINAL-INFRA-CLOSEOUT-01` (or an equivalent narrow re-check) before declaring
-`AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL` and starting the Fresh38 28-CAPABILITY
-program. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na roadmapie” — i nie
-rozpoczynaj programu CAPABILITY, dopóki ten jeden blocker nie jest zamknięty.
+**Next step:** stop after the blocker closeout proof. Do not start the Fresh38 28-CAPABILITY
+program without a separate explicit operator instruction. **Nie** otwieraj kolejnych slice’ów
+5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
 
@@ -35,6 +35,7 @@ rozpoczynaj programu CAPABILITY, dopóki ten jeden blocker nie jest zamknięty.
 | `RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01`      | CLOSED `COMPLETE / CONFIRMED_LOCAL` (P0-4/P0-5)                      |
 | `RAG-V2-LIVE-CUTOVER-READINESS-01`           | CLOSED `PARTIAL` — superseded by final technical gate                |
 | `RAG-V2-FINAL-TECHNICAL-GATE-01`             | CLOSED `COMPLETE / proven_local` — `STAGED_ACTIVATION_EXECUTED`      |
+| `OPERATOR-COMMAND-RECONCILE-BYPASS-01`       | CLOSED — canonical Agent Chat reconcile path; REQUIRED_OPEN = 0      |
 
 ### RAG staged activation (binding)
 
@@ -54,10 +55,11 @@ REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION
 Scaffold may exist in code from WAVE-01; **do not** develop or product-activate. No auto-revert
 without blast-radius review (`OPERATOR_DECISIONS.md`).
 
-### Otwarte residuale (jedyne realne)
+### Otwarte residuale
 
 ```text
-REQUIRED_OPEN:  OPERATOR-COMMAND-RECONCILE-BYPASS-01 (blocks AI-OS-FINAL-INFRA-CLOSEOUT-01 GO)
+REQUIRED_OPEN:  0
+UNKNOWN_NEEDS_PROOF: 0
 P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 ```
 

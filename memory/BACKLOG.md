@@ -1,14 +1,20 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (AI-OS-FINAL-INFRA-CLOSEOUT-01 — NO-GO).
+Status: active only. Last updated: 2026-08-08 (OPERATOR-COMMAND-RECONCILE-BYPASS-01 — CLOSED).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
-## Open — only real residuals (post AI-OS-FINAL-INFRA-CLOSEOUT-01 audit)
+## Current residual status
+
+```text
+OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
+REQUIRED_OPEN = 0
+UNKNOWN_NEEDS_PROOF = 0
+```
 
 | ID                               | Area        | Status   | Next action                                                                                  |
 | --------------------------------- | ----------- | -------- | --------------------------------------------------------------------------------------------- |
-| `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **REQUIRED_OPEN** | `run_operator_command_spine()` bypasses `reconcile_signal()`/registered `operator_command` handler in both live production entrypoints (`/agent-chat` sync + async `agent_chat_worker.py`) — skips entity linking, `case_key`, `projection_refresh_decision`; blocks `AI-OS-FINAL-INFRA-CLOSEOUT-01` GO. See `docs/AI_OS_ROADMAP.md` changelog 2026-08-08. |
+| `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **CLOSED** | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed. |
 | IQ-01-ADJUDICATED                | eval        | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                 |
 | GOV-06                           | knowledge   | PARTIAL  | `.serena` policy monitor — ignore by default                                                 |
 
@@ -20,11 +26,11 @@ This file is not a proof history or phase archive. Canonical plan + residual nar
 
 ## Closed — RAG-V2-FINAL-TECHNICAL-GATE-01 (2026-08-08)
 
-| ID                         | Disposition                | Note                                                                                                                                                                                                                          |
-| -------------------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ID                             | Disposition             | Note                                                                                                                                                                                                                 |
+| ------------------------------ | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | RAG-V2-FINAL-TECHNICAL-GATE-01 | COMPLETE / proven_local | Closed `RAG-TEMPORAL-COMPLETE-01` + `RAG-IMAGE-BAKE-01`; container-only Gate B; dual-read; staged activate/rollback/restore; proof `eval/rag-v2-final-technical-gate-20260808/`; status `STAGED_ACTIVATION_EXECUTED` |
-| RAG-TEMPORAL-COMPLETE-01   | COMPLETE / proven_local    | 3/3 COMPLETE + resume + idempotency on tracked ingest worker                                                                                                                                                                  |
-| RAG-IMAGE-BAKE-01          | COMPLETE / proven_local    | Tracked `Dockerfile.rag-v2-ingest` + lock; runtime `:local` (not docker-commit tags)                                                                                                                                           |
+| RAG-TEMPORAL-COMPLETE-01       | COMPLETE / proven_local | 3/3 COMPLETE + resume + idempotency on tracked ingest worker                                                                                                                                                         |
+| RAG-IMAGE-BAKE-01              | COMPLETE / proven_local | Tracked `Dockerfile.rag-v2-ingest` + lock; runtime `:local` (not docker-commit tags)                                                                                                                                 |
 
 ## Closed — RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01 (2026-08-08)
 

@@ -760,9 +760,9 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 
 | Priorytet | Tor             | Następne                                                    | Uwaga                                                                            |
 | --------- | --------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| **P1**    | Case OS fix     | **`OPERATOR-COMMAND-RECONCILE-BYPASS-01`**                   | `REQUIRED_OPEN` — blokuje GO dla `AI-OS-FINAL-INFRA-CLOSEOUT-01`; znaleziony 2026-08-08 |
-| **P2**    | Re-audit        | ponowny `AI-OS-FINAL-INFRA-CLOSEOUT-01` (lub węższy re-check) | dopiero po fixie P1 + regresji                                                    |
-| **P3**    | Product quality | Fresh38 CAPABILITY analysis / real cases                     | **nie** budować 5.3–8.x „z listy 51”; **nie zaczynać przed P1/P2**                  |
+| **P1**    | Case OS fix     | **`OPERATOR-COMMAND-RECONCILE-BYPASS-01`**                   | **CLOSED** — `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`; Gate A gmail-agent 0 failed |
+| **P2**    | Re-audit        | ponowny `AI-OS-FINAL-INFRA-CLOSEOUT-01` (lub węższy re-check) | tylko jeśli operator chce osobno zamknąć infra-cleanup posture                    |
+| **P3**    | Product quality | Fresh38 CAPABILITY analysis / real cases                     | **nie** budować 5.3–8.x „z listy 51”; **nie zaczynać bez osobnego polecenia**       |
 
 RAG technical gates (`RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`) — **CLOSED** `proven_local`,
 zweryfikowane ponownie jako czyste 2026-08-08 w finalnym audycie infra closeout.
