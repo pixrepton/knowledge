@@ -1,15 +1,25 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (RAG-V2-FINAL-TECHNICAL-GATE-01).
+Status: current direction only. Last updated: 2026-08-08 (`AI-OS-FINAL-INFRA-CLOSEOUT-01` — **NO-GO**).
 
 ## Current program (canonical)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
-**Strategic posture:** infrastruktura pomiaru, Case OS rdzeń i RAG V2 staged path są
-zamknięte lokalnie. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
-Następny rozwój produktu: jakość capability na podstawie Fresh38
-(`NOT QUALIFIED — CAPABILITY`, CLEAN_PASS=10 / CAPABILITY=28) i realnych spraw firmy.
+**Strategic posture:** `AI-OS-FINAL-INFRA-CLOSEOUT-01` (final read-only audit before the
+28-CAPABILITY program) ran 2026-08-08 and returned **NO-GO**. One real blocker found:
+`OPERATOR-COMMAND-RECONCILE-BYPASS-01` (`REQUIRED_OPEN`, see `BACKLOG.md`). Every other
+historical program/residual checked (Fresh38, FACT read+write, RAG-widget P0-4/P0-5,
+RAG-V2-FINAL-TECHNICAL-GATE-01, Calendar dispatch topology, desk membership, projection
+seam, 4.4, credential history) came back clean/closed/intentional — **do not reopen those
+without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` changelog
+2026-08-08 and this session’s report.
+
+**Next step:** a dedicated fix task for `OPERATOR-COMMAND-RECONCILE-BYPASS-01`, then
+re-run `AI-OS-FINAL-INFRA-CLOSEOUT-01` (or an equivalent narrow re-check) before declaring
+`AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL` and starting the Fresh38 28-CAPABILITY
+program. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na roadmapie” — i nie
+rozpoczynaj programu CAPABILITY, dopóki ten jeden blocker nie jest zamknięty.
 
 ### Zamknięte programy (nie wracać)
 
@@ -47,6 +57,7 @@ without blast-radius review (`OPERATOR_DECISIONS.md`).
 ### Otwarte residuale (jedyne realne)
 
 ```text
+REQUIRED_OPEN:  OPERATOR-COMMAND-RECONCILE-BYPASS-01 (blocks AI-OS-FINAL-INFRA-CLOSEOUT-01 GO)
 P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 ```
 

@@ -1,15 +1,18 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-01).
+Status: active entry point. Last updated: 2026-08-08 (AI-OS-FINAL-INFRA-CLOSEOUT-01 — NO-GO).
 
 Read this file first, then only the files needed for the current task.
 
-**Current program posture (binding via memory):** do not open roadmap 5.3–8.x “from the list”.
-Open residuals only: `RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`
-(+ optional IQ adjudication / GOV-06). RAG staged activation =
-`STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`. Slice 4.4 =
+**Current program posture (binding via memory):** do not open roadmap 5.3–8.x “from the list”, and
+do not start the Fresh38 28-CAPABILITY program yet. The final infra closeout audit
+(`AI-OS-FINAL-INFRA-CLOSEOUT-01`) found exactly one real blocker: `OPERATOR-COMMAND-RECONCILE-BYPASS-01`
+(`REQUIRED_OPEN` — production Agent Chat spine bypasses the canonical `reconcile_signal()`/registered
+handler, skipping entity linking). RAG technical gates (`RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`)
+are closed and re-verified clean. RAG staged activation = `STAGED_ACTIVATION_EXECUTED` (allowlist
+`technical_manual,price_list` only, no global `RAG_CORE=v2`). Slice 4.4 =
 `REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION`. Details: `memory/OPERATOR_DECISIONS.md`,
-`memory/ACTIVE_WORKSPACE.md`, `docs/AI_OS_ROADMAP.md`.
+`memory/ACTIVE_WORKSPACE.md`, `memory/BACKLOG.md`, `docs/AI_OS_ROADMAP.md`.
 
 ## Choose The Route
 

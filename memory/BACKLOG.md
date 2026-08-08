@@ -1,15 +1,18 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (RAG-V2-FINAL-TECHNICAL-GATE-01).
+Status: active only. Last updated: 2026-08-08 (AI-OS-FINAL-INFRA-CLOSEOUT-01 — NO-GO).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
-## Open — only real residuals (post RAG final technical gate)
+## Open — only real residuals (post AI-OS-FINAL-INFRA-CLOSEOUT-01 audit)
 
-| ID                | Area      | Status   | Next action                                                  |
-| ----------------- | --------- | -------- | ------------------------------------------------------------ |
-| IQ-01-ADJUDICATED | eval      | DEFERRED | Human-adjudicated labels (optional measurement; not product) |
-| GOV-06            | knowledge | PARTIAL  | `.serena` policy monitor — ignore by default                 |
+| ID                               | Area        | Status   | Next action                                                                                  |
+| --------------------------------- | ----------- | -------- | --------------------------------------------------------------------------------------------- |
+| `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **REQUIRED_OPEN** | `run_operator_command_spine()` bypasses `reconcile_signal()`/registered `operator_command` handler in both live production entrypoints (`/agent-chat` sync + async `agent_chat_worker.py`) — skips entity linking, `case_key`, `projection_refresh_decision`; blocks `AI-OS-FINAL-INFRA-CLOSEOUT-01` GO. See `docs/AI_OS_ROADMAP.md` changelog 2026-08-08. |
+| IQ-01-ADJUDICATED                | eval        | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                 |
+| GOV-06                           | knowledge   | PARTIAL  | `.serena` policy monitor — ignore by default                                                 |
+
+**Non-blocking harness notes (audit `AI-OS-FINAL-INFRA-CLOSEOUT-01`, not tracked as gating residuals):** gmail-agent `tests/test_aios_canonical_runtime_ingress.py` has no `MAILBOX_MEMORY_TEST_DATABASE_URL`-style skip gate unlike its Postgres-test siblings (unconditional live-DB dependency; ~140s of Gate A wall-clock, fails ungracefully instead of skipping when DB is briefly down); rag-chat-asystent `backend/engine.py:79` ORs `PYTEST_CURRENT_TEST` into `use_fake_embeddings`, so a test trying to opt into real embeddings via `USE_FAKE_EMBEDDINGS=0` silently still gets fake ones unless it also `monkeypatch.delenv("PYTEST_CURRENT_TEST")`; `daszek_engagement_feed/desk.py:58` has a dead-by-coincidence membership gate (`DESK_OPERATIONAL_CODES` happens to equal the full `OperationalStatus.code` Literal today — reactivates silently if a status code is ever added without updating both).
 
 **RAG staged activation:** `STAGED_ACTIVATION_EXECUTED` (see `OPERATOR_DECISIONS.md`). Allowlist `technical_manual,price_list` only. **No** global `RAG_CORE=v2`.
 
