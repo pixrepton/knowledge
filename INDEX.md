@@ -5,7 +5,7 @@ Status: active entry point. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-01).
 Read this file first, then only the files needed for the current task.
 
 **Current program posture (binding via memory):** do not open roadmap 5.3–8.x “from the list”.
-Open residuals only: `FACT-SUPERSESSION-WRITE-01`, `RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`
+Open residuals only: `RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`
 (+ optional IQ adjudication / GOV-06). RAG staged activation =
 `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`. Slice 4.4 =
 `REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION`. Details: `memory/OPERATOR_DECISIONS.md`,
