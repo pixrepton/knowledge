@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (FACT-4.1-HIGH-01).
+Status: current direction only. Last updated: 2026-08-08 (RAG-V2-LIVE-CUTOVER-READINESS-01).
 
 ## Current program (canonical)
 
@@ -18,11 +18,14 @@ Status: current direction only. Last updated: 2026-08-08 (FACT-4.1-HIGH-01).
 
 **`FACT-4.1-HIGH-01`:** CLOSED `COMPLETE / CONFIRMED_LOCAL` — residual CURRENT_STATE consumers + canonical active-facts contract; Gate A **2357**/15; bounded Postgres proof.
 
+**`RAG-V2-LIVE-CUTOVER-READINESS-01`:** CLOSED `PARTIAL` — live data-plane + host Gate B PASS + dual-read/rollback; **READY_FOR_OPERATOR_CUTOVER_DECISION** (staged file ready; **no** global `RAG_CORE=v2`). Proof: `knowledge/eval/rag-v2-live-cutover-20260808/`.
+
 Repair = `PROGRAM_COMPLETE_LOCAL`. Fazy 3 **nie** otwierać bez regresji.
 
 ### Otwarte residuale (operator wybiera)
 
 ```text
+P1 RAG:      Temporal container COMPLETE under Gate B (CPU Docling); image bake lock SDKs
 P2 Write:    FACT-SUPERSESSION-WRITE-01 (replace_message_facts / merge write path)
 P3 Monitor:  GOV-06 .serena; IQ-01-ADJUDICATED (human labels)
 ```

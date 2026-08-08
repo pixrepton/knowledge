@@ -1,0 +1,34 @@
+﻿{
+    "proof_id":  "rag-v2-live-cutover-20260808T081031",
+    "stamp":  "20260808T081031",
+    "overall":  "FAIL",
+    "git_sha":  "79071f0",
+    "repo":  "rag-chat-asystent",
+    "proof_dir":  "C:\\top-code-session-scratch\\rag-v2-live-cutover",
+    "summary_json":  "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\rag-v2-live-cutover-20260808\\summary-20260808T081031.json",
+    "pdf_path":  "C:\\top-code-session-scratch\\rag-v2-live-cutover\\live-cutover-20260808T081031.pdf",
+    "compose_exit_code":  0,
+    "proof_exit_code":  1,
+    "health":  {
+                   "rag_health":  "PASS",
+                   "temporal":  "PASS",
+                   "minio":  "PASS",
+                   "qdrant":  "PASS",
+                   "graphstore":  "PASS"
+               },
+    "commands":  [
+                     "docker compose --profile rag-v2-data-plane -f docker-compose.yml -f docker-compose.rag-v2-data-plane.yml up -d rag-backend rag-v2-ingest-worker rag-v2-minio rag-v2-qdrant rag-v2-temporal graphstore-postgres",
+                     "python C:\\top-code-session-scratch\\rag-v2-live-cutover\\gen_pdf_20260808T081031.py",
+                     "python C:\\Users\\compg\\Desktop\\top-code workspace\\rag-chat-asystent\\backend\\scripts\\rag_v2_live_cutover_proof.py --pdf C:\\top-code-session-scratch\\rag-v2-live-cutover\\live-cutover-20260808T081031.pdf --summary-out C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\rag-v2-live-cutover-20260808\\summary-20260808T081031.json --proof-id rag-v2-live-cutover-20260808T081031 --worker-container hvac-rag-v2-ingest-worker --query moc grzewcza pompy ciepla"
+                 ],
+    "gaps":  [
+                 "Companion proof exit=1; see C:\\top-code-session-scratch\\rag-v2-live-cutover\\proof-py-20260808T081031.log"
+             ],
+    "bounds":  [
+                   "Does not flip RAG_CORE=v2 globally",
+                   "Does not perform staged product cutover",
+                   "Uses compose profile rag-v2-data-plane + docker-compose.rag-v2-data-plane.yml",
+                   "Host proof sets RAG_V2_LIVE_DATA_PLANE=1 / RAG_V2_LIVE_INGEST=1 for this process only"
+               ],
+    "companion":  "rag-chat-asystent/backend/scripts/rag_v2_live_cutover_proof.py"
+}

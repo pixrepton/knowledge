@@ -1,26 +1,29 @@
 # Last Session
 
-Updated: 2026-08-08 — **FACT-4.1-HIGH-01**.
+Updated: 2026-08-08 — **RAG-V2-LIVE-CUTOVER-READINESS-01**.
 
 ## Done this session
 
-- **FACT-4.1-HIGH-01** CLOSED `COMPLETE / CONFIRMED_LOCAL`
-  - Fresh delta-audit: most historical HIGH already closed by FACT-01…05 / 4.2b
-  - Fixed residuals: calendar current-state path; precedent SQL/InMemory status filter; pattern discovery; Postgres supersede metadata `_json_dump` (+ datetime)
-  - Canonical contract unchanged: `fetch_facts_for_case` = history; `fetch_active_facts_for_case` / `fetch_current_facts_for_case` = current
-  - Gate A: **2357 passed, 15 skipped**
-  - Bounded PG proof: HISTORY A+B, ACTIVE B only, CalendarRuntime uses B / ignores superseded-only
-  - New ticket: `FACT-SUPERSESSION-WRITE-01` (write-side dual-active / merge — out of read scope)
-  - Audit post-section in `AIOS_4_1_FACT_SUPERSESSION_CONSUMER_AUDIT.md`
+- **RAG-V2-LIVE-CUTOVER-READINESS-01** CLOSED `PARTIAL` / readiness for operator decision
+  - Canonical ingest = `rag-v2-ingest-worker` (Docling), not Docling-in-every-API-image
+  - Live plane: MinIO + Postgres DocumentVersion + Qdrant + Temporal wired via compose profile
+  - Host Gate B companion **PASS** (`summary-20260808T081726.json`)
+  - Dual-read + rollback **PASS**; recommendation **B staged cutover**
+  - Gate A rag: **681 passed, 22 skipped**
+  - Product default remains `RAG_CORE=legacy`; staged compose file opt-in only
+  - Operator authorization recorded; **no auto global cutover**
 
 ## Prior this day
 
-- **FRESH38-RECAPTURE-01** CLOSED — `gmail-agent:fea458f`; Fresh 38/38; CLEAN_PASS=10 CAPABILITY=28
+- **FACT-4.1-HIGH-01** CLOSED
+- **FRESH38-RECAPTURE-01** CLOSED
 
 ## Still open
 
-FACT-SUPERSESSION-WRITE-01 · GOV-06 monitor · IQ-01 human labels
+- Temporal container COMPLETE under Gate B (CPU Docling flake) — residual
+- Image bake with lock SDKs (torch CDN) — interim commit/`Dockerfile.rag-v2-ingest`
+- FACT-SUPERSESSION-WRITE-01 · GOV-06 · IQ-01 human labels
 
 ## Proof labels
 
-FACT-4.1-HIGH-01 `confirmed_local` (full Gate A + bounded Postgres consumer proof). Neo4j not re-touched.
+`knowledge/eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md` — RAG-01/09/12 `COMPLETE_BOUNDED` / `PROVEN_RUNTIME` with Activation `OPERATOR_DECISION_REQUIRED`.

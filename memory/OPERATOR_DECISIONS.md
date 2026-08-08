@@ -15,6 +15,16 @@ Format:
 
 ---
 
+## [ACTIVE] 2026-08-08 — RAG V2 staged cutover: authorized but not auto-flipped
+
+- **Scope:** `rag-chat-asystent` RAG V2 product path / `RAG-V2-LIVE-CUTOVER-READINESS-01`.
+- **Decyzja:** Operator authorized staged activation after live readiness proof. **Do not** set global default `RAG_CORE=v2` for all intents. Preferred model: intent → V2 only if vertical ready (`technical_manual`, `price_list`), else legacy. Opt-in compose: `docker-compose.rag-v2-staged-cutover.yml`. Until Temporal container COMPLETE is stably green under Gate B, keep product default legacy and treat cutover as `READY_FOR_OPERATOR_CUTOVER_DECISION` / `Activation: OPERATOR_DECISION_REQUIRED` (staged file ready, not applied as default).
+- **Supersedes:** none — refines `[ACTIVE] 2026-08-04` strangler/legacy default (still binding).
+- **Proof:** `knowledge/eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md`; Gate A rag **681**/22; host Gate B companion PASS; dual-read/rollback PASS.
+- **Review:** after Temporal COMPLETE residual closes, or explicit operator order to apply staged compose locally.
+
+---
+
 ## [ACTIVE] 2026-08-06 — Roadmap 32 closure: honest per-ID labels, LOCAL_ONLY — status: PASS / CLOSED_LOCAL
 
 - **Scope:** program AI-OS Roadmap run `AIOS-ROADMAP-32-ORCH-01` (commits + verifier + memory sync). Nie dotyczy VPS/prod.

@@ -1,0 +1,74 @@
+{
+  "proof_id": "rag-v2-live-cutover-20260808T080432",
+  "started_at": "2026-08-08T06:05:44.220897+00:00",
+  "pdf_path": "C:\\top-code-session-scratch\\rag-v2-live-cutover\\live-cutover-20260808T080432.pdf",
+  "document_id": "live-cutover-f27bf87520",
+  "query": "moc grzewcza pompy ciepla 8 kW",
+  "bounds": [
+    "Does not flip RAG_CORE=v2 globally",
+    "Does not perform staged product cutover",
+    "Exercises live data-plane ingest/retrieve against compose profile rag-v2-data-plane"
+  ],
+  "steps": {
+    "pdf": {
+      "ok": true,
+      "bytes": 2814
+    },
+    "minio_bucket": {
+      "ok": true,
+      "bucket": "rag-v2",
+      "created": false,
+      "endpoint_host": "127.0.0.1"
+    },
+    "live_stores": {
+      "ok": true,
+      "blob": true,
+      "graphs": true,
+      "index": true
+    },
+    "ingest_live": {
+      "ok": true,
+      "document_id": "live-cutover-f27bf87520",
+      "document_version_id": "live-cutover-f27bf87520:v-2f5bb3fa36fe",
+      "page_count": 2,
+      "table_count": 1,
+      "chunk_count": 2,
+      "chunks_upserted": 2,
+      "blob_present": true,
+      "quality_ok": true,
+      "data_plane": "live"
+    },
+    "retrieve_pre_restart": {
+      "ok": false,
+      "query": "moc grzewcza pompy ciepla 8 kW",
+      "evidence_count": 0,
+      "facts_count": 0,
+      "sample_quotes": [],
+      "empty": true
+    },
+    "temporal_start_ingest": {
+      "ok": true,
+      "status": "STARTED",
+      "workflow_id": "live-cutover-rag-v2-live-cutover-20260808T080432",
+      "workflow_status": "RUNNING"
+    },
+    "worker_restart": {
+      "ok": true,
+      "container": "hvac-rag-v2-ingest-worker",
+      "elapsed_sec": 2.5
+    },
+    "retrieve_post_restart": {
+      "ok": false,
+      "query": "moc grzewcza pompy ciepla 8 kW",
+      "evidence_count": 0,
+      "facts_count": 0,
+      "sample_quotes": [],
+      "empty": true
+    }
+  },
+  "overall": "FAIL",
+  "finished_at": "2026-08-08T06:07:51.136155+00:00",
+  "summary_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\rag-v2-live-cutover-20260808\\summary-20260808T080432.json",
+  "git_sha": "79071f0",
+  "repo": "C:\\Users\\compg\\Desktop\\top-code workspace\\rag-chat-asystent"
+}

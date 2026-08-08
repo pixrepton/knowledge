@@ -1,0 +1,86 @@
+{
+  "proof_id": "rag-v2-live-cutover-20260808T081726",
+  "started_at": "2026-08-08T06:18:02.838502+00:00",
+  "pdf_path": "C:\\top-code-session-scratch\\rag-v2-live-cutover\\live-cutover-20260808T081726.pdf",
+  "document_id": "live-cutover-2b3f4ecea9",
+  "query": "moc grzewcza pompy ciepla",
+  "bounds": [
+    "Does not flip RAG_CORE=v2 globally",
+    "Does not perform staged product cutover",
+    "Exercises live data-plane ingest/retrieve against compose profile rag-v2-data-plane"
+  ],
+  "steps": {
+    "pdf": {
+      "ok": true,
+      "bytes": 2863
+    },
+    "minio_bucket": {
+      "ok": true,
+      "bucket": "rag-v2",
+      "created": false,
+      "endpoint_host": "127.0.0.1"
+    },
+    "live_stores": {
+      "ok": true,
+      "blob": true,
+      "graphs": true,
+      "index": true
+    },
+    "ingest_live": {
+      "ok": true,
+      "document_id": "live-cutover-2b3f4ecea9",
+      "document_version_id": "live-cutover-2b3f4ecea9:v-a3072c7d7c1d",
+      "page_count": 2,
+      "table_count": 1,
+      "chunk_count": 2,
+      "chunks_upserted": 2,
+      "blob_present": true,
+      "quality_ok": true,
+      "data_plane": "live"
+    },
+    "retrieve_pre_restart": {
+      "ok": true,
+      "query": "moc grzewcza pompy ciepla",
+      "evidence_count": 5,
+      "facts_count": 5,
+      "sample_quotes": [
+        "RAG V2 Live Cutover Proof - Strona 2\nDodatkowy kontekst: pompa ciepla XYZ o mocy grzewczej 8 kW do instalacji TOP-INSTAL. Fact line for retrieval: moc grzewcza pompy ciepla wynosi 8 kW. Sekcja serwiso",
+        "RAG V2 Live Cutover Proof - Strona 2\nDodatkowy kontekst: pompa ciepla XYZ o mocy grzewczej 8 kW do instalacji TOP-INSTAL. Fact line for retrieval: moc grzewcza pompy ciepla wynosi 8 kW. Sekcja serwiso",
+        "RAG V2 Live Cutover Proof - Strona 1\nInstrukcja techniczna pompy ciepla XYZ. Dokument wielostronicowy do Gate B.",
+        "RAG V2 Live Cutover Proof - Strona 1\nInstrukcja techniczna pompy ciepla XYZ. Dokument wielostronicowy do Gate B.",
+        "RAG V2 Live Cutover Proof - Strona 1\nInstrukcja techniczna pompy ciepla XYZ. Dokument wielostronicowy do Gate B."
+      ],
+      "empty": false
+    },
+    "temporal_start_ingest": {
+      "ok": true,
+      "status": "STARTED",
+      "workflow_id": "live-cutover-rag-v2-live-cutover-20260808T081726",
+      "workflow_status": "RUNNING"
+    },
+    "worker_restart": {
+      "ok": true,
+      "container": "hvac-rag-v2-ingest-worker",
+      "elapsed_sec": 2.36
+    },
+    "retrieve_post_restart": {
+      "ok": true,
+      "query": "moc grzewcza pompy ciepla",
+      "evidence_count": 5,
+      "facts_count": 5,
+      "sample_quotes": [
+        "RAG V2 Live Cutover Proof - Strona 2\nDodatkowy kontekst: pompa ciepla XYZ o mocy grzewczej 8 kW do instalacji TOP-INSTAL. Fact line for retrieval: moc grzewcza pompy ciepla wynosi 8 kW. Sekcja serwiso",
+        "RAG V2 Live Cutover Proof - Strona 2\nDodatkowy kontekst: pompa ciepla XYZ o mocy grzewczej 8 kW do instalacji TOP-INSTAL. Fact line for retrieval: moc grzewcza pompy ciepla wynosi 8 kW. Sekcja serwiso",
+        "RAG V2 Live Cutover Proof - Strona 1\nInstrukcja techniczna pompy ciepla XYZ. Dokument wielostronicowy do Gate B.",
+        "RAG V2 Live Cutover Proof - Strona 1\nInstrukcja techniczna pompy ciepla XYZ. Dokument wielostronicowy do Gate B.",
+        "RAG V2 Live Cutover Proof - Strona 1\nInstrukcja techniczna pompy ciepla XYZ. Dokument wielostronicowy do Gate B."
+      ],
+      "empty": false
+    }
+  },
+  "overall": "PASS",
+  "finished_at": "2026-08-08T06:19:33.713678+00:00",
+  "summary_path": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\rag-v2-live-cutover-20260808\\summary-20260808T081726.json",
+  "git_sha": "79071f0",
+  "repo": "C:\\Users\\compg\\Desktop\\top-code workspace\\rag-chat-asystent"
+}

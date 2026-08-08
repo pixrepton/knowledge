@@ -1,22 +1,34 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (FACT-4.1-HIGH-01).
+Status: active only. Last updated: 2026-08-08 (RAG-V2-LIVE-CUTOVER-READINESS-01).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
-## Open — residuals (after FACT-4.1-HIGH-01)
+## Open — residuals (after RAG-V2-LIVE-CUTOVER-READINESS-01)
 
-| ID                         | Area        | Status   | Next action                                                                |
-| -------------------------- | ----------- | -------- | -------------------------------------------------------------------------- |
-| FACT-SUPERSESSION-WRITE-01 | gmail-agent | open, P2 | Write-side: `replace_message_facts` dual-active / merge `append_fact_rows` |
-| GOV-06                     | knowledge   | PARTIAL  | `.serena` policy monitor (tracked project.yml; cache gitignored)           |
-| IQ-01-ADJUDICATED          | eval        | DEFERRED | Human-adjudicated labels (conscious bound; machine_proposed only today)    |
+| ID                              | Area              | Status   | Next action                                                                 |
+| ------------------------------- | ----------------- | -------- | --------------------------------------------------------------------------- |
+| RAG-TEMPORAL-COMPLETE-01        | rag-chat-asystent | open, P1 | Stabilize container Temporal COMPLETE under Gate B (CPU Docling / RPC flake) |
+| RAG-IMAGE-BAKE-01               | rag-chat-asystent | open, P2 | Rebuild image from lock (minio/qdrant/temporalio) when torch CDN OK         |
+| FACT-SUPERSESSION-WRITE-01      | gmail-agent       | open, P2 | Write-side: `replace_message_facts` dual-active / merge `append_fact_rows`  |
+| GOV-06                          | knowledge         | PARTIAL  | `.serena` policy monitor (tracked project.yml; cache gitignored)            |
+| IQ-01-ADJUDICATED               | eval              | DEFERRED | Human-adjudicated labels (conscious bound; machine_proposed only today)     |
+
+## Closed — RAG-V2-LIVE-CUTOVER-READINESS-01 (2026-08-08)
+
+| ID                                 | Disposition      | Note                                                                                                                                                                                                 |
+| ---------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| RAG-V2-LIVE-CUTOVER-READINESS-01   | COMPLETE_BOUNDED | Live plane + ingest worker + host Gate B PASS + dual-read/rollback; RAG-09 Activation `OPERATOR_DECISION_REQUIRED`; proof `eval/rag-v2-live-cutover-20260808/`; **no** global `RAG_CORE=v2`         |
+| RAG-01 (redefined)                 | COMPLETE_BOUNDED | Docling live in canonical containerized ingest worker (not mandatory in every API image)                                                                                                             |
+| RAG-12 (highest bar, host E2E)     | COMPLETE_BOUNDED | Real PDF→MinIO→PG→Qdrant→retrieve→restart; Temporal COMPLETE = residual                                                                                                                                 |
+| RAG-09                             | COMPLETE_BOUNDED | Opt-in + staged compose ready; product default legacy                                                                                                                                                |
 
 ## Closed — FACT-4.1-HIGH-01 (2026-08-08)
 
 | ID               | Disposition                | Note                                                                                                                                                                                                   |
 | ---------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | FACT-4.1-HIGH-01 | COMPLETE / CONFIRMED_LOCAL | Fresh residual sweep: calendar + precedent SQL/InMemory + pattern discovery; Postgres supersede metadata JSON fix; Gate A **2357**/15; bounded PG proof; audit post-section; FACT-01…05 not reopened |
+
 
 ## Closed — FRESH38-RECAPTURE-01 (2026-08-08)
 

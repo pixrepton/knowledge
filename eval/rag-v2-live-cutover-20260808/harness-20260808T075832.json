@@ -1,0 +1,32 @@
+﻿{
+    "proof_id":  "rag-v2-live-cutover-20260808T075832",
+    "stamp":  "20260808T075832",
+    "overall":  "FAIL",
+    "git_sha":  "79071f0",
+    "repo":  "rag-chat-asystent",
+    "proof_dir":  "C:\\top-code-session-scratch\\rag-v2-live-cutover",
+    "summary_json":  "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\rag-v2-live-cutover-20260808\\summary-20260808T075832.json",
+    "pdf_path":  "C:\\top-code-session-scratch\\rag-v2-live-cutover\\live-cutover-20260808T075832.pdf",
+    "compose_exit_code":  -1,
+    "proof_exit_code":  -1,
+    "health":  {
+                   "rag_health":  "FAIL",
+                   "temporal":  "FAIL",
+                   "minio":  "FAIL",
+                   "qdrant":  "FAIL",
+                   "graphstore":  "FAIL"
+               },
+    "commands":  [
+                     "docker compose --profile rag-v2-data-plane -f docker-compose.yml -f docker-compose.rag-v2-data-plane.yml up -d --build rag-backend rag-v2-ingest-worker rag-v2-minio rag-v2-qdrant rag-v2-temporal graphstore-postgres"
+                 ],
+    "gaps":  [
+                 "Fatal: yaml: while parsing a block collection at line 150, column 7: line 153, column 7: did not find expected \u0027-\u0027 indicator"
+             ],
+    "bounds":  [
+                   "Does not flip RAG_CORE=v2 globally",
+                   "Does not perform staged product cutover",
+                   "Uses compose profile rag-v2-data-plane + docker-compose.rag-v2-data-plane.yml",
+                   "Host proof sets RAG_V2_LIVE_DATA_PLANE=1 / RAG_V2_LIVE_INGEST=1 for this process only"
+               ],
+    "companion":  "rag-chat-asystent/backend/scripts/rag_v2_live_cutover_proof.py"
+}

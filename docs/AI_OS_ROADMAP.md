@@ -659,18 +659,18 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 
 | ID         | Zadanie                                                              | Status closure (Delivery / Proof)                                                                            |
 | ---------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| **RAG-01** | Live Docling: real PDF → DocumentGraphV1                             | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — soft-activate; `rag-chat-asystent:e6470f2`                          |
-| **RAG-02** | Live MinIO blob + checksum/lifecycle                                 | **PARTIAL** / `FOCUSED_LOCAL` — mocked tests only; brak live MinIO                                           |
-| **RAG-03** | Postgres DocumentVersion / generation / supersession docs            | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — unit + GraphStore smoke                                             |
-| **RAG-04** | Live Qdrant dense+sparse + fusion                                    | **PARTIAL** / `FOCUSED_LOCAL` — mocked tests only                                                            |
-| **RAG-05** | Temporal durable ingest/retry/resume                                 | **PARTIAL** / `FOCUSED_LOCAL` — mocked tests only                                                            |
+| **RAG-01** | Live Docling: real PDF → DocumentGraphV1                             | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — host PDF→graph + containerized `rag-v2-ingest-worker` Docling path (`RAG-V2-LIVE-CUTOVER-READINESS-01`); not required in every API image |
+| **RAG-02** | Live MinIO blob + checksum/lifecycle                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — compose `rag-v2-data-plane` put/get via live ingest |
+| **RAG-03** | Postgres DocumentVersion / generation / supersession docs            | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live DocumentVersion in Gate B companion |
+| **RAG-04** | Live Qdrant dense+sparse + fusion                                    | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — live upsert + retrieve evidence |
+| **RAG-05** | Temporal durable ingest/retry/resume                                 | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — worker + start_ingest; container COMPLETE under CPU Docling = residual/flake |
 | **RAG-06** | Szerszy gold set                                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — `rag-chat-asystent:e30ebcb`                                         |
 | **RAG-07** | Więcej niż jedna instrukcja (katalogi, skany, OCR)                   | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — multidoc fixtures; OCR soft-path only                               |
 | **RAG-08** | Shadow → wpływ na produkt                                            | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — side-channel metrics; `affects_legacy=false`                        |
-| **RAG-09** | Opt-in odpowiedzi z V2                                               | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — non-live data plane; legacy default                                 |
+| **RAG-09** | Opt-in odpowiedzi z V2                                               | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — `RAG_V2_LIVE_DATA_PLANE` + staged compose file; **Activation: OPERATOR_DECISION_REQUIRED** (legacy default) |
 | **RAG-10** | **1.7** Price List / Exact Facts                                     | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — patrz slice 1.7                                                     |
-| **RAG-11** | **1.8** dual-read / staged cutover / rollback                        | **COMPLETE_BOUNDED** / `FOCUSED_LOCAL` — patrz slice 1.8                                                     |
-| **RAG-12** | Formalny live Gate B RAG stack                                       | **COMPLETE_BOUNDED** / `PASS_LOCAL_BOUNDED` — partial stack smoke `root:b9330ed`; MinIO/Qdrant/Temporal SKIP |
+| **RAG-11** | **1.8** dual-read / staged cutover / rollback                        | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — dual-read/rollback proof + opt-in staged file |
+| **RAG-12** | Formalny live Gate B RAG stack                                       | **COMPLETE_BOUNDED** / `PROVEN_RUNTIME` — host E2E PASS `eval/rag-v2-live-cutover-20260808/`; Temporal COMPLETE PARTIAL |
 | **RAG-13** | Naming: `RAG_PIPELINE_V2`/Core Chat V2 ≠ `backend/rag_v2/` strangler | **COMPLETE** / docs — `rag-chat-asystent:a463d1f`                                                            |
 | **RAG-14** | Śledzenie stubów live adapterów                                      | **COMPLETE** / `FOCUSED_LOCAL` — `/rag_v2/status` + `adapters/status.py`                                     |
 
