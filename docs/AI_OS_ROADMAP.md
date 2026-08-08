@@ -649,7 +649,7 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 | **FACT-04**          | `normalize_facts` nie mapuje `superseded→inferred`   | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS`                                                                                                                                                                                  |
 | **FACT-05**          | Hub `build_case_context_pack` consistency            | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — consumer-audit re-check opcjonalny                                                                                                                                             |
 | **FACT-4.1-HIGH-01** | Residual CURRENT_STATE consumers (fresh delta-audit) | **COMPLETE** / `CONFIRMED_LOCAL` — calendar + precedent SQL/InMemory + pattern discovery; PG supersede metadata JSON; Gate A **2357**/15; bounded PG proof; FACT-01…05 not reopened. Write residual → `FACT-SUPERSESSION-WRITE-01` |
-| **FACT-SUPERSESSION-WRITE-01** | Write-side supersession (`replace_message_facts` dual-active / merge append) | **OPEN** P1 — read-side CLOSED; does not reopen FACT-01…05 / FACT-4.1-HIGH-01 |
+| **FACT-SUPERSESSION-WRITE-01** | Write-side supersession (`replace_message_facts` / merge) | **COMPLETE** / `CONFIRMED_LOCAL` — cross-message supersession; same-message legal conflicts preserved; merge `reassign_case_facts`; PG proof PASS; illegal dual-active reconciled; Gate A effective PASS |
 
 ---
 
@@ -657,7 +657,6 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 
 | ID | Area | Status |
 | --- | --- | --- |
-| **FACT-SUPERSESSION-WRITE-01** | gmail-agent Case OS | OPEN P1 |
 | **RAG-TEMPORAL-COMPLETE-01** | rag-chat-asystent | OPEN P1 (blocks authorized staged cutover) |
 | **RAG-IMAGE-BAKE-01** | rag-chat-asystent | OPEN P2 (reproducible image) |
 
@@ -758,7 +757,6 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 
 | Priorytet | Tor              | Następne                                                         | Uwaga                                                                 |
 | --------- | ---------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------- |
-| **P1**    | Case OS write    | **FACT-SUPERSESSION-WRITE-01**                                   | ostatni znany correctness residual supersession                       |
 | **P1**    | RAG technical    | **RAG-TEMPORAL-COMPLETE-01**                                     | blocker autoryzowanego staged cutover                                 |
 | **P2**    | RAG bake         | **RAG-IMAGE-BAKE-01**                                            | reproducible image; potem wykonać staged (zgoda już jest)            |
 | **P3**    | Product quality  | Fresh38 CAPABILITY analysis / real cases                         | **nie** budować 5.3–8.x „z listy 51”                                  |
@@ -767,7 +765,7 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 
 **4.4:** `REJECTED_BY_OPERATOR` — nie rozwijać.
 
-Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, FACT-4.1-HIGH-01 (read), Faza 3, POST32 spine (4.3/5.x/6.1–6.3), 4.2, FG-01/04, IQ-01/PF-01 exhaustive, FRESH38 harness, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08/09, PH3 harness, X1, SPINE tick (bez regresji).
+Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01, Faza 3, POST32 spine (4.3/5.x/6.1–6.3), 4.2, FG-01/04, IQ-01/PF-01 exhaustive, FRESH38 harness, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08/09, PH3 harness, X1, SPINE tick (bez regresji).
 
 **Roadmap 32 ORCH:** zamknięty 2026-08-06 — `ROADMAP_32_RUN_CLOSED_LOCAL_VERIFIED`.
 
@@ -780,6 +778,8 @@ Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, FACT-4.1-HIGH-01 (
 ## **FRESH38-RECAPTURE-01:** 2026-08-08 — CLOSED measurement. CLEAN_PASS=10 CAPABILITY=28 → **NOT QUALIFIED — CAPABILITY**.
 
 ## **FACT-4.1-HIGH-01:** 2026-08-08 — CLOSED read-side. Write → `FACT-SUPERSESSION-WRITE-01`.
+
+## **FACT-SUPERSESSION-WRITE-01:** 2026-08-08 — CLOSED write-side `COMPLETE / CONFIRMED_LOCAL`.
 
 ## **RAG-V2-LIVE-CUTOVER-READINESS-01:** 2026-08-08 — CLOSED `PARTIAL`. Host Gate B + dual-read PASS. Activation authorized, blocked by Temporal COMPLETE + image bake.
 
@@ -802,6 +802,7 @@ Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, FACT-4.1-HIGH-01 (
 
 | Data       | Zmiana                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-08-08 | **FACT-SUPERSESSION-WRITE-01 CLOSED.** `replace_message_facts` + merge `reassign_case_facts` enforce canonical supersession; legal same-message conflicts preserved; PG proof PASS; illegal dual-active reconciled (4/12); Gate A effective PASS (2345/31 + 4/4 re-run). |
 | 2026-08-08 | **KNOWLEDGE-SYNC-6CHAT-01.** Operator consolidation: 4.4 → `REJECTED_BY_OPERATOR`; RAG activation → `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE`; open list → FACT write + RAG Temporal + image bake; restored missing root contracts (`INDEX.md`, `CONTROL_PLANE.md`, …) onto clean knowledge branch. |
 | 2026-08-08 | **RAG-V2-LIVE-CUTOVER-READINESS-01 PARTIAL.** Host Gate B + dual-read PASS; ingest worker Docling; Activation authorized, blocked by Temporal COMPLETE + image bake. Proof `eval/rag-v2-live-cutover-20260808/`. |
 | 2026-08-08 | **FACT-4.1-HIGH-01 CLOSED (read).** CURRENT_STATE safe 12/12; Gate A **2357**/15; write residual → `FACT-SUPERSESSION-WRITE-01`. |

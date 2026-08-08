@@ -167,7 +167,7 @@ Delivery: **COMPLETE** / Proof: **CONFIRMED_LOCAL** (Gate A **2357 passed, 15 sk
 | Drive enrichment mailbox refs | `collect_drive_case_enrichment` | **ALREADY_FIXED** | uses `fetch_current_facts_for_case` |
 | Daszek pack / document promote | feed + `document_intelligence_runtime` | **ALREADY_FIXED** | history fetch + `split_conflicting_facts` / audit |
 | Postgres supersede UPDATE metadata (psycopg3) | `append_facts_with_supersession` | **CLOSED** (blocker found in live proof) | `_json_dump` + datetime coerce; bounded PG proof |
-| `replace_message_facts` dual-active / merge write path | writers | **MOVED_TO_SEPARATE_TICKET** `FACT-SUPERSESSION-WRITE-01` | not required for CURRENT_STATE read closure |
+| `replace_message_facts` dual-active / merge write path | writers | **CLOSED** `FACT-SUPERSESSION-WRITE-01` | cross-message supersession; merge reassign+reconcile; legal same-message conflicts kept |
 
 ### Post-fix inventory (production)
 
@@ -177,5 +177,23 @@ supersession-safe: 12
 unsafe: 0
 history consumers: 4 (fetch_facts_for_case call sites that split/audit intentionally)
 ```
+
+### Write-side closeout — FACT-SUPERSESSION-WRITE-01 (2026-08-08)
+
+```text
+Delivery: COMPLETE
+Proof: CONFIRMED_LOCAL
+production current-fact write paths: audited
+canonical/safe: all production CURRENT_FACT_WRITE paths
+unsafe: 0
+history-only / legal-conflict seeds: preserved
+```
+
+Canonical write identity: `(case_id, entity_scope, fact_key)`.
+Cross-message value change → supersede; same value → idempotent; same-message distinct values → legal conflict.
+`append_fact_rows` → `append_facts_with_supersession` (PG + InMemory).
+`replace_message_facts` → retire extract snapshot (preserve `structured_document_parse`) → cross-message supersession.
+Merge → `reassign_case_facts` + reconcile newest-wins except same-message multi-value.
+No partial unique DB constraint (legal conflicts require >1 current candidate).
 
 Unsafe = 0 required for ticket closure.

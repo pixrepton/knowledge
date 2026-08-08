@@ -1,22 +1,27 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-01).
+Status: active only. Last updated: 2026-08-08 (FACT-SUPERSESSION-WRITE-01).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
-## Open — only real residuals (post 6-chat consolidation)
+## Open — only real residuals (post write-side closeout)
 
-| ID                         | Area              | Status   | Next action                                                                                          |
-| -------------------------- | ----------------- | -------- | ---------------------------------------------------------------------------------------------------- |
-| FACT-SUPERSESSION-WRITE-01 | gmail-agent       | open, P1 | Write-side: `replace_message_facts` dual-active / merge `append_fact_rows` (Case OS correctness)     |
-| RAG-TEMPORAL-COMPLETE-01   | rag-chat-asystent | open, P1 | Stabilize container Temporal COMPLETE under Gate B (blocker for authorized staged cutover)           |
-| RAG-IMAGE-BAKE-01          | rag-chat-asystent | open, P2 | Reproducible image bake from lock (minio/qdrant/temporalio); interim docker-commit is not enough     |
-| IQ-01-ADJUDICATED          | eval              | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                         |
-| GOV-06                     | knowledge         | PARTIAL  | `.serena` policy monitor — ignore by default                                                         |
+| ID                       | Area              | Status   | Next action                                                                                  |
+| ------------------------ | ----------------- | -------- | -------------------------------------------------------------------------------------------- |
+| RAG-TEMPORAL-COMPLETE-01 | rag-chat-asystent | open, P1 | Stabilize container Temporal COMPLETE under Gate B (blocker for authorized staged cutover)   |
+| RAG-IMAGE-BAKE-01        | rag-chat-asystent | open, P2 | Reproducible image bake from lock (minio/qdrant/temporalio); interim docker-commit is not enough |
+| IQ-01-ADJUDICATED        | eval              | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                 |
+| GOV-06                   | knowledge         | PARTIAL  | `.serena` policy monitor — ignore by default                                                 |
 
 **RAG staged activation:** `STAGED_ACTIVATION_AUTHORIZED — BLOCKED_BY_TECHNICAL_GATE` (see `OPERATOR_DECISIONS.md`). Not an open “ask operator again” ticket.
 
 **4.4 Install-prep:** `REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION` — scaffold may exist; do not develop.
+
+## Closed — FACT-SUPERSESSION-WRITE-01 (2026-08-08)
+
+| ID                         | Disposition                | Note                                                                                                                                                                                                 |
+| -------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| FACT-SUPERSESSION-WRITE-01 | COMPLETE / CONFIRMED_LOCAL | Canonical write supersession on `replace_message_facts` + merge `reassign_case_facts`; PG==InMemory; Gate A effective PASS; bounded PG proof PASS; illegal dual-active reconciled (4 groups / 12 rows); legal same-message conflicts preserved (50) |
 
 ## Closed — RAG-V2-LIVE-CUTOVER-READINESS-01 (2026-08-08)
 

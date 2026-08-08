@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-01).
+Status: current direction only. Last updated: 2026-08-08 (FACT-SUPERSESSION-WRITE-01).
 
 ## Current program (canonical)
 
@@ -8,9 +8,9 @@ Status: current direction only. Last updated: 2026-08-08 (KNOWLEDGE-SYNC-6CHAT-0
 
 **Strategic posture (after Fresh38 + residuals waves):** infrastruktura pomiaru i Case OS
 rdzeń są w dużej mierze zamknięte. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na
-roadmapie”. Następny rozwój produktu: (1) correctness residuals poniżej, (2) opcjonalnie
-staged RAG V2 po gate’ach technicznych, (3) potem jakość capability na podstawie Fresh38
-(`NOT QUALIFIED — CAPABILITY`, CLEAN_PASS=10 / CAPABILITY=28) i realnych spraw firmy.
+roadmapie”. Następny rozwój produktu: (1) opcjonalnie staged RAG V2 po gate’ach technicznych,
+(2) potem jakość capability na podstawie Fresh38 (`NOT QUALIFIED — CAPABILITY`, CLEAN_PASS=10 /
+CAPABILITY=28) i realnych spraw firmy.
 
 ### Zamknięte programy (nie wracać)
 
@@ -22,6 +22,7 @@ staged RAG V2 po gate’ach technicznych, (3) potem jakość capability na podst
 | `GOV-09` | CLOSED `COMPLETE_BOUNDED` |
 | `FRESH38-RECAPTURE-01` | CLOSED — measurement healthy; product **NOT QUALIFIED — CAPABILITY** |
 | `FACT-4.1-HIGH-01` (read-side) | CLOSED `COMPLETE / CONFIRMED_LOCAL` |
+| `FACT-SUPERSESSION-WRITE-01` | CLOSED `COMPLETE / CONFIRMED_LOCAL` |
 | `RAG-V2-LIVE-CUTOVER-READINESS-01` | CLOSED `PARTIAL` — host Gate B + dual-read PASS |
 
 ### RAG staged activation (binding)
@@ -45,12 +46,11 @@ without blast-radius review (`OPERATOR_DECISIONS.md`).
 ### Otwarte residuale (jedyne realne)
 
 ```text
-P1 Correctness: FACT-SUPERSESSION-WRITE-01
 P1 RAG gate:    RAG-TEMPORAL-COMPLETE-01
 P2 RAG bake:    RAG-IMAGE-BAKE-01
 P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 ```
 
-**Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), Faza 3, POST32
-spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01 (harness), 1.7/1.8 scaffolding,
+**Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01,
+Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01 (harness), 1.7/1.8 scaffolding,
 RAG-13/14, GOV-02/07/08/09, PH3 harness, X1 live PW, FG-01/04, PF-01, IQ frozen machine baseline.
