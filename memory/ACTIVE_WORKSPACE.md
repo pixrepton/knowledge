@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-07 (RESIDUALS-WAVE-02).
+Status: current direction only. Last updated: 2026-08-08 (GOV-09).
 
 ## Current program (canonical)
 
@@ -19,11 +19,12 @@ Repair = `PROGRAM_COMPLETE_LOCAL`. Fazy 3 **nie** otwieraÄ‡ bez regresji.
 ### Otwarte residuale (operator wybiera)
 
 ```text
-P0 Auth:     GOV-09 PARTIAL — product remotes pushed; knowledge clean branch pending allowlist or push
 P2 Eval:     FRESH38-RECAPTURE-01 (only MI-02 left)
 P2 Facts:    FACT-4.1-HIGH-01 (ticketize HIGH consumer gaps; no ad-hoc)
 P3 Monitor:  GOV-06 .serena; IQ-01-ADJUDICATED (human labels)
 ```
+
+**GOV-09:** CLOSED `COMPLETE_BOUNDED` — remotes in sync; knowledge via sanitized branch (not poison history).
 
 **Nie startuj ponownie bez regresji:** FACT-01â€¦05 program, Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08, PH3 harness.
 

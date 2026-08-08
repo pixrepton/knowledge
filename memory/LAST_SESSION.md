@@ -1,22 +1,21 @@
 # Last Session
 
-Updated: 2026-08-07 — **RESIDUALS-WAVE-02**.
+Updated: 2026-08-08 — **GOV-09**.
 
 ## Done this session
 
-- **RAG-05:** Temporal worker (`temporal_worker.py`) + compose Temporal (postgres + `DB_PORT=5432`) + live `start_ingest` **PASS**
-- **RAG-12:** compose profile `rag-v2-data-plane` + override env wire + smoke **PASS** (`RequireLiveAdapters`)
-- **RAG-01:** host Docling live **6 passed**
-- **RAG-09:** opt-in `RAG_V2_LIVE_DATA_PLANE` (default False; OD strangler preserved)
-- **X1-01/02:** live Playwright **2 passed**
-- **SPINE-WORKER-TICK-01:** chunked idle drain + env
-- **DASZEK-HITL-HARNESS-01:** node HITL **16/16**
-- **GROQ-KEY-DEAD-01:** `AGENT_GROQ_API_KEY_DISABLED=1` + planner skip; Node B recreated
+- **GOV-09:** GitHub auth OK; pushed product remotes + knowledge clean branch
+  - gmail-agent `feature/aios-roadmap-1.4-2.4` @ `8da3d62`
+  - daszek `feature/aios-roadmap-1.4-2.4` @ `3f1bd4e`
+  - rag-chat-asystent (Asystent-RAG) `feature/aios-roadmap-1.4-2.4` @ `79071f0`
+  - cieplo-orchestrator `repair/cieplo-lazy-ingress-import` @ `49c8ef1`
+  - knowledge `docs/aios-residuals-wave-sync` @ `22832f3` (from sanitized base; poison `8ed364e3` not in ancestry)
+- Prior wave: RESIDUALS-WAVE-02 closed locally (see Closed tables in BACKLOG)
 
 ## Still open
 
-GOV-09 push auth · FRESH38 MI-02 · FACT-4.1-HIGH tickets · GOV-06 monitor · IQ-01 human labels
+FRESH38 MI-02 · FACT-4.1-HIGH tickets · GOV-06 monitor · IQ-01 human labels
 
 ## Proof labels
 
-`proven_local` / `confirmed by local tests` for closed wave IDs; GOV-09 **not proven**.
+GOV-09 `confirmed by local tests` / remote push evidence (ahead=0 vs upstream). Workspace root has no `origin` — N/A, not a fail.

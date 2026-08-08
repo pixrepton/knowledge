@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-07 (RESIDUALS-WAVE-02).
+Status: active only. Last updated: 2026-08-08 (GOV-09).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -8,13 +8,18 @@ This file is not a proof history or phase archive. Canonical plan + residual nar
 
 | ID                   | Area              | Status          | Next action                                                                 |
 | -------------------- | ----------------- | --------------- | --------------------------------------------------------------------------- |
-| GOV-09               | all repos         | PARTIAL         | 4/5 remotes pushed; knowledge blocked by historic OpenRouter secret in old branch — clean branch `docs/aios-residuals-wave-sync` |
 | FRESH38-RECAPTURE-01 | eval              | open, UNCERTAIN | Resume only `MI-02` into exit2 artifact; do not quote Fresh 38 until 38/38  |
 | FACT-4.1-HIGH-01     | gmail-agent       | open, P2        | Ticketize HIGH gaps from `AIOS_4_1_FACT_SUPERSESSION_CONSUMER_AUDIT.md`     |
 | GOV-06               | knowledge         | PARTIAL         | `.serena` policy monitor (tracked project.yml; cache gitignored)            |
 | IQ-01-ADJUDICATED    | eval              | DEFERRED        | Human-adjudicated labels (conscious bound; machine_proposed only today)     |
 
-## Closed â€” RESIDUALS-WAVE-02 (2026-08-07)
+## Closed — GOV-09 (2026-08-08)
+
+| ID     | Disposition      | Note |
+| ------ | ---------------- | ---- |
+| GOV-09 | COMPLETE_BOUNDED | Auth OK; pushed gmail/daszek/rag/cieplo + knowledge clean `docs/aios-residuals-wave-sync`@`22832f3` (no poison `8ed364e3`). Old `docs/daszek-system-diagrams-refresh` remains unpushable (secret ancestry). Workspace root: no `origin` (N/A). |
+
+## Closed — RESIDUALS-WAVE-02 (2026-08-07)
 
 | ID                     | Disposition      | Note                                                                                          |
 | ---------------------- | ---------------- | --------------------------------------------------------------------------------------------- |
