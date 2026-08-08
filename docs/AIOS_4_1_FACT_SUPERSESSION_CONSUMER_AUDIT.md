@@ -135,3 +135,47 @@ FACT-01…05 landed as `COMPLETE_BOUNDED` / `CONFIRMED_LOCAL` (`gmail-agent:b2bd
 - FACT-05 hub `build_case_context_pack` passes filtered winners into embedded snapshot path
 
 This audit document remains the consumer inventory SoT; status of fixes lives in `docs/AI_OS_ROADMAP.md` residual FACT table. Remaining product gaps for 4.2+: Daszek conflict UI + live Drive E2E.
+
+---
+
+## Post-audit remediation — FACT-4.1-HIGH-01
+
+Date: 2026-08-08. Fresh delta-audit on HEAD after FACT-01…05 / 4.2 / 4.2b.  
+Delivery: **COMPLETE** / Proof: **CONFIRMED_LOCAL** (Gate A **2357 passed, 15 skipped**; bounded Postgres calendar/active reader proof).
+
+### Canonical contract (current)
+
+| API | Semantics |
+| --- | --- |
+| `fetch_facts_for_case` | HISTORY — active + superseded audit trail |
+| `fetch_active_facts_for_case` (Postgres + InMemory Protocol) | CURRENT — `status != superseded` |
+| `fetch_current_facts_for_case` / `is_live_fact` (`mailbox_memory/active_facts.py`) | Canonical current-state seam for consumers |
+
+### Historical HIGH disposition
+
+| Historical HIGH / MEDIUM | File / symbol | Disposition | Evidence |
+| --- | --- | --- | --- |
+| Snapshot / hot-state / pack hub | `build_case_snapshot`, `case_snapshot_manager`, ingest/finalize | **ALREADY_FIXED** (FACT-01/05) | `test_fact01_snapshot_supersession.py`, RP-29 pack tests |
+| Entity linker | `entity_linker` | **ALREADY_FIXED** (4.2b) | `test_aios_4_2b_active_fact_consumers.py` |
+| Invoice fields | `handlers._fetch_invoice_fields` | **ALREADY_FIXED** (4.2b) | same |
+| Drive first/collect fact values + projection | `drive_ingest_runtime` | **ALREADY_FIXED** (4.2b) | same |
+| Neo4j pilot | `neo4j_pilot` | **ALREADY_FIXED** (FACT-02) | `test_fact02_active_fact_projection.py` — **NO_CHANGE_REQUIRED** |
+| Similar-case keys | `_active_fact_keys` + `fetch_current_facts_for_case` | **ALREADY_FIXED** (4.2b) | same |
+| Precedent SQL JOIN (Postgres + fallback + InMemory) | `fetch_resolved_cases_by_family_and_fact_keys`, `_fetch_resolved_via_sql` | **CLOSED** | status filter + `test_fact_41_high_remaining_consumers.py` |
+| Calendar API | `CalendarRuntime.context_for_case` + `_has_customer_proposed_date_fact` | **CLOSED** | `fetch_current_facts_for_case` + live-fact guard; FACT-41 tests |
+| Pattern discovery | `pattern_discovery.find_regex_gaps` | **CLOSED** (LOW–MEDIUM) | SQL excludes superseded |
+| Drive enrichment mailbox refs | `collect_drive_case_enrichment` | **ALREADY_FIXED** | uses `fetch_current_facts_for_case` |
+| Daszek pack / document promote | feed + `document_intelligence_runtime` | **ALREADY_FIXED** | history fetch + `split_conflicting_facts` / audit |
+| Postgres supersede UPDATE metadata (psycopg3) | `append_facts_with_supersession` | **CLOSED** (blocker found in live proof) | `_json_dump` + datetime coerce; bounded PG proof |
+| `replace_message_facts` dual-active / merge write path | writers | **MOVED_TO_SEPARATE_TICKET** `FACT-SUPERSESSION-WRITE-01` | not required for CURRENT_STATE read closure |
+
+### Post-fix inventory (production)
+
+```text
+CURRENT_STATE consumers: 12
+supersession-safe: 12
+unsafe: 0
+history consumers: 4 (fetch_facts_for_case call sites that split/audit intentionally)
+```
+
+Unsafe = 0 required for ticket closure.

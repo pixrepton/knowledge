@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (FRESH38-RECAPTURE-01).
+Status: current direction only. Last updated: 2026-08-08 (FACT-4.1-HIGH-01).
 
 ## Current program (canonical)
 
@@ -16,15 +16,17 @@ Status: current direction only. Last updated: 2026-08-08 (FRESH38-RECAPTURE-01).
 
 **`FRESH38-RECAPTURE-01`:** CLOSED `COMPLETE / CONFIRMED_LOCAL` — empty-content DELIVERY fix + honest Fresh 38/38 (`knowledge/eval/fresh38-recapture-20260808/`).
 
+**`FACT-4.1-HIGH-01`:** CLOSED `COMPLETE / CONFIRMED_LOCAL` — residual CURRENT_STATE consumers + canonical active-facts contract; Gate A **2357**/15; bounded Postgres proof.
+
 Repair = `PROGRAM_COMPLETE_LOCAL`. Fazy 3 **nie** otwierać bez regresji.
 
 ### Otwarte residuale (operator wybiera)
 
 ```text
-P2 Facts:    FACT-4.1-HIGH-01 (ticketize HIGH consumer gaps; no ad-hoc)
+P2 Write:    FACT-SUPERSESSION-WRITE-01 (replace_message_facts / merge write path)
 P3 Monitor:  GOV-06 .serena; IQ-01-ADJUDICATED (human labels)
 ```
 
 **GOV-09:** CLOSED `COMPLETE_BOUNDED` — remotes in sync; knowledge via sanitized branch (not poison history).
 
-**Nie startuj ponownie bez regresji:** FACT-01…05 program, Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08, PH3 harness.
+**Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01, Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01, 1.7/1.8 scaffolding, RAG-13/14, GOV-02/07/08, PH3 harness.

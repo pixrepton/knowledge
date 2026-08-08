@@ -649,6 +649,7 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 | **FACT-03** | Parity `append_fact_rows` Postgres ↔ InMemory        | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — parity 8 tests                                |
 | **FACT-04** | `normalize_facts` nie mapuje `superseded→inferred`   | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS`                                                 |
 | **FACT-05** | Hub `build_case_context_pack` consistency            | **COMPLETE_BOUNDED** / `CONFIRMED_BY_LOCAL_TESTS` — consumer-audit re-check opcjonalny            |
+| **FACT-4.1-HIGH-01** | Residual CURRENT_STATE consumers (fresh delta-audit) | **COMPLETE** / `CONFIRMED_LOCAL` — calendar + precedent SQL/InMemory + pattern discovery; PG supersede metadata JSON; Gate A **2357**/15; bounded PG proof; FACT-01…05 not reopened. Write residual → `FACT-SUPERSESSION-WRITE-01` |
 
 ---
 
@@ -759,9 +760,11 @@ Operator wybiera tor. **Nie startuj ponownie:** FACT-01…05, Faza 3, POST32 spi
 
 ## **RESIDUALS-WAVE-01:** 2026-08-07 — 4.2 UI+Drive, 4.4 projection, FG-01B, FG-04 oneshot, PF-01 inventory, IQ-01 frozen dual-score, RAG-02/04 ephemeral live.
 
-## **RESIDUALS-WAVE-02:** 2026-08-07 — RAG-05 worker live PASS; RAG-12 compose profile + smoke PASS; RAG-01 Docling live host; RAG-09 opt-in live_data_plane; X1 live PW 2/2; SPINE tick; HITL 16/16; GROQ dead-key disable. Open after wave: GOV-09, FRESH38 MI-02, FACT-4.1-HIGH tickets.
+## **RESIDUALS-WAVE-02:** 2026-08-07 — RAG-05 worker live PASS; RAG-12 compose profile + smoke PASS; RAG-01 Docling live host; RAG-09 opt-in live_data_plane; X1 live PW 2/2; SPINE tick; HITL 16/16; GROQ dead-key disable. Later closed same day-window: GOV-09, FRESH38-RECAPTURE-01, FACT-4.1-HIGH-01. Open after: FACT-SUPERSESSION-WRITE-01, GOV-06, IQ-01-ADJUDICATED.
 
 ## **FRESH38-RECAPTURE-01:** 2026-08-08 — CLOSED `COMPLETE / CONFIRMED_LOCAL`. Empty `message.content` → retryable `empty_content` + provider fallback (`gmail-agent:fea458f`). Variant2 full Fresh 38/38; `scoring_complete=true`; CLEAN_PASS=10 CAPABILITY=28; artifacts `knowledge/eval/fresh38-recapture-20260808/`.
+
+## **FACT-4.1-HIGH-01:** 2026-08-08 — CLOSED `COMPLETE / CONFIRMED_LOCAL`. Fresh residual sweep (not re-open of 4.1/FACT-01…05). Canonical: history=`fetch_facts_for_case`, current=`fetch_active_facts_for_case`/`fetch_current_facts_for_case`. Fixed calendar + precedent overlap SQL + pattern discovery + Postgres supersede metadata. Gate A **2357 passed, 15 skipped**. Post-fix inventory `unsafe=0`. Write-side → `FACT-SUPERSESSION-WRITE-01`.
 
 ## Powiązane dokumenty
 
