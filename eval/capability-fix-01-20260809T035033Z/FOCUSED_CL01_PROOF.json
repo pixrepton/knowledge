@@ -1,0 +1,201 @@
+{
+  "status": "PASS",
+  "capability_fix": "CAPABILITY-FIX-01",
+  "capability_fix_status": "CLOSED_LOCAL",
+  "cl01_root_cause": "FIXED",
+  "affected_cases": 9,
+  "focused_cl01_proof": "PASS",
+  "full_fresh38_rerun": false,
+  "cases_passed": 9,
+  "cases": [
+    {
+      "case_id": "INT-05",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_INT-05",
+      "spine_case_id": "case_0fdc9dcf40f7",
+      "policy_decision_id": "pdec_f6f61c6841655eedf06aac",
+      "action_proposal_id": "apv2_c705d312a45943bc045d97",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "INT-06",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_INT-06",
+      "spine_case_id": "case_50d8b4a941c2",
+      "policy_decision_id": "pdec_4d351bf581233ada8ab405",
+      "action_proposal_id": "apv2_56756ae1907813100a7b81",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "NEW-02",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_NEW-02",
+      "spine_case_id": "case_0fdc9dcf40f7",
+      "policy_decision_id": "pdec_18505c711bd8b82b036f43",
+      "action_proposal_id": "apv2_f59408672271be7c2e1dde",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "NEW-04",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_NEW-04",
+      "spine_case_id": "case_0fdc9dcf40f7",
+      "policy_decision_id": "pdec_71b2a7f7cf42edc8d435b4",
+      "action_proposal_id": "apv2_6f811b40b4ed9899908ea7",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "NEW-05",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_NEW-05",
+      "spine_case_id": "case_2f32f74161ed",
+      "policy_decision_id": "pdec_bc3e469d0f0119fec371de",
+      "action_proposal_id": "apv2_3bdeb0ebd9d1aa0c81eb77",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "SVC-03",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_SVC-03",
+      "spine_case_id": "case_50d8b4a941c2",
+      "policy_decision_id": "pdec_03f67eb3ec55debbcf5e2d",
+      "action_proposal_id": "apv2_e1f97ae6f8b4eb478a965f",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "CTX-02",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_CTX-02",
+      "spine_case_id": "case_0fdc9dcf40f7",
+      "policy_decision_id": "pdec_66a279b14414d544412099",
+      "action_proposal_id": "apv2_3b4786ee88309deff9b809",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "CTX-03",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_CTX-03",
+      "spine_case_id": "case_0fdc9dcf40f7",
+      "policy_decision_id": "pdec_7360062ca29f7d74ff184a",
+      "action_proposal_id": "apv2_687e0b6e211cb2b8ac9546",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    },
+    {
+      "case_id": "MI-03",
+      "understanding_present": true,
+      "decision_candidate_present": true,
+      "policy_decision_present": true,
+      "action_proposal_v2_present": true,
+      "policy_action_envelope_present": true,
+      "correlation_valid": true,
+      "planner_still_missing_policy_envelope": false,
+      "previous_failure_removed": true,
+      "spine_persist": {
+        "policy_decision_inserted": true,
+        "action_proposals_v2_inserted": 1
+      },
+      "requested_planner_case_id": "case_recovery_MI-03",
+      "spine_case_id": "case_50d8b4a941c2",
+      "policy_decision_id": "pdec_072f779f4710b465dcc768",
+      "action_proposal_id": "apv2_c8d5e18e57c12d5995f507",
+      "attach_status": "attached_from_policy_engine",
+      "result": "PASS"
+    }
+  ]
+}
