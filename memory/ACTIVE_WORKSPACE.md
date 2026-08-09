@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-08 (`OPERATOR-COMMAND-RECONCILE-BYPASS-01` — **CLOSED**).
+Status: current direction only. Last updated: 2026-08-09 (`AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL`).
 
 ## Current program (canonical)
 
@@ -9,7 +9,15 @@ Status: current direction only. Last updated: 2026-08-08 (`OPERATOR-COMMAND-RECO
 **Strategic posture:** `AI-OS-FINAL-INFRA-CLOSEOUT-01` (final read-only audit before the
 28-CAPABILITY program) ran 2026-08-08 and originally returned **NO-GO** with one real blocker:
 `OPERATOR-COMMAND-RECONCILE-BYPASS-01`. That blocker is now **CLOSED** in `gmail-agent`
-with Gate A passing and the current registry at `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`.
+with Gate A passing.
+
+```text
+AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
+CAPABILITY_PROGRAM_READINESS = GO
+REQUIRED_OPEN = 0
+UNKNOWN_NEEDS_PROOF = 0
+```
+
 Every other
 historical program/residual checked (Fresh38, FACT read+write, RAG-widget P0-4/P0-5,
 RAG-V2-FINAL-TECHNICAL-GATE-01, Calendar dispatch topology, desk membership, projection
@@ -17,9 +25,8 @@ seam, 4.4, credential history) came back clean/closed/intentional — **do not r
 without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` changelog
 2026-08-08 and this session’s report.
 
-**Next step:** stop after the blocker closeout proof. Do not start the Fresh38 28-CAPABILITY
-program without a separate explicit operator instruction. **Nie** otwieraj kolejnych slice’ów
-5.3–8.x „bo są na roadmapie”.
+**Next program:** Fresh38 28-CAPABILITY is the next real program. Do not open another residual
+wave. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
 
@@ -58,9 +65,12 @@ without blast-radius review (`OPERATOR_DECISIONS.md`).
 ### Otwarte residuale
 
 ```text
-REQUIRED_OPEN:  0
+AI_OS_INFRASTRUCTURE_CLEANUP: COMPLETE_LOCAL
+CAPABILITY_PROGRAM_READINESS: GO
+REQUIRED_OPEN: 0
 UNKNOWN_NEEDS_PROOF: 0
-P3 Optional:    IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
+NEXT_REAL_PROGRAM: Fresh38 28-CAPABILITY
+P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 ```
 
 **Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01,

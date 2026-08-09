@@ -1,17 +1,22 @@
 # Last Session
 
-Updated: 2026-08-08 — **OPERATOR-COMMAND-RECONCILE-BYPASS-01** — **CLOSED**.
+Updated: 2026-08-09 — **AI-OS infrastructure cleanup** — **COMPLETE_LOCAL**.
 
 ## Latest follow-up
 
 - `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is closed in `gmail-agent`: sync and async Agent Chat now route operator commands through canonical `reconcile_signal()`/registered `operator_command` handler after a single `SignalJournal.append()`.
 - Proof completed: sync path, async worker path, handler reachability, EntityLinker execution, processing attempts, case/correlation propagation, general chat without Case, `user_instruction`, HITL receipt parity, failed receipt, no duplicate signal, no duplicate AgentRun, and idempotent replay.
 - Gate A `gmail-agent`: `python -m pytest tools/gmail_audit/tests -q` => `2357 passed, 28 skipped, 24 subtests passed`, `0 failed`.
+- Formal checkpoint recorded: `AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL`; `CAPABILITY_PROGRAM_READINESS = GO`.
+- Next real program: Fresh38 28-CAPABILITY, not another residual wave.
 
 ```text
+AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
+CAPABILITY_PROGRAM_READINESS = GO
 OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
+NEXT_REAL_PROGRAM = Fresh38 28-CAPABILITY
 ```
 
 ## Done this session
@@ -45,9 +50,12 @@ Precondition (`RAG-V2-FINAL-TECHNICAL-GATE-01` PASS) confirmed via `PROOF_SUMMAR
 ## Result
 
 ```text
+AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
+CAPABILITY_PROGRAM_READINESS = GO
 OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
+NEXT_REAL_PROGRAM = Fresh38 28-CAPABILITY
 ```
 
 Required blocker count is now zero.
@@ -60,5 +68,5 @@ Required blocker count is now zero.
 
 ## Stop
 
-Do not start the Fresh38 28-CAPABILITY program. Do not reopen any of the closed programs listed in
-`ACTIVE_WORKSPACE.md` without new regression evidence.
+Do not open another residual wave. The next real program is Fresh38 28-CAPABILITY. Do not reopen any
+of the closed programs listed in `ACTIVE_WORKSPACE.md` without new regression evidence.

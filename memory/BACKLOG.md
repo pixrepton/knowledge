@@ -1,15 +1,18 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-08 (OPERATOR-COMMAND-RECONCILE-BYPASS-01 — CLOSED).
+Status: active only. Last updated: 2026-08-09 (AI-OS infrastructure cleanup — COMPLETE_LOCAL).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
 ## Current residual status
 
 ```text
+AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
+CAPABILITY_PROGRAM_READINESS = GO
 OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
+NEXT_REAL_PROGRAM = Fresh38 28-CAPABILITY
 ```
 
 | ID                               | Area        | Status   | Next action                                                                                  |

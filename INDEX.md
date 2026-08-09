@@ -1,11 +1,12 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-08 (OPERATOR-COMMAND-RECONCILE-BYPASS-01 — CLOSED).
+Status: active entry point. Last updated: 2026-08-09 (AI-OS infrastructure cleanup — COMPLETE_LOCAL).
 
 Read this file first, then only the files needed for the current task.
 
-**Current program posture (binding via memory):** do not open roadmap 5.3–8.x “from the list”, and
-do not start the Fresh38 28-CAPABILITY program without a separate explicit operator instruction.
+**Current program posture (binding via memory):** `AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL`;
+`CAPABILITY_PROGRAM_READINESS = GO`. The next real program is Fresh38 28-CAPABILITY, not another
+residual wave. Do not open roadmap 5.3-8.x "from the list".
 `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is **CLOSED**; current registry:
 `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`. RAG technical gates
 (`RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`)
