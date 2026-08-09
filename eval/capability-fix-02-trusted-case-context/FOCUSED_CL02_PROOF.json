@@ -1,0 +1,586 @@
+{
+  "generated_at": "2026-08-09T05:33:23Z",
+  "source_artifact": "C:\\Users\\compg\\Desktop\\top-code workspace\\knowledge\\eval\\fresh38-recapture-20260808\\fresh-full38-results.json",
+  "cases": [
+    {
+      "case_id": "FU-01",
+      "expected_known_context": [
+        [
+          "heated_area_m2",
+          120,
+          "case_recovery_FU-01_prior"
+        ],
+        [
+          "city",
+          "Krakow",
+          "case_recovery_FU-01_prior"
+        ],
+        [
+          "offer_sent",
+          true,
+          "case_recovery_FU-01_prior"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_FU-01",
+        "selected_case_id": "case_recovery_FU-01",
+        "case_id": "case_recovery_FU-01",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_FU-01",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_FU-01",
+      "case_intelligence_missing_before": [
+        "Preferowany kanał i numer telefonu do dalszego kontaktu.",
+        "Potwierdzenie, której oferty/którego przypadku dotyczy wiadomość (brak ID case, ID wątku lub innych referencji).",
+        "Konkretna data lub dzień kontaktu klienta („przyszły tydzień” jest nieprecyzyjny).",
+        "Czy klient ma pytania techniczne, prośbę o zmianę oferty lub potrzebę audytu/OZC."
+      ],
+      "case_intelligence_missing_after": [
+        "Preferowany kanał i numer telefonu do dalszego kontaktu.",
+        "Konkretna data lub dzień kontaktu klienta („przyszły tydzień” jest nieprecyzyjny).",
+        "Czy klient ma pytania techniczne, prośbę o zmianę oferty lub potrzebę audytu/OZC."
+      ],
+      "understanding_missing_before": [
+        "Preferowany kanał i numer telefonu do dalszego kontaktu.",
+        "Potwierdzenie, której oferty/którego przypadku dotyczy wiadomość (brak ID case, ID wątku lub innych referencji).",
+        "Konkretna data lub dzień kontaktu klienta („przyszły tydzień” jest nieprecyzyjny).",
+        "Czy klient ma pytania techniczne, prośbę o zmianę oferty lub potrzebę audytu/OZC."
+      ],
+      "understanding_missing_after": [
+        "Preferowany kanał i numer telefonu do dalszego kontaktu.",
+        "Konkretna data lub dzień kontaktu klienta („przyszły tydzień” jest nieprecyzyjny).",
+        "Czy klient ma pytania techniczne, prośbę o zmianę oferty lub potrzebę audytu/OZC."
+      ],
+      "understanding_case_id_after": "case_recovery_FU-01",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "FU-02",
+      "expected_known_context": [
+        [
+          "heated_area_m2",
+          100,
+          "case_recovery_FU-02_prior"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_FU-02",
+        "selected_case_id": "case_recovery_FU-02",
+        "case_id": "case_recovery_FU-02",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_FU-02",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_FU-02",
+      "case_intelligence_missing_before": [
+        "dane adresowe i techniczne niezbędne do oceny kwalifikacji do programu Czyste Powietrze (np. rok budowy, rodzaj instalacji grzewczej)",
+        "potwierdzenie, do której konkretnej wyceny (numer sprawy, model pompy) odnosi się zapytanie",
+        "informacja, czy klient potrzebuje wsparcia przy przygotowaniu wniosku o dofinansowanie"
+      ],
+      "case_intelligence_missing_after": [
+        "dane adresowe i techniczne niezbędne do oceny kwalifikacji do programu Czyste Powietrze (np. rok budowy, rodzaj instalacji grzewczej)",
+        "informacja, czy klient potrzebuje wsparcia przy przygotowaniu wniosku o dofinansowanie"
+      ],
+      "understanding_missing_before": [
+        "dane adresowe i techniczne niezbędne do oceny kwalifikacji do programu Czyste Powietrze (np. rok budowy, rodzaj instalacji grzewczej)",
+        "potwierdzenie, do której konkretnej wyceny (numer sprawy, model pompy) odnosi się zapytanie",
+        "informacja, czy klient potrzebuje wsparcia przy przygotowaniu wniosku o dofinansowanie"
+      ],
+      "understanding_missing_after": [
+        "dane adresowe i techniczne niezbędne do oceny kwalifikacji do programu Czyste Powietrze (np. rok budowy, rodzaj instalacji grzewczej)",
+        "informacja, czy klient potrzebuje wsparcia przy przygotowaniu wniosku o dofinansowanie"
+      ],
+      "understanding_case_id_after": "case_recovery_FU-02",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "FU-05",
+      "expected_known_context": [
+        [
+          "offer_sent",
+          true,
+          "case_recovery_FU-05_prior"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_FU-05",
+        "selected_case_id": "case_recovery_FU-05",
+        "case_id": "case_recovery_FU-05",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_FU-05",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_FU-05",
+      "case_intelligence_missing_before": [
+        "Dane kontaktowe klienta (imię, nazwisko, telefon)",
+        "Adres instalacji / budynku",
+        "Termin, w którym klient faktycznie planuje wrócić do tematu",
+        "Identyfikator lub numer wcześniejszej oferty",
+        "Pełny wątek korespondencji / historia sprawy",
+        "Zakres oferty (model pompy ciepła, parametry budynku)"
+      ],
+      "case_intelligence_missing_after": [
+        "Dane kontaktowe klienta (imię, nazwisko, telefon)",
+        "Adres instalacji / budynku",
+        "Termin, w którym klient faktycznie planuje wrócić do tematu",
+        "Zakres oferty (model pompy ciepła, parametry budynku)"
+      ],
+      "understanding_missing_before": [
+        "Dane kontaktowe klienta (imię, nazwisko, telefon)",
+        "Adres instalacji / budynku",
+        "Termin, w którym klient faktycznie planuje wrócić do tematu",
+        "Identyfikator lub numer wcześniejszej oferty",
+        "Pełny wątek korespondencji / historia sprawy",
+        "Zakres oferty (model pompy ciepła, parametry budynku)"
+      ],
+      "understanding_missing_after": [
+        "Dane kontaktowe klienta (imię, nazwisko, telefon)",
+        "Adres instalacji / budynku",
+        "Termin, w którym klient faktycznie planuje wrócić do tematu",
+        "Zakres oferty (model pompy ciepła, parametry budynku)"
+      ],
+      "understanding_case_id_after": "case_recovery_FU-05",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "FU-06",
+      "expected_known_context": [
+        [
+          "scope",
+          "ogrzewanie",
+          "case_recovery_FU-06_prior"
+        ],
+        [
+          "dhw_required",
+          false,
+          "case_recovery_FU-06_prior"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_FU-06",
+        "selected_case_id": "case_recovery_FU-06",
+        "case_id": "case_recovery_FU-06",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_FU-06",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_FU-06",
+      "case_intelligence_missing_before": [
+        "Preferowany termin realizacji",
+        "Odniesienie do wcześniejszej wyceny (numer oferty, data, zakres)",
+        "Dane techniczne budynku: OZC, typ instalacji grzewczej (grzejniki/podłogówka), powierzchnia",
+        "Lokalizacja inwestycji (ocena strefy dojazdu)",
+        "Informacja, czy wcześniejsza wycena zawierała już zasobnik CWU (wymaga weryfikacji w systemie)"
+      ],
+      "case_intelligence_missing_after": [
+        "Preferowany termin realizacji",
+        "Dane techniczne budynku: OZC, typ instalacji grzewczej (grzejniki/podłogówka), powierzchnia",
+        "Lokalizacja inwestycji (ocena strefy dojazdu)"
+      ],
+      "understanding_missing_before": [
+        "Preferowany termin realizacji",
+        "Odniesienie do wcześniejszej wyceny (numer oferty, data, zakres)",
+        "Dane techniczne budynku: OZC, typ instalacji grzewczej (grzejniki/podłogówka), powierzchnia",
+        "Lokalizacja inwestycji (ocena strefy dojazdu)",
+        "Informacja, czy wcześniejsza wycena zawierała już zasobnik CWU (wymaga weryfikacji w systemie)"
+      ],
+      "understanding_missing_after": [
+        "Preferowany termin realizacji",
+        "Dane techniczne budynku: OZC, typ instalacji grzewczej (grzejniki/podłogówka), powierzchnia",
+        "Lokalizacja inwestycji (ocena strefy dojazdu)"
+      ],
+      "understanding_case_id_after": "case_recovery_FU-06",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "FU-07",
+      "expected_known_context": [
+        [
+          "floor_heating_existing",
+          false,
+          "case_recovery_FU-07_prior"
+        ],
+        [
+          "current_heating_source",
+          "ogrzewanie podłogowe na parterze",
+          "case_recovery_FU-07_current"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_FU-07",
+        "selected_case_id": "case_recovery_FU-07",
+        "case_id": "case_recovery_FU-07",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_FU-07",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_FU-07",
+      "case_intelligence_missing_before": [
+        "Brak powiązania z istniejącym case'em (identyfikator)",
+        "Brak pełnego kontekstu wątku (poprzednie wiadomości, szczegóły techniczne)",
+        "Brak danych o powierzchni budynku i wyliczonym OZC niezbędnych do aktualizacji doboru pompy",
+        "Brak informacji o wymaganym buforze przy istniejącej instalacji podłogowej"
+      ],
+      "case_intelligence_missing_after": [
+        "Brak pełnego kontekstu wątku (poprzednie wiadomości, szczegóły techniczne)",
+        "Brak danych o powierzchni budynku i wyliczonym OZC niezbędnych do aktualizacji doboru pompy",
+        "Brak informacji o wymaganym buforze przy istniejącej instalacji podłogowej"
+      ],
+      "understanding_missing_before": [
+        "Brak powiązania z istniejącym case'em (identyfikator)",
+        "Brak pełnego kontekstu wątku (poprzednie wiadomości, szczegóły techniczne)",
+        "Brak danych o powierzchni budynku i wyliczonym OZC niezbędnych do aktualizacji doboru pompy",
+        "Brak informacji o wymaganym buforze przy istniejącej instalacji podłogowej"
+      ],
+      "understanding_missing_after": [
+        "Brak pełnego kontekstu wątku (poprzednie wiadomości, szczegóły techniczne)",
+        "Brak danych o powierzchni budynku i wyliczonym OZC niezbędnych do aktualizacji doboru pompy",
+        "Brak informacji o wymaganym buforze przy istniejącej instalacji podłogowej"
+      ],
+      "understanding_case_id_after": "case_recovery_FU-07",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "DOC-03",
+      "expected_known_context": [
+        [
+          "requested_document",
+          "dowod_osobisty",
+          "case_recovery_DOC-03_prior"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_DOC-03",
+        "selected_case_id": "case_recovery_DOC-03",
+        "case_id": "case_recovery_DOC-03",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_DOC-03",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_DOC-03",
+      "case_intelligence_missing_before": [
+        "adres zamieszkania lub siedziby w celu weryfikacji adresowej",
+        "potwierdzenie zgodności danych z dowodu z danymi klienta w systemie",
+        "podpisana umowa lub inny dokument potwierdzający akceptację warunków"
+      ],
+      "case_intelligence_missing_after": [
+        "adres zamieszkania lub siedziby w celu weryfikacji adresowej",
+        "potwierdzenie zgodności danych z dowodu z danymi klienta w systemie",
+        "podpisana umowa lub inny dokument potwierdzający akceptację warunków"
+      ],
+      "understanding_missing_before": [
+        "Potwierdzenie otrzymania pośród wcześniej pożądanego dokumentu (dowod_osobisty)",
+        "adres zamieszkania lub siedziby w celu weryfikacji adresowej",
+        "potwierdzenie zgodności danych z dowodu z danymi klienta w systemie",
+        "podpisana umowa lub inny dokument potwierdzający akceptację warunków"
+      ],
+      "understanding_missing_after": [
+        "adres zamieszkania lub siedziby w celu weryfikacji adresowej",
+        "potwierdzenie zgodności danych z dowodu z danymi klienta w systemie",
+        "podpisana umowa lub inny dokument potwierdzający akceptację warunków"
+      ],
+      "understanding_case_id_after": "case_recovery_DOC-03",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "MI-02",
+      "expected_known_context": [
+        [
+          "offer_sent",
+          true,
+          "case_recovery_MI-02_prior"
+        ],
+        [
+          "agreed_visit_date",
+          "2026-07-23T00:00:00+02:00",
+          "case_recovery_MI-02_prior"
+        ],
+        [
+          "current_heating_source",
+          "stary piec",
+          "case_recovery_MI-02_current"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_MI-02",
+        "selected_case_id": "case_recovery_MI-02",
+        "case_id": "case_recovery_MI-02",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_MI-02",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_MI-02",
+      "case_intelligence_missing_before": [
+        "dokładna data nowej wizyty (piątek – czy 2026‑07‑24?)",
+        "czy wywóz starego pieca jest objęty ceną oferty (lub ewentualny koszt dodatkowy)"
+      ],
+      "case_intelligence_missing_after": [
+        "dokładna data nowej wizyty (piątek – czy 2026‑07‑24?)",
+        "czy wywóz starego pieca jest objęty ceną oferty (lub ewentualny koszt dodatkowy)"
+      ],
+      "understanding_missing_before": [
+        "Potwierdzenie realizacji wcześniej ustalonej wizyty (23 lipca 2026)",
+        "dokładna data nowej wizyty (piątek – czy 2026‑07‑24?)",
+        "czy wywóz starego pieca jest objęty ceną oferty (lub ewentualny koszt dodatkowy)"
+      ],
+      "understanding_missing_after": [
+        "dokładna data nowej wizyty (piątek – czy 2026‑07‑24?)",
+        "czy wywóz starego pieca jest objęty ceną oferty (lub ewentualny koszt dodatkowy)"
+      ],
+      "understanding_case_id_after": "case_recovery_MI-02",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    },
+    {
+      "case_id": "DEC-02",
+      "expected_known_context": [
+        [
+          "offer_sent",
+          true,
+          "case_recovery_DEC-02_prior"
+        ]
+      ],
+      "source_of_truth": "mailbox_memory_context_pack.active_facts",
+      "correlation_before": {
+        "decision": "no_link",
+        "confidence": 0.0,
+        "candidates": []
+      },
+      "correlation_after": {
+        "selected_case_key": "case_recovery_DEC-02",
+        "selected_case_id": "case_recovery_DEC-02",
+        "case_id": "case_recovery_DEC-02",
+        "decision": "linked",
+        "confidence": 0.88,
+        "source": "context_candidate",
+        "reasons": [
+          "trusted_case_context_pack",
+          "prior_case_state_present"
+        ],
+        "candidates": [
+          {
+            "case_key": "case_recovery_DEC-02",
+            "score": 0.88,
+            "source": "context_candidate",
+            "reasons": [
+              "trusted_case_context_pack",
+              "prior_case_state_present"
+            ],
+            "hard_match_count": 1,
+            "soft_match_count": 0
+          }
+        ],
+        "competing_case_keys": [],
+        "hard_match_count": 1,
+        "soft_match_count": 0
+      },
+      "context_pack_case_id": "case_recovery_DEC-02",
+      "case_intelligence_missing_before": [
+        "szczegóły techniczne oferty (wybrany model pompy, moc, bufor, CWU)",
+        "potwierdzenie, czy klient jest gotowy do dalszych negocjacji (np. termin realizacji)",
+        "identyfikator oryginalnej oferty / numer oferty",
+        "porównawcze warunki oferty konkurencji (kwota, zakres)"
+      ],
+      "case_intelligence_missing_after": [
+        "szczegóły techniczne oferty (wybrany model pompy, moc, bufor, CWU)",
+        "potwierdzenie, czy klient jest gotowy do dalszych negocjacji (np. termin realizacji)",
+        "porównawcze warunki oferty konkurencji (kwota, zakres)"
+      ],
+      "understanding_missing_before": [
+        "szczegóły techniczne oferty (wybrany model pompy, moc, bufor, CWU)",
+        "potwierdzenie, czy klient jest gotowy do dalszych negocjacji (np. termin realizacji)",
+        "identyfikator oryginalnej oferty / numer oferty",
+        "porównawcze warunki oferty konkurencji (kwota, zakres)"
+      ],
+      "understanding_missing_after": [
+        "szczegóły techniczne oferty (wybrany model pompy, moc, bufor, CWU)",
+        "potwierdzenie, czy klient jest gotowy do dalszych negocjacji (np. termin realizacji)",
+        "porównawcze warunki oferty konkurencji (kwota, zakres)"
+      ],
+      "understanding_case_id_after": "case_recovery_DEC-02",
+      "result": "CL02_ROOT_CAUSE_REMOVED"
+    }
+  ]
+}
