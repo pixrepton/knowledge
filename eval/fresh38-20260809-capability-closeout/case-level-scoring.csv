@@ -1,0 +1,39 @@
+case_id,primary_outcome,base_primary_outcome,stage_reached,quality_passed,overall_score,capture_gap,failed_components,v5_budget_context_adjudication
+INT-01,CAPABILITY,CLEAN_PASS,full,True,0.8125,[],understanding:SCORED:False | draft:SCORED:False,{}
+INT-02,CLEAN_PASS,CLEAN_PASS,intake_only,False,0.0,[],,{}
+INT-03,CLEAN_PASS,CLEAN_PASS,intake_only,False,0.0,[],,{}
+INT-04,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+INT-05,CAPABILITY,CAPABILITY,full,False,0.0,[],,{}
+INT-06,CLEAN_PASS,CLEAN_PASS,full,False,0.0,[],,{}
+NEW-02,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+NEW-03,CAPABILITY,CAPABILITY,full,True,0.825,[],understanding:SCORED:False,{}
+NEW-04,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+NEW-05,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+FU-01,DELIVERY,DELIVERY,full,False,,"[{""component"": ""understanding"", ""reason"": ""score_missing""}]",understanding:UNSCORABLE_WITH_PROVEN_CAPTURE_GAP:score_missing,{}
+FU-02,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+FU-03,CLEAN_PASS,CLEAN_PASS,full,False,0.0,[],,{}
+FU-04,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+FU-05,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+FU-06,HARNESS,CLEAN_PASS,intake_reasoning_error,False,0.384,"[{""component"": ""understanding"", ""reason"": ""stage_output_missing""}, {""component"": ""draft"", ""reason"": ""draft_text_missing""}]",understanding:UNSCORABLE_WITH_PROVEN_CAPTURE_GAP:stage_output_missing | draft:UNSCORABLE_WITH_PROVEN_CAPTURE_GAP:draft_text_missing,{}
+FU-07,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+SVC-01,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+SVC-02,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+SVC-03,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+SVC-04,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+SVC-05,CAPABILITY,CLEAN_PASS,full,True,0.91,[],draft:SCORED:False,{}
+DOC-01,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+DOC-02,DELIVERY,DELIVERY,full,False,,"[{""component"": ""understanding"", ""reason"": ""score_missing""}]",understanding:UNSCORABLE_WITH_PROVEN_CAPTURE_GAP:score_missing,{}
+DOC-03,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+DOC-04,CAPABILITY,CLEAN_PASS,full,False,0.65,[],understanding:SCORED:False,{}
+CTX-01,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+CTX-02,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+CTX-03,CAPABILITY,CAPABILITY,full,True,1.0,[],,{}
+CTX-04,CAPABILITY,CLEAN_PASS,full,False,0.65,[],understanding:SCORED:False,{}
+CTX-05,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+MI-01,HARNESS,CLEAN_PASS,intake_reasoning_error,True,1.0,"[{""component"": ""understanding"", ""reason"": ""stage_output_missing""}]",understanding:UNSCORABLE_WITH_PROVEN_CAPTURE_GAP:stage_output_missing,{}
+MI-02,HARNESS,CLEAN_PASS,intake_reasoning_error,False,0.0,"[{""component"": ""understanding"", ""reason"": ""stage_output_missing""}]",understanding:UNSCORABLE_WITH_PROVEN_CAPTURE_GAP:stage_output_missing,{}
+MI-03,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+MI-04,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+DEC-01,CLEAN_PASS,CLEAN_PASS,intake_reasoning_error,False,0.0,[],,{}
+DEC-02,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}
+NEW-01,CLEAN_PASS,CLEAN_PASS,full,True,1.0,[],,{}

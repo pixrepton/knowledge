@@ -1,0 +1,79 @@
+{
+  "files": [
+    {
+      "path": "breakdown-v5.json",
+      "sha256": "479e494cd2ceb956b445e354e677bc15cfd71a8e1945e2662fc9ea5d04100e2a",
+      "bytes": 1998
+    },
+    {
+      "path": "capture-main.log",
+      "sha256": "8bfc5bc8a9c644e7e4ee392a1bfe5c48ad8e2f4e09792cdbbb9c07ad5f3ede89",
+      "bytes": 4240
+    },
+    {
+      "path": "capture-tail.log",
+      "sha256": "63dc6df043b3fa4403af22e5d254ee2adf8bb125019cf7dbfd36410ebf7a746b",
+      "bytes": 1690
+    },
+    {
+      "path": "case-level-scoring.csv",
+      "sha256": "66f761d2bfa15c06a7566c83f1a1cd0e2c52505ee62371bc7ba2147f57c49bb3",
+      "bytes": 3118
+    },
+    {
+      "path": "case-level-scoring.json",
+      "sha256": "74c969d76268edf0b74e2ef2ca7086e6391e05ba4c610e1f7819f0d88d5a0451",
+      "bytes": 13438
+    },
+    {
+      "path": "effective-corpus-v5.json",
+      "sha256": "22fe2d64b153e90435bb86d8cbcf4d5df9d4257e9dd99819ecee01fe162b349e",
+      "bytes": 43691
+    },
+    {
+      "path": "first-divergence-residual-report.md",
+      "sha256": "30ba11c54b05472c6ef02b93862aa70c62164a0994c47c607f7298aa5bb725cb",
+      "bytes": 1910
+    },
+    {
+      "path": "fresh-full38-results.json",
+      "sha256": "be309619bb912694a75dadae09de1623a3c424cc6acb313416c827a68448d1e6",
+      "bytes": 2160861
+    },
+    {
+      "path": "fresh-understanding-judge.json",
+      "sha256": "9d2f0cfa3a0c60755bd67b954a8d0542fa2f7e67dca97d5254afaca7113e1744",
+      "bytes": 75770
+    },
+    {
+      "path": "merge-sources.json",
+      "sha256": "12a069d906a36fbe00b4524b2b54d85da03be6bda3a4d5a96c475152b3674d7c",
+      "bytes": 7240
+    },
+    {
+      "path": "qualification-summary.md",
+      "sha256": "41160d33eb92ff337a37e6a5fd91922f72a41a2e043f00bd12880033396083e4",
+      "bytes": 549
+    },
+    {
+      "path": "qualification-v5.json",
+      "sha256": "95b1d15afaba94c6c5a4fc724ba4de4eeb3145efa83a521dde1dc43862ea9ab9",
+      "bytes": 2623
+    },
+    {
+      "path": "rescore-v5.json",
+      "sha256": "0fb2183b6c272337c6306e0241148323418b89cf930ce0dd27dbff5b0544d7eb",
+      "bytes": 153136
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "cd1dadcb437874c034034504441ed3775af85895423a206b43c59074ba647eef",
+      "bytes": 681
+    },
+    {
+      "path": "summary-v5.json",
+      "sha256": "722135fde3831fa775e017250536f2d0686d917df44dc7d9ec2a836a6fc54192",
+      "bytes": 1506
+    }
+  ]
+}

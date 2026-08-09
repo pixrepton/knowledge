@@ -1,0 +1,32 @@
+{
+  "cases": 38,
+  "outcomes": {
+    "CAPABILITY": 7,
+    "CLEAN_PASS": 26,
+    "DELIVERY": 2,
+    "HARNESS": 3
+  },
+  "clean_pass_cases": 26,
+  "quality_scored_cases": 30,
+  "quality_passed_cases": 26,
+  "capture_gap_cases": 5,
+  "measurement_contract_version": "v5",
+  "measurement_contract_manifest": {
+    "measurement_contract_version": "v5",
+    "corpus_sha256": "04c561a4c36600ab2dacd02956199706a47770c2f44a564343fce72174b1f827",
+    "ground_truth_sha256": "ba1447534d534c9d047ed169beff45b94376be860b8347282794d8cb51a57cd8",
+    "scorer_sha256": "5a8c5af0e05cc54fdd249a573f4a1633ca4c4931a7e638634f81bdaf0b9c086a",
+    "qualification_threshold": 34,
+    "timestamp": "2026-08-09T19:35:14.246003Z",
+    "source_sut_capture_sha256": "be309619bb912694a75dadae09de1623a3c424cc6acb313416c827a68448d1e6",
+    "comparison_policy": "measurement outputs are comparable only when measurement_contract_version, corpus hash, ground-truth hash, scorer hash, and threshold match",
+    "frozen_judge_result_sha256": "9d2f0cfa3a0c60755bd67b954a8d0542fa2f7e67dca97d5254afaca7113e1744",
+    "contract_changed_from": "v4",
+    "contract_change_reason": [
+      "adjudicate CTX budget-context judge false negatives from captured Understanding evidence",
+      "keep corpus, ground truth, SUT capture, judge config, and runtime AI-OS unchanged"
+    ],
+    "ground_truth_changed_from_v4": false,
+    "manifest_sha256": "c8ef9b10cfcd7e7ad20edfd4879029c708e7455f24b2b8824aaedbdf747ba115"
+  }
+}

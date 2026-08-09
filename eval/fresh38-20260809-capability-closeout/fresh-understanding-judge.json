@@ -1,0 +1,2300 @@
+{
+  "contract_version": "understanding-semantic-judge.v1",
+  "judge_config": {
+    "provider": "groq",
+    "model": "llama-3.3-70b-versatile",
+    "endpoint": "https://api.groq.com/openai/v1",
+    "anthropic_version": "not_applicable",
+    "temperature": 0.0,
+    "max_tokens": 450,
+    "timeout_sec": 60.0,
+    "max_retries": 3,
+    "fallback": "none",
+    "output_schema_version": "understanding-judge-output.v1",
+    "prompt_version": "understanding-semantic-judge.v1"
+  },
+  "case_count": 30,
+  "completed_count": 30,
+  "cases": [
+    {
+      "case_id": "INT-01",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches source_input",
+          "evidence": "Zapytanie o pompe ciepla - dom 150m2 Wroclaw",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl clearly states the intent",
+          "evidence": "Klient buduje nowy dom jednorodzinny o powierzchni 150 m² pod Wrocławiem, planuje ogrzewanie podłogowe i prosi o wycenę pompy ciepła powietrze‑woda",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "some gaps are identified but not all are critical",
+          "evidence": "Brak wyliczonego OZC oraz danych kontaktowych i dokładnego adresu instalacji",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "interpretation risk is medium and related to missing information",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "next step is escalation but details are not fully clear",
+          "evidence": "Follow-up: odpowiedz na pytanie ...",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "BORDERLINE",
+      "unsafe_misinterpretation": false,
+      "score": 0.65,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 2406
+    },
+    {
+      "case_id": "INT-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie problemu serwisowego",
+          "evidence": "Reklamacja - pompa ciepla halasuje od tygodnia",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie intencji klienta",
+          "evidence": "Klient zgłasza reklamację dotyczącą głośnego stukającego dźwięku",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "wskazanie brakujących informacji",
+          "evidence": "dokładna lokalizacja jednostki zewnętrznej, numer telefonu kontaktowego",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie ryzyka związanego z brakiem odpowiedzi",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "zalecenie następnego kroku",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1844
+    },
+    {
+      "case_id": "NEW-02",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "correct_identification",
+          "evidence": "Pytanie techniczne o Panasonic Aquarea",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "correct_identification",
+          "evidence": "Klient pyta o efektywność pompy ciepła Panasonic Aquarea T‑CAP",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "correct_identification",
+          "evidence": "adres instalacji, powierzchnia użytkowa budynku, rodzaj istniejącej instalacji grzewczej",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "correct_identification",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "correct_recommendation",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1953
+    },
+    {
+      "case_id": "NEW-03",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer intent clearly captured",
+          "evidence": "Wycena pompy ciepla - wymiana pieca gazowego",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "some gaps identified but not critical",
+          "evidence": "numer telefonu kontaktowego, dokładny adres instalacji",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "interpretation risk due to missing information",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "BORDERLINE",
+      "unsafe_misinterpretation": false,
+      "score": 0.65,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1265
+    },
+    {
+      "case_id": "NEW-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent matches essence",
+          "evidence": "Wycena",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_critical_fields listed",
+          "evidence": "numer telefonu kontaktowego, adres instalacji",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "lead_loss_risk identified",
+          "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "ask_for_missing_data recommended",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1625
+    },
+    {
+      "case_id": "NEW-05",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl correctly identifies the customer's question",
+          "evidence": "Klient pyta, czy TOP-INSTAL wykonuje przeglądy serwisowe pomp ciepła, które nie zostały zainstalowane przez nas",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_information section correctly identifies gaps",
+          "evidence": "Adres instalacji, Numer telefonu kontaktowego, Preferowany termin przeglądu",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "risks section correctly identifies interpretation risk",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next_best_action_recommendation correctly suggests answering the customer's ques",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1703
+    },
+    {
+      "case_id": "FU-01",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches expected intent",
+          "evidence": "Klient podziękował za przesłaną ofertę pompy ciepła i zadeklarował, że przeanalizuje ją oraz odezwie się w przyszłym tygodniu.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "no critical changes detected",
+          "evidence": "thread_delta.changes is empty",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "no critical gaps detected",
+          "evidence": "missing_information.critical is empty",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next_best_action_recommendation is review_required",
+          "evidence": "Oferta: nie pytaj ponownie o znany metraż/miasto; policz wycenę gdy narzędzie dostępne, inaczej generate_draft_reply(intent=quote) i HITL..",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1985
+    },
+    {
+      "case_id": "FU-02",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches must condition",
+          "evidence": "Klient pyta, czy inwestycja w pompę ciepła, dla której otrzymał już wycenę, może zostać objęta dofinansowaniem z programu Czyste Powietrze.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "thread_delta contains new_missing_info",
+          "evidence": "dokładny adres nieruchomości (w celu sprawdzenia strefy programu)",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_critical_fields and missing_information are correctly identified",
+          "evidence": "dokładny adres nieruchomości (w celu sprawdzenia strefy programu)",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "lead_loss_risk is correctly identified due to missing_critical_fields",
+          "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next_best_action_recommendation is review_required",
+          "evidence": "Follow-up: odpowiedz na pyt...",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1828
+    },
+    {
+      "case_id": "FU-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches essence",
+          "evidence": "Klient podziękował za ofertę i poinformował, że wybrał innego wykonawcę",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches intent",
+          "evidence": "Klient podziękował za ofertę i poinformował, że wybrał innego wykonawcę",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "thread_delta indicates no changes",
+          "evidence": "Wczesniej ustalone dane pozostaja wazne i wiazace dla biezacej sprawy",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_information indicates helpful info",
+          "evidence": "brak identyfikatora sprawy w wiadomości",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "risks indicate interpretation_risk",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next_best_action_recommendation indicates review_required",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 33625
+    },
+    {
+      "case_id": "FU-05",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches essence",
+          "evidence": "Klient odpowiada na wcześniejszą ofertę informacją, że musi skonsultować decyzję z żoną i wróci do tematu za około miesiąc.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches intent",
+          "evidence": "Klient odpowiada na wcześniejszą ofertę informacją, że musi skonsultować decyzję z żoną i wróci do tematu za około miesiąc.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "thread_delta indicates no changes",
+          "evidence": "changes: []",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_critical_fields listed",
+          "evidence": "Adres e-mail / dane kontaktowe klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "lead_loss_risk identified",
+          "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1750
+    },
+    {
+      "case_id": "FU-06",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "FAIL",
+          "reason_code": "missing_required_change",
+          "evidence": "no mention of dhw_required change",
+          "score": 0.0,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_FAIL",
+      "unsafe_misinterpretation": true,
+      "score": 0.0,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1328
+    },
+    {
+      "case_id": "FU-07",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "required meaning present",
+          "evidence": "Klient w odpowiedzi na wcześniejszą wycenę informuje, że na parterze domu jest już zamontowane ogrzewanie podłogowe.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "update of floor_heating_existing fact",
+          "evidence": "floor heating existing: False -> True",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "identification of missing information",
+          "evidence": "Warto uzupelnic: wyliczone Obliczeniowe Zapotrzebowanie Ciepła (OZC) dla całego obiektu...",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "identification of interpretation risk",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "follow-up action recommended",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1719
+    },
+    {
+      "case_id": "SVC-01",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie problemu serwisowego",
+          "evidence": "Reklamacja - instalacja nie dziala poprawnie",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie problemu serwisowego",
+          "evidence": "Klient zgłasza, że instalacja pompy ciepła nie działa prawidłowo",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "wskazanie brakujacych informacji",
+          "evidence": "dokładny adres instalacji, numer telefonu kontaktowego, szczegółowy opis objawów",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie ryzyka związanego z niezalatwionym pytaniem",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "wskazanie odpowiedniej następnej akcji",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1469
+    },
+    {
+      "case_id": "SVC-02",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie awarii",
+          "evidence": "Awaria pompy ciepla",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "brak powiazan z istniejacymi sprawami",
+          "evidence": "brak powiazan",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "klient ma niezalatwione pytanie",
+          "evidence": "pytanie czeka na odpowiedz",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "follow-up",
+          "evidence": "odpowiedz na pytanie klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 5235
+    },
+    {
+      "case_id": "SVC-03",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie wysokiego priorytetu/pilnosci",
+          "evidence": "PILNE - brak ogrzewania, male dziecko w domu",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "wskazanie braku danych o adresie, numerze telefonu",
+          "evidence": "adres instalacji (loka...",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "zidentyfikowanie ryzyka związanego z brakiem odpowiedzi na pytanie klienta",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rekomendacja eskalacji sprawy do operatora",
+          "evidence": "Wysoki priorytet (critical) i zagrożenie zdrowia dziecka wymuszają interwencję operatora",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7094
+    },
+    {
+      "case_id": "SVC-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches source_input",
+          "evidence": "Pytanie o dziwny dzwiek",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_information section correctly identifies gaps",
+          "evidence": "numer telefonu lub inny kontakt zwrotny do klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "risks section correctly identifies interpretation risk",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next_best_action_recommendation is to answer customer",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7046
+    },
+    {
+      "case_id": "SVC-05",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_critical_fields",
+          "evidence": "brak danych do diagnozy",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "interpretation_risk",
+          "evidence": "Klient ma niezalatwione pytanie",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "review_required",
+          "evidence": "Wiadomość jest zbyt ogólna",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 6829
+    },
+    {
+      "case_id": "DOC-01",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "explicitly_identified",
+          "evidence": "Faktura",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl",
+          "evidence": "Sprawa dotyczy rozliczen lub platnosci klienta.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_info_listed",
+          "evidence": "numer faktury, kwota faktury w treści wiadomości, identyfikacja kontrahenta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "interpretation_risk_identified",
+          "evidence": "Klient przeslal dokument finansowy (np. fakure) wymagajacy przetworzenia.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "review_required",
+          "evidence": "Follow-up: uwzględnij zmianę",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7000
+    },
+    {
+      "case_id": "DOC-02",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "required_meaning_present",
+          "evidence": "Karta katalogowa urzadzenia",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "required_meaning_present",
+          "evidence": "rozpoznanie pytania o kompatybilnosc jako nowej intencji technicznej",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "required_meaning_present",
+          "evidence": "Brak danych o powierzchni budynku, zapotrzebowaniu cieplnym (OZC), rodzaju i układzie grzejników",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "interpretation_risk_present",
+          "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "BORDERLINE",
+      "unsafe_misinterpretation": false,
+      "score": 0.65,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 8406
+    },
+    {
+      "case_id": "DOC-03",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "explicit_summary",
+          "evidence": "Re: dokumenty do umowy",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl",
+          "evidence": "Klient przesłał w odpowiedzi na wątek \"dokumenty do umowy\" załącznik prawdopodobnie będący skanem dowodu osobistego potrzebnym do finalizacji umowy.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "new_document_signal",
+          "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_information",
+          "evidence": "potwierdzenie, że załącznik jest skanem dowodu osobistego wymaganym do umowy",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "interpretation_risk",
+          "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7672
+    },
+    {
+      "case_id": "DOC-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "required meaning present",
+          "evidence": "Audyt energetyczny",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "thread_delta correctly notes change",
+          "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "missing critical fields noted but incomplete",
+          "evidence": "potwierdzenie dokładnego adresu budynku i odległości od siedziby TOP‑INSTAL",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "interpretation risk and lead loss risk identified but severity not fully justifi",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "no contradictions found",
+          "evidence": "no contradictory information",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "BORDERLINE",
+      "unsafe_misinterpretation": false,
+      "score": 0.65,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 8828
+    },
+    {
+      "case_id": "CTX-01",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl contains the required information",
+          "evidence": "Klient potwierdził, że będzie czekał na ekipę montażową we wtorek o 10:00",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing_critical_fields lists the required gap",
+          "evidence": "Potwierdzenie realizacji wcześniej ustalonej wizyty (21 lipca 2026, godz. 10:00)",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next_best_action_recommendation provides a suitable action",
+          "evidence": "Operator: jedna decyzja — uzupełnij luki",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 9250
+    },
+    {
+      "case_id": "CTX-02",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "update_reflected",
+          "evidence": "budynek nie jest w pełni ocieplony",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "gaps_identified",
+          "evidence": "Brakuje krytycznych danych: Adres inwestycji, powierzchnia użytkowa i rok/etap budowy",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "risks_acknowledged",
+          "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 6907
+    },
+    {
+      "case_id": "CTX-03",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "change_detected",
+          "evidence": "Rozbieznosc dla heated_area_m2: 120 vs 160",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "gaps_identified",
+          "evidence": "Brakuje kluczowych danych technicznych",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "risks_identified",
+          "evidence": "Klient ma niezalatwione pytanie",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "contradiction_detected",
+          "evidence": "Rozbieznosc dla heated_area_m2: 120 vs 160",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7328
+    },
+    {
+      "case_id": "CTX-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "customer_intent_pl matches essence",
+          "evidence": "Klient ponownie kontaktuje się w sprawie finalnej oferty handlowej",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "missing critical fields",
+          "evidence": "potwierdzenie adresu instalacji, ostateczne potwierdzenie wyboru urządzenia i mocy",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "missing critical fields",
+          "evidence": "potwierdzenie adresu instalacji, ostateczne potwierdzenie wyboru urządzenia i mocy",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "BORDERLINE",
+          "reason_code": "interpretation risk due to missing information",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+          "score": 0.65,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "BORDERLINE",
+      "unsafe_misinterpretation": false,
+      "score": 0.65,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7656
+    },
+    {
+      "case_id": "CTX-05",
+      "dimensions": {
+        "essence": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "change detected",
+          "evidence": "thread_delta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing critical fields identified",
+          "evidence": "missing_critical_fields",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "lead loss risk identified",
+          "evidence": "risks",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 7343
+    },
+    {
+      "case_id": "MI-01",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "Two distinct issues identified",
+          "evidence": "Two separate questions and issues mentioned",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "Technical question and fault report recognized",
+          "evidence": "Technical question about compatibility and fault report for a different address",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 31532
+    },
+    {
+      "case_id": "MI-02",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "FAIL",
+          "reason_code": "empty_output",
+          "evidence": "actual_understanding_output is empty",
+          "score": 0.0,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "FAIL",
+          "reason_code": "no_intent_identified",
+          "evidence": "actual_understanding_output is empty",
+          "score": 0.0,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "FAIL",
+          "reason_code": "no_state_change_identified",
+          "evidence": "actual_understanding_output is empty",
+          "score": 0.0,
+          "status": "failed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_FAIL",
+      "unsafe_misinterpretation": true,
+      "score": 0.0,
+      "passed": false,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 812
+    },
+    {
+      "case_id": "MI-03",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie dwoch odrebnych spraw",
+          "evidence": "Reklamacja i nowe zapytanie",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie zamiaru klienta",
+          "evidence": "zgłasza reklamację i zapytanie o wycenę",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "wskazanie brakujących informacji",
+          "evidence": "Numer telefonu kontaktowego klienta, Pełny adres instalacji",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "rozpoznanie ryzyka",
+          "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "zalecenie następnego kroku",
+          "evidence": "Follow-up: odpowiedz na pytanie klienta",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1218
+    },
+    {
+      "case_id": "MI-04",
+      "dimensions": {
+        "essence": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "required meaning present",
+          "evidence": "Klient potwierdza, że zamówienie jest w toku i w załączniku przesyła fakturę za dodatkowe materiały.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "intent": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "current_state_change": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "change detected",
+          "evidence": "Klient przeslal dokument finansowy (np. fakture) do przetworzenia",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "gaps": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "missing information identified",
+          "evidence": "numer faktury, kwota do zapłaty, potwierdzenie kontrahenta (TOP‑INSTAL), identyfikator powiązanego ...",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "risks": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "risk identified",
+          "evidence": "Klient przeslal dokument finansowy (np. fakture) wymagajacy przetworzenia.",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "contradictions": {
+          "applicable": false,
+          "verdict": "PASS",
+          "reason_code": "not_applicable",
+          "evidence": "",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        },
+        "recommended_next_step": {
+          "applicable": true,
+          "verdict": "PASS",
+          "reason_code": "next step recommended",
+          "evidence": "Follow-up: uwzględnij zmianę («Klient przeslal dokument finansowy (n...",
+          "score": 1.0,
+          "status": "passed",
+          "scorer_type": "llm_judged"
+        }
+      },
+      "overall_verdict": "CLEAR_PASS",
+      "unsafe_misinterpretation": false,
+      "score": 1.0,
+      "passed": true,
+      "needs_llm_judge": false,
+      "scorer_type": "llm_judged",
+      "status": "SCORED",
+      "latency_ms": 1954
+    }
+  ]
+}

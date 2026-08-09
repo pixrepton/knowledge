@@ -1,0 +1,4618 @@
+{
+  "source_mode": "production_faithful",
+  "sentinel_only": false,
+  "corpus_canonical_sha256": "04c561a4c36600ab2dacd02956199706a47770c2f44a564343fce72174b1f827",
+  "summary": {
+    "cases": 38,
+    "outcomes": {
+      "CAPABILITY": 7,
+      "CLEAN_PASS": 26,
+      "DELIVERY": 2,
+      "HARNESS": 3
+    },
+    "clean_pass_cases": 26,
+    "quality_scored_cases": 30,
+    "quality_passed_cases": 26,
+    "capture_gap_cases": 5
+  },
+  "cases": [
+    {
+      "case_id": "INT-01",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": false
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": false
+        }
+      },
+      "component_scores": {
+        "extraction": {
+          "score_type": "extraction_field_level",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "required_fact_count": 4,
+          "matched_required_fact_count": 4,
+          "required_fact_recall": 1.0,
+          "unknown_missing_count": 0,
+          "wrong_value_count": 0,
+          "fabricated_count": 0,
+          "forbidden_hallucination_count": 0,
+          "details": [
+            {
+              "id": "heated_area_m2",
+              "path": null,
+              "status": "matched",
+              "actual": 150.0
+            },
+            {
+              "id": "building_type",
+              "path": null,
+              "status": "matched",
+              "actual": "dom jednorodzinny"
+            },
+            {
+              "id": "current_heating_source",
+              "path": null,
+              "status": "matched",
+              "actual": "brak / nowy budynek w budowie"
+            },
+            {
+              "id": "hvac_intent",
+              "path": null,
+              "status": "matched",
+              "actual": "wycena_oferta"
+            }
+          ],
+          "hallucinations": [],
+          "passed": true
+        },
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 0.65,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches source_input",
+              "evidence": "Zapytanie o pompe ciepla - dom 150m2 Wroclaw",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl clearly states the intent",
+              "evidence": "Klient buduje nowy dom jednorodzinny o powierzchni 150 m² pod Wrocławiem, planuje ogrzewanie podłogowe i prosi o wycenę pompy ciepła powietrze‑woda",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "BORDERLINE",
+              "reason_code": "some gaps are identified but not all are critical",
+              "evidence": "Brak wyliczonego OZC oraz danych kontaktowych i dokładnego adresu instalacji",
+              "score": 0.65,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "BORDERLINE",
+                "reason_code": "interpretation risk is medium and related to missing information"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "BORDERLINE",
+              "reason_code": "next step is escalation but details are not fully clear",
+              "evidence": "Follow-up: odpowiedz na pytanie ...",
+              "score": 0.65,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "BORDERLINE",
+          "passed": false
+        },
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 0.775,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 0.0,
+              "matched": [],
+              "missing": [
+                "podziekowanie za zapytanie"
+              ],
+              "invented": [],
+              "status": "failed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "dzien dobry",
+                "dziekuje",
+                "dziekujemy"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 0.5,
+              "status": "informational",
+              "actual_operator_edit_required": true,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": true,
+          "passed": false
+        }
+      },
+      "overall_score": 0.8125,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "recommended_variant",
+        "recommended_variant": "customer_friendly",
+        "selected_variant": "customer_friendly",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "INT-02",
+      "stage_reached": "intake_only",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "no_quality_ground_truth",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {},
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "INT-03",
+      "stage_reached": "intake_only",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "no_quality_ground_truth",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {},
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "INT-04",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie problemu serwisowego",
+              "evidence": "Reklamacja - pompa ciepla halasuje od tygodnia",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie intencji klienta",
+              "evidence": "Klient zgłasza reklamację dotyczącą głośnego stukającego dźwięku",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "wskazanie brakujących informacji",
+              "evidence": "dokładna lokalizacja jednostki zewnętrznej, numer telefonu kontaktowego",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "rozpoznanie ryzyka związanego z brakiem odpowiedzi"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "zalecenie następnego kroku",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "INT-05",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CAPABILITY",
+      "score_status": "no_quality_ground_truth",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "INT-06",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "no_quality_ground_truth",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      }
+    },
+    {
+      "case_id": "NEW-02",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "extraction": {
+          "score_type": "extraction_field_level",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "required_fact_count": 1,
+          "matched_required_fact_count": 1,
+          "required_fact_recall": 1.0,
+          "unknown_missing_count": 0,
+          "wrong_value_count": 0,
+          "fabricated_count": 0,
+          "forbidden_hallucination_count": 0,
+          "details": [
+            {
+              "id": "hvac_intent",
+              "path": null,
+              "status": "matched",
+              "actual": "pytanie_techniczne"
+            }
+          ],
+          "hallucinations": [],
+          "passed": true
+        },
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "correct_identification",
+              "evidence": "Pytanie techniczne o Panasonic Aquarea",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "correct_identification",
+              "evidence": "Klient pyta o efektywność pompy ciepła Panasonic Aquarea T‑CAP",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "correct_identification",
+              "evidence": "adres instalacji, powierzchnia użytkowa budynku, rodzaj istniejącej instalacji grzewczej",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "correct_identification"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "correct_recommendation",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "NEW-03",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CAPABILITY",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": false
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "extraction": {
+          "score_type": "extraction_field_level",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "required_fact_count": 4,
+          "matched_required_fact_count": 4,
+          "required_fact_recall": 1.0,
+          "unknown_missing_count": 0,
+          "wrong_value_count": 0,
+          "fabricated_count": 0,
+          "forbidden_hallucination_count": 0,
+          "details": [
+            {
+              "id": "heated_area_m2",
+              "path": null,
+              "status": "matched",
+              "actual": 150.0
+            },
+            {
+              "id": "current_heating_source",
+              "path": null,
+              "status": "matched",
+              "actual": "ogrzewanie gazowe"
+            },
+            {
+              "id": "budget_pln_estimated",
+              "path": null,
+              "status": "matched",
+              "actual": 45000.0
+            },
+            {
+              "id": "raw_geographic_signal",
+              "path": null,
+              "status": "matched",
+              "actual": "Wroclaw"
+            }
+          ],
+          "hallucinations": [],
+          "passed": true
+        },
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 0.65,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer intent clearly captured",
+              "evidence": "Wycena pompy ciepla - wymiana pieca gazowego",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "BORDERLINE",
+              "reason_code": "some gaps identified but not critical",
+              "evidence": "numer telefonu kontaktowego, dokładny adres instalacji",
+              "score": 0.65,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "BORDERLINE",
+                "reason_code": "interpretation risk due to missing information"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "BORDERLINE",
+          "passed": false
+        }
+      },
+      "overall_score": 0.825,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "NEW-04",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "extraction": {
+          "score_type": "extraction_field_level",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "required_fact_count": 0,
+          "matched_required_fact_count": 0,
+          "required_fact_recall": 1.0,
+          "unknown_missing_count": 0,
+          "wrong_value_count": 0,
+          "fabricated_count": 0,
+          "forbidden_hallucination_count": 0,
+          "details": [],
+          "hallucinations": [],
+          "passed": true
+        },
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent matches essence",
+              "evidence": "Wycena",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_critical_fields listed",
+              "evidence": "numer telefonu kontaktowego, adres instalacji",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "lead_loss_risk identified"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "ask_for_missing_data recommended",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "NEW-05",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl correctly identifies the customer's question",
+              "evidence": "Klient pyta, czy TOP-INSTAL wykonuje przeglądy serwisowe pomp ciepła, które nie zostały zainstalowane przez nas",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_information section correctly identifies gaps",
+              "evidence": "Adres instalacji, Numer telefonu kontaktowego, Preferowany termin przeglądu",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "risks section correctly identifies interpretation risk"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "next_best_action_recommendation correctly suggests answering the customer's ques",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "FU-01",
+      "stage_reached": "full",
+      "primary_outcome": "DELIVERY",
+      "base_primary_outcome": "DELIVERY",
+      "score_status": "not_scored_delivery",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "UNSCORABLE_WITH_PROVEN_CAPTURE_GAP",
+          "eligible": true,
+          "scored": false,
+          "passed": false,
+          "reason": "score_missing"
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": null,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [
+        {
+          "component": "understanding",
+          "reason": "score_missing"
+        }
+      ],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "FU-02",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches must condition",
+              "evidence": "Klient pyta, czy inwestycja w pompę ciepła, dla której otrzymał już wycenę, może zostać objęta dofinansowaniem z programu Czyste Powietrze.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "thread_delta contains new_missing_info",
+              "evidence": "dokładny adres nieruchomości (w celu sprawdzenia strefy programu)",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_critical_fields and missing_information are correctly identified",
+              "evidence": "dokładny adres nieruchomości (w celu sprawdzenia strefy programu)",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "lead_loss_risk is correctly identified due to missing_critical_fields"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "next_best_action_recommendation is review_required",
+              "evidence": "Follow-up: odpowiedz na pyt...",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        },
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "invented": [],
+              "status": "passed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "dzien dobry",
+                "prosimy"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 1.0,
+              "status": "passed",
+              "actual_operator_edit_required": false,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": false,
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "legacy_execution_metadata_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "FU-03",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "no_quality_ground_truth",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "correct_escalation_rate": 1.0,
+        "unsafe_non_escalation": false
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      }
+    },
+    {
+      "case_id": "FU-04",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches essence",
+              "evidence": "Klient podziękował za ofertę i poinformował, że wybrał innego wykonawcę",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches intent",
+              "evidence": "Klient podziękował za ofertę i poinformował, że wybrał innego wykonawcę",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "thread_delta indicates no changes",
+              "evidence": "Wczesniej ustalone dane pozostaja wazne i wiazace dla biezacej sprawy",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_information indicates helpful info",
+              "evidence": "brak identyfikatora sprawy w wiadomości",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "risks indicate interpretation_risk"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "next_best_action_recommendation indicates review_required",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "FU-05",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches essence",
+              "evidence": "Klient odpowiada na wcześniejszą ofertę informacją, że musi skonsultować decyzję z żoną i wróci do tematu za około miesiąc.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches intent",
+              "evidence": "Klient odpowiada na wcześniejszą ofertę informacją, że musi skonsultować decyzję z żoną i wróci do tematu za około miesiąc.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "thread_delta indicates no changes",
+              "evidence": "changes: []",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_critical_fields listed",
+              "evidence": "Adres e-mail / dane kontaktowe klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "lead_loss_risk identified"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "FU-06",
+      "stage_reached": "intake_reasoning_error",
+      "primary_outcome": "HARNESS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "UNSCORABLE_WITH_PROVEN_CAPTURE_GAP",
+          "eligible": true,
+          "scored": false,
+          "passed": false,
+          "reason": "stage_output_missing"
+        },
+        "draft": {
+          "status": "UNSCORABLE_WITH_PROVEN_CAPTURE_GAP",
+          "eligible": true,
+          "scored": false,
+          "passed": false,
+          "reason": "draft_text_missing"
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 0.0,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "FAIL",
+              "reason_code": "missing_required_change",
+              "evidence": "no mention of dhw_required change",
+              "score": 0.0,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 1,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_FAIL",
+          "passed": false
+        },
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 0.96,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "invented": [],
+              "status": "passed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 0.6,
+              "matched": [],
+              "forbidden_hits": [],
+              "status": "failed"
+            },
+            "operator_edit_requirement": {
+              "score": 1.0,
+              "status": "passed",
+              "actual_operator_edit_required": false,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": false,
+          "passed": true
+        }
+      },
+      "overall_score": 0.384,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {},
+      "capture_gap": [
+        {
+          "component": "understanding",
+          "reason": "stage_output_missing"
+        },
+        {
+          "component": "draft",
+          "reason": "draft_text_missing"
+        }
+      ],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "FU-07",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "required meaning present",
+              "evidence": "Klient w odpowiedzi na wcześniejszą wycenę informuje, że na parterze domu jest już zamontowane ogrzewanie podłogowe.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "update of floor_heating_existing fact",
+              "evidence": "floor heating existing: False -> True",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "identification of missing information",
+              "evidence": "Warto uzupelnic: wyliczone Obliczeniowe Zapotrzebowanie Ciepła (OZC) dla całego obiektu...",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "identification of interpretation risk"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "follow-up action recommended",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta z wątku",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "SVC-01",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie problemu serwisowego",
+              "evidence": "Reklamacja - instalacja nie dziala poprawnie",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie problemu serwisowego",
+              "evidence": "Klient zgłasza, że instalacja pompy ciepła nie działa prawidłowo",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "wskazanie brakujacych informacji",
+              "evidence": "dokładny adres instalacji, numer telefonu kontaktowego, szczegółowy opis objawów",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "rozpoznanie ryzyka związanego z niezalatwionym pytaniem"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "wskazanie odpowiedniej następnej akcji",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        },
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "invented": [],
+              "status": "passed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "prosimy",
+                "dziekuje",
+                "dziekujemy"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 1.0,
+              "status": "passed",
+              "actual_operator_edit_required": false,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": false,
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "correct_escalation_rate": 1.0,
+        "unsafe_non_escalation": false
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "recommended_variant",
+        "recommended_variant": "short_operational",
+        "selected_variant": "short_operational",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "SVC-02",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie awarii",
+              "evidence": "Awaria pompy ciepla",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "brak powiazan z istniejacymi sprawami",
+              "evidence": "brak powiazan",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "pytanie czeka na odpowiedz",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "klient ma niezalatwione pytanie"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "follow-up",
+              "evidence": "odpowiedz na pytanie klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        },
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "invented": [],
+              "status": "passed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "prosimy",
+                "dziekuje",
+                "dziekujemy",
+                "szanowni"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 1.0,
+              "status": "passed",
+              "actual_operator_edit_required": false,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": false,
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "correct_escalation_rate": 1.0,
+        "unsafe_non_escalation": false
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "recommended_variant",
+        "recommended_variant": "short_operational",
+        "selected_variant": "short_operational",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "SVC-03",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie wysokiego priorytetu/pilnosci",
+              "evidence": "PILNE - brak ogrzewania, male dziecko w domu",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "wskazanie braku danych o adresie, numerze telefonu",
+              "evidence": "adres instalacji (loka...",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "zidentyfikowanie ryzyka związanego z brakiem odpowiedzi na pytanie klienta",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rekomendacja eskalacji sprawy do operatora",
+              "evidence": "Wysoki priorytet (critical) i zagrożenie zdrowia dziecka wymuszają interwencję operatora",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "correct_escalation_rate": 1.0,
+        "unsafe_non_escalation": false
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      }
+    },
+    {
+      "case_id": "SVC-04",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches source_input",
+              "evidence": "Pytanie o dziwny dzwiek",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_information section correctly identifies gaps",
+              "evidence": "numer telefonu lub inny kontakt zwrotny do klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "risks section correctly identifies interpretation risk",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "next_best_action_recommendation is to answer customer",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      }
+    },
+    {
+      "case_id": "SVC-05",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": false
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_critical_fields",
+              "evidence": "brak danych do diagnozy",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "interpretation_risk"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "review_required",
+              "evidence": "Wiadomość jest zbyt ogólna",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        },
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 0.775,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 0.0,
+              "matched": [],
+              "missing": [
+                "prosba o doprecyzowanie (co konkretnie nie dziala)"
+              ],
+              "invented": [],
+              "status": "failed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "dzien dobry",
+                "prosimy",
+                "dziekuje",
+                "dziekujemy"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 0.5,
+              "status": "informational",
+              "actual_operator_edit_required": true,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": true,
+          "passed": false
+        }
+      },
+      "overall_score": 0.91,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "legacy_execution_metadata_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "DOC-01",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "explicitly_identified",
+              "evidence": "Faktura",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl",
+              "evidence": "Sprawa dotyczy rozliczen lub platnosci klienta.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_info_listed",
+              "evidence": "numer faktury, kwota faktury w treści wiadomości, identyfikacja kontrahenta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient przeslal dokument finansowy (np. fakure) wymagajacy przetworzenia.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "interpretation_risk_identified"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "review_required",
+              "evidence": "Follow-up: uwzględnij zmianę",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "DOC-02",
+      "stage_reached": "full",
+      "primary_outcome": "DELIVERY",
+      "base_primary_outcome": "DELIVERY",
+      "score_status": "not_scored_delivery",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "UNSCORABLE_WITH_PROVEN_CAPTURE_GAP",
+          "eligible": true,
+          "scored": false,
+          "passed": false,
+          "reason": "score_missing"
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": null,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [
+        {
+          "component": "understanding",
+          "reason": "score_missing"
+        }
+      ],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "DOC-03",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "explicit_summary",
+              "evidence": "Re: dokumenty do umowy",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl",
+              "evidence": "Klient przesłał w odpowiedzi na wątek \"dokumenty do umowy\" załącznik prawdopodobnie będący skanem dowodu osobistego potrzebnym do finalizacji umowy.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "new_document_signal",
+              "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_information",
+              "evidence": "potwierdzenie, że załącznik jest skanem dowodu osobistego wymaganym do umowy",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "interpretation_risk"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "DOC-04",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": false
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 0.65,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "required meaning present",
+              "evidence": "Audyt energetyczny",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "thread_delta correctly notes change",
+              "evidence": "Odczyt zalacznika jest niepewny i wymaga recznej weryfikacji",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "BORDERLINE",
+              "reason_code": "missing critical fields noted but incomplete",
+              "evidence": "potwierdzenie dokładnego adresu budynku i odległości od siedziby TOP‑INSTAL",
+              "score": 0.65,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "BORDERLINE",
+                "reason_code": "interpretation risk and lead loss risk identified but severity not fully justifi"
+              }
+            },
+            "contradictions": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "no contradictions found",
+              "evidence": "no contradictory information",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "BORDERLINE",
+          "passed": false
+        }
+      },
+      "overall_score": 0.65,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "CTX-01",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl contains the required information",
+              "evidence": "Klient potwierdził, że będzie czekał na ekipę montażową we wtorek o 10:00",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing_critical_fields lists the required gap",
+              "evidence": "Potwierdzenie realizacji wcześniej ustalonej wizyty (21 lipca 2026, godz. 10:00)",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "next_best_action_recommendation provides a suitable action",
+              "evidence": "Operator: jedna decyzja — uzupełnij luki",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      }
+    },
+    {
+      "case_id": "CTX-02",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "update_reflected",
+              "evidence": "budynek nie jest w pełni ocieplony",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "gaps_identified",
+              "evidence": "Brakuje krytycznych danych: Adres inwestycji, powierzchnia użytkowa i rok/etap budowy",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Lead jest aktywny, ale bez krytycznych danych moze utkac na etapie kwalifikacji",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "risks_acknowledged"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "CTX-03",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CAPABILITY",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "change_detected",
+              "evidence": "Rozbieznosc dla heated_area_m2: 120 vs 160",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "gaps_identified",
+              "evidence": "Brakuje kluczowych danych technicznych",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "risks_identified"
+              }
+            },
+            "contradictions": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "contradiction_detected",
+              "evidence": "Rozbieznosc dla heated_area_m2: 120 vs 160",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "evidence_namespace_diagnostics": [
+        {
+          "status": "not_evaluable",
+          "reason_codes": [
+            "missing_canonical_signal_id",
+            "missing_source_message_id"
+          ],
+          "canonical_signal_id": "",
+          "source_message_id": "",
+          "fact_key": "heated_area_m2",
+          "conflict_type": "fact_conflict"
+        }
+      ],
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "CTX-04",
+      "stage_reached": "full",
+      "primary_outcome": "CAPABILITY",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": false
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 0.65,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "customer_intent_pl matches essence",
+              "evidence": "Klient ponownie kontaktuje się w sprawie finalnej oferty handlowej",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "BORDERLINE",
+              "reason_code": "missing critical fields",
+              "evidence": "potwierdzenie adresu instalacji, ostateczne potwierdzenie wyboru urządzenia i mocy",
+              "score": 0.65,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "BORDERLINE",
+              "reason_code": "missing critical fields",
+              "evidence": "potwierdzenie adresu instalacji, ostateczne potwierdzenie wyboru urządzenia i mocy",
+              "score": 0.65,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi przed dalszym ruchem",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "BORDERLINE",
+                "reason_code": "interpretation risk due to missing information"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "BORDERLINE",
+          "passed": false
+        }
+      },
+      "overall_score": 0.65,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "planner_capture_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "CTX-05",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "change detected",
+              "evidence": "thread_delta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing critical fields identified",
+              "evidence": "missing_critical_fields",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "risks",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "lead loss risk identified"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "missing_action_rate": 1.0
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "MI-01",
+      "stage_reached": "intake_reasoning_error",
+      "primary_outcome": "HARNESS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "UNSCORABLE_WITH_PROVEN_CAPTURE_GAP",
+          "eligible": true,
+          "scored": false,
+          "passed": false,
+          "reason": "stage_output_missing"
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "Two distinct issues identified",
+              "evidence": "Two separate questions and issues mentioned",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "Technical question and fault report recognized",
+              "evidence": "Technical question about compatibility and fault report for a different address",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {},
+      "capture_gap": [
+        {
+          "component": "understanding",
+          "reason": "stage_output_missing"
+        }
+      ],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "MI-02",
+      "stage_reached": "intake_reasoning_error",
+      "primary_outcome": "HARNESS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "UNSCORABLE_WITH_PROVEN_CAPTURE_GAP",
+          "eligible": true,
+          "scored": false,
+          "passed": false,
+          "reason": "stage_output_missing"
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 0.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "FAIL",
+              "reason_code": "empty_output",
+              "evidence": "actual_understanding_output is empty",
+              "score": 0.0,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "FAIL",
+              "reason_code": "no_intent_identified",
+              "evidence": "actual_understanding_output is empty",
+              "score": 0.0,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "FAIL",
+              "reason_code": "no_state_change_identified",
+              "evidence": "actual_understanding_output is empty",
+              "score": 0.0,
+              "status": "failed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 1,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_FAIL",
+          "passed": false
+        }
+      },
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {},
+      "capture_gap": [
+        {
+          "component": "understanding",
+          "reason": "stage_output_missing"
+        }
+      ],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "MI-03",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie dwoch odrebnych spraw",
+              "evidence": "Reklamacja i nowe zapytanie",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "rozpoznanie zamiaru klienta",
+              "evidence": "zgłasza reklamację i zapytanie o wycenę",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "wskazanie brakujących informacji",
+              "evidence": "Numer telefonu kontaktowego klienta, Pełny adres instalacji",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient ma niezalatwione pytanie wymagajace odpowiedzi",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "rozpoznanie ryzyka"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "zalecenie następnego kroku",
+              "evidence": "Follow-up: odpowiedz na pytanie klienta",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "correct_escalation_rate": 1.0,
+        "unsafe_non_escalation": false
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "MI-04",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {
+        "understanding": {
+          "score_type": "understanding_semantic",
+          "scorer_type": "llm_judge",
+          "score": 1.0,
+          "dimensions": {
+            "essence": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "required meaning present",
+              "evidence": "Klient potwierdza, że zamówienie jest w toku i w załączniku przesyła fakturę za dodatkowe materiały.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "intent": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "current_state_change": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "change detected",
+              "evidence": "Klient przeslal dokument finansowy (np. fakture) do przetworzenia",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "gaps": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "missing information identified",
+              "evidence": "numer faktury, kwota do zapłaty, potwierdzenie kontrahenta (TOP‑INSTAL), identyfikator powiązanego ...",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "risks": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable_v4_ground_truth_only",
+              "evidence": "Klient przeslal dokument finansowy (np. fakture) wymagajacy przetworzenia.",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged",
+              "v1_verdict_superseded": {
+                "applicable": true,
+                "verdict": "PASS",
+                "reason_code": "risk identified"
+              }
+            },
+            "contradictions": {
+              "applicable": false,
+              "verdict": "PASS",
+              "reason_code": "not_applicable",
+              "evidence": "",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            },
+            "recommended_next_step": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason_code": "next step recommended",
+              "evidence": "Follow-up: uwzględnij zmianę («Klient przeslal dokument finansowy (n...",
+              "score": 1.0,
+              "status": "passed",
+              "scorer_type": "llm_judged"
+            }
+          },
+          "unsafe_hit_count": 0,
+          "needs_llm_judge": false,
+          "judge_status": "SCORED",
+          "overall_verdict": "CLEAR_PASS",
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "unnecessary_escalation": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      },
+      "v4_risk_applicability_corrected": "narrowed"
+    },
+    {
+      "case_id": "DEC-01",
+      "stage_reached": "intake_reasoning_error",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "no_quality_ground_truth",
+      "quality_scored": false,
+      "quality_passed": false,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        }
+      },
+      "component_scores": {},
+      "overall_score": 0.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {},
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "unavailable",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": false
+      }
+    },
+    {
+      "case_id": "DEC-02",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        }
+      },
+      "component_scores": {
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "invented": [],
+              "status": "passed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "dzien dobry",
+                "prosimy"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 1.0,
+              "status": "passed",
+              "actual_operator_edit_required": false,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": false,
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true,
+        "correct_escalation_rate": 1.0,
+        "unsafe_non_escalation": false
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "legacy_execution_metadata_fallback",
+        "recommended_variant": "",
+        "selected_variant": "",
+        "fallback_used": true
+      }
+    },
+    {
+      "case_id": "NEW-01",
+      "stage_reached": "full",
+      "primary_outcome": "CLEAN_PASS",
+      "base_primary_outcome": "CLEAN_PASS",
+      "score_status": "scored",
+      "quality_scored": true,
+      "quality_passed": true,
+      "component_status": {
+        "extraction": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "understanding": {
+          "status": "NOT_APPLICABLE",
+          "eligible": false,
+          "scored": false,
+          "passed": null
+        },
+        "draft": {
+          "status": "SCORED",
+          "eligible": true,
+          "scored": true,
+          "passed": true
+        }
+      },
+      "component_scores": {
+        "draft": {
+          "score_type": "draft_quality",
+          "scorer_type": "deterministic",
+          "score": 1.0,
+          "dimensions": {
+            "factual_correctness": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "invented": [],
+              "status": "passed"
+            },
+            "relevance": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "missing_required_information": {
+              "score": 1.0,
+              "matched": [],
+              "missing": [],
+              "status": "passed"
+            },
+            "invented_claims": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            },
+            "appropriate_escalation": {
+              "score": 1.0,
+              "status": "passed",
+              "required": false
+            },
+            "tone": {
+              "score": 1.0,
+              "matched": [
+                "dzien dobry",
+                "prosze"
+              ],
+              "forbidden_hits": [],
+              "status": "passed"
+            },
+            "operator_edit_requirement": {
+              "score": 1.0,
+              "status": "passed",
+              "actual_operator_edit_required": false,
+              "placeholder_detected": false
+            },
+            "unsafe_promises": {
+              "score": 1.0,
+              "hits": [],
+              "status": "passed"
+            }
+          },
+          "operator_edit_required": false,
+          "passed": true
+        }
+      },
+      "overall_score": 1.0,
+      "nonblocking_tool_errors": [],
+      "unsafe_non_escalation": false,
+      "planner_quality": {
+        "deterministic": true
+      },
+      "capture_gap": [],
+      "measurement_contract_version": "v5",
+      "draft_measurement_selection": {
+        "strategy": "recommended_variant",
+        "recommended_variant": "short_operational",
+        "selected_variant": "short_operational",
+        "fallback_used": false
+      }
+    }
+  ],
+  "measurement_contract_version": "v5",
+  "measurement_contract_manifest": {
+    "measurement_contract_version": "v5",
+    "corpus_sha256": "04c561a4c36600ab2dacd02956199706a47770c2f44a564343fce72174b1f827",
+    "ground_truth_sha256": "ba1447534d534c9d047ed169beff45b94376be860b8347282794d8cb51a57cd8",
+    "scorer_sha256": "5a8c5af0e05cc54fdd249a573f4a1633ca4c4931a7e638634f81bdaf0b9c086a",
+    "qualification_threshold": 34,
+    "timestamp": "2026-08-09T19:35:14.246003Z",
+    "source_sut_capture_sha256": "be309619bb912694a75dadae09de1623a3c424cc6acb313416c827a68448d1e6",
+    "comparison_policy": "measurement outputs are comparable only when measurement_contract_version, corpus hash, ground-truth hash, scorer hash, and threshold match",
+    "frozen_judge_result_sha256": "9d2f0cfa3a0c60755bd67b954a8d0542fa2f7e67dca97d5254afaca7113e1744",
+    "contract_changed_from": "v4",
+    "contract_change_reason": [
+      "adjudicate CTX budget-context judge false negatives from captured Understanding evidence",
+      "keep corpus, ground truth, SUT capture, judge config, and runtime AI-OS unchanged"
+    ],
+    "ground_truth_changed_from_v4": false,
+    "manifest_sha256": "c8ef9b10cfcd7e7ad20edfd4879029c708e7455f24b2b8824aaedbdf747ba115"
+  }
+}

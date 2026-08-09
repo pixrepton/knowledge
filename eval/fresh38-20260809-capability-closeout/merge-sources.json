@@ -1,0 +1,195 @@
+{
+  "sources": [
+    {
+      "case_id": "INT-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-INT-01.json"
+    },
+    {
+      "case_id": "INT-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-INT-02.json"
+    },
+    {
+      "case_id": "INT-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-INT-03.json"
+    },
+    {
+      "case_id": "INT-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-INT-04.json"
+    },
+    {
+      "case_id": "INT-05",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-INT-05.json"
+    },
+    {
+      "case_id": "INT-06",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-INT-06.json"
+    },
+    {
+      "case_id": "NEW-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-NEW-02.json"
+    },
+    {
+      "case_id": "NEW-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-NEW-03.json"
+    },
+    {
+      "case_id": "NEW-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-NEW-04.json"
+    },
+    {
+      "case_id": "NEW-05",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-NEW-05.json"
+    },
+    {
+      "case_id": "FU-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-01.json"
+    },
+    {
+      "case_id": "FU-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-02.json"
+    },
+    {
+      "case_id": "FU-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-03.json"
+    },
+    {
+      "case_id": "FU-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-04.json"
+    },
+    {
+      "case_id": "FU-05",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-05.json"
+    },
+    {
+      "case_id": "FU-06",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-06.json"
+    },
+    {
+      "case_id": "FU-07",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-FU-07.json"
+    },
+    {
+      "case_id": "SVC-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-SVC-01.json"
+    },
+    {
+      "case_id": "SVC-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-SVC-02.json"
+    },
+    {
+      "case_id": "SVC-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-SVC-03.json"
+    },
+    {
+      "case_id": "SVC-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-SVC-04.json"
+    },
+    {
+      "case_id": "SVC-05",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-SVC-05.json"
+    },
+    {
+      "case_id": "DOC-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-DOC-01.json"
+    },
+    {
+      "case_id": "DOC-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-DOC-02.json"
+    },
+    {
+      "case_id": "DOC-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-DOC-03.json"
+    },
+    {
+      "case_id": "DOC-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-DOC-04.json"
+    },
+    {
+      "case_id": "CTX-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-CTX-01.json"
+    },
+    {
+      "case_id": "CTX-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-CTX-02.json"
+    },
+    {
+      "case_id": "CTX-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-CTX-03.json"
+    },
+    {
+      "case_id": "CTX-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-CTX-04.json"
+    },
+    {
+      "case_id": "CTX-05",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-CTX-05.json"
+    },
+    {
+      "case_id": "MI-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-MI-01.json"
+    },
+    {
+      "case_id": "MI-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-MI-02.json"
+    },
+    {
+      "case_id": "MI-03",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-MI-03.json"
+    },
+    {
+      "case_id": "MI-04",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-MI-04.json"
+    },
+    {
+      "case_id": "DEC-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-DEC-01.json"
+    },
+    {
+      "case_id": "DEC-02",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-DEC-02.json"
+    },
+    {
+      "case_id": "NEW-01",
+      "source": "main",
+      "path": "C:\\top-code-session-scratch\\capability-closeout-20260809\\fresh38-full-20260809T1819Z\\one-NEW-01.json"
+    }
+  ],
+  "missing": []
+}
