@@ -145,29 +145,29 @@ Delivery: **COMPLETE** / Proof: **CONFIRMED_LOCAL** (Gate A **2357 passed, 15 sk
 
 ### Canonical contract (current)
 
-| API | Semantics |
-| --- | --- |
-| `fetch_facts_for_case` | HISTORY — active + superseded audit trail |
-| `fetch_active_facts_for_case` (Postgres + InMemory Protocol) | CURRENT — `status != superseded` |
+| API                                                                                | Semantics                                  |
+| ---------------------------------------------------------------------------------- | ------------------------------------------ |
+| `fetch_facts_for_case`                                                             | HISTORY — active + superseded audit trail  |
+| `fetch_active_facts_for_case` (Postgres + InMemory Protocol)                       | CURRENT — `status != superseded`           |
 | `fetch_current_facts_for_case` / `is_live_fact` (`mailbox_memory/active_facts.py`) | Canonical current-state seam for consumers |
 
 ### Historical HIGH disposition
 
-| Historical HIGH / MEDIUM | File / symbol | Disposition | Evidence |
-| --- | --- | --- | --- |
-| Snapshot / hot-state / pack hub | `build_case_snapshot`, `case_snapshot_manager`, ingest/finalize | **ALREADY_FIXED** (FACT-01/05) | `test_fact01_snapshot_supersession.py`, RP-29 pack tests |
-| Entity linker | `entity_linker` | **ALREADY_FIXED** (4.2b) | `test_aios_4_2b_active_fact_consumers.py` |
-| Invoice fields | `handlers._fetch_invoice_fields` | **ALREADY_FIXED** (4.2b) | same |
-| Drive first/collect fact values + projection | `drive_ingest_runtime` | **ALREADY_FIXED** (4.2b) | same |
-| Neo4j pilot | `neo4j_pilot` | **ALREADY_FIXED** (FACT-02) | `test_fact02_active_fact_projection.py` — **NO_CHANGE_REQUIRED** |
-| Similar-case keys | `_active_fact_keys` + `fetch_current_facts_for_case` | **ALREADY_FIXED** (4.2b) | same |
-| Precedent SQL JOIN (Postgres + fallback + InMemory) | `fetch_resolved_cases_by_family_and_fact_keys`, `_fetch_resolved_via_sql` | **CLOSED** | status filter + `test_fact_41_high_remaining_consumers.py` |
-| Calendar API | `CalendarRuntime.context_for_case` + `_has_customer_proposed_date_fact` | **CLOSED** | `fetch_current_facts_for_case` + live-fact guard; FACT-41 tests |
-| Pattern discovery | `pattern_discovery.find_regex_gaps` | **CLOSED** (LOW–MEDIUM) | SQL excludes superseded |
-| Drive enrichment mailbox refs | `collect_drive_case_enrichment` | **ALREADY_FIXED** | uses `fetch_current_facts_for_case` |
-| Daszek pack / document promote | feed + `document_intelligence_runtime` | **ALREADY_FIXED** | history fetch + `split_conflicting_facts` / audit |
-| Postgres supersede UPDATE metadata (psycopg3) | `append_facts_with_supersession` | **CLOSED** (blocker found in live proof) | `_json_dump` + datetime coerce; bounded PG proof |
-| `replace_message_facts` dual-active / merge write path | writers | **CLOSED** `FACT-SUPERSESSION-WRITE-01` | cross-message supersession; merge reassign+reconcile; legal same-message conflicts kept |
+| Historical HIGH / MEDIUM                               | File / symbol                                                             | Disposition                              | Evidence                                                                                |
+| ------------------------------------------------------ | ------------------------------------------------------------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------- |
+| Snapshot / hot-state / pack hub                        | `build_case_snapshot`, `case_snapshot_manager`, ingest/finalize           | **ALREADY_FIXED** (FACT-01/05)           | `test_fact01_snapshot_supersession.py`, RP-29 pack tests                                |
+| Entity linker                                          | `entity_linker`                                                           | **ALREADY_FIXED** (4.2b)                 | `test_aios_4_2b_active_fact_consumers.py`                                               |
+| Invoice fields                                         | `handlers._fetch_invoice_fields`                                          | **ALREADY_FIXED** (4.2b)                 | same                                                                                    |
+| Drive first/collect fact values + projection           | `drive_ingest_runtime`                                                    | **ALREADY_FIXED** (4.2b)                 | same                                                                                    |
+| Neo4j pilot                                            | `neo4j_pilot`                                                             | **ALREADY_FIXED** (FACT-02)              | `test_fact02_active_fact_projection.py` — **NO_CHANGE_REQUIRED**                        |
+| Similar-case keys                                      | `_active_fact_keys` + `fetch_current_facts_for_case`                      | **ALREADY_FIXED** (4.2b)                 | same                                                                                    |
+| Precedent SQL JOIN (Postgres + fallback + InMemory)    | `fetch_resolved_cases_by_family_and_fact_keys`, `_fetch_resolved_via_sql` | **CLOSED**                               | status filter + `test_fact_41_high_remaining_consumers.py`                              |
+| Calendar API                                           | `CalendarRuntime.context_for_case` + `_has_customer_proposed_date_fact`   | **CLOSED**                               | `fetch_current_facts_for_case` + live-fact guard; FACT-41 tests                         |
+| Pattern discovery                                      | `pattern_discovery.find_regex_gaps`                                       | **CLOSED** (LOW–MEDIUM)                  | SQL excludes superseded                                                                 |
+| Drive enrichment mailbox refs                          | `collect_drive_case_enrichment`                                           | **ALREADY_FIXED**                        | uses `fetch_current_facts_for_case`                                                     |
+| Daszek pack / document promote                         | feed + `document_intelligence_runtime`                                    | **ALREADY_FIXED**                        | history fetch + `split_conflicting_facts` / audit                                       |
+| Postgres supersede UPDATE metadata (psycopg3)          | `append_facts_with_supersession`                                          | **CLOSED** (blocker found in live proof) | `_json_dump` + datetime coerce; bounded PG proof                                        |
+| `replace_message_facts` dual-active / merge write path | writers                                                                   | **CLOSED** `FACT-SUPERSESSION-WRITE-01`  | cross-message supersession; merge reassign+reconcile; legal same-message conflicts kept |
 
 ### Post-fix inventory (production)
 
