@@ -1,0 +1,155 @@
+{
+  "case_id": "CTX-04",
+  "verdict": "EVAL_EXPECTATION_WRONG",
+  "old_primary_outcome": "CAPABILITY",
+  "new_primary_outcome": "CLEAN_PASS",
+  "v5_adjudication": {
+    "status": "corrected",
+    "dimensions": [
+      "essence",
+      "current_state_change"
+    ],
+    "budget_context_present": true,
+    "runtime_changed": false
+  },
+  "old_understanding_dimensions": {
+    "essence": {
+      "applicable": true,
+      "verdict": "FAIL",
+      "reason_code": "missing_budget_context",
+      "evidence": "no budget mention",
+      "score": 0.0,
+      "status": "failed",
+      "scorer_type": "llm_judged"
+    },
+    "intent": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "current_state_change": {
+      "applicable": true,
+      "verdict": "FAIL",
+      "reason_code": "no_proposal_details",
+      "evidence": "no proposal provided",
+      "score": 0.0,
+      "status": "failed",
+      "scorer_type": "llm_judged"
+    },
+    "gaps": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "risks": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "contradictions": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "recommended_next_step": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    }
+  },
+  "new_understanding_dimensions": {
+    "essence": {
+      "applicable": true,
+      "verdict": "PASS",
+      "reason_code": "budget_context_present_v5_adjudication",
+      "evidence": "budget context present in captured Understanding",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged",
+      "v5_verdict_superseded": {
+        "verdict": "FAIL",
+        "reason_code": "missing_budget_context",
+        "evidence": "no budget mention"
+      }
+    },
+    "intent": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "current_state_change": {
+      "applicable": true,
+      "verdict": "PASS",
+      "reason_code": "understanding_proposal_request_present_v5_adjudication",
+      "evidence": "Understanding captured proposal request; proposal details are not an Understanding requirement",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged",
+      "v5_verdict_superseded": {
+        "verdict": "FAIL",
+        "reason_code": "no_proposal_details",
+        "evidence": "no proposal provided"
+      }
+    },
+    "gaps": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "risks": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "contradictions": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    },
+    "recommended_next_step": {
+      "applicable": false,
+      "verdict": "PASS",
+      "reason_code": "not_applicable",
+      "evidence": "",
+      "score": 1.0,
+      "status": "passed",
+      "scorer_type": "llm_judged"
+    }
+  }
+}

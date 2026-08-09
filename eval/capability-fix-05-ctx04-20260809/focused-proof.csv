@@ -1,0 +1,2 @@
+case,verdict,old_primary_outcome,new_primary_outcome,corrected_dimensions,runtime_changed
+CTX-04,EVAL_EXPECTATION_WRONG,CAPABILITY,CLEAN_PASS,"essence;current_state_change",false

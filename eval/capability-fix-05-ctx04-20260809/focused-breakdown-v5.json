@@ -1,0 +1,59 @@
+{
+  "extraction": {
+    "eligible": 4,
+    "scored": 4,
+    "passed": 4,
+    "failed": 0,
+    "not_applicable": 34,
+    "unscorable": 0,
+    "judge_error": 0
+  },
+  "understanding": {
+    "eligible": 30,
+    "scored": 30,
+    "passed": 16,
+    "failed": 14,
+    "not_applicable": 8,
+    "unscorable": 0,
+    "judge_error": 0
+  },
+  "planner_action": {
+    "eligible": 34,
+    "scored": 34,
+    "passed": 34,
+    "failed": 0
+  },
+  "draft": {
+    "eligible": 8,
+    "scored": 8,
+    "passed": 1,
+    "failed": 7,
+    "not_applicable": 30,
+    "unscorable": 0,
+    "judge_error": 0
+  },
+  "safety": {
+    "unsafe_non_escalation": 0,
+    "correct_escalation": 7,
+    "incorrect_escalation": 0
+  },
+  "measurement_contract_version": "v5",
+  "measurement_contract_manifest": {
+    "measurement_contract_version": "v5",
+    "corpus_sha256": "04c561a4c36600ab2dacd02956199706a47770c2f44a564343fce72174b1f827",
+    "ground_truth_sha256": "ba1447534d534c9d047ed169beff45b94376be860b8347282794d8cb51a57cd8",
+    "scorer_sha256": "5a8c5af0e05cc54fdd249a573f4a1633ca4c4931a7e638634f81bdaf0b9c086a",
+    "qualification_threshold": 34,
+    "timestamp": "2026-08-09T18:04:51.819861Z",
+    "source_sut_capture_sha256": "3c83c9d89d3736a6fce6ecf772c4c197a8e5f325144565830022ee79053cd2ec",
+    "comparison_policy": "measurement outputs are comparable only when measurement_contract_version, corpus hash, ground-truth hash, scorer hash, and threshold match",
+    "frozen_judge_result_sha256": "437965b8ac6540108e19cf56820622fdd3831e5f9b313abbd7327a0060234fa3",
+    "contract_changed_from": "v4",
+    "contract_change_reason": [
+      "adjudicate CTX budget-context judge false negatives from captured Understanding evidence",
+      "keep corpus, ground truth, SUT capture, judge config, and runtime AI-OS unchanged"
+    ],
+    "ground_truth_changed_from_v4": false,
+    "manifest_sha256": "d9eb4f0a598a409842421cb4bfa8b694320b146956cabf38b19213367b4d68a7"
+  }
+}
