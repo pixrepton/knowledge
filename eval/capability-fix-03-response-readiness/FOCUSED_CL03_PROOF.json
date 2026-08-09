@@ -1,0 +1,578 @@
+{
+  "schema_version": "capability_fix_03.focused_proof.v1",
+  "created_at": "2026-08-09T16:15:33Z",
+  "source_capture": "knowledge/eval/fresh38-recapture-20260808/fresh-full38-results.json",
+  "full_fresh38_run": false,
+  "official_fresh38_baseline_unchanged": {
+    "CLEAN_PASS": 10,
+    "CAPABILITY": 28
+  },
+  "status": "PASS",
+  "rebase_after_fix02": {
+    "all_7_cases": "STILL_CL03",
+    "fixed_by_fix02": []
+  },
+  "summary": {
+    "remaining_still_cl03_cases_fixed": 7,
+    "cl03_root_cause_removed": "7/7",
+    "response_ready_not_quote_ready": true,
+    "service_triage_not_diagnosis_complete": true,
+    "later_step_gaps_preserved": true,
+    "true_blockers_preserved": true,
+    "multi_intent_preserved": true,
+    "no_invented_offer_or_price": true,
+    "no_invented_visit": true
+  },
+  "cases": [
+    {
+      "case_id": "INT-01",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "MISSING_INFO_SEVERITY+UNDERSTANDING_GAP_PROMOTION+GUIDANCE_OVERREVIEW",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Brakuje krytycznych danych: dokładny adres instalacji (ulica, numer),. Warto uzupelnic: preferowany termin realizacji lub harmonogram budowy. Dodatkowo pomocne: dane potrzebne do wyliczenia OZC (izolacja, współczynnik przenikania ciepła, zapotrzebowanie na ciepło),, preferencje co do marki pompy (Panasonic, Mitsubishi, Daikin).",
+          "critical": [
+            "dokładny adres instalacji (ulica, numer),"
+          ],
+          "important": [
+            "preferowany termin realizacji lub harmonogram budowy"
+          ],
+          "helpful": [
+            "dane potrzebne do wyliczenia OZC (izolacja, współczynnik przenikania ciepła, zapotrzebowanie na ciepło),",
+            "preferencje co do marki pompy (Panasonic, Mitsubishi, Daikin)"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, zeby ruszyc dalej, prosimy o: dokładny adres instalacji (ulica, numer),, preferowany termin realizacji lub harmonogram budowy.",
+          "operator_checklist_pl": [
+            "Ustal krytyczne dane: dokładny adres instalacji (ulica, numer),.",
+            "Sprawdz wazny brak: preferowany termin realizacji lub harmonogram budowy.",
+            "Jesli sie da, doprecyzuj: dane potrzebne do wyliczenia OZC (izolacja, współczynnik przenikania ciepła, zapotrzebowanie na ciepło),.",
+            "Jesli sie da, doprecyzuj: preferencje co do marki pompy (Panasonic, Mitsubishi, Daikin)."
+          ]
+        },
+        "missing_critical_fields": [
+          "dokładny adres instalacji (ulica, numer),",
+          "preferowany termin realizacji lub harmonogram budowy",
+          "dane potrzebne do wyliczenia OZC (izolacja, współczynnik przenikania ciepła, zapotrzebowanie na ciepło),",
+          "preferencje co do marki pompy (Panasonic, Mitsubishi, Daikin)"
+        ],
+        "urgency": "normal",
+        "review_required": true,
+        "recommended_next_step": "Wymagana ręczna ocena",
+        "action_type": "review_required"
+      },
+      "after": {
+        "intent": "Nowy actionable lead: dom 150m2 we Wroclawiu, zakup pompy ciepla.",
+        "known_evidence": "Buduje dom jednorodzinny 150m2 pod Wroclawiem i chce kupic pompe ciepla.",
+        "missing_information": {
+          "summary_pl": "Warto uzupelnic: dokladny adres instalacji, OZC, pelny harmonogram. Dodatkowo pomocne: preferowana marka.",
+          "critical": [],
+          "important": [
+            "dokladny adres instalacji",
+            "OZC",
+            "pelny harmonogram"
+          ],
+          "helpful": [
+            "preferowana marka"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, na kolejnym etapie przydadza sie: dokladny adres instalacji, OZC.",
+          "operator_checklist_pl": [
+            "Sprawdz wazny brak: dokladny adres instalacji.",
+            "Sprawdz wazny brak: OZC.",
+            "Sprawdz wazny brak: pelny harmonogram.",
+            "Jesli sie da, doprecyzuj: preferowana marka."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "dokladny adres instalacji",
+          "OZC",
+          "pelny harmonogram",
+          "preferowana marka"
+        ],
+        "urgency": "normal",
+        "review_required": false,
+        "recommended_next_step": "Lead: odpowiedz klientowi i zaproponuj najblizszy bezpieczny krok; nie oznaczaj jako quote-ready i nie licz ceny. Dane do pozniejszej wyceny: dokladny adres instalacji, OZC, pelny harmonogram.",
+        "action_type": "answer_customer"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    },
+    {
+      "case_id": "INT-04",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "MISSING_INFO_SEVERITY+GUIDANCE_OVERREVIEW",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Brakuje krytycznych danych: numer telefonu kontaktowego, adres instalacji. Dodatkowo pomocne: model pompy ciepła lub numer seryjny, numer zlecenia/umowy z marca, potwierdzenie pilności i dostępności klienta, ewentualne kody błędów ze sterownika.",
+          "critical": [
+            "numer telefonu kontaktowego",
+            "adres instalacji"
+          ],
+          "important": [],
+          "helpful": [
+            "model pompy ciepła lub numer seryjny",
+            "numer zlecenia/umowy z marca",
+            "potwierdzenie pilności i dostępności klienta",
+            "ewentualne kody błędów ze sterownika"
+          ],
+          "customer_question_draft_pl": "Szanowny Panie,\n\ndziękujemy za zgłoszenie reklamacyjne dotyczące stukania w jednostce zewnętrznej pompy ciepła. Abyśmy mogli skierować sprawę do serwisu i zweryfikować montaż z marca, prosimy o podanie:\n\n- numeru telefonu kontaktowego,\n- adresu instalacji,\n- numeru zlecenia lub umowy (jeśli dostępny),\n- modelu pompy ciepła lub numeru seryjnego.\n\nPo otrzymaniu tych danych nasz serwis skontaktuje się z Panem w celu ustalenia terminu wizyty.\n\nZ poważaniem,\nZespół TOP-INSTAL",
+          "operator_checklist_pl": [
+            "Ustal krytyczne dane: numer telefonu kontaktowego.",
+            "Ustal krytyczne dane: adres instalacji.",
+            "Jesli sie da, doprecyzuj: model pompy ciepła lub numer seryjny.",
+            "Jesli sie da, doprecyzuj: numer zlecenia/umowy z marca.",
+            "Jesli sie da, doprecyzuj: potwierdzenie pilności i dostępności klienta.",
+            "Jesli sie da, doprecyzuj: ewentualne kody błędów ze sterownika."
+          ]
+        },
+        "missing_critical_fields": [
+          "numer telefonu kontaktowego",
+          "adres instalacji",
+          "model pompy ciepła lub numer seryjny",
+          "numer zlecenia/umowy z marca",
+          "potwierdzenie pilności i dostępności klienta",
+          "ewentualne kody błędów ze sterownika"
+        ],
+        "urgency": "high",
+        "review_required": false,
+        "recommended_next_step": "Przekaż dalej wewnętrznie",
+        "action_type": "escalate_internal"
+      },
+      "after": {
+        "intent": "Reklamacja serwisowa: ciagly halas po montazu.",
+        "known_evidence": "Zglaszam reklamacje, jednostka zewnetrzna glosno stuka od tygodnia.",
+        "missing_information": {
+          "summary_pl": "Warto uzupelnic: numer telefonu, adres instalacji, model i numer seryjny, numer umowy.",
+          "critical": [],
+          "important": [
+            "numer telefonu",
+            "adres instalacji",
+            "model i numer seryjny",
+            "numer umowy"
+          ],
+          "helpful": [],
+          "customer_question_draft_pl": "Dzien dobry, na kolejnym etapie przydadza sie: numer telefonu, adres instalacji.",
+          "operator_checklist_pl": [
+            "Sprawdz wazny brak: numer telefonu.",
+            "Sprawdz wazny brak: adres instalacji.",
+            "Sprawdz wazny brak: model i numer seryjny.",
+            "Sprawdz wazny brak: numer umowy."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "numer telefonu",
+          "adres instalacji",
+          "model i numer seryjny",
+          "numer umowy"
+        ],
+        "urgency": "high",
+        "review_required": false,
+        "recommended_next_step": "Serwis: przyjmij zgloszenie i rozpocznij bounded triage/eskalacje; nie wymyslaj diagnozy ani wizyty. Dane do dalszej obslugi: numer telefonu, adres instalacji, model i numer seryjny.",
+        "action_type": "escalate_internal"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    },
+    {
+      "case_id": "NEW-03",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "MISSING_INFO_SEVERITY+UNDERSTANDING_GAP_PROMOTION+GUIDANCE_OVERREVIEW",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Brakuje krytycznych danych: pełny adres / potwierdzenie lokalizacji i odległości od Jaworzna, telefon kontaktowy i preferowany termin. Dodatkowo pomocne: obliczeniowe zapotrzebowanie ciepła (OZC) lub dane do audytu, rok budowy / poziom izolacji budynku, rodzaj instalacji wewnętrznej (grzejniki / podłogówka) i temperatura zasilania, aktualny piec gazowy – dane techniczne, zapotrzebowanie na CWU i liczba osób, zgoda na ewentualną dopłatę dojazdową dla projektu poza strefą.",
+          "critical": [
+            "pełny adres / potwierdzenie lokalizacji i odległości od Jaworzna",
+            "telefon kontaktowy i preferowany termin"
+          ],
+          "important": [],
+          "helpful": [
+            "obliczeniowe zapotrzebowanie ciepła (OZC) lub dane do audytu",
+            "rok budowy / poziom izolacji budynku",
+            "rodzaj instalacji wewnętrznej (grzejniki / podłogówka) i temperatura zasilania",
+            "aktualny piec gazowy – dane techniczne",
+            "zapotrzebowanie na CWU i liczba osób",
+            "zgoda na ewentualną dopłatę dojazdową dla projektu poza strefą"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, zeby ruszyc dalej, prosimy o: pełny adres / potwierdzenie lokalizacji i odległości od Jaworzna, telefon kontaktowy i preferowany termin.",
+          "operator_checklist_pl": [
+            "Ustal krytyczne dane: pełny adres / potwierdzenie lokalizacji i odległości od Jaworzna.",
+            "Ustal krytyczne dane: telefon kontaktowy i preferowany termin.",
+            "Jesli sie da, doprecyzuj: obliczeniowe zapotrzebowanie ciepła (OZC) lub dane do audytu.",
+            "Jesli sie da, doprecyzuj: rok budowy / poziom izolacji budynku.",
+            "Jesli sie da, doprecyzuj: rodzaj instalacji wewnętrznej (grzejniki / podłogówka) i temperatura zasilania.",
+            "Jesli sie da, doprecyzuj: aktualny piec gazowy – dane techniczne.",
+            "Jesli sie da, doprecyzuj: zapotrzebowanie na CWU i liczba osób.",
+            "Jesli sie da, doprecyzuj: zgoda na ewentualną dopłatę dojazdową dla projektu poza strefą."
+          ]
+        },
+        "missing_critical_fields": [
+          "pełny adres / potwierdzenie lokalizacji i odległości od Jaworzna",
+          "telefon kontaktowy i preferowany termin",
+          "obliczeniowe zapotrzebowanie ciepła (OZC) lub dane do audytu",
+          "rok budowy / poziom izolacji budynku",
+          "rodzaj instalacji wewnętrznej (grzejniki / podłogówka) i temperatura zasilania",
+          "aktualny piec gazowy – dane techniczne",
+          "zapotrzebowanie na CWU i liczba osób",
+          "zgoda na ewentualną dopłatę dojazdową dla projektu poza strefą"
+        ],
+        "urgency": "normal",
+        "review_required": true,
+        "recommended_next_step": "Wymagana ręczna ocena",
+        "action_type": "review_required"
+      },
+      "after": {
+        "intent": "Nowy actionable lead z metrazem, gazem, budzetem i lokalizacja.",
+        "known_evidence": "Dom 150m2, Wroclaw, ogrzewanie gazowe, budzet okolo 45000 PLN.",
+        "missing_information": {
+          "summary_pl": "Warto uzupelnic: pelny adres, OZC, rodzaj odbiornikow, CWU, rok budowy.",
+          "critical": [],
+          "important": [
+            "pelny adres",
+            "OZC",
+            "rodzaj odbiornikow",
+            "CWU",
+            "rok budowy"
+          ],
+          "helpful": [],
+          "customer_question_draft_pl": "Dzien dobry, na kolejnym etapie przydadza sie: pelny adres, OZC.",
+          "operator_checklist_pl": [
+            "Sprawdz wazny brak: pelny adres.",
+            "Sprawdz wazny brak: OZC.",
+            "Sprawdz wazny brak: rodzaj odbiornikow.",
+            "Sprawdz wazny brak: CWU.",
+            "Sprawdz wazny brak: rok budowy."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "pelny adres",
+          "OZC",
+          "rodzaj odbiornikow",
+          "CWU",
+          "rok budowy"
+        ],
+        "urgency": "normal",
+        "review_required": false,
+        "recommended_next_step": "Lead: odpowiedz klientowi i zaproponuj najblizszy bezpieczny krok; nie oznaczaj jako quote-ready i nie licz ceny. Dane do pozniejszej wyceny: pelny adres, OZC, rodzaj odbiornikow.",
+        "action_type": "answer_customer"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    },
+    {
+      "case_id": "SVC-01",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "MISSING_INFO_SEVERITY+GUIDANCE_OVERREVIEW",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Brakuje krytycznych danych: lokalizacja instalacji (adres, numer mieszkania), numer telefonu kontaktowego do klienta. Dodatkowo pomocne: dokładny opis objawów (np. czy pompa się włącza, czy wyświetla błędy), potwierdzenie priorytetu (czy wymaga pilnej interwencji w ciągu 24 h), numer umowy lub faktury potwierdzający, że instalacja została wykonana przez TOP‑INSTAL.",
+          "critical": [
+            "lokalizacja instalacji (adres, numer mieszkania)",
+            "numer telefonu kontaktowego do klienta"
+          ],
+          "important": [],
+          "helpful": [
+            "dokładny opis objawów (np. czy pompa się włącza, czy wyświetla błędy)",
+            "potwierdzenie priorytetu (czy wymaga pilnej interwencji w ciągu 24 h)",
+            "numer umowy lub faktury potwierdzający, że instalacja została wykonana przez TOP‑INSTAL"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, zeby ruszyc dalej, prosimy o: lokalizacja instalacji (adres, numer mieszkania), numer telefonu kontaktowego do klienta.",
+          "operator_checklist_pl": [
+            "Ustal krytyczne dane: lokalizacja instalacji (adres, numer mieszkania).",
+            "Ustal krytyczne dane: numer telefonu kontaktowego do klienta.",
+            "Jesli sie da, doprecyzuj: dokładny opis objawów (np. czy pompa się włącza, czy wyświetla błędy).",
+            "Jesli sie da, doprecyzuj: potwierdzenie priorytetu (czy wymaga pilnej interwencji w ciągu 24 h).",
+            "Jesli sie da, doprecyzuj: numer umowy lub faktury potwierdzający, że instalacja została wykonana przez TOP‑INSTAL."
+          ]
+        },
+        "missing_critical_fields": [
+          "lokalizacja instalacji (adres, numer mieszkania)",
+          "numer telefonu kontaktowego do klienta",
+          "dokładny opis objawów (np. czy pompa się włącza, czy wyświetla błędy)",
+          "potwierdzenie priorytetu (czy wymaga pilnej interwencji w ciągu 24 h)",
+          "numer umowy lub faktury potwierdzający, że instalacja została wykonana przez TOP‑INSTAL"
+        ],
+        "urgency": "high",
+        "review_required": false,
+        "recommended_next_step": "Przekaż dalej wewnętrznie",
+        "action_type": "escalate_internal"
+      },
+      "after": {
+        "intent": "Reklamacja po montazu, instalacja dziala nieprawidlowo.",
+        "known_evidence": "Instalacja pompy ciepla nie dziala poprawnie, temperatura spada od tygodnia.",
+        "missing_information": {
+          "summary_pl": "Warto uzupelnic: dokladny adres instalacji, numer telefonu, model pompy, szczegolowy opis objawow.",
+          "critical": [],
+          "important": [
+            "dokladny adres instalacji",
+            "numer telefonu",
+            "model pompy",
+            "szczegolowy opis objawow"
+          ],
+          "helpful": [],
+          "customer_question_draft_pl": "Dzien dobry, na kolejnym etapie przydadza sie: dokladny adres instalacji, numer telefonu.",
+          "operator_checklist_pl": [
+            "Sprawdz wazny brak: dokladny adres instalacji.",
+            "Sprawdz wazny brak: numer telefonu.",
+            "Sprawdz wazny brak: model pompy.",
+            "Sprawdz wazny brak: szczegolowy opis objawow."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "dokladny adres instalacji",
+          "numer telefonu",
+          "model pompy",
+          "szczegolowy opis objawow"
+        ],
+        "urgency": "high",
+        "review_required": false,
+        "recommended_next_step": "Serwis: przyjmij zgloszenie i rozpocznij bounded triage/eskalacje; nie wymyslaj diagnozy ani wizyty. Dane do dalszej obslugi: dokladny adres instalacji, numer telefonu, model pompy.",
+        "action_type": "escalate_internal"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    },
+    {
+      "case_id": "SVC-04",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "UNDERSTANDING_GAP_PROMOTION+RISK_OVERESCALATION+NEXT_STEP_TOO_BROAD",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Dodatkowo pomocne: model i numer seryjny jednostki zewnętrznej, dokładny opis sytuacji (czy dźwięk pojawia się przy uruchomieniu, wyłączaniu, w jakich temperaturach), czy jednostka pracuje w trybie grzania czy chłodzenia, czy była ostatnio przeprowadzona konserwacja lub przegląd.",
+          "critical": [],
+          "important": [],
+          "helpful": [
+            "model i numer seryjny jednostki zewnętrznej",
+            "dokładny opis sytuacji (czy dźwięk pojawia się przy uruchomieniu, wyłączaniu, w jakich temperaturach)",
+            "czy jednostka pracuje w trybie grzania czy chłodzenia",
+            "czy była ostatnio przeprowadzona konserwacja lub przegląd"
+          ],
+          "customer_question_draft_pl": "",
+          "operator_checklist_pl": [
+            "Jesli sie da, doprecyzuj: model i numer seryjny jednostki zewnętrznej.",
+            "Jesli sie da, doprecyzuj: dokładny opis sytuacji (czy dźwięk pojawia się przy uruchomieniu, wyłączaniu, w jakich temperaturach).",
+            "Jesli sie da, doprecyzuj: czy jednostka pracuje w trybie grzania czy chłodzenia.",
+            "Jesli sie da, doprecyzuj: czy była ostatnio przeprowadzona konserwacja lub przegląd."
+          ]
+        },
+        "missing_critical_fields": [
+          "model i numer seryjny jednostki zewnętrznej",
+          "dokładny opis sytuacji (czy dźwięk pojawia się przy uruchomieniu, wyłączaniu, w jakich temperaturach)",
+          "czy jednostka pracuje w trybie grzania czy chłodzenia",
+          "czy była ostatnio przeprowadzona konserwacja lub przegląd"
+        ],
+        "urgency": "low",
+        "review_required": false,
+        "recommended_next_step": "Przekaż dalej wewnętrznie",
+        "action_type": "escalate_internal"
+      },
+      "after": {
+        "intent": "Niepilne pytanie serwisowe o sporadyczny dzwiek, bez awarii.",
+        "known_evidence": "Od czasu do czasu jednostka zewnetrzna lekko klika, ale dziala normalnie. Nie ma pospiechu.",
+        "missing_information": {
+          "summary_pl": "Warto uzupelnic: model i numer seryjny, potwierdzenie pilnosci. Dodatkowo pomocne: warunki wystepowania dzwieku.",
+          "critical": [],
+          "important": [
+            "model i numer seryjny",
+            "potwierdzenie pilnosci"
+          ],
+          "helpful": [
+            "warunki wystepowania dzwieku"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, na kolejnym etapie przydadza sie: model i numer seryjny, potwierdzenie pilnosci.",
+          "operator_checklist_pl": [
+            "Sprawdz wazny brak: model i numer seryjny.",
+            "Sprawdz wazny brak: potwierdzenie pilnosci.",
+            "Jesli sie da, doprecyzuj: warunki wystepowania dzwieku."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "model i numer seryjny",
+          "potwierdzenie pilnosci",
+          "warunki wystepowania dzwieku"
+        ],
+        "urgency": "low",
+        "review_required": false,
+        "recommended_next_step": "Serwis: zachowaj low urgency i odpowiedz informacyjnie z bounded triage; nie wymyslaj diagnozy ani wizyty. Pomocne dane na pozniej: model i numer seryjny, potwierdzenie pilnosci, warunki wystepowania dzwieku.",
+        "action_type": "answer_customer"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    },
+    {
+      "case_id": "DOC-02",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "NEXT_STEP_TOO_BROAD+UNDERSTANDING_GAP_PROMOTION",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Warto uzupelnic: planowany termin realizacji. Dodatkowo pomocne: powierzchnia użytkowa budynku, obliczeniowe zapotrzebowanie cieplne (OZC), typ i liczba grzejników lub podłogówki, dystans od siedziby TOP‑INSTAL (czy mieszka w strefie dojazdu), czy istnieje już bufor cieplny lub planowany, preferowany model pompy ciepła (Panasonic, Mitsubishi, Daikin), dane o instalacji CWU (zasobnik, wężownica).",
+          "critical": [],
+          "important": [
+            "planowany termin realizacji"
+          ],
+          "helpful": [
+            "powierzchnia użytkowa budynku",
+            "obliczeniowe zapotrzebowanie cieplne (OZC)",
+            "typ i liczba grzejników lub podłogówki",
+            "dystans od siedziby TOP‑INSTAL (czy mieszka w strefie dojazdu)",
+            "czy istnieje już bufor cieplny lub planowany",
+            "preferowany model pompy ciepła (Panasonic, Mitsubishi, Daikin)",
+            "dane o instalacji CWU (zasobnik, wężownica)"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, zeby ruszyc dalej, prosimy o: planowany termin realizacji.",
+          "operator_checklist_pl": [
+            "Sprawdz wazny brak: planowany termin realizacji.",
+            "Jesli sie da, doprecyzuj: powierzchnia użytkowa budynku.",
+            "Jesli sie da, doprecyzuj: obliczeniowe zapotrzebowanie cieplne (OZC).",
+            "Jesli sie da, doprecyzuj: typ i liczba grzejników lub podłogówki.",
+            "Jesli sie da, doprecyzuj: dystans od siedziby TOP‑INSTAL (czy mieszka w strefie dojazdu).",
+            "Jesli sie da, doprecyzuj: czy istnieje już bufor cieplny lub planowany.",
+            "Jesli sie da, doprecyzuj: preferowany model pompy ciepła (Panasonic, Mitsubishi, Daikin).",
+            "Jesli sie da, doprecyzuj: dane o instalacji CWU (zasobnik, wężownica)."
+          ]
+        },
+        "missing_critical_fields": [
+          "planowany termin realizacji",
+          "powierzchnia użytkowa budynku",
+          "obliczeniowe zapotrzebowanie cieplne (OZC)",
+          "typ i liczba grzejników lub podłogówki",
+          "dystans od siedziby TOP‑INSTAL (czy mieszka w strefie dojazdu)",
+          "czy istnieje już bufor cieplny lub planowany",
+          "preferowany model pompy ciepła (Panasonic, Mitsubishi, Daikin)",
+          "dane o instalacji CWU (zasobnik, wężownica)"
+        ],
+        "urgency": "normal",
+        "review_required": false,
+        "recommended_next_step": "Poproś o brakujące dane",
+        "action_type": "ask_for_missing_data"
+      },
+      "after": {
+        "intent": "Pytanie techniczne o kompatybilnosc istniejacego pieca i instalacji z pompa ciepla.",
+        "known_evidence": "Przesylam karte katalogowa pieca, prosze sprawdzic kompatybilnosc z pompa ciepla.",
+        "missing_information": {
+          "summary_pl": "Dodatkowo pomocne: adres instalacji, numer telefonu, powierzchnia domu, OZC, termin realizacji.",
+          "critical": [],
+          "important": [],
+          "helpful": [
+            "adres instalacji",
+            "numer telefonu",
+            "powierzchnia domu",
+            "OZC",
+            "termin realizacji"
+          ],
+          "customer_question_draft_pl": "",
+          "operator_checklist_pl": [
+            "Jesli sie da, doprecyzuj: adres instalacji.",
+            "Jesli sie da, doprecyzuj: numer telefonu.",
+            "Jesli sie da, doprecyzuj: powierzchnia domu.",
+            "Jesli sie da, doprecyzuj: OZC.",
+            "Jesli sie da, doprecyzuj: termin realizacji."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "adres instalacji",
+          "numer telefonu",
+          "powierzchnia domu",
+          "OZC",
+          "termin realizacji"
+        ],
+        "urgency": "normal",
+        "review_required": false,
+        "recommended_next_step": "Techniczne: daj bounded compatibility assessment albo 1-2 trafne pytania; dane do pelnej oferty zachowaj jako pozniejsze: adres instalacji, numer telefonu, powierzchnia domu.",
+        "action_type": "answer_customer"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    },
+    {
+      "case_id": "MI-01",
+      "rebase_after_fix02": "STILL_CL03",
+      "root_cause_classification": "NEXT_STEP_TOO_BROAD+INTENT_WEIGHTING+UNDERSTANDING_GAP_PROMOTION",
+      "before": {
+        "missing_information": {
+          "summary_pl": "Brakuje krytycznych danych: numer telefonu kontaktowego do klienta, model i moc istniejącej pompy w domu przy ul. Kwiatowa 5 (aby zweryfikować ewentualną gwarancję/serwis). Dodatkowo pomocne: szczegółowy opis objawów awarii (np. czy pompa nie włącza się, czy brak ciepłej wody, czy wyświetla błędy), potwierdzenie pilności (czy brak ciepłej wody jest krytyczny), dane techniczne budynku, w którym planowane jest zastosowanie Aquarea (powierzchnia, rodzaj instalacji grzewczej, istniejące grzejniki).",
+          "critical": [
+            "numer telefonu kontaktowego do klienta",
+            "model i moc istniejącej pompy w domu przy ul. Kwiatowa 5 (aby zweryfikować ewentualną gwarancję/serwis)"
+          ],
+          "important": [],
+          "helpful": [
+            "szczegółowy opis objawów awarii (np. czy pompa nie włącza się, czy brak ciepłej wody, czy wyświetla błędy)",
+            "potwierdzenie pilności (czy brak ciepłej wody jest krytyczny)",
+            "dane techniczne budynku, w którym planowane jest zastosowanie Aquarea (powierzchnia, rodzaj instalacji grzewczej, istniejące grzejniki)"
+          ],
+          "customer_question_draft_pl": "Dzien dobry, zeby ruszyc dalej, prosimy o: numer telefonu kontaktowego do klienta, model i moc istniejącej pompy w domu przy ul. Kwiatowa 5 (aby zweryfikować ewentualną gwarancję/serwis).",
+          "operator_checklist_pl": [
+            "Ustal krytyczne dane: numer telefonu kontaktowego do klienta.",
+            "Ustal krytyczne dane: model i moc istniejącej pompy w domu przy ul. Kwiatowa 5 (aby zweryfikować ewentualną gwarancję/serwis).",
+            "Jesli sie da, doprecyzuj: szczegółowy opis objawów awarii (np. czy pompa nie włącza się, czy brak ciepłej wody, czy wyświetla błędy).",
+            "Jesli sie da, doprecyzuj: potwierdzenie pilności (czy brak ciepłej wody jest krytyczny).",
+            "Jesli sie da, doprecyzuj: dane techniczne budynku, w którym planowane jest zastosowanie Aquarea (powierzchnia, rodzaj instalacji grzewczej, istniejące grzejniki)."
+          ]
+        },
+        "missing_critical_fields": [
+          "numer telefonu kontaktowego do klienta",
+          "model i moc istniejącej pompy w domu przy ul. Kwiatowa 5 (aby zweryfikować ewentualną gwarancję/serwis)",
+          "szczegółowy opis objawów awarii (np. czy pompa nie włącza się, czy brak ciepłej wody, czy wyświetla błędy)",
+          "potwierdzenie pilności (czy brak ciepłej wody jest krytyczny)",
+          "dane techniczne budynku, w którym planowane jest zastosowanie Aquarea (powierzchnia, rodzaj instalacji grzewczej, istniejące grzejniki)"
+        ],
+        "urgency": "normal",
+        "review_required": true,
+        "recommended_next_step": "Wymagana ręczna ocena",
+        "action_type": "review_required"
+      },
+      "after": {
+        "intent": "Dwie intencje: pytanie techniczne o Aquarea i nowy problem serwisowy CWU.",
+        "known_evidence": "Po pierwsze: czy Aquarea dziala z grzejnikami? Po drugie: w drugim domu, adres ul. Kwiatowa 5, pompa przestala grzac wode uzytkowa.",
+        "missing_information": {
+          "summary_pl": "Dodatkowo pomocne: numer telefonu, model pompy, szczegolowy opis objawow, dostepnosc na wizyte.",
+          "critical": [],
+          "important": [],
+          "helpful": [
+            "numer telefonu",
+            "model pompy",
+            "szczegolowy opis objawow",
+            "dostepnosc na wizyte"
+          ],
+          "customer_question_draft_pl": "",
+          "operator_checklist_pl": [
+            "Jesli sie da, doprecyzuj: numer telefonu.",
+            "Jesli sie da, doprecyzuj: model pompy.",
+            "Jesli sie da, doprecyzuj: szczegolowy opis objawow.",
+            "Jesli sie da, doprecyzuj: dostepnosc na wizyte."
+          ]
+        },
+        "blocking_current_action_gaps": [],
+        "later_step_gaps": [
+          "numer telefonu",
+          "model pompy",
+          "szczegolowy opis objawow",
+          "dostepnosc na wizyte"
+        ],
+        "urgency": "normal",
+        "review_required": false,
+        "recommended_next_step": "Multi-intent: odpowiedz technicznie teraz i osobno przyjmij problem serwisowy do triage; dane do dalszej obslugi: numer telefonu, model pompy, szczegolowy opis objawow.",
+        "action_type": "answer_customer"
+      },
+      "cl03_first_divergence_removed": true,
+      "next_first_divergence_if_any": "none_in_focused_scope"
+    }
+  ],
+  "focused_tests": {
+    "command": "python -m pytest tools/gmail_audit/tests/test_capability_fix_03_response_readiness.py -q",
+    "result": "12 passed"
+  },
+  "fix02_regression_tests": {
+    "command": "python -m pytest tools/gmail_audit/tests/test_capability_fix_02_trusted_case_context.py -q",
+    "result": "7 passed"
+  },
+  "gate_a": {
+    "command": "$env:PYTHONPATH=tools/gmail_audit; python -m pytest tools/gmail_audit/tests -q",
+    "result": "2378 passed, 28 skipped, 24 subtests passed"
+  }
+}
