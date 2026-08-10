@@ -1,0 +1,26 @@
+# Gate A — canonical full suite, after the temporary bridge
+# Command: python -m pytest tools/gmail_audit/tests -q   (cwd: gmail-agent)
+# Gate id: GATE_A_GMAIL_AUDIT
+
+GATE GATE_A_GMAIL_AUDIT: PASS (448.161s)
+2501 passed, 15 skipped, 24 subtests passed in 441.85s (0:07:21)
+failed: 0
+
+# Targeted provider suites (subset, run separately): 112 passed, 0 failed
+#   test_deepseek_host_bridge.py            15   host switch, identity, registry agreement
+#   test_deepseek_bridge_fallback.py         4   tier/fallback contract
+#   test_deepseek_structured_stage.py            existing DeepSeek tier regression
+#   test_deepseek_agent_planner.py               planner endpoint order regression
+#   test_deepseek_failure_diagnostics.py     8   empty-content diagnostics
+#   test_provider_pool_degradation.py        9   provider pool semantics
+#   test_llm_provider_router.py                  router regression
+#   test_llm_provider_fallback.py                fallback regression
+
+# Progression across this programme:
+#   hardening baseline : 2444 passed, 0 failed
+#   after closeout     : 2474 passed, 0 failed
+#   after diagnostics  : 2482 passed, 0 failed
+#   after bridge       : 2501 passed, 0 failed   (+19)
+#
+# The worker container was paused for the duration of the run to remove the known
+# tools/gmail_audit/runs bind-mount contention, then restored.

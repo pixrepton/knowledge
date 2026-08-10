@@ -1,0 +1,33 @@
+{
+  "generated_at_utc": "2026-08-10T22:28:01Z",
+  "logical_model_intent": "deepseek",
+  "canonical_target": "deepseek_direct",
+  "active_host_env_var": "AI_OS_PRIMARY_PROVIDER",
+  "active_host_now": "deepseek_direct",
+  "temporary_activation": "NOT_ACTIVE",
+  "activation_blocked_by": "DEEPSEEK_NVIDIA_API_KEY not configured",
+  "tiers": {
+    "tier_1": {
+      "host": "deepseek_direct",
+      "telemetry_label": "deepseek",
+      "role": "CANONICAL_TARGET",
+      "state": "HTTP 402 Insufficient Balance"
+    },
+    "tier_1_alternate": {
+      "host": "deepseek_nvidia",
+      "telemetry_label": "deepseek_nvidia",
+      "role": "TEMPORARY_BRIDGE",
+      "state": "implemented, credential absent"
+    },
+    "tier_2": {
+      "provider": "anthropic",
+      "state": "unconfigured -> skipped"
+    },
+    "fallback_router": [
+      "groq",
+      "cerebras"
+    ]
+  },
+  "groq_pool_healthy_slots": 3,
+  "openai_chat_in_active_chain": false
+}

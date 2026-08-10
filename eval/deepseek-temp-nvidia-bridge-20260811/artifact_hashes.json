@@ -1,0 +1,64 @@
+{
+  "lock_id": "DEEPSEEK_TEMP_BRIDGE_01_ARTIFACTS",
+  "task": "AIOS-RUNTIME-RELIABILITY-01 / DEEPSEEK-TEMP-BRIDGE-01",
+  "status": "BLOCKED_OPERATOR_ACTION",
+  "canonical_target": "deepseek_direct",
+  "temporary_activation": "NOT_ACTIVE",
+  "note": "No secret, prompt or reasoning content appears in any artifact recorded here.",
+  "cost": {
+    "completion_tokens": 0,
+    "reasoning_tokens": 0,
+    "provider_calls": 1
+  },
+  "file_count": 12,
+  "files": {
+    "COST_GUARD_REPORT.json": {
+      "sha256": "dc96e4249195e7a51312b9b86e7060a3274f365e7e494d89beb483f57db2c4ad",
+      "bytes": 1465
+    },
+    "FALLBACK_PROOF.md": {
+      "sha256": "0899342f694b1574b236edd4b40108cf87f30b177cf8f99b7f37d2f3e2443cb2",
+      "bytes": 1649
+    },
+    "GATE_A.log": {
+      "sha256": "79acb20a279e115c32bece7dd407a3227e5dd6b98c2e4d87d22d32098ba4b732",
+      "bytes": 1354
+    },
+    "NVIDIA_ADAPTER_AUDIT.md": {
+      "sha256": "e15e4ee1ca1ae6cdc27b1babafea5bdfed9bbc69eabe0116921f8024bd19ddd8",
+      "bytes": 2622
+    },
+    "NVIDIA_QUALIFICATION.json": {
+      "sha256": "b160f6faaef9a401db6c6a0382b7e6ddec3f463e6a7557d928dfe32fc78a7df5",
+      "bytes": 789
+    },
+    "NVIDIA_QUALIFICATION.md": {
+      "sha256": "8bc1a5e826944627f31d531fcbebc497cf3c5ccdeb2ded103557b3fc31053e98",
+      "bytes": 3393
+    },
+    "PROOF_SUMMARY.md": {
+      "sha256": "ef88ea6c9c9feb6f8075970759d2dca3182dad88a825a2797d0d1aa17038f7d7",
+      "bytes": 2723
+    },
+    "PROVIDER_ARCHITECTURE_BEFORE.md": {
+      "sha256": "a596c96b9181026c1402e849c9ff02ce14a5d638509fbad35e95775efc7c0a9c",
+      "bytes": 2954
+    },
+    "PROVIDER_TOPOLOGY_AFTER.json": {
+      "sha256": "fc49b823f031162a631cf2eccadda994c026625eed4af2caf06db2d920dd74c9",
+      "bytes": 974
+    },
+    "RETURN_TO_DEEPSEEK_DIRECT.md": {
+      "sha256": "5f19694f0d3c67af28b41f47572382251b66bb6098914794befa5565b0df8336",
+      "bytes": 3450
+    },
+    "STATUS.md": {
+      "sha256": "65a98e50d180b3b7e289fe78818f5240f9c7ac9b4423c596818c4663dbfda498",
+      "bytes": 2287
+    },
+    "TAKEOVER_STATE.md": {
+      "sha256": "4df943ffc1297d78eed98faa4175a5e0d01ef015756952e207eb7a2370906e31",
+      "bytes": 1615
+    }
+  }
+}

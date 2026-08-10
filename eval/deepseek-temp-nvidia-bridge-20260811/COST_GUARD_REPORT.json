@@ -1,0 +1,44 @@
+{
+  "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
+  "why_this_exists": "A previous diagnostic consumed 38,699 completion tokens and zeroed the DeepSeek Direct balance. Every probe in this task is hard-capped.",
+  "limits": {
+    "max_calls": 6,
+    "max_total_completion_tokens": 20000,
+    "max_total_reasoning_tokens": 15000,
+    "max_single_call_reasoning_tokens": 6000,
+    "abort_on_error_classes": [
+      "quota_exhausted",
+      "auth",
+      "rate_limit"
+    ]
+  },
+  "runs": {
+    "deepseek_nvidia": {
+      "verdict": "BLOCKED_OPERATOR_ACTION",
+      "calls_made": 0,
+      "completion_tokens": 0,
+      "reasoning_tokens": 0,
+      "guard_triggered": false,
+      "guard_reason": null,
+      "note": "credential absent - aborted before any network call"
+    },
+    "deepseek_direct": {
+      "verdict": "FAIL",
+      "calls_made": 1,
+      "max_calls": 6,
+      "completion_tokens": 0,
+      "max_total_completion_tokens": 20000,
+      "reasoning_tokens": 0,
+      "max_total_reasoning_tokens": 15000,
+      "guard_triggered": true,
+      "guard_reason": "provider error_class=quota_exhausted (billing/quota/auth) \u2014 aborting",
+      "note": "canonical health smoke only; 402 detected on call 1 and the run stopped"
+    }
+  },
+  "total_completion_tokens_spent": 0,
+  "total_reasoning_tokens_spent": 0,
+  "comparison_to_previous_incident": {
+    "previous_completion_tokens": 38699,
+    "this_task": 0
+  }
+}

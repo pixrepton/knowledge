@@ -1,0 +1,21 @@
+{
+  "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
+  "generated_at_utc": "2026-08-10T22:28:01Z",
+  "note": "Response shape only. No secret, prompt or reasoning text is recorded.",
+  "host_under_test": "deepseek_nvidia",
+  "telemetry_provider_label": "deepseek_nvidia",
+  "provider_role": "TEMPORARY_BRIDGE",
+  "canonical_target": "deepseek_direct",
+  "logical_model_intent": "deepseek",
+  "model": "deepseek-ai/deepseek-r1",
+  "base_url": "https://integrate.api.nvidia.com/v1",
+  "credential_configured": false,
+  "smoke": null,
+  "calls": [],
+  "verdict": "BLOCKED_OPERATOR_ACTION",
+  "blocker": {
+    "reason": "credential_not_configured",
+    "env_var": "DEEPSEEK_NVIDIA_API_KEY",
+    "detail": "deepseek_nvidia has no usable credential; no call was attempted."
+  }
+}
