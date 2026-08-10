@@ -1,0 +1,129 @@
+{
+  "containers": {
+    "gmail-agent-nodeb-api": {
+      "agent_runtime/openai_agent_client.py": {
+        "host_sha256": "315b39983cb7adc4274db923441451a60a09d54cbbae4cf265023e814ef6fde2",
+        "container_sha256": "315b39983cb7adc4274db923441451a60a09d54cbbae4cf265023e814ef6fde2",
+        "match": true
+      },
+      "central_llm_stage.py": {
+        "host_sha256": "554985b5147efcf7d04b51f86837fddbb6ddd297a603642299866e7a66b15e02",
+        "container_sha256": "554985b5147efcf7d04b51f86837fddbb6ddd297a603642299866e7a66b15e02",
+        "match": true
+      },
+      "llm_provider_router.py": {
+        "host_sha256": "a375367926e01e211266a6b8fc8834f889fded7170dd388d535a86ad5224ded8",
+        "container_sha256": "a375367926e01e211266a6b8fc8834f889fded7170dd388d535a86ad5224ded8",
+        "match": true
+      },
+      "llm_deadline.py": {
+        "host_sha256": "29d81513a8c6a64bcf6e5be7d26567b2532fa4d426308b51b13630a5e8723e28",
+        "container_sha256": "29d81513a8c6a64bcf6e5be7d26567b2532fa4d426308b51b13630a5e8723e28",
+        "match": true
+      },
+      "groq_client.py": {
+        "host_sha256": "026ec0b2ce3a0f4274637ded1329b97e9e160bdc075f6e22437afde3ee4516dc",
+        "container_sha256": "026ec0b2ce3a0f4274637ded1329b97e9e160bdc075f6e22437afde3ee4516dc",
+        "match": true
+      },
+      "config.py": {
+        "host_sha256": "9a1638a2a1cf65d6a9ae4e7024a9fb1767332d358e5a89c4fc14f62c52bd99e0",
+        "container_sha256": "9a1638a2a1cf65d6a9ae4e7024a9fb1767332d358e5a89c4fc14f62c52bd99e0",
+        "match": true
+      },
+      "gmail_intake.py": {
+        "host_sha256": "2daa081adb7decdddbedada05b22c74c0d359f2cef862a8530c2e4b94af4ad94",
+        "container_sha256": "2daa081adb7decdddbedada05b22c74c0d359f2cef862a8530c2e4b94af4ad94",
+        "match": true
+      },
+      "signal_worker.py": {
+        "host_sha256": "2689e865e1bfef892b2882b83c83711c80fcadf19b8d01e089b849e4c1a8b744",
+        "container_sha256": "2689e865e1bfef892b2882b83c83711c80fcadf19b8d01e089b849e4c1a8b744",
+        "match": true
+      },
+      "daszek_client.py": {
+        "host_sha256": "50f05b49a2aa0c31b205fcb44511b753f28e868e2e5cf754c3c7adade2877922",
+        "container_sha256": "50f05b49a2aa0c31b205fcb44511b753f28e868e2e5cf754c3c7adade2877922",
+        "match": true
+      },
+      "preclassifier.py": {
+        "host_sha256": "2aae9759afcc23851d967971765cbd0ccd7a6c0ed1cb2ec3718596a728130c1e",
+        "container_sha256": "2aae9759afcc23851d967971765cbd0ccd7a6c0ed1cb2ec3718596a728130c1e",
+        "match": true
+      },
+      "signal_extractor.py": {
+        "host_sha256": "e31dddc35fccf4ae2b87029d64e11c3c57829ed06d0ba918cd6b86bef38ec5b4",
+        "container_sha256": "e31dddc35fccf4ae2b87029d64e11c3c57829ed06d0ba918cd6b86bef38ec5b4",
+        "match": true
+      },
+      "agent_runtime/tools/handlers.py": {
+        "host_sha256": "2769e07b6e00826f54e1c7a3b67544f7ce36ec1091abeba11fda01e2498ff7c8",
+        "container_sha256": "2769e07b6e00826f54e1c7a3b67544f7ce36ec1091abeba11fda01e2498ff7c8",
+        "match": true
+      }
+    },
+    "gmail-agent-vps-gmail-agent-worker-1": {
+      "agent_runtime/openai_agent_client.py": {
+        "host_sha256": "315b39983cb7adc4274db923441451a60a09d54cbbae4cf265023e814ef6fde2",
+        "container_sha256": "315b39983cb7adc4274db923441451a60a09d54cbbae4cf265023e814ef6fde2",
+        "match": true
+      },
+      "central_llm_stage.py": {
+        "host_sha256": "554985b5147efcf7d04b51f86837fddbb6ddd297a603642299866e7a66b15e02",
+        "container_sha256": "554985b5147efcf7d04b51f86837fddbb6ddd297a603642299866e7a66b15e02",
+        "match": true
+      },
+      "llm_provider_router.py": {
+        "host_sha256": "a375367926e01e211266a6b8fc8834f889fded7170dd388d535a86ad5224ded8",
+        "container_sha256": "a375367926e01e211266a6b8fc8834f889fded7170dd388d535a86ad5224ded8",
+        "match": true
+      },
+      "llm_deadline.py": {
+        "host_sha256": "29d81513a8c6a64bcf6e5be7d26567b2532fa4d426308b51b13630a5e8723e28",
+        "container_sha256": "29d81513a8c6a64bcf6e5be7d26567b2532fa4d426308b51b13630a5e8723e28",
+        "match": true
+      },
+      "groq_client.py": {
+        "host_sha256": "026ec0b2ce3a0f4274637ded1329b97e9e160bdc075f6e22437afde3ee4516dc",
+        "container_sha256": "026ec0b2ce3a0f4274637ded1329b97e9e160bdc075f6e22437afde3ee4516dc",
+        "match": true
+      },
+      "config.py": {
+        "host_sha256": "9a1638a2a1cf65d6a9ae4e7024a9fb1767332d358e5a89c4fc14f62c52bd99e0",
+        "container_sha256": "9a1638a2a1cf65d6a9ae4e7024a9fb1767332d358e5a89c4fc14f62c52bd99e0",
+        "match": true
+      },
+      "gmail_intake.py": {
+        "host_sha256": "2daa081adb7decdddbedada05b22c74c0d359f2cef862a8530c2e4b94af4ad94",
+        "container_sha256": "2daa081adb7decdddbedada05b22c74c0d359f2cef862a8530c2e4b94af4ad94",
+        "match": true
+      },
+      "signal_worker.py": {
+        "host_sha256": "2689e865e1bfef892b2882b83c83711c80fcadf19b8d01e089b849e4c1a8b744",
+        "container_sha256": "2689e865e1bfef892b2882b83c83711c80fcadf19b8d01e089b849e4c1a8b744",
+        "match": true
+      },
+      "daszek_client.py": {
+        "host_sha256": "50f05b49a2aa0c31b205fcb44511b753f28e868e2e5cf754c3c7adade2877922",
+        "container_sha256": "50f05b49a2aa0c31b205fcb44511b753f28e868e2e5cf754c3c7adade2877922",
+        "match": true
+      },
+      "preclassifier.py": {
+        "host_sha256": "2aae9759afcc23851d967971765cbd0ccd7a6c0ed1cb2ec3718596a728130c1e",
+        "container_sha256": "2aae9759afcc23851d967971765cbd0ccd7a6c0ed1cb2ec3718596a728130c1e",
+        "match": true
+      },
+      "signal_extractor.py": {
+        "host_sha256": "e31dddc35fccf4ae2b87029d64e11c3c57829ed06d0ba918cd6b86bef38ec5b4",
+        "container_sha256": "e31dddc35fccf4ae2b87029d64e11c3c57829ed06d0ba918cd6b86bef38ec5b4",
+        "match": true
+      },
+      "agent_runtime/tools/handlers.py": {
+        "host_sha256": "2769e07b6e00826f54e1c7a3b67544f7ce36ec1091abeba11fda01e2498ff7c8",
+        "container_sha256": "2769e07b6e00826f54e1c7a3b67544f7ce36ec1091abeba11fda01e2498ff7c8",
+        "match": true
+      }
+    }
+  },
+  "mismatches": 0
+}

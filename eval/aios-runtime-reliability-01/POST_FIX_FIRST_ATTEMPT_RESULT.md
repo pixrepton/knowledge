@@ -31,8 +31,9 @@ manifest hash, and the ledger builder fails if any is missing, mismatched, or no
 
 Neither number was altered by a retry. Both are first-attempt only, on separate frozen SUTs in
 separate out-dirs, with zero artifact reuse between them. The pre-fix baseline was re-verified
-**after** this run: `PRE_FIX_BASELINE_LOCK: PASS`, still `32/38 = 84.21%`, 26 preserved files
-unchanged.
+**after** this run: `PRE_FIX_BASELINE_LOCK: PASS`, still `32/38 = 84.21%`, with all 26
+repo-preserved files byte-unchanged (a separate 116-file hash inventory covers the volatile
+capture out-dir — see `PRE_FIX_LOCK_COUNT_RECONCILIATION.md`).
 
 The six cases that previously failed all completed at `stage_reached = full`:
 

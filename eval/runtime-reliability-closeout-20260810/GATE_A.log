@@ -1,0 +1,11 @@
+# Gate A — canonical full suite
+# Command: python -m pytest tools/gmail_audit/tests -q   (cwd: gmail-agent)
+# Gate id: GATE_A_GMAIL_AUDIT
+
+GATE GATE_A_GMAIL_AUDIT: PASS (424.634s)
+2474 passed, 15 skipped, 24 subtests passed in 419.45s (0:06:59)
+failed: 0
+
+# Progression across this programme:
+#   hardening baseline : 2444 passed, 15 skipped, 24 subtests, 0 failed
+#   after closeout     : 2474 passed, 15 skipped, 24 subtests, 0 failed   (+30 new tests)

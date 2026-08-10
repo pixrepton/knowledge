@@ -1,0 +1,32 @@
+# Targeted closeout tests — CL-01..CL-06
+# Command: python -m pytest <closeout suites> -q   (cwd: gmail-agent)
+# Date: 2026-08-10T17:57:06Z
+
+test_agent_planner_deadline.py        CL-01  agent planner timeout semantics
+test_anthropic_path_deadline.py       CL-02  Anthropic cancellation / deadline
+test_provider_pool_degradation.py     CL-05  provider-chain degraded behaviour
+test_llm_stage_deadline.py            RT01   stage deadline (regression)
+test_llm_provider_router.py           RT01   router (regression)
+test_llm_provider_fallback.py         CL-05  provider fallback (updated contract)
+test_daszek_dependency_degradation.py RT02   worker degradation (regression)
+test_preclassifier_legal_scope.py     J      preclassifier scope (regression)
+
+tools/gmail_audit/tests/test_preclassifier_legal_scope.py::LegalEscalationScope::test_lawyer_plus_legal_steps_escalates PASSED [ 97%]
+tools/gmail_audit/tests/test_preclassifier_legal_scope.py::LegalEscalationScope::test_pre_court_demand_escalates PASSED [ 98%]
+tools/gmail_audit/tests/test_preclassifier_legal_scope.py::LegalEscalationScope::test_sender_being_a_lawyer_is_a_normal_lead PASSED [ 99%]
+tools/gmail_audit/tests/test_preclassifier_legal_scope.py::LegalEscalationScope::test_turning_to_a_lawyer_still_escalates_on_its_own PASSED [100%]
+
+============================ 124 passed in 21.71s =============================
+
+RESULT: 124 passed, 0 failed
+
+# CL-03 / CL-04 are PowerShell gates (docker stubbed), run separately:
+scripts/tests/test_fresh38_reuse_gate.ps1       -> FRESH38 REUSE GATE: PASS       (gate FRESH38_REUSE_GATE)
+scripts/tests/test_fresh38_sut_fingerprint.ps1  -> FRESH38 SUT FINGERPRINT: PASS  (gate FRESH38_SUT_FINGERPRINT)
+
+# CL-06 verification (must remain PASS, no artifact byte changed):
+PRE_FIX_BASELINE_LOCK: PASS
+  PRE_FIX_FIRST_ATTEMPT_RELIABILITY = 32/38 = 84.21%
+  failed cases                      = INT-05, NEW-04, FU-06, SVC-04, CTX-01, NEW-01
+  preserved files verified          = 26
+  volatile capture files hashed     = 116

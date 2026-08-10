@@ -21,8 +21,11 @@ all six: INTAKE_LLM_TIMEOUT (timeout_sec=60)
 
 Preserved before any code changed, committed as `knowledge:687bed5`:
 
-- `PRE_FIX_BASELINE_LOCK.json` — SHA256 of all **116** files in the volatile capture out-dir
-  plus every preserved report file, with the headline numbers locked.
+- `PRE_FIX_BASELINE_LOCK.json` — two **disjoint** inventories, with the headline numbers locked:
+  `PRE_FIX_PRESERVED_FILES = 26` (committed to the repo, re-hashed byte-for-byte on every
+  verification) and `PRE_FIX_CAPTURE_FILES = 116` (recorded by hash only, from the volatile
+  session-scratch capture out-dir). The two sets do not overlap. Full breakdown:
+  `runtime-reliability-closeout-20260810/PRE_FIX_LOCK_COUNT_RECONCILIATION.md`.
 - `verify_pre_fix_lock.py` — re-verifies hashes, headline, ledger self-agreement and
   FIRST_ATTEMPT purity. Gate `PRE_FIX_BASELINE_LOCK`: **PASS**.
 - `raw-first-attempt-failures/` — the six failed one-CASE artifacts with stdout/stderr and
