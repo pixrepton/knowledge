@@ -1,0 +1,48 @@
+{
+  "mode": "production_faithful",
+  "sentinel_only": false,
+  "cases": [
+    {
+      "id": "NEW-04",
+      "categories": [
+        "new_case"
+      ],
+      "measurement_mode": "production_faithful",
+      "intake": {
+        "lane": "intake_llm",
+        "lane_full": {
+          "lane": "intake_llm",
+          "reasons": [
+            "default_intake_lane"
+          ],
+          "confidence": 0.75,
+          "stage_name": "preclassifier"
+        },
+        "is_obvious_noise": false,
+        "cost_gate_skip": false,
+        "cost_gate_reason": "justified (creates new identity)"
+      },
+      "extraction": {
+        "hvac_intent": "wycena_oferta",
+        "hvac_intent_raw_evidence": "wycena pompy ciepła",
+        "building_type": "",
+        "heated_area_m2": null,
+        "construction_year": null,
+        "current_heating_source": null,
+        "budget_pln_estimated": null,
+        "price_sensitivity": null,
+        "raw_geographic_signal": null
+      },
+      "intake_reasoning": {
+        "mode": "real_run_intake_reasoning",
+        "is_valid": false,
+        "final_output_origin": "invalid",
+        "intake_result_hash": null,
+        "business_area": null
+      },
+      "parity_error": "production_faithful_intake_invalid",
+      "stage_reached": "intake_reasoning_error",
+      "intake_reasoning_classification": "CAPABILITY"
+    }
+  ]
+}

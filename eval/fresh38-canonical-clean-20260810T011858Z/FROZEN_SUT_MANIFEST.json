@@ -1,0 +1,131 @@
+{
+  "frozen_at_utc": "2026-08-10T01:18:58Z",
+  "purpose": "One methodologically clean, frozen-SUT Fresh38 run, from 0/38, superseding the contaminated fresh38-clean-20260809T225941Z run.",
+  "ai_os_task_id": "CAPABILITY-QUALIFICATION-20260809",
+  "repos": {
+    "workspace_root": {
+      "branch": "repair/root-mcp-json-fix",
+      "head_sha": "78eff6326e0b0c34f63d6545db14c9f9e485dd17",
+      "dirty_task_owned": [
+        {
+          "path": "scripts/run_fresh38_case_batch.ps1",
+          "sha256_working_tree": "8c6ba009bddc7f47912cf415318716d77f551945cd89cb6d4adb0b89df2f3af",
+          "verified": "general hot-sync-list expansion (preclassifier.py, context_assembler.py, intake_payload.py) + resume/retry logic keyed on parity_error, not case ID. Will NOT be modified during the run."
+        }
+      ],
+      "dirty_foreign_out_of_scope": [
+        "CLAUDE.md (442-line real diff, unrelated doc sync)",
+        "scripts/rag_v2_ephemeral_data_plane_proof.ps1 (1-line, unrelated)",
+        "scripts/rag_v2_live_cutover_gate_b.ps1 (1-line, unrelated)"
+      ]
+    },
+    "gmail_agent": {
+      "branch": "feature/aios-roadmap-1.4-2.4",
+      "head_sha": "146857f38c4a27f37922f03e9724c280bda3b8da",
+      "upstream": "origin/feature/aios-roadmap-1.4-2.4 (ahead 2)",
+      "dirty_task_owned": [
+        {
+          "path": "tools/gmail_audit/preclassifier.py",
+          "sha256_working_tree": "f6112142488b2d24dd9b69fcb3fc1fd1cd72090694184c5278d8ca7ba37537a",
+          "verified": "general REVIEW_DIRECT_RISK_PATTERNS keyword set for legal/contract escalation, no case-ID or fixture-literal references, has dedicated regression test. Note: bare token 'prawnik' with no risk context also routes to review_direct -- flagged as a possible over-broad product-judgment concern, not gaming."
+        },
+        {
+          "path": "tools/gmail_audit/tests/test_preclassifier.py",
+          "sha256_working_tree": "197c419fefbefbd61853bfd5b85b59e8a85ec650984c553d529b18dceda2ad9",
+          "verified": "adds test_legal_contract_escalation_routes_review_direct, synthetic fixture, not tied to DEC-01 literal text"
+        }
+      ],
+      "dirty_foreign_out_of_scope": [
+        "intake_shared_downstream.py, _fact41_bounded_pg_proof.py, _fact_write_01_bounded_pg_proof.py, _fact_write_01_reconcile_dual_active.py, test_empty_message_content_contract.py, test_fact_41_high_remaining_consumers.py -- all CRLF/LF normalization noise only (git diff = 0 content lines under core.autocrlf=true), not real changes"
+      ],
+      "canonical_tracked_committed_at_head": [
+        "tools/gmail_audit/eval_final_rescore_versioned.py (committed in 146857f, FIX-05 'adjudicate CTX budget false negative')",
+        "tools/gmail_audit/tests/test_measurement_integrity_v5.py (committed in 146857f, part of Gate A)"
+      ]
+    },
+    "knowledge": {
+      "branch": "docs/aios-residuals-wave-sync",
+      "head_sha": "2a7d10eef0ccccd3b70636a5251f52acc50c0c79",
+      "note": "eval/fresh38-recapture-20260808/provider_failure_summary.json shows dirty in git status but zero-line diff; new untracked eval/* dirs from the contaminated prior run are read-only historical evidence, not modified by this task."
+    }
+  },
+  "sut_file_hashes": {
+    "run_fresh38_case_batch.ps1": "8c6ba009bddc7f47912cf415318716d77f551945cd89cb6d4adb0b89df2f3af",
+    "preclassifier.py": "f6112142488b2d24dd9b69fcb3fc1fd1cd72090694184c5278d8ca7ba37537a",
+    "test_preclassifier.py": "197c419fefbefbd61853bfd5b85b59e8a85ec650984c553d529b18dceda2ad9",
+    "selected_recovery_runner": {
+      "path": "C:\\top-code-session-scratch\\exit2-fresh38-20260803T185704\\run_recovery_pf.PATCHED.py",
+      "sha256": "8c2f3ddc8c5b31ecab5c0c9478485468a3945480f5c82bc0b4a65ef8f25abf1"
+    },
+    "fallback_recovery_runner": {
+      "path": ".artifacts/ai-os-post-stage6-fresh-baseline/harness/run_recovery_pf.py",
+      "sha256": "8c2f3ddc8c5b31ecab5c0c9478485468a3945480f5c82bc0b4a65ef8f25abf1",
+      "identical_to_selected": true
+    },
+    "scoring_helper": {
+      "path": ".artifacts/ai-os-post-stage6-fresh-baseline/harness/scoring.py",
+      "sha256": "68801d8fde54d0bf4c1c3d37e40f5602a975ff677c63ed1499263cc2f199dc1"
+    },
+    "judge_driver": {
+      "path": ".artifacts/ai-os-post-stage6-fresh-baseline/judge/run_rotating_judge.py",
+      "note": "tracked as VALID_FROZEN_COMPAT, not modified for this run"
+    },
+    "rescore_versioned_script": {
+      "path": "gmail-agent/tools/gmail_audit/eval_final_rescore_versioned.py",
+      "canonical": true,
+      "committed_in": "146857f38c4a27f37922f03e9724c280bda3b8da",
+      "note": "operator-supplied correction to prior session's tooling-discovery miss; this is the real, git-tracked, Gate-A-covered v5 scorer. Not ad hoc."
+    },
+    "corpus_capture": {
+      "path": "gmail-agent/tools/gmail_audit/tests/fixtures/measurement_contract_v1/corpus-v2.json",
+      "sha256_raw_bytes": "6550a075d5180d492a35b983a4cdc30624756d80cc3b398ae75fa310c470c04"
+    },
+    "corpus_score_base": {
+      "path": "gmail-agent/tools/gmail_audit/tests/fixtures/measurement_contract_v1/corpus-v1.json",
+      "note": "v5 rescore derives its effective corpus from this file per eval_final_rescore_versioned.py contract chain (v1->v2->v3->v4->v5), per operator instruction: capture uses corpus-v2.json, scoring uses corpus-v1.json as base"
+    }
+  },
+  "runner_provenance": "VALID_FROZEN_COMPAT",
+  "runtime": {
+    "node_b_container": "gmail-agent-nodeb-api",
+    "node_b_image": "gmail-agent-runtime:local",
+    "node_b_image_sha256": "29e1a6a154f6720cd639c5ca2b13fdf98b91ce1d23900888fd75c0102b9ac0e",
+    "node_b_image_created": "2026-08-09T18:18:52.385698057Z",
+    "node_b_self_health": "HTTP 200 (docker exec python urllib http://localhost:8765/health)",
+    "kalk_top_container": "kalk-top-runtime",
+    "kalk_top_image": "kalk-top-runtime:local",
+    "kalk_top_image_sha256": "7f0eebd227e610fb11f6bdc6e428ba60035731bac71f57343371856c4703c20",
+    "kalk_top_docker_health": "healthy",
+    "node_b_to_kalk_top_reachability": "HTTP 200 via http://host.docker.internal:8091 (KALK_TOP_BASE_URL) from inside gmail-agent-nodeb-api using requests library",
+    "unrelated_pre_existing_issue": "gmail-agent-vps-gmail-agent-worker-1 crash-looping on host.docker.internal:8090 (Daszek WP login, async polling worker) -- not on the Fresh38 capture path (capture execs directly into gmail-agent-nodeb-api), not fixed, flagged only",
+    "llm_backend": "openai_chat",
+    "groq_model_compat": "openai/gpt-4o-mini",
+    "groq_native_model": "openai/gpt-oss-120b",
+    "kalk_top_base_url": "http://host.docker.internal:8091 (env var on gmail-agent-nodeb-api)"
+  },
+  "gate_a": {
+    "command": "python -m pytest tools/gmail_audit/tests -q",
+    "result": "2401 passed, 15 skipped, 24 subtests passed, 0 failed",
+    "duration_s": 399.89
+  },
+  "measurement_contract": {
+    "version_for_scoring": "v5",
+    "capture_corpus": "corpus-v2.json",
+    "score_base_corpus": "corpus-v1.json",
+    "qualification_threshold": 34
+  },
+  "out_dir_for_capture": "C:\\top-code-session-scratch\\fresh38-canonical-clean-20260810T011858Z",
+  "case_ids_frozen_order": [
+    "INT-01","INT-02","INT-03","INT-04","INT-05","INT-06","NEW-02","NEW-03","NEW-04","NEW-05",
+    "FU-01","FU-02","FU-03","FU-04","FU-05","FU-06","FU-07","SVC-01","SVC-02","SVC-03","SVC-04","SVC-05",
+    "DOC-01","DOC-02","DOC-03","DOC-04","CTX-01","CTX-02","CTX-03","CTX-04","CTX-05",
+    "MI-01","MI-02","MI-03","MI-04","DEC-01","DEC-02","NEW-01"
+  ],
+  "freeze_rules": [
+    "Zero reuse of any one-CASE.json from any prior run (fresh38-clean-20260809T225941Z, exit2-fresh38-20260803T185704, or any other scratch dir).",
+    "New, empty OutDir created before the first case starts.",
+    "No product code, preclassifier, runner, wrapper, corpus, ground truth, judge, scorer, thresholds, provider configuration, or Docker image changes permitted between case 1/38 and case 38/38, judge, and rescore.",
+    "Retry is permitted only for transient capture failures (timeouts, docker exec hiccups) within this exact frozen manifest; any SUT/tooling change invalidates the run and requires a new manifest + new OutDir from 0/38."
+  ],
+  "frozen_sut_ready": "YES"
+}

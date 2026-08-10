@@ -1,0 +1,5 @@
+=== NEW-04 (mode=production_faithful) ===
+  intake: intake_llm cost_gate_skip: False
+  extraction OK
+  production_faithful intake INVALID — not substituting a placeholder
+Done. 1 cases written to /tmp/fresh38-sentinel/one-NEW-04.json
