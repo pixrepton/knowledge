@@ -1,0 +1,154 @@
+{
+  "generated_at_utc": "2026-08-10T20:49:48Z",
+  "note": "No API key, Authorization header or secret value appears in this document.",
+  "active_provider_chain": [
+    "groq",
+    "cerebras"
+  ],
+  "healthy_providers_in_active_chain": [
+    "groq"
+  ],
+  "stage_budget_sec": 180,
+  "http_timeout_sec": 60,
+  "slots": [
+    {
+      "provider": "openai_chat",
+      "slot": "OPENAI_COMPAT_API_KEY",
+      "credential_configured": true,
+      "credential_fingerprint": "a4459b8072da",
+      "credential_length": 73,
+      "model_configured": "openai/gpt-4o-mini",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "probe": {
+        "reachable": true,
+        "auth_valid": true,
+        "http_status": 402,
+        "latency_ms": 401,
+        "error_class": "quota_exhausted",
+        "error": "Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits"
+      },
+      "classification": "QUOTA_CAPACITY"
+    },
+    {
+      "provider": "groq",
+      "slot": "GROQ_API_KEY_SLOT_1",
+      "credential_configured": true,
+      "credential_fingerprint": "6e6026d00870",
+      "credential_length": 56,
+      "model_configured": "openai/gpt-oss-120b",
+      "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+      "probe": {
+        "reachable": true,
+        "auth_valid": true,
+        "http_status": 200,
+        "latency_ms": 308,
+        "error_class": null,
+        "error": ""
+      },
+      "classification": "HEALTHY"
+    },
+    {
+      "provider": "groq",
+      "slot": "GROQ_API_KEY_SLOT_2",
+      "credential_configured": true,
+      "credential_fingerprint": "79294c09485e",
+      "credential_length": 56,
+      "model_configured": "openai/gpt-oss-120b",
+      "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+      "probe": {
+        "reachable": true,
+        "auth_valid": true,
+        "http_status": 200,
+        "latency_ms": 432,
+        "error_class": null,
+        "error": ""
+      },
+      "classification": "HEALTHY"
+    },
+    {
+      "provider": "groq",
+      "slot": "GROQ_API_KEY_SLOT_3",
+      "credential_configured": true,
+      "credential_fingerprint": "e6c595459627",
+      "credential_length": 56,
+      "model_configured": "openai/gpt-oss-120b",
+      "endpoint": "https://api.groq.com/openai/v1/chat/completions",
+      "probe": {
+        "reachable": true,
+        "auth_valid": true,
+        "http_status": 200,
+        "latency_ms": 377,
+        "error_class": null,
+        "error": ""
+      },
+      "classification": "HEALTHY"
+    },
+    {
+      "provider": "cerebras",
+      "slot": "CEREBRAS_API_KEY",
+      "credential_configured": false,
+      "credential_fingerprint": "",
+      "credential_length": null,
+      "model_configured": "gpt-oss-120b",
+      "endpoint": "https://api.cerebras.ai/v1/chat/completions",
+      "probe": null,
+      "classification": "EXPECTED_UNCONFIGURED"
+    },
+    {
+      "provider": "nvidia",
+      "slot": "NVIDIA_API_KEY",
+      "credential_configured": false,
+      "credential_fingerprint": "",
+      "credential_length": null,
+      "model_configured": "gpt-oss-120b",
+      "endpoint": "https://integrate.api.nvidia.com/v1/chat/completions",
+      "probe": null,
+      "classification": "EXPECTED_UNCONFIGURED"
+    },
+    {
+      "provider": "openrouter",
+      "slot": "OPENROUTER_API_KEY",
+      "credential_configured": false,
+      "credential_fingerprint": "",
+      "credential_length": null,
+      "model_configured": "openai/gpt-4o-mini",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "probe": null,
+      "classification": "EXPECTED_UNCONFIGURED"
+    },
+    {
+      "provider": "deepseek",
+      "slot": "DEEPSEEK_API_KEY",
+      "credential_configured": true,
+      "credential_fingerprint": "72a31b22fa33",
+      "credential_length": 35,
+      "model_configured": "deepseek-v4-flash",
+      "endpoint": "https://api.deepseek.com/v1/chat/completions",
+      "probe": {
+        "reachable": true,
+        "auth_valid": true,
+        "http_status": 402,
+        "latency_ms": 643,
+        "error_class": "quota_exhausted",
+        "error": "Insufficient Balance"
+      },
+      "classification": "QUOTA_CAPACITY"
+    },
+    {
+      "provider": "anthropic",
+      "slot": "ANTHROPIC_API_KEY",
+      "credential_configured": false,
+      "credential_fingerprint": "",
+      "credential_length": null,
+      "model_configured": "claude-sonnet-4-20250514",
+      "endpoint": "",
+      "probe": null,
+      "classification": "EXPECTED_UNCONFIGURED"
+    }
+  ],
+  "summary": {
+    "EXPECTED_UNCONFIGURED": 4,
+    "HEALTHY": 3,
+    "QUOTA_CAPACITY": 2
+  }
+}

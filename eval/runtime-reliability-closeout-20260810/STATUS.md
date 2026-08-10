@@ -1,9 +1,27 @@
 # RUNTIME RELIABILITY CLOSEOUT 01 — status
 
 ```text
-RUNTIME_RELIABILITY_CLOSEOUT     = BLOCKED_OPERATOR_ACTION
+RUNTIME_RELIABILITY_CLOSEOUT       = BLOCKED_OPERATOR_ACTION
 CAPABILITY_QUALIFICATION_READINESS = HOLD
+READY_TO_FREEZE_CAPABILITY_SUT     = NO
 ```
+
+## Update — provider topology corrected, Tier 1 now unfunded
+
+The provider audit changed the picture materially and is recorded in
+`PROVIDER_TOPOLOGY_FIX.md` and `DEEPSEEK_EMPTY_CONTENT_01.md`.
+
+- The earlier claim that `openai_chat` ran *before* DeepSeek was **wrong** — DeepSeek was already
+  Tier 1. The misreading came from treating `llm_provider_attempts` (router tier only) as the
+  whole chain. The earlier recommendation to purchase OpenRouter credits is **withdrawn**.
+- Real drift found and fixed: `.env.local-vps` overrode the base config so a dead credential led
+  the *fallback* chain. `LLM_PRIMARY_PROVIDER=groq`, `LLM_FALLBACK_PROVIDERS=cerebras`, and the
+  invalid Groq slot (which arrived via `AGENT_GROQ_API_KEY`) emptied. `LLM_BACKEND` untouched.
+- **DeepSeek now returns `HTTP 402 "Insufficient Balance"`** — its balance was exhausted during my
+  own bounded reproduction run. Tier 1 of the intended SUT is currently unusable.
+
+The blocker list below is superseded by the one in the final report: item 1 (OpenRouter credits)
+is **not** required; DeepSeek balance is.
 
 ## Why not PASS
 
