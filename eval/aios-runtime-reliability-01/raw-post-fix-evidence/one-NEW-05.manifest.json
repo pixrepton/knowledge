@@ -1,0 +1,10 @@
+﻿{
+    "case_id":  "NEW-05",
+    "experiment_manifest_hash":  "661d75f16b4fd6214d5598f24b8b4ff76218a48d7f66db9501b4194e7e82a6a8",
+    "attempt_type":  "FIRST_ATTEMPT",
+    "attempt_number":  1,
+    "captured_at":  "2026-08-10T09:06:35.9909554+02:00",
+    "artifact_sha256":  "d2dc5275bc839c7f3885f9148d2e6095fe36eb881433239032bd2657b38a57eb",
+    "container":  "gmail-agent-nodeb-api",
+    "mode":  "production_faithful"
+}

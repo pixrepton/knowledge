@@ -1,0 +1,46 @@
+﻿{
+    "experiment_manifest_hash":  "62a05a7b8c4c6019fa7b8595fb4e73b3679418382512de9df8e2e7cd1e054027",
+    "attempt_type":  "FIRST_ATTEMPT",
+    "attempt_number":  1,
+    "out_dir":  "C:\\top-code-session-scratch\\rt01-sixcase-proof-20260810T060646Z",
+    "container":  "gmail-agent-nodeb-api",
+    "created_at":  "2026-08-10T08:06:59.7511958+02:00",
+    "components":  {
+                       "wrapper_sha256":  "00b73c464900c910206d5190bf9c1a6f79b4345a28fafe7971464424dcdf82dd",
+                       "runner_sha256":  "8c2f3ddc8c5b31ecab5c0c9478485468a3945480f5c82bc0b4a65ef8f25abf13",
+                       "scoring_sha256":  "68801d8fde54d0bf4c1c3d37e40f5602a975ff677c63ed1499263cc2f199dc15",
+                       "corpus_sha256":  "6550a075d5180d492a35b983a4cdc30624756d80cc3b398ae75fa310c470c043",
+                       "container_image":  "sha256:834fa2943477f5a9c2c8e7eff16005be15538186d598119cce1fcf23bb3d3679",
+                       "mode":  "production_faithful",
+                       "product_files":  {
+                                             "llm_deadline.py":  "29d81513a8c6a64bcf6e5be7d26567b2532fa4d426308b51b13630a5e8723e28",
+                                             "llm_provider_router.py":  "f6d2b40818a0243da12200ac820e69b6355776c5c1d30d6900dca7e613e967d9",
+                                             "groq_client.py":  "026ec0b2ce3a0f4274637ded1329b97e9e160bdc075f6e22437afde3ee4516dc",
+                                             "central_llm_stage.py":  "81df4bb184042064cd71f6d1b93cfab02957f855361dd6679a29ebc0216e9651",
+                                             "config.py":  "9a1638a2a1cf65d6a9ae4e7024a9fb1767332d358e5a89c4fc14f62c52bd99e0",
+                                             "gmail_intake.py":  "2daa081adb7decdddbedada05b22c74c0d359f2cef862a8530c2e4b94af4ad94",
+                                             "signal_worker.py":  "2689e865e1bfef892b2882b83c83711c80fcadf19b8d01e089b849e4c1a8b744",
+                                             "daszek_client.py":  "50f05b49a2aa0c31b205fcb44511b753f28e868e2e5cf754c3c7adade2877922",
+                                             "signal_extractor.py":  "e31dddc35fccf4ae2b87029d64e11c3c57829ed06d0ba918cd6b86bef38ec5b4",
+                                             "preclassifier.py":  "2aae9759afcc23851d967971765cbd0ccd7a6c0ed1cb2ec3718596a728130c1e",
+                                             "context_assembler.py":  "1e7a9e2bc3594f48fd5dcfc95617ee438c1d21094a132e5ed931bdc7b1222131",
+                                             "understanding_output.py":  "46c737ee052e1fb18cd2857d89180fa4da80b7b0a3cf1338428f20565b15cadc",
+                                             "eval_understanding_judge.py":  "b29ed07eee937aa60772a875510bd7fac9ed2d8be706e954a3b0b8ea4a931122",
+                                             "eval_planner_spine_handoff.py":  "2f505da23ef1a144dee4ffadf54c5828dca200acf6a97a6cfb26d56936fe1b2d",
+                                             "intake_payload.py":  "8999deb080d8f5b26fcce6ca443103abbfdd8e018b9cf9fc9f738d563f4a33ff",
+                                             "agent_runtime/effective_tools.py":  "49f93009113b5bb2338b5318c8d7345b3b8da4d73f4d1d67799b045a6d69044e",
+                                             "agent_runtime/envelope_presence.py":  "ac88c021dd671adae32e8785a976c5844369ec0d3548f2577e226ccfe38e847a",
+                                             "agent_runtime/known_fact_guard.py":  "3b0998aa052e8360849a2c60c48467516d9a02da3f03b638294efcaaa349be0d",
+                                             "agent_runtime/draft_sanity.py":  "7d370456867c0455a155b1875895f7b2cd9fccfd467ffd661b3952df0e71fdf6",
+                                             "agent_runtime/failure_taxonomy.py":  "3166de811a6c27abab3e437925922eb791ca19f140cc30b84e25fec3d9da1d85",
+                                             "agent_runtime/planner_run_budget.py":  "5a6c95d3b80d603fcdbacf057246c1b6d026b194ee7bb163f6bfa85cd864c4e1",
+                                             "agent_runtime/graph.py":  "6d1831c60b7791fdb6d13e9cc97412bfaa6ac9e927aa7fb01a76dffacdf93d67",
+                                             "agent_runtime/openai_agent_client.py":  "422f2be46cb7b1913fce20f9a7085e83eb0175663e6d70401a5146f98024c5cf",
+                                             "agent_runtime/tools/handlers.py":  "2769e07b6e00826f54e1c7a3b67544f7ce36ec1091abeba11fda01e2498ff7c8",
+                                             "agent_runtime/tool_result.py":  "80355fa979be717e984ab1a57719e78de15cad9cee255966d7fa91ccf395157d"
+                                         }
+                   },
+    "missing_hot_files":  [
+
+                          ]
+}

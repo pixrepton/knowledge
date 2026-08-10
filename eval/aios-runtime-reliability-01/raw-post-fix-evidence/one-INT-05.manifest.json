@@ -1,0 +1,10 @@
+﻿{
+    "case_id":  "INT-05",
+    "experiment_manifest_hash":  "661d75f16b4fd6214d5598f24b8b4ff76218a48d7f66db9501b4194e7e82a6a8",
+    "attempt_type":  "FIRST_ATTEMPT",
+    "attempt_number":  1,
+    "captured_at":  "2026-08-10T08:56:46.2380790+02:00",
+    "artifact_sha256":  "712c4b1ffc013f6a9628d16fe8215f1cc16566acc2d02611faa196eba9f8cc8d",
+    "container":  "gmail-agent-nodeb-api",
+    "mode":  "production_faithful"
+}
