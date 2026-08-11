@@ -5,13 +5,15 @@ Every claim is backed by a named test, artifact or captured output.
 ## Result
 
 ```text
-TEMP_BRIDGE_QUALIFICATION = BLOCKED_OPERATOR_ACTION
-TEMPORARY_ACTIVATION      = NOT_ACTIVE
+TEMP_BRIDGE_IMPLEMENTATION = PASS
+TEMP_BRIDGE_QUALIFICATION  = PASS        (deepseek-ai/deepseek-v4-flash-0731)
+TEMPORARY_ACTIVATION       = NOT_ACTIVE  (operator stood down; not a failure)
 ```
 
-Mechanism built and proven. Credential and model were then supplied correctly by the operator,
-and the bridge engaged as designed — but the host had retired the configured model id four days
-earlier (HTTP 410, end of life 2026-08-07), so no qualification call could run.
+Mechanism built and proven, then qualified on the operator-authorized snapshot: 5/5 executed
+calls succeeded on NVIDIA itself with valid schema and no fallback. Activation stopped before the
+env change when the operator reported DeepSeek Direct funding. The canonical host is nonetheless
+still unfunded per its own balance endpoint — see `DEEPSEEK_DIRECT_BILLING_CHECK.json`.
 
 ## What was proven
 
@@ -36,7 +38,13 @@ earlier (HTTP 410, end of life 2026-08-07), so no qualification call could run.
 | A retired model id now costs zero calls | `NVIDIA_CATALOG_PREFLIGHT.json` — free `GET /models` preflight blocks before inference |
 | Host error bodies are read in both envelope shapes | `test_rfc7807_detail_is_read_not_dropped`, `test_openai_envelope_still_wins_when_present` |
 | `410` / end-of-life aborts instead of burning 6 calls | `test_retired_model_is_classified_as_model_unavailable`, `test_model_unavailable_aborts_instead_of_burning_six_calls` |
-| Nothing was activated | `ACTIVATION_PROOF.md`, `PROVIDER_TOPOLOGY_AFTER.json` — `AI_OS_PRIMARY_PROVIDER` unset, containers not restarted |
+| Nothing was activated | `ACTIVATION_PROOF.md`, `PROVIDER_TOPOLOGY_AFTER.json` — `AI_OS_PRIMARY_PROVIDER` unset, containers not recreated |
+| The 0731 snapshot satisfies the AI-OS structured contracts | `NVIDIA_QUALIFICATION_0731.json` — 5/5 executed, schema valid, 0 empty content, 0 fallback |
+| No result was rescued by Groq | qualifier posts directly to the host; Groq is structurally absent from its path |
+| The bridge claims family, not proven identity | `test_bridge_does_not_claim_proven_model_equivalence`, `test_both_hosts_serve_the_same_declared_family` |
+| The withdrawn "preserved model identity" claim cannot silently return | `test_registry_no_longer_claims_preserved_model_identity` |
+| Registry and runtime agree on family and equivalence, not just role | `test_provider_roles_registry_matches_the_runtime` (extended) |
+| The reported DeepSeek top-up is not visible to the configured key | `DEEPSEEK_DIRECT_BILLING_CHECK.json` — `GET /user/balance` `is_available:false`, `total_balance -0.00` |
 
 ## Correction made before operator config
 

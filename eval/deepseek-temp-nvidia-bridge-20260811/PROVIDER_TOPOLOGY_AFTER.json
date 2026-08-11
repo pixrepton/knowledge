@@ -1,12 +1,13 @@
 {
   "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
-  "generated_at_utc": "2026-08-11T04:43:41Z",
-  "topology_state": "UNCHANGED - no activation occurred",
-  "why": "TEMP_BRIDGE_QUALIFICATION != PASS, so AI_OS_PRIMARY_PROVIDER was not set.",
-  "canonical_target": "deepseek_direct",
+  "generated_at_utc": "2026-08-11T06:01:19Z",
+  "topology_state": "UNCHANGED - bridge qualified but stood down before activation",
+  "why": "Operator reported DeepSeek Direct funding and cancelled the bridge; AI_OS_PRIMARY_PROVIDER was never written.",
+  "canonical_target_provider": "deepseek_direct",
+  "canonical_target_model": "deepseek-v4-flash",
+  "logical_model_family": "DeepSeek V4 Flash",
   "active_host": "deepseek_direct",
   "active_host_equals_canonical_target": true,
-  "logical_model_intent": "deepseek",
   "chain": [
     {
       "position": 1,
@@ -15,16 +16,16 @@
       "provider": "deepseek",
       "role": "CANONICAL_TARGET",
       "model": "deepseek-v4-flash",
-      "state": "CONFIGURED_BUT_BILLING_UNAVAILABLE",
-      "evidence": "HTTP 402 Insufficient Balance"
+      "exact_model_equivalence_to_canonical": "PROVEN",
+      "state": "CONFIGURED_BUT_UNFUNDED",
+      "evidence": "HTTP 402; GET /user/balance is_available=false, total_balance -0.00"
     },
     {
       "position": 2,
       "tier": "anthropic",
       "provider": "anthropic",
       "role": "UNCONFIGURED_OPTIONAL",
-      "state": "SKIPPED",
-      "evidence": "no ANTHROPIC_API_KEY in this deployment"
+      "state": "SKIPPED"
     },
     {
       "position": 3,
@@ -32,7 +33,8 @@
       "provider": "groq",
       "role": "FALLBACK",
       "state": "HEALTHY",
-      "evidence": "3 healthy key slots; invalid slot 4 removed 2026-08-10"
+      "evidence": "3 healthy key slots; invalid slot 4 removed 2026-08-10",
+      "note": "currently serving structured stages, since the DeepSeek tier is unfunded"
     },
     {
       "position": 4,
@@ -44,44 +46,45 @@
   ],
   "not_in_active_chain": {
     "deepseek_nvidia": {
-      "role": "TEMPORARY_BRIDGE",
-      "state": "INERT",
-      "reason": "implemented and configured, but the configured model id was retired upstream on 2026-08-07"
+      "role": "TEMPORARY_OPERATIONAL_BRIDGE",
+      "state": "QUALIFIED_BUT_INERT",
+      "model": "deepseek-ai/deepseek-v4-flash-0731",
+      "exact_model_equivalence_to_canonical": "UNPROVEN",
+      "qualification": "PASS - 5/5 executed calls, schema valid, no fallback",
+      "activation_blocked_by": "operator decision, not a technical failure"
     },
     "openai_chat": {
       "role": "NOT_IN_ACTIVE_CHAIN",
       "reason": "removed from the fallback chain 2026-08-10"
     },
+    "nvidia_generic": {
+      "role": "UNCONFIGURED",
+      "model": "meta/llama-3.3-70b-instruct (contract default after NVIDIA_MODEL was cleared)",
+      "note": "NVIDIA_API_KEY is empty; slot is inert and not in the active chain"
+    },
     "openrouter": {
       "role": "OUTSIDE_ACTIVE_CHAIN"
     }
   },
-  "latent_finding": {
-    "env_var": "NVIDIA_MODEL",
-    "value": "deepseek-ai/deepseek-v4-flash",
-    "issue": "the generic `nvidia` router slot now points at the same retired model id and would return 410 if used",
-    "impact": "LATENT ONLY - `nvidia` is not in the active chain (LLM_PRIMARY_PROVIDER=groq, LLM_FALLBACK_PROVIDERS=cerebras)",
-    "action": "operator config; not changed by this task"
-  },
   "runtime_containers": [
     {
       "name": "gmail-agent-nodeb-api",
-      "state": "Up 8 hours",
       "restart_count": 0,
-      "restarted_by_this_task": false
+      "recreated_by_this_task": false,
+      "image_state": "pre-bridge image; new image built but not deployed"
     },
     {
       "name": "gmail-agent-vps-gmail-agent-worker-1",
-      "state": "Up 3 hours",
       "restart_count": 0,
-      "restarted_by_this_task": false
+      "recreated_by_this_task": false,
+      "image_state": "pre-bridge image; new image built but not deployed"
     }
   ],
-  "image_vs_repo": {
-    "image": "gmail-agent-runtime:local",
-    "built_utc": "2026-08-10T17:35:48Z",
-    "contains_bridge_code": false,
-    "detail": "resolve_deepseek_host absent from /app/tools/gmail_audit/groq_client.py (container sha256 026ec0b2ce3a, 70634 bytes; repo 140684102d00, 77121 bytes)",
-    "consequence": "activation requires an image rebuild from repo state, not only a restart"
+  "image": {
+    "tag": "gmail-agent-runtime:local",
+    "rebuilt_id": "73fbac63f0b2",
+    "built_from": "working tree at gmail-agent 5b63c9d plus the uncommitted governance change",
+    "deployed": false,
+    "note": "restart: unless-stopped keeps a container on its own image id; only an explicit recreate adopts the new image"
   }
 }

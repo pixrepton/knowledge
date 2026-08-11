@@ -1,7 +1,7 @@
 {
   "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
-  "generated_at_utc": "2026-08-11T04:43:41Z",
-  "note": "Cumulative provider spend for the whole bridge task, including the activation attempt.",
+  "generated_at_utc": "2026-08-11T06:01:19Z",
+  "note": "Cumulative provider spend for the whole bridge task across all attempts.",
   "limits": {
     "max_calls": 6,
     "max_total_completion_tokens": 20000,
@@ -12,11 +12,12 @@
       "auth",
       "rate_limit",
       "model_unavailable"
-    ]
+    ],
+    "raised_during_this_task": false
   },
   "spend": {
-    "provider_calls_total": 2,
-    "completion_tokens": 0,
+    "provider_calls_total": 8,
+    "completion_tokens": 3521,
     "reasoning_tokens": 0,
     "breakdown": [
       {
@@ -25,15 +26,31 @@
         "http": 402,
         "error_class": "quota_exhausted",
         "completion_tokens": 0,
-        "note": "carried-in canonical billing state; not re-run this session"
+        "note": "carried-in canonical billing state"
       },
       {
         "host": "deepseek_nvidia",
-        "call": "connectivity smoke",
+        "call": "connectivity smoke (unversioned id)",
         "http": 410,
         "error_class": "model_unavailable",
         "completion_tokens": 0,
-        "note": "configured model retired upstream 2026-08-07; smoke gate stopped the run"
+        "note": "model retired upstream 2026-08-07; smoke gate stopped the run"
+      },
+      {
+        "host": "deepseek_nvidia",
+        "call": "qualification run on 0731",
+        "http": 200,
+        "calls": 6,
+        "completion_tokens": 3521,
+        "note": "1 smoke + 5 stages; 6th stage cut by max_calls"
+      },
+      {
+        "host": "deepseek_direct",
+        "call": "health smoke after reported top-up",
+        "http": 402,
+        "error_class": "quota_exhausted",
+        "completion_tokens": 0,
+        "note": "balance endpoint confirms zero balance for this credential"
       }
     ],
     "free_non_inference_requests": [
@@ -41,14 +58,26 @@
         "host": "deepseek_nvidia",
         "request": "GET /v1/models",
         "http": 200,
-        "cost": "none - listing, not completion",
-        "purpose": "root-cause the 410; catalog preflight proof"
+        "count": 2,
+        "purpose": "root-cause the 410; verify 0731 and generic-slot ids"
+      },
+      {
+        "host": "deepseek_direct",
+        "request": "GET /user/balance",
+        "http": 200,
+        "count": 1,
+        "purpose": "settle whether the reported top-up is visible to this credential"
       }
-    ]
+    ],
+    "wasted": {
+      "event": "one qualification attempt killed by a harness timeout before writing its artifact",
+      "cause": "agent tool-call ceiling, not the cost guard",
+      "mitigation": "re-run moved to a background process; no budget was raised to compensate"
+    }
   },
-  "guard_triggered": false,
-  "guard_reason": null,
+  "guard_triggered": true,
+  "guard_reason": "max_calls reached (6) on the 0731 qualification run",
   "guard_violated": false,
-  "assessment": "Both failure modes were caught at the first call. The qualification loop never ran, so the 6-call budget was never approached. A free catalog preflight now precedes the smoke, so the same class of failure costs zero calls in future.",
+  "assessment": "Every failure mode was caught at or before the first call that could have been expensive. The free catalog preflight now prevents a retired id from costing anything, and the free balance endpoint answered a billing question that would otherwise have cost another 402.",
   "contrast": "The earlier DEEPSEEK-EMPTY-CONTENT-01 diagnostic spent 38,699 completion tokens and zeroed the DeepSeek balance. That is the incident these limits exist for."
 }

@@ -2,94 +2,134 @@
 
 ```text
 TEMP_BRIDGE_IMPLEMENTATION     = PASS
-TEMP_BRIDGE_QUALIFICATION      = BLOCKED_OPERATOR_ACTION
-TEMPORARY_ACTIVATION           = NOT_ACTIVE
-TEMP_BRIDGE_RUNTIME_PROOF      = NOT_APPLICABLE   (nothing was activated)
-CANONICAL_TARGET               = deepseek_direct  (unchanged)
+TEMP_BRIDGE_QUALIFICATION      = PASS      (deepseek-ai/deepseek-v4-flash-0731)
+TEMPORARY_ACTIVATION           = NOT_ACTIVE   <- operator stood down; bridge not needed
+TEMP_BRIDGE_RUNTIME_PROOF      = NOT_APPLICABLE
+CANONICAL_TARGET               = deepseek_direct / deepseek-v4-flash   (unchanged)
+CANONICAL_AVAILABILITY         = UNAVAILABLE   (account balance zero; see below)
 FINAL_CAPABILITY_SUT_FREEZE    = HOLD
 ```
 
-## Where things stand
+## What happened
 
-The operator configured both required variables correctly. The bridge mechanism engaged exactly
-as designed and resolved to `host=deepseek_nvidia role=TEMPORARY_BRIDGE
-model=deepseek-ai/deepseek-v4-flash configured=True`.
+The operator authorized the `0731` snapshot, qualification ran and **passed**, the runtime image
+was rebuilt to contain the bridge — and then the operator reported that DeepSeek Direct had been
+funded, so the bridge was no longer needed. Activation was stopped before
+`AI_OS_PRIMARY_PROVIDER` was ever written.
 
-Then the host answered the connectivity smoke with **HTTP 410**:
+The bridge is therefore **qualified and ready, but inert**. Turning it on is one env line plus a
+container recreate; nothing else is outstanding.
 
-> The model `'deepseek-ai/deepseek-v4-flash'` has reached its end of life on
-> 2026-08-07T09:00:00Z and is no longer available.
+## Qualification result — deepseek-ai/deepseek-v4-flash-0731
 
-NVIDIA NIM retired that model id four days ago. Its catalog (101 models) offers
-`deepseek-ai/deepseek-v4-flash-0731` — a dated snapshot of the same line — and nothing else in
-the V4 Flash family.
+Free catalog preflight first: id present in NVIDIA NIM's 101-model catalog, so no call was
+risked on a retired id.
 
-Nothing was activated. `AI_OS_PRIMARY_PROVIDER` remains unset, so the resolver returns the
-canonical host. Qualification did not reach PASS, so under §8 activation was not attempted.
+| stage | outcome | schema | completion tokens | latency |
+|---|---|---|---|---|
+| *connectivity smoke* | OK, http 200 | — | — | 13 875 ms |
+| signal_extraction | NVIDIA_PRIMARY_SUCCESS | valid | 98 | 11 984 ms |
+| intake_reasoning | NVIDIA_PRIMARY_SUCCESS | valid | 855 | 21 202 ms |
+| business_reasoning | NVIDIA_PRIMARY_SUCCESS | valid | 862 | 18 500 ms |
+| business_reasoning_large_context | NVIDIA_PRIMARY_SUCCESS | valid | 1 106 | 31 875 ms |
+| reply_drafter | NVIDIA_PRIMARY_SUCCESS | valid | 592 | 57 625 ms |
+| schema_stress | **SKIPPED** — `max_calls reached (6)` | — | — | — |
 
-## Why the obvious substitution was not made
+`5/5` executed calls succeeded on NVIDIA itself with valid schema, zero empty content, zero
+fallback. **No Groq rescue: the qualifier is a direct host probe, so Groq is not in its path.**
 
-`-0731` is very likely what the retired alias resolved to, and it is clearly the right candidate
-to consider. But the canonical side is also an unversioned alias (`DEEPSEEK_MODEL=deepseek-v4-flash`),
-and nothing observable here proves DeepSeek Direct still resolves it to `0731`. Pinning the bridge
-to a snapshot the canonical target may have moved past would reintroduce this morning's defect —
-provider and model changing together — with the difference invisible in the measurement.
+**Read the coverage honestly.** Six representative stages were specified; five ran. The smoke
+consumes one slot of `MAX_CALLS=6`, so `schema_stress` was cut by the cost guard rather than
+passed. Raising the cap was explicitly out of contract, so it was not raised. `schema_stress`
+reuses the `IntakeReasoningResult` contract that `intake_reasoning` already validated, so the
+gap is small — but it is a gap, not a pass.
 
-That is an operator decision. Full reasoning in `NVIDIA_QUALIFICATION.md`.
+Latency is worth noting for planning: 12–58 s per structured call, notably slower than the
+canonical host has historically been.
 
-## Provider state
+## Canonical DeepSeek Direct — still unavailable
+
+The operator reported adding $2. The API disagrees, and the API is the authority here:
 
 ```text
-deepseek_direct   CANONICAL_TARGET    HTTP 402 Insufficient Balance    <- carried-in blocker
-deepseek_nvidia   TEMPORARY_BRIDGE    configured; model retired upstream 2026-08-07 (HTTP 410)
-groq              FALLBACK            3 healthy slots
-cerebras          OPTIONAL_FALLBACK   unconfigured, skipped
-openai_chat       NOT_IN_ACTIVE_CHAIN removed 2026-08-10
-anthropic         UNCONFIGURED        skipped
+POST /v1/chat/completions -> HTTP 402 "Insufficient Balance"
+GET  /user/balance        -> HTTP 200   (free, no inference)
+     {"is_available": false,
+      "balance_infos": [{"currency":"USD","total_balance":"-0.00",
+                         "granted_balance":"0.00","topped_up_balance":"-0.00"}]}
 ```
 
-## Second blocker on the activation path
+Exactly one `DEEPSEEK_API_KEY` is defined in `.env.local-vps` (line 157, sha256 fingerprint
+`72a31b22fa33`), so this is not a duplicate-definition mix-up. The funds are not visible to this
+credential: they went to a different account/org, or have not settled.
 
-The running `gmail-agent-runtime:local` image was built 2026-08-10T17:35Z and **does not contain
-the bridge code** — `resolve_deepseek_host` is absent from the container's `groq_client.py`. Env
-reaches the containers through a read-only bind mount, so a restart suffices for configuration,
-but not for code. Activation needs an image rebuild from repo state.
+**Operator check:** confirm the funded DeepSeek account is the one that issued key `72a31b22fa33`.
+If not, fund that account or replace `DEEPSEEK_API_KEY` with a key from the funded one.
 
-Not a `docker cp`. Hand-syncing files into a running container is the blind spot CL-04 removed.
+## Config changes applied
 
-## Two qualifier defects found by this run, and fixed
+```text
+DEEPSEEK_NVIDIA_MODEL   deepseek-ai/deepseek-v4-flash -> deepseek-ai/deepseek-v4-flash-0731
+                        (both duplicate blocks, lines 17 and 162)
+NVIDIA_MODEL            deepseek-ai/deepseek-v4-flash -> cleared
+LLM_BACKEND             untouched (openai_chat)
+DEEPSEEK_API_KEY/MODEL  untouched
+AI_OS_PRIMARY_PROVIDER  still unset -> canonical host by default
+```
 
-1. **`error_message=""` for a response that explained itself.** The qualifier read only the
-   OpenAI error envelope; NIM answers RFC 7807 `problem+json`. Now reads both.
-2. **A retired model id cost a call to discover.** A free `GET /models` preflight now runs first
-   and names the ids the host does offer. Proven at zero cost in `NVIDIA_CATALOG_PREFLIGHT.json`.
+`NVIDIA_MODEL` feeds the *generic* nvidia router slot, not the bridge. It was left holding the
+retired DeepSeek alias. The documented previous value `gpt-oss-120b` turns out not to be a valid
+NIM id either (the catalog lists `openai/gpt-oss-120b`), so restoring it would have restored a
+second broken id. Cleared instead, which under the config contract yields
+`DEFAULT_NVIDIA_MODEL = meta/llama-3.3-70b-instruct` — catalog-verified present. The slot has no
+credential (`NVIDIA_API_KEY=`) and is not in the active chain, so this is hygiene, not a fix.
 
-`410` and *end of life* / *no longer available* wording are now classified `model_unavailable`
-and abort the run. 19 deterministic tests replay the captured body — no re-spend.
+## Governance semantics corrected
+
+The bridge can no longer be described as "same model, different host", and no longer claims to be:
+
+```text
+role                                  TEMPORARY_OPERATIONAL_BRIDGE   (was TEMPORARY_BRIDGE)
+logical_model_family                  DeepSeek V4 Flash              (preserved across hosts)
+exact_model_equivalence_to_canonical  UNPROVEN on the bridge, PROVEN on canonical
+temporary_model_snapshot              deepseek-ai/deepseek-v4-flash-0731
+canonical_target                      deepseek_direct / deepseek-v4-flash
+```
+
+Carried in telemetry on every DeepSeek-tier call (`llm_logical_model_family`,
+`llm_exact_model_equivalence`, `llm_canonical_target_model`), so a bridge-era result cannot be
+mistaken for a canonical one by anyone reading only the provider label. A regression test asserts
+the withdrawn wording does not reappear.
+
+## Runtime state
+
+```text
+image gmail-agent-runtime:local   rebuilt 73fbac63f0b2 from repo state (contains the bridge)
+containers                        NOT recreated - still on the pre-bridge image, restarts=0
+AI_OS_PRIMARY_PROVIDER            unset -> canonical
+```
+
+Containers were deliberately left running. Activation was cancelled, so recreating them was not
+required, and `restart: unless-stopped` keeps a container on its own image id — nothing will pick
+up the new image until someone recreates it explicitly.
 
 ## Cost
 
 ```text
-provider calls this task     : 2   (1 canonical 402 carried in, 1 bridge 410)
-completion tokens            : 0
-reasoning tokens             : 0
-free listings (GET /models)  : 1   - no inference, no tokens
-guard violated               : no
+provider calls this task     8   (2 canonical 402, 1 bridge 410, 1 smoke + 5 stages on 0731)
+completion tokens            3 521
+reasoning tokens             0        (this snapshot returned no reasoning content)
+free account/catalog queries 3        no inference, no tokens
+guard violated               no       (stopped exactly at max_calls on the qualification run)
 ```
 
-## Two operator actions, either of which unblocks work
-
-1. **Fund DeepSeek Direct** — returns to canonical mode directly. `RETURN_TO_DEEPSEEK_DIRECT.md`.
-2. **Authorize a pinned bridge model** — e.g. `DEEPSEEK_NVIDIA_MODEL=deepseek-ai/deepseek-v4-flash-0731`,
-   then rebuild the runtime image and re-run qualification. Any result must then be read as
-   *V4 Flash `0731` snapshot, NVIDIA-hosted*.
-
-They are independent. (1) is the destination; (2) is a way to keep working on the way there.
+One earlier qualification attempt was killed by a harness timeout before writing its artifact;
+its spend is included above. No budget was raised to compensate.
 
 ## Capability rule, restated
 
-`FINAL_CAPABILITY_SUT_FREEZE = HOLD` until `deepseek_direct` is restored and re-verified. If the
-bridge is later activated, any benchmark produced during it is
-`TEMP_PROVIDER_CAPABILITY_SIGNAL_ONLY = true` and is **not** a canonical Capability baseline.
+`FINAL_CAPABILITY_SUT_FREEZE = HOLD` until `deepseek_direct` is restored and re-verified. Any
+benchmark produced on the bridge is `TEMP_PROVIDER_CAPABILITY_SIGNAL_ONLY = true` and is **not**
+a canonical Capability baseline.
 
 `CAPABILITY-QUALIFICATION-20260809` remains BLOCKED. No Fresh38, judge or v5 rescore was run.

@@ -14,7 +14,24 @@ never modified or overwritten, so returning is a configuration switch, not a reb
 
 Operator action. Nothing in the repo can do this.
 
-**2. Tiny health smoke — one call, cost-guarded**
+**2a. Check the balance first — free, no inference**
+
+Do this before spending a call. It answers "did the money land on *this* key's account?", which a
+402 cannot distinguish from "the top-up hasn't settled":
+
+```bash
+curl -s https://api.deepseek.com/user/balance -H "Authorization: Bearer $DEEPSEEK_API_KEY"
+```
+
+Expect `"is_available": true` with a positive `total_balance`. On 2026-08-11 this returned
+`is_available:false`, `total_balance "-0.00"` **after** a reported $2 top-up — the funds were not
+on the account that issued the configured key (sha256 fingerprint `72a31b22fa33`). A top-up
+receipt is not proof that the configured credential can spend it.
+
+If the balance is zero, stop here: fund the account that issued this key, or replace
+`DEEPSEEK_API_KEY` with a key from the funded account. Nothing in the repo can bridge that gap.
+
+**2b. Tiny health smoke — one call, cost-guarded**
 
 ```bash
 python scripts/qualify_deepseek_host.py --host deepseek_direct --out /tmp/direct_health.json

@@ -1,44 +1,68 @@
 # Activation proof — DEEPSEEK-TEMP-BRIDGE-01
 
 ```text
-TEMPORARY_ACTIVATION      = NOT_ACTIVE
-TEMP_BRIDGE_QUALIFICATION = BLOCKED_OPERATOR_ACTION
-CANONICAL_TARGET          = deepseek_direct   (unchanged)
+TEMP_BRIDGE_QUALIFICATION = PASS        (deepseek-ai/deepseek-v4-flash-0731, 5/5 executed calls)
+TEMPORARY_ACTIVATION      = NOT_ACTIVE  (stopped by operator decision, not by a failure)
+CANONICAL_TARGET          = deepseek_direct / deepseek-v4-flash   (unchanged)
 ```
 
-There is no activation to prove. Qualification did not reach PASS, so under §8 of the activation
-contract `AI_OS_PRIMARY_PROVIDER` was **not** set to `deepseek_nvidia`.
+There is no activation to prove, and this time it is not because anything failed.
 
-## What was deliberately not done
+Qualification passed and the runtime image was rebuilt to contain the bridge. Before the activation
+env change was written, the operator reported that DeepSeek Direct had been funded and stood the
+bridge down. Work stopped there.
 
-| step | state | why |
-|---|---|---|
-| `AI_OS_PRIMARY_PROVIDER=deepseek_nvidia` | not written | qualification != PASS |
-| runtime restart / recreate | not performed | nothing to activate |
-| production-path smoke through `run_central_structured_stage` | not run | would have proven nothing about an unqualified host |
-| Fresh38 / judge / v5 | not run | out of scope by instruction, and doubly so now |
-| trying a different model id | not done | substitution is an operator decision, not an automatic fallback |
-| switching primary to Groq | not done | Groq is the fallback; promoting it would hide the problem |
+## Activation sequence — how far it got
 
-## Current runtime state — unchanged by this task
+| step | state |
+|---|---|
+| governance semantics corrected (`TEMPORARY_OPERATIONAL_BRIDGE`, family/equivalence) | done |
+| `DEEPSEEK_NVIDIA_MODEL=deepseek-ai/deepseek-v4-flash-0731` | done |
+| generic `NVIDIA_MODEL` cleaned up | done |
+| free catalog preflight — id present | done |
+| cost-guarded qualification | **PASS**, 5/5 executed, `schema_stress` cut by the call cap |
+| image rebuild from repo state (`gmail-agent-runtime:local` → `73fbac63f0b2`) | done |
+| **`AI_OS_PRIMARY_PROVIDER=deepseek_nvidia`** | **NOT WRITTEN** — stood down here |
+| container recreate onto the new image | not performed |
+| host↔container parity proof | not performed (nothing recreated to prove) |
+| production-path smoke | not run |
+| Fresh38 / judge / v5 | not run, out of scope |
+
+## Current runtime state
 
 ```text
-gmail-agent-nodeb-api                 Up 8 hours    restarts=0
-gmail-agent-vps-gmail-agent-worker-1  Up 3 hours    restarts=0
+gmail-agent-nodeb-api                 restarts=0   pre-bridge image
+gmail-agent-vps-gmail-agent-worker-1  restarts=0   pre-bridge image
+AI_OS_PRIMARY_PROVIDER                unset -> canonical host by default
 ```
 
-Neither container was restarted, recreated or rebuilt. `.env.local-vps` was not modified by this
-task; the operator's own edit (credential + model) is the only change to it.
+No container was restarted, recreated or rebuilt into service. The rebuilt image sits under the
+`gmail-agent-runtime:local` tag but nothing runs it yet: `restart: unless-stopped` restarts a
+container on its own image id, so the new image is picked up only by an explicit recreate.
 
-`AI_OS_PRIMARY_PROVIDER` remains unset, so the resolver returns the canonical host by default.
-The bridge remains inert — implemented, tested, and not in any request path.
+## Canonical target is still not available
 
-## Two prerequisites before activation can be attempted again
+The reported top-up is not visible to the configured credential — `GET /user/balance` returns
+`is_available: false` with a zero balance for key fingerprint `72a31b22fa33`. Evidence in
+`DEEPSEEK_DIRECT_BILLING_CHECK.json`.
 
-1. **An explicit, host-offered model id.** `deepseek-ai/deepseek-v4-flash` was retired by NVIDIA
-   on 2026-08-07. See `NVIDIA_QUALIFICATION.md`.
-2. **An image rebuild.** `gmail-agent-runtime:local` predates the bridge code; `resolve_deepseek_host`
-   is absent from the running container. A restart picks up env, not code. Rebuild from repo state
-   — do not hand-copy files into the container.
+So the system currently has **no working DeepSeek tier on either host**: canonical is unfunded,
+and the qualified bridge is switched off by choice. Structured stages therefore fall through to
+the Groq router tier, which is healthy — the same state as before this task.
 
-Both are mechanically verified in `NVIDIA_QUALIFICATION.md`. Neither is a defect in the bridge.
+## If the bridge is wanted after all
+
+Two steps, both reversible:
+
+```bash
+# 1. gmail-agent/.env.local-vps
+AI_OS_PRIMARY_PROVIDER=deepseek_nvidia
+
+# 2. recreate onto the already-built image, then prove parity and topology
+docker compose --env-file .env.vps -f docker-compose.local-vps.yml \
+  --profile api --profile worker up -d --force-recreate --no-deps
+```
+
+Then the outstanding proofs from the activation contract still apply: host↔container source
+parity, active topology from the running container, and exactly one production-path smoke that
+must be served by `deepseek_nvidia` without Groq rescue.

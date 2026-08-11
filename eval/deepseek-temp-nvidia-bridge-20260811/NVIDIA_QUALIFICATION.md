@@ -1,125 +1,105 @@
 # NVIDIA NIM bridge — qualification record
 
 ```text
-TEMP_BRIDGE_QUALIFICATION = BLOCKED_OPERATOR_ACTION
-TEMPORARY_ACTIVATION      = NOT_ACTIVE
+TEMP_BRIDGE_QUALIFICATION = PASS       (deepseek-ai/deepseek-v4-flash-0731)
+TEMPORARY_ACTIVATION      = NOT_ACTIVE (operator stood the bridge down before activation)
 ```
 
-The operator supplied both required variables and they are correct in form. Qualification still
-could not proceed: **NVIDIA NIM retired the configured model id four days before this run.**
+Two attempts. The first was refused by the host; the second passed on the operator-authorized
+snapshot.
 
-## Config verification (no secret values)
+## Attempt 1 — `deepseek-ai/deepseek-v4-flash` — refused upstream
 
-```text
-DEEPSEEK_NVIDIA_API_KEY    configured=true   len=70   sha256_fp=4de5a91e46e1
-DEEPSEEK_NVIDIA_MODEL      deepseek-ai/deepseek-v4-flash      <- exact match to the request
-DEEPSEEK_NVIDIA_BASE_URL   https://integrate.api.nvidia.com/v1
-AI_OS_PRIMARY_PROVIDER     <unset>  -> resolves to deepseek_direct (canonical, unchanged)
-LLM_BACKEND                openai_chat                        <- untouched
-```
-
-Host resolution before any call: `host=deepseek_nvidia provider=deepseek_nvidia
-role=TEMPORARY_BRIDGE model=deepseek-ai/deepseek-v4-flash configured=True`. The fail-closed
-correction is satisfied — the bridge was fully configured and the mechanism engaged correctly.
-
-## What the host answered
-
-Connectivity smoke, one call, `max_tokens=8`:
+Config was correct in form and the bridge engaged as designed. Then:
 
 ```text
-POST https://integrate.api.nvidia.com/v1/chat/completions   ->  HTTP 410 Gone   (922 ms)
+POST /v1/chat/completions -> HTTP 410 Gone   (922 ms)
 content-type: application/problem+json
 
-{"type":"about:blank","title":"Gone","status":410,
- "detail":"The model 'deepseek-ai/deepseek-v4-flash' has reached its end of life
+{"detail":"The model 'deepseek-ai/deepseek-v4-flash' has reached its end of life
            on 2026-08-07T09:00:00Z and is no longer available."}
 ```
 
-The smoke gate stopped the run there. **No qualification call was attempted.** Zero completion
-tokens, zero reasoning tokens.
-
-## Catalog (free listing, no inference)
-
-`GET /v1/models` -> HTTP 200, 101 models. Every DeepSeek entry NVIDIA NIM currently offers:
+`GET /v1/models` (free) — 101 models; the entire DeepSeek family offered:
 
 ```text
 deepseek-ai/deepseek-coder-6.7b-instruct
 deepseek-ai/deepseek-v4-flash-0731
-deepseek-ai/deepseek-v4-flash            <- NOT PRESENT (retired 2026-08-07)
 ```
 
-## Why this is a stop, not a substitution
+Stopped there rather than substituting a model, and escalated the choice. `NVIDIA_QUALIFICATION.json`
+holds that run verbatim.
 
-`deepseek-ai/deepseek-v4-flash-0731` is a dated snapshot of the same V4 Flash line, and it is
-very likely what the retired unversioned alias used to resolve to. It is **not** R1, not Coder,
-not GPT-OSS. So it is the obvious candidate — and it is still an operator decision, for a reason
-worth stating precisely:
+## Attempt 2 — `deepseek-ai/deepseek-v4-flash-0731` — PASS
 
-The canonical side is `DEEPSEEK_MODEL=deepseek-v4-flash` on DeepSeek Direct — also an
-unversioned alias. Nothing observable from here proves that DeepSeek Direct's alias currently
-resolves to the `0731` snapshot rather than a newer one. If it does not, pinning the bridge to
-`0731` reintroduces exactly the defect corrected earlier today: provider and model changing
-together, with the difference invisible in the resulting measurement.
+Operator authorized the snapshot. Catalog preflight confirmed the id is present **before** any
+inference, so nothing was risked on a second retired id.
 
-Choosing it anyway may well be the right call. It is not mine to make silently.
-
-## Two diagnostic defects found and fixed in the qualifier
-
-Both were exposed by this run, and both are in the tooling, not the runtime.
-
-**1. The failure looked unexplained when the host had explained it.** The qualifier read only the
-OpenAI-style `{"error": {"message": ...}}` envelope, so a body that named its own cause verbatim
-was recorded as `error_message=""` — the worst kind of diagnostic. `error_detail()` now reads
-RFC 7807 `problem+json` (`detail`/`title`) as well. `NVIDIA_QUALIFICATION.json` is kept exactly as
-first written, empty `error_message` included, as the evidence of that blind spot.
-
-**2. A retired model id cost a call to discover.** A free `GET /models` preflight now runs before
-any inference: if the configured id is absent from the catalog, the run stops with
-`model_not_offered_by_host` and names the related ids the host does offer. Proven end-to-end in
-`NVIDIA_CATALOG_PREFLIGHT.json` — same conclusion, zero calls, zero tokens.
-
-`410`, and any body saying *end of life* / *no longer available*, is now classified
-`model_unavailable` and added to the abort classes, so it can never consume six calls.
-
-Replayed deterministically from the captured body in
-`scripts/tests/test_deepseek_host_qualifier.py` (19 tests) — no re-spend.
-
-## Operator decision required
-
-Either:
-
-**A. Fund DeepSeek Direct.** Returns to canonical mode; the bridge becomes unnecessary.
-Runbook: `RETURN_TO_DEEPSEEK_DIRECT.md`.
-
-**B. Authorize an explicit pinned bridge model.** If the `0731` snapshot is acceptable:
+| stage | outcome | http | finish | schema | content len | completion tokens | latency |
+|---|---|---|---|---|---|---|---|
+| *smoke* | OK | 200 | — | — | — | — | 13 875 ms |
+| signal_extraction | NVIDIA_PRIMARY_SUCCESS | 200 | stop | valid | 298 | 98 | 11 984 ms |
+| intake_reasoning | NVIDIA_PRIMARY_SUCCESS | 200 | stop | valid | 2 567 | 855 | 21 202 ms |
+| business_reasoning | NVIDIA_PRIMARY_SUCCESS | 200 | stop | valid | 2 640 | 862 | 18 500 ms |
+| business_reasoning_large_context | NVIDIA_PRIMARY_SUCCESS | 200 | stop | valid | 3 390 | 1 106 | 31 875 ms |
+| reply_drafter | NVIDIA_PRIMARY_SUCCESS | 200 | stop | valid | 1 715 | 592 | 57 625 ms |
+| schema_stress | **SKIPPED** | — | — | — | — | — | `max_calls reached (6)` |
 
 ```text
-DEEPSEEK_NVIDIA_MODEL=deepseek-ai/deepseek-v4-flash-0731
+primary_success  5/5 executed
+schema_valid     5/5 executed
+empty_content    0
+fallback         0   - and structurally impossible here: the qualifier posts directly to the
+                      host, so Groq is not in its path and cannot rescue a result
 ```
 
-Then re-run qualification. Note that the result must then be read as *DeepSeek V4 Flash,
-`0731` snapshot, NVIDIA-hosted* — not as an unqualified "same model, different host".
+`NVIDIA_PRIMARY_FAILED_FALLBACK_SUCCESS`: **zero**. `TERMINAL_FAILURE`: **zero**.
 
-Do not set it to `deepseek-ai/deepseek-r1`, `deepseek-ai/deepseek-coder-6.7b-instruct`, or any
-GPT-OSS id. The fail-closed design will accept whatever is configured; it cannot judge intent.
+### The coverage gap, stated plainly
 
-## Second blocker on the activation path
+Six stages were specified; five ran. The connectivity smoke consumes one slot of `MAX_CALLS=6`,
+so `schema_stress` was cut by the cost guard — **skipped, not passed**. Raising the call cap was
+explicitly out of contract, so it was not raised, and the run was not repeated to buy one more
+call. `schema_stress` exercises the `IntakeReasoningResult` contract that `intake_reasoning`
+already validated, so the residual risk is small; it is nonetheless unproven.
 
-Independent of the model, activation is **not** a restart-only operation as the runbook assumed:
+### Observations worth carrying forward
+
+- **No reasoning tokens at all** (`reasoning_tokens: 0` on every call). This snapshot returned
+  plain content, unlike the canonical host's thinking-enabled behaviour. Any comparison of cost
+  or latency between hosts must account for that difference.
+- **Latency is materially higher**: 12–58 s per structured call, worst at `reply_drafter`.
+- **No empty content** in 5/5 — notable given `DEEPSEEK-EMPTY-CONTENT-01` measured an 18.58 %
+  empty-content rate on the canonical host. Five calls prove nothing statistically; recording it
+  only as a signal to check if the bridge is ever activated for real work.
+
+## Why this is not "the same model, different host"
+
+The bridge's original claim has been withdrawn. NVIDIA retired the unversioned id; the canonical
+side is itself an unversioned alias (`DEEPSEEK_MODEL=deepseek-v4-flash`) whose current resolution
+cannot be observed from here. So `0731` may or may not be what canonical serves today.
+
+Governance now states exactly that, and no more:
 
 ```text
-image gmail-agent-runtime:local   built 2026-08-10T17:35:48Z
-container /app/tools/gmail_audit/groq_client.py   sha256 026ec0b2ce3a…  70634 bytes
-  resolve_deepseek_host present: False
-repo      gmail-agent/tools/gmail_audit/groq_client.py  sha256 140684102d00…  77121 bytes
-  resolve_deepseek_host present: True
+logical_model_family                 DeepSeek V4 Flash      preserved across hosts
+exact_model_equivalence_to_canonical UNPROVEN               on the bridge
+role                                 TEMPORARY_OPERATIONAL_BRIDGE
 ```
 
-The running image predates the bridge entirely. Env changes reach the containers through the
-read-only `.env.local-vps` bind mount, so a restart suffices for *configuration* — but the bridge
-**code** is baked into the image and is simply not there. Activation therefore requires rebuilding
-`gmail-agent-runtime:local` from repo state first.
+Both values travel with every DeepSeek-tier call (`llm_logical_model_family`,
+`llm_exact_model_equivalence`), so a bridge-era measurement cannot be mistaken for a canonical
+one later.
 
-This must be a rebuild, not a `docker cp` of the changed files. Hand-syncing files into a running
-container is precisely the measurement blind spot CL-04 removed; reintroducing it here would make
-the activation unreproducible.
+## Qualifier hardening from attempt 1
+
+1. **RFC 7807 error bodies are read.** The qualifier understood only the OpenAI
+   `{"error": {"message": …}}` envelope, so NIM's `problem+json` 410 — which stated its own cause
+   verbatim — was recorded as `error_message=""`. Fixed; the raw artifact keeps the empty value as
+   evidence.
+2. **Free catalog preflight before any inference.** A retired or mistyped id is now named, with
+   the related ids the host does offer, at zero cost. It reports candidates; it never selects one.
+3. **`model_unavailable`** is a distinct error class (410, or *end of life* / *no longer
+   available* wording) and aborts the run instead of burning six calls.
+
+19 deterministic tests replay the captured body — no re-spend.
