@@ -6,9 +6,12 @@ Every claim is backed by a named test, artifact or captured output.
 
 ```text
 TEMP_BRIDGE_QUALIFICATION = BLOCKED_OPERATOR_ACTION
+TEMPORARY_ACTIVATION      = NOT_ACTIVE
 ```
 
-Mechanism built and proven; host unqualifiable for lack of a credential.
+Mechanism built and proven. Credential and model were then supplied correctly by the operator,
+and the bridge engaged as designed — but the host had retired the configured model id four days
+earlier (HTTP 410, end of life 2026-08-07), so no qualification call could run.
 
 ## What was proven
 
@@ -27,7 +30,13 @@ Mechanism built and proven; host unqualifiable for lack of a credential.
 | Telemetry distinguishes the hosts | `test_bridge_calls_carry_host_provenance`, `test_canonical_calls_are_labelled_canonical` |
 | Governance registry cannot drift from the runtime | `test_provider_roles_registry_matches_the_runtime` |
 | Fallback contract unchanged | `FALLBACK_PROOF.md` — 4 deterministic tier-boundary tests |
-| Cost guard works | `COST_GUARD_REPORT.json` — 0 tokens spent; canonical probe stopped at call 1 on 402 |
+| Cost guard works | `COST_GUARD_REPORT.json` — 0 tokens spent across both hosts; each probe stopped at call 1 (402, then 410) |
+| The bridge engaged correctly once configured | `NVIDIA_QUALIFICATION.json` — resolved `host=deepseek_nvidia role=TEMPORARY_BRIDGE model=deepseek-ai/deepseek-v4-flash configured=True` before the call |
+| The configured model is retired upstream | `NVIDIA_QUALIFICATION.json` HTTP 410 + `NVIDIA_CATALOG_PREFLIGHT.json` — 101-model catalog, id absent |
+| A retired model id now costs zero calls | `NVIDIA_CATALOG_PREFLIGHT.json` — free `GET /models` preflight blocks before inference |
+| Host error bodies are read in both envelope shapes | `test_rfc7807_detail_is_read_not_dropped`, `test_openai_envelope_still_wins_when_present` |
+| `410` / end-of-life aborts instead of burning 6 calls | `test_retired_model_is_classified_as_model_unavailable`, `test_model_unavailable_aborts_instead_of_burning_six_calls` |
+| Nothing was activated | `ACTIVATION_PROOF.md`, `PROVIDER_TOPOLOGY_AFTER.json` — `AI_OS_PRIMARY_PROVIDER` unset, containers not restarted |
 
 ## Correction made before operator config
 
@@ -37,8 +46,12 @@ in three independent places: config validation, the host resolver, and the provi
 
 ## What was NOT proven
 
-- **NVIDIA NIM compatibility with the AI-OS contracts.** No call was made. Schema fidelity,
-  empty-content behaviour, structured-output handling and latency on that host are **unknown**.
+- **NVIDIA NIM compatibility with the AI-OS contracts.** Still unknown. One transport-level call
+  was made and it was rejected before reaching a model. Schema fidelity, empty-content behaviour,
+  structured-output handling and latency on that host remain **unmeasured**.
+- **That `deepseek-ai/deepseek-v4-flash-0731` is the same weights as DeepSeek Direct's current
+  `deepseek-v4-flash`.** Both sides are aliases/snapshots; nothing observable from here settles it.
+  This is the reason the substitution was left to the operator.
 - Nothing about equivalence to DeepSeek Direct. That was never in scope, and six calls could not
   establish it anyway.
 
@@ -46,8 +59,13 @@ in three independent places: config validation, the host resolver, and the provi
 
 ```text
 targeted provider suites   112 passed, 0 failed
-Gate A                     2501 passed, 15 skipped, 24 subtests, 0 failed
+qualifier cost-guard suite  19 passed, 0 failed   (12 prior + 7 error-envelope regressions)
+Gate A                     2507 passed, 15 skipped, 24 subtests, 0 failed
 ```
+
+Gate A was re-run for the fail-closed correction earlier today. The qualifier changes since then
+are confined to `scripts/qualify_deepseek_host.py`, which no runtime path imports; they are
+covered by the 19-test suite above.
 
 ## Secrets
 

@@ -104,6 +104,25 @@ then one smoke -> up to six qualification calls -> only on PASS set
 `AI_OS_PRIMARY_PROVIDER=deepseek_nvidia`. The model id has no default: the bridge changes the
 host, not the model.
 
+**The model id must currently exist in the host's catalog.** NVIDIA NIM retires ids: the
+unversioned `deepseek-ai/deepseek-v4-flash` reached end of life on 2026-08-07 and now returns
+HTTP 410. The qualifier's free `GET /models` preflight checks this before spending anything, so
+run it and read the `related_ids_offered_by_host` field rather than guessing.
+
+**Activation needs an image rebuild, not just a restart.** Env reaches the containers through the
+read-only `.env.local-vps` bind mount, so configuration changes only need a restart — but the
+bridge *code* lives in `gmail-agent-runtime:local`, and any image built before 2026-08-11 does not
+contain it. Verify, then rebuild if needed:
+
+```bash
+docker exec gmail-agent-nodeb-api python -c "
+import pathlib; print('bridge in image:', 'resolve_deepseek_host' in
+pathlib.Path('/app/tools/gmail_audit/groq_client.py').read_text())"
+```
+
+Rebuild from repo state — never `docker cp` the changed files in. Hand-syncing a running container
+is the measurement blind spot CL-04 removed, and it makes the activation unreproducible.
+
 ## What must NOT happen
 
 - Do not treat any bridge-era benchmark as a canonical Capability baseline.

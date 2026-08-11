@@ -1,21 +1,20 @@
 {
-  "lock_id": "DEEPSEEK_TEMP_BRIDGE_01_ARTIFACTS",
-  "task": "AIOS-RUNTIME-RELIABILITY-01 / DEEPSEEK-TEMP-BRIDGE-01",
-  "status": "BLOCKED_OPERATOR_ACTION",
+  "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
+  "generated_at_utc": "2026-08-11T04:45:16Z",
   "canonical_target": "deepseek_direct",
   "temporary_activation": "NOT_ACTIVE",
-  "bridge_model_policy": "EXPLICIT_REQUIRED (no default, no NVIDIA_MODEL fallback)",
-  "note": "No secret, prompt or reasoning content appears in any artifact recorded here.",
-  "cost": {
-    "completion_tokens": 0,
-    "reasoning_tokens": 0,
-    "provider_calls": 1
-  },
-  "file_count": 12,
+  "qualification": "BLOCKED_OPERATOR_ACTION",
+  "blocker": "configured model id deepseek-ai/deepseek-v4-flash retired by NVIDIA NIM on 2026-08-07 (HTTP 410)",
+  "bridge_model_policy": "EXPLICIT_REQUIRED - no default, no NVIDIA_MODEL fallback, no canonical-model substitution",
+  "secrets": "none - credentials appear only as configured=true/false or one-way sha256 fingerprints",
   "files": {
+    "ACTIVATION_PROOF.md": {
+      "sha256": "61fa7eb863e05a350b02ac0d40181b17f93e9d348a1265bbb5d5dc418bf06040",
+      "bytes": 2129
+    },
     "COST_GUARD_REPORT.json": {
-      "sha256": "dc96e4249195e7a51312b9b86e7060a3274f365e7e494d89beb483f57db2c4ad",
-      "bytes": 1465
+      "sha256": "70d69e2792365fd47c10797525a61a2ea6f5f8e9ce01c3bfef4fef46357793d6",
+      "bytes": 1972
     },
     "FALLBACK_PROOF.md": {
       "sha256": "0899342f694b1574b236edd4b40108cf87f30b177cf8f99b7f37d2f3e2443cb2",
@@ -29,33 +28,37 @@
       "sha256": "bb1d82af0244707ed052f362579ea7280ff97888ad0e5c6bfe7898845ea83c89",
       "bytes": 4358
     },
+    "NVIDIA_CATALOG_PREFLIGHT.json": {
+      "sha256": "8d271102cbb0ff1c026b4a8768069036b1adbd8c9b5b177fcbb6f3999fd357be",
+      "bytes": 1602
+    },
     "NVIDIA_QUALIFICATION.json": {
-      "sha256": "7d2373eed871ad469b4abf346b07189118f19a0c254bcb572cfa3d6823c3c19f",
-      "bytes": 1021
+      "sha256": "12d5834b48e2012d4670e664c9575b94601f3b5f6e8874bd53423e6273c9818d",
+      "bytes": 1062
     },
     "NVIDIA_QUALIFICATION.md": {
-      "sha256": "7bef0fbdede849f752d67d37cdf2c4c078c110fb59d5471d3e5a37be0b02fa7e",
-      "bytes": 4344
+      "sha256": "1e65b21e4106ad11f01058ef2e8cb39020a0d935f70ca290db00dd486a465fbc",
+      "bytes": 5790
     },
     "PROOF_SUMMARY.md": {
-      "sha256": "31ba615e17522822bdf3a3a4a1288301028142b2c10e7c47e59325b702c58b05",
-      "bytes": 3452
+      "sha256": "29cdf7dcf268ecca7db78ec19a2b302677cfa3a385fe8478be249e7c42de6b7c",
+      "bytes": 5351
     },
     "PROVIDER_ARCHITECTURE_BEFORE.md": {
       "sha256": "a596c96b9181026c1402e849c9ff02ce14a5d638509fbad35e95775efc7c0a9c",
       "bytes": 2954
     },
     "PROVIDER_TOPOLOGY_AFTER.json": {
-      "sha256": "fc49b823f031162a631cf2eccadda994c026625eed4af2caf06db2d920dd74c9",
-      "bytes": 974
+      "sha256": "0bf1ea4a43354c3c8c72c069cc368562a3b702ee1320ba11f5133cb972b8adab",
+      "bytes": 2955
     },
     "RETURN_TO_DEEPSEEK_DIRECT.md": {
-      "sha256": "e043899268b7b582d141b261886442ee2c73b6f36a8a617653b8341b79469fa9",
-      "bytes": 4125
+      "sha256": "96a639c035ea26f873bb22eb2e832b9cc70212c468aeafd80ff2547edee42bd1",
+      "bytes": 5227
     },
     "STATUS.md": {
-      "sha256": "590d4907b949cfe0ba204e6238f6a938d9ecfc30e382c080b458de6807bde671",
-      "bytes": 2912
+      "sha256": "962270cfc1bfa4b10985a78067f878909aa218e41aab8e224bd6b2e317282cf4",
+      "bytes": 4480
     },
     "TAKEOVER_STATE.md": {
       "sha256": "4df943ffc1297d78eed98faa4175a5e0d01ef015756952e207eb7a2370906e31",
