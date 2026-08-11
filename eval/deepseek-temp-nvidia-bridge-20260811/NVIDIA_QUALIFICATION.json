@@ -1,21 +1,22 @@
 {
   "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
-  "generated_at_utc": "2026-08-10T22:28:01Z",
+  "generated_at_utc": "2026-08-11T01:51:59Z",
   "note": "Response shape only. No secret, prompt or reasoning text is recorded.",
   "host_under_test": "deepseek_nvidia",
   "telemetry_provider_label": "deepseek_nvidia",
   "provider_role": "TEMPORARY_BRIDGE",
   "canonical_target": "deepseek_direct",
   "logical_model_intent": "deepseek",
-  "model": "deepseek-ai/deepseek-r1",
+  "model": "",
   "base_url": "https://integrate.api.nvidia.com/v1",
   "credential_configured": false,
   "smoke": null,
   "calls": [],
   "verdict": "BLOCKED_OPERATOR_ACTION",
   "blocker": {
-    "reason": "credential_not_configured",
-    "env_var": "DEEPSEEK_NVIDIA_API_KEY",
-    "detail": "deepseek_nvidia has no usable credential; no call was attempted."
+    "reason": "model_not_configured",
+    "env_var": "DEEPSEEK_NVIDIA_API_KEY + DEEPSEEK_NVIDIA_MODEL",
+    "detail": "deepseek_nvidia is not fully configured (DEEPSEEK_NVIDIA_API_KEY + DEEPSEEK_NVIDIA_MODEL); no call was attempted.",
+    "model_policy": "DEEPSEEK_NVIDIA_MODEL is explicit-only: no default and no NVIDIA_MODEL fallback. The bridge must preserve the logical model identity while changing only the host."
   }
 }

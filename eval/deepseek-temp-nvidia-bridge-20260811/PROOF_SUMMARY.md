@@ -19,13 +19,21 @@ Mechanism built and proven; host unqualifiable for lack of a credential.
 | Canonical target is the default and keeps its identity | `test_default_host_is_the_canonical_target`, `test_canonical_host_keeps_the_historical_telemetry_label` |
 | Bridge has a distinct identity and role | `test_bridge_has_a_distinct_identity_and_role` — label `deepseek_nvidia`, role `TEMPORARY_BRIDGE` |
 | Switching hosts changes endpoint/credential/model only | `test_switching_host_changes_only_endpoint_credential_and_model` |
-| Bridge does not borrow the generic `nvidia` router model | `test_bridge_model_does_not_default_to_the_generic_nvidia_model` — stays a DeepSeek model, never `gpt-oss-120b` |
+| Bridge model is explicit-only, fails closed | `test_bridge_has_no_default_model`, `test_selecting_the_bridge_without_a_model_is_a_config_error`, `test_missing_bridge_model_makes_the_host_unconfigured` |
+| Bridge never borrows the generic `nvidia` model or substitutes the canonical one | `test_bridge_never_borrows_the_generic_nvidia_model`, `test_bridge_never_substitutes_the_canonical_model` |
+| Canonical mode unaffected by unset bridge variables | `test_canonical_mode_is_unaffected_by_an_unset_bridge_model` |
 | No hidden billing-triggered switch | `test_no_code_path_selects_the_bridge_from_a_billing_or_quota_error` — AST assertion over the resolver |
 | A typo cannot silently reroute a measurement | `test_an_unknown_host_value_is_a_config_error_not_a_silent_default` |
 | Telemetry distinguishes the hosts | `test_bridge_calls_carry_host_provenance`, `test_canonical_calls_are_labelled_canonical` |
 | Governance registry cannot drift from the runtime | `test_provider_roles_registry_matches_the_runtime` |
 | Fallback contract unchanged | `FALLBACK_PROOF.md` — 4 deterministic tier-boundary tests |
 | Cost guard works | `COST_GUARD_REPORT.json` — 0 tokens spent; canonical probe stopped at call 1 on 402 |
+
+## Correction made before operator config
+
+`DEEPSEEK_NVIDIA_MODEL` originally defaulted to `deepseek-ai/deepseek-r1`. That would have changed
+provider *and* model together, which defeats the bridge. It is now explicit-only and fails closed
+in three independent places: config validation, the host resolver, and the provider builder.
 
 ## What was NOT proven
 

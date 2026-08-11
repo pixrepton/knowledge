@@ -8,7 +8,7 @@ No qualification call was made, because there is no credential to make it with.
 
 ## Why
 
-`NVIDIA_API_KEY` is **present but empty** in both env files:
+`NVIDIA_API_KEY` is **present but empty** in both env files, and `DEEPSEEK_NVIDIA_MODEL` is unset:
 
 ```text
 .env.local-vps   line 57  NVIDIA_API_KEY configured=False
@@ -18,9 +18,12 @@ No qualification call was made, because there is no credential to make it with.
 The harness therefore stopped before its connectivity smoke:
 
 ```text
-BLOCKED_OPERATOR_ACTION: DEEPSEEK_NVIDIA_API_KEY is not configured for deepseek_nvidia
+BLOCKED_OPERATOR_ACTION: DEEPSEEK_NVIDIA_API_KEY + DEEPSEEK_NVIDIA_MODEL is not configured for deepseek_nvidia
 No provider call was made; nothing was spent.
 ```
+
+Both missing pieces are named in one message, so the operator fixes them in a single pass rather
+than discovering the second only after supplying the first.
 
 `§9` requires exactly one tiny smoke call first and a stop if it fails. Here even the smoke was
 impossible, so the six representative qualification calls were never attempted. Nothing about
@@ -42,11 +45,20 @@ That is the carried-in blocker, reproduced cheaply.
 ## What the operator needs to do
 
 ```text
-variable   DEEPSEEK_NVIDIA_API_KEY      (falls back to NVIDIA_API_KEY if you prefer to reuse it)
-where      gmail-agent/.env.local-vps   -- the deployment env file the container mounts
-model      DEEPSEEK_NVIDIA_MODEL        defaults to deepseek-ai/deepseek-r1
-           set it explicitly if your NIM deployment exposes a different DeepSeek model id
+DEEPSEEK_NVIDIA_API_KEY = <NVIDIA NIM key>        falls back to NVIDIA_API_KEY if you prefer to reuse it
+DEEPSEEK_NVIDIA_MODEL   = <exact NIM model id>    REQUIRED, no default, no fallback
+where                     gmail-agent/.env.local-vps   (the deployment env file the container mounts)
 ```
+
+**Both are required.** `DEEPSEEK_NVIDIA_MODEL` is explicit-only by design — there is no default
+and no fallback to `NVIDIA_MODEL`. Selecting the bridge host without it raises a `ConfigError`
+rather than silently choosing "some DeepSeek".
+
+The model id must be the NIM id for the **intended DeepSeek model** (the canonical host runs
+`deepseek-v4-flash`). The point of the bridge is to change the *host* while holding the model
+identity as close as the host allows. If NVIDIA NIM does not offer an equivalent, that is a
+finding to report and decide on — not grounds to substitute a different DeepSeek model, which
+would change provider and model at once and make the result uninterpretable.
 
 Then verify without spending anything beyond one smoke call:
 

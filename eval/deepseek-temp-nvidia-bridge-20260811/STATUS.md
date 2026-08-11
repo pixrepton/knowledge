@@ -7,6 +7,14 @@ CANONICAL_TARGET               = deepseek_direct        (unchanged)
 FINAL_CAPABILITY_SUT_FREEZE    = HOLD
 ```
 
+## Correction applied before any operator config
+
+The bridge originally defaulted `DEEPSEEK_NVIDIA_MODEL` to `deepseek-ai/deepseek-r1`. That would
+have changed **provider and model at the same time**, destroying the one property the bridge
+exists to preserve. It now **fails closed**: the model id is explicit-only — no default, no
+`NVIDIA_MODEL` fallback, no canonical-model substitution — enforced in config validation, the host
+resolver and the provider builder.
+
 ## Where things stand
 
 The bridge **mechanism** is implemented, tested and reversible. The bridge **host** could not be
@@ -21,7 +29,7 @@ the wrong trade.
 
 ```text
 deepseek_direct   CANONICAL_TARGET    HTTP 402 Insufficient Balance   <- carried-in blocker
-deepseek_nvidia   TEMPORARY_BRIDGE    implemented, credential absent
+deepseek_nvidia   TEMPORARY_BRIDGE    implemented, credential AND model absent
 groq              FALLBACK            3 healthy slots
 cerebras          OPTIONAL_FALLBACK   unconfigured, skipped
 openai_chat       NOT_IN_ACTIVE_CHAIN removed 2026-08-10
@@ -32,8 +40,9 @@ anthropic         UNCONFIGURED        skipped
 
 1. **Fund DeepSeek Direct** — returns the system to canonical mode directly.
    Runbook: `RETURN_TO_DEEPSEEK_DIRECT.md`.
-2. **Set `DEEPSEEK_NVIDIA_API_KEY`** — enables qualification of the temporary bridge, after
-   which it may be activated while DeepSeek Direct is restored.
+2. **Set `DEEPSEEK_NVIDIA_API_KEY` *and* `DEEPSEEK_NVIDIA_MODEL`** — both are required; the
+   model has no default. Enables qualification of the temporary bridge, after which it may be
+   activated while DeepSeek Direct is restored.
 
 They are independent. (1) is the destination; (2) is a way to keep working on the way there.
 

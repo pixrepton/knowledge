@@ -4,6 +4,7 @@
   "status": "BLOCKED_OPERATOR_ACTION",
   "canonical_target": "deepseek_direct",
   "temporary_activation": "NOT_ACTIVE",
+  "bridge_model_policy": "EXPLICIT_REQUIRED (no default, no NVIDIA_MODEL fallback)",
   "note": "No secret, prompt or reasoning content appears in any artifact recorded here.",
   "cost": {
     "completion_tokens": 0,
@@ -21,24 +22,24 @@
       "bytes": 1649
     },
     "GATE_A.log": {
-      "sha256": "79acb20a279e115c32bece7dd407a3227e5dd6b98c2e4d87d22d32098ba4b732",
-      "bytes": 1354
+      "sha256": "8e89873b868c03d9bbf213977985a2d8abe865fbf67bdb1c4cf70ffd968f7d02",
+      "bytes": 1053
     },
     "NVIDIA_ADAPTER_AUDIT.md": {
-      "sha256": "e15e4ee1ca1ae6cdc27b1babafea5bdfed9bbc69eabe0116921f8024bd19ddd8",
-      "bytes": 2622
+      "sha256": "bb1d82af0244707ed052f362579ea7280ff97888ad0e5c6bfe7898845ea83c89",
+      "bytes": 4358
     },
     "NVIDIA_QUALIFICATION.json": {
-      "sha256": "b160f6faaef9a401db6c6a0382b7e6ddec3f463e6a7557d928dfe32fc78a7df5",
-      "bytes": 789
+      "sha256": "7d2373eed871ad469b4abf346b07189118f19a0c254bcb572cfa3d6823c3c19f",
+      "bytes": 1021
     },
     "NVIDIA_QUALIFICATION.md": {
-      "sha256": "8bc1a5e826944627f31d531fcbebc497cf3c5ccdeb2ded103557b3fc31053e98",
-      "bytes": 3393
+      "sha256": "7bef0fbdede849f752d67d37cdf2c4c078c110fb59d5471d3e5a37be0b02fa7e",
+      "bytes": 4344
     },
     "PROOF_SUMMARY.md": {
-      "sha256": "ef88ea6c9c9feb6f8075970759d2dca3182dad88a825a2797d0d1aa17038f7d7",
-      "bytes": 2723
+      "sha256": "31ba615e17522822bdf3a3a4a1288301028142b2c10e7c47e59325b702c58b05",
+      "bytes": 3452
     },
     "PROVIDER_ARCHITECTURE_BEFORE.md": {
       "sha256": "a596c96b9181026c1402e849c9ff02ce14a5d638509fbad35e95775efc7c0a9c",
@@ -49,12 +50,12 @@
       "bytes": 974
     },
     "RETURN_TO_DEEPSEEK_DIRECT.md": {
-      "sha256": "5f19694f0d3c67af28b41f47572382251b66bb6098914794befa5565b0df8336",
-      "bytes": 3450
+      "sha256": "e043899268b7b582d141b261886442ee2c73b6f36a8a617653b8341b79469fa9",
+      "bytes": 4125
     },
     "STATUS.md": {
-      "sha256": "65a98e50d180b3b7e289fe78818f5240f9c7ac9b4423c596818c4663dbfda498",
-      "bytes": 2287
+      "sha256": "590d4907b949cfe0ba204e6238f6a938d9ecfc30e382c080b458de6807bde671",
+      "bytes": 2912
     },
     "TAKEOVER_STATE.md": {
       "sha256": "4df943ffc1297d78eed98faa4175a5e0d01ef015756952e207eb7a2370906e31",

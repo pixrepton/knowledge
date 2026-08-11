@@ -86,11 +86,23 @@ Once canonical mode is restored and verified, the bridge can be retired without 
 
 - drop `AI_OS_PRIMARY_PROVIDER` (or leave it at `deepseek_direct`);
 - optionally clear `DEEPSEEK_NVIDIA_API_KEY`;
+- optionally clear `DEEPSEEK_NVIDIA_MODEL`;
 - update `gmail-agent/tools/gmail_audit/provider_roles.json` to mark `deepseek_nvidia` as
   retired, and note the date.
 
 The bridge code can stay: it is inert unless explicitly selected, and it is the mechanism that
 makes the next host outage a configuration switch rather than another runtime rebuild.
+
+## Before activating the bridge (if that path is taken first)
+
+```text
+DEEPSEEK_NVIDIA_API_KEY = <key>
+DEEPSEEK_NVIDIA_MODEL   = <exact NIM id for the intended DeepSeek model>   REQUIRED
+```
+
+then one smoke -> up to six qualification calls -> only on PASS set
+`AI_OS_PRIMARY_PROVIDER=deepseek_nvidia`. The model id has no default: the bridge changes the
+host, not the model.
 
 ## What must NOT happen
 
@@ -98,3 +110,5 @@ makes the next host outage a configuration switch rather than another runtime re
 - Do not make `deepseek_nvidia` the default.
 - Do not "fix" a DeepSeek Direct billing failure by switching hosts automatically — the switch is
   operator-controlled by design, so that a measurement can never silently change provider.
+- Do not let the bridge pick a model. Changing host *and* model together makes a bridge result
+  impossible to compare with a canonical one.
