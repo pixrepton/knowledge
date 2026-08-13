@@ -1,0 +1,99 @@
+# AGENT_HARNESS_MANIFEST.yaml
+# Contract consumed by scripts/agent_harness_audit.py.
+#
+# Status: canonical. Restored 2026-08-13 (AIOS-CONTROL-PLANE-REPAIR-20260813).
+# The file was referenced from 8 places in the workspace but had never been
+# versioned in the knowledge repo (`git log -- system-atlas/tooling` was empty),
+# which left both harness gates failing with exit 1 from the start.
+#
+# Scope: declares which harness capabilities must exist on disk and which
+# procedural skills count as "core". This is not a second constitution and it
+# does not restate root AGENTS.md rules.
+
+schema: top-code.agent-harness-manifest.v1
+
+# Root for core_skills resolution, relative to workspace root.
+# Codex reads .agents/skills. Claude Code cannot see that path (different skill
+# discovery root) and uses the .claude/skills mirror instead; the canonical pack
+# stays here so there is exactly one source.
+skill_root: .agents/skills
+
+core_skills:
+  - code-intelligence-routing
+  - cursor-codex-harness
+  - agent-skill-quality-gate
+  - policy-action-gates
+  - gmail-agent-proof-run
+  - topinstal-node-topology
+
+capabilities:
+  task_engine:
+    path: scripts/ai_os_task.py
+    required: true
+    role: Checkpoint, ownership, gate, task-branch and scoped local commit engine.
+
+  task_ownership:
+    path: scripts/ai_os_task_ownership.py
+    required: true
+    role: Ownership arbitration for a working tree shared by several agents.
+
+  task_commit:
+    path: scripts/ai_os_task_commit.py
+    required: true
+    role: Scoped commit planning that preserves foreign staged state.
+
+  task_locks:
+    path: scripts/ai_os_task_locks.py
+    required: true
+    role: Parallel-task locking.
+
+  task_state:
+    path: scripts/ai_os_task_state.py
+    required: true
+    role: Checkpoint persistence and task-id resolution.
+
+  claude_hook:
+    path: scripts/ai_os_claude_hook.py
+    required: true
+    role: Claude Code lifecycle adapter and PreToolUse write/Bash guard entry point.
+
+  claude_hook_guards:
+    path: scripts/ai_os_claude_hook_guards.py
+    required: true
+    role: Destructive, raw-git, publication and merge deny patterns.
+
+  codex_hook:
+    path: scripts/ai_os_codex_hook.py
+    required: true
+    role: Codex lifecycle adapter for checkpoint refresh and resume.
+
+  codex_git_rules:
+    path: .codex/rules/git-change-control.rules
+    required: true
+    role: Declarative prefix_rule change control for Codex.
+
+  harness_audit:
+    path: scripts/agent_harness_audit.py
+    required: true
+    role: This manifest's consumer.
+
+  map_audit:
+    path: scripts/agent_map_audit.py
+    required: true
+    role: Scenario-routing audit consuming AGENT_MAP_SCENARIOS.yaml.
+
+  link_audit:
+    path: scripts/context_link_audit.py
+    required: true
+    role: Documentation route integrity audit.
+
+# Checked by check_forbidden_phrases() against AGENT_DEVELOPMENT_HARNESS.md and
+# root AGENTS.md.
+#
+# Deliberately empty. The strings that would otherwise belong here
+# ("memory-bank", "top-code-memory") legitimately appear in root AGENTS.md
+# inside the explicit do-not-create list, so listing them would produce a false
+# FAIL against the very document that forbids them. Placeholder-style forbidden
+# text is already covered by FORBIDDEN_AGENTS_PLACEHOLDERS in
+# agent_harness_audit.py.
+forbidden_phrases: []

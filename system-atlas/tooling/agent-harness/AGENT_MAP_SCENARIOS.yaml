@@ -1,0 +1,197 @@
+# AGENT_MAP_SCENARIOS.yaml
+#
+# Contract consumed by scripts/agent_map_audit.py.
+#
+# Status: canonical. Restored 2026-08-13 (AIOS-CONTROL-PLANE-REPAIR-20260813).
+# Like AGENT_HARNESS_MANIFEST.yaml, this file was referenced by the audit but had
+# never been versioned in the knowledge repo, leaving agent_map_audit.py at exit 1.
+#
+# Purpose: assert that the designed control plane actually gives an agent a
+# navigable map — cold-start chain, workspace goals, index routes, skill
+# contracts, scenario to skill routing, declared MCP roles, and nested-repo L2
+# adapters. Every path listed here is verified to exist; every marker is verified
+# to be present. This file therefore fails loudly when a route rots.
+
+schema: top-code.agent-map-scenarios.v1
+
+# --- Cold start -------------------------------------------------------------
+# Order is owned by knowledge/INDEX.md §Cold-Start. This list only asserts that
+# each link in the chain exists on disk.
+cold_start_chain:
+  - AGENTS.md
+  - knowledge/INDEX.md
+  - knowledge/memory/OPERATOR_DECISIONS.md
+  - knowledge/memory/BACKLOG.md
+  - knowledge/memory/ACTIVE_WORKSPACE.md
+  - knowledge/memory/LAST_SESSION.md
+
+# --- Workspace goals --------------------------------------------------------
+workspace_goals:
+  document: AGENTS.md
+  required_markers:
+    - Core Invariants
+    - Evidence Hierarchy
+    - Completion Standard
+    - L1 / L2 instruction model
+
+# --- Index routing ----------------------------------------------------------
+index_routes:
+  document: knowledge/INDEX.md
+  required_markers:
+    - Cold-Start
+    - Choose The Route
+    - source-of-truth.md
+
+# --- Always-apply Cursor rules ----------------------------------------------
+always_apply_cursor_rules:
+  - .cursor/rules/05-local-only-mandate.mdc
+  - .cursor/rules/91-cross-repo-contract-safety.mdc
+  - .cursor/rules/92-proof-gate-discipline.mdc
+  - .cursor/rules/92-ownership-validation.mdc
+
+# --- Claude Code subagents --------------------------------------------------
+claude_subagents:
+  - .claude/agents/investigator.md
+  - .claude/agents/architecture-reviewer.md
+  - .claude/agents/adversarial-reviewer.md
+  - .claude/agents/research-engineer.md
+
+# --- Skill contract ---------------------------------------------------------
+# Sections every core skill must carry. Deliberately limited to the two sections
+# that are genuinely universal today. "## Report", "## Checklist" and
+# "## Validation" are good practice but are not present in every core skill yet;
+# adding them here would fail the gate on skills that are otherwise correct.
+# Tighten this list only together with the skills themselves.
+skill_required_sections:
+  - "## Use When"
+  - "## Do Not Use When"
+
+# --- MCP --------------------------------------------------------------------
+# Declaration check only: presence in .cursor/mcp.json. It does NOT prove the
+# server is registered in the current session — see Rule zero in
+# CODE_INTELLIGENCE_ROUTER.md and Step 0 in the code-intelligence-routing skill.
+required_mcp_servers:
+  - codebase-memory
+  - gitnexus
+  - playwright
+  - codescene
+  - context7
+  - serena
+
+mcp_roles_document: knowledge/system-atlas/tooling/CODE_INTELLIGENCE_ROUTER.md
+
+mcp_role_markers:
+  Context7: Current public documentation for external libraries
+  GitNexus: blast radius
+  CBM: Structural graph, call graph
+  Serena: semantic edits
+  CodeScene: Maintainability, Code Health
+  Playwright: Browser behavior, UI flows
+
+# --- Nested repositories (Typ A) --------------------------------------------
+nested_repos_with_agents_md:
+  - knowledge
+  - gmail-agent
+  - daszek
+  - kalk-top
+  - rag-chat-asystent
+  - rag-widget
+  - cieplo-orchestrator
+  - fast-kalk
+  - top-instal-generator
+
+# --- Scenarios --------------------------------------------------------------
+# Each scenario states what an agent must have loaded before acting. Every core
+# skill in AGENT_HARNESS_MANIFEST.yaml must appear in at least one must_load,
+# otherwise check_registry_scenario_coverage fails.
+scenarios:
+  - id: explore_unknown_code
+    when: An unfamiliar area, symbol, workflow, dependency, contract or blast radius must be understood.
+    must_load:
+      - .agents/skills/code-intelligence-routing/SKILL.md
+      - knowledge/system-atlas/tooling/CODE_INTELLIGENCE_ROUTER.md
+    required_markers:
+      - path: .agents/skills/code-intelligence-routing/SKILL.md
+        markers:
+          - before broad Read/Grep
+          - CODE_INTELLIGENCE_ROUTER.md
+      - path: knowledge/system-atlas/tooling/CODE_INTELLIGENCE_ROUTER.md
+        markers:
+          - Rule zero
+          - Choose the route
+          - High-risk protocol
+
+  - id: write_change_with_git_control
+    when: Any task that writes files and will produce a local commit.
+    must_load:
+      - AGENTS.md
+      - knowledge/system-atlas/tooling/GIT_AND_CHANGE_CONTROL.md
+      - scripts/ai_os_task.py
+    required_markers:
+      - path: AGENTS.md
+        markers:
+          - Task and Git Control
+          - LOCAL_ONLY
+
+  - id: route_implementation_task
+    when: An implementation task must be routed to the right domain, tool and gate.
+    must_load:
+      - knowledge/system-atlas/tooling/CODEX_EXECUTION_MAP.md
+      - .agents/skills/cursor-codex-harness/SKILL.md
+
+  - id: policy_or_action_change
+    when: Policy engine, action proposals, drafts, send/archive, cooldowns, approval or HITL are touched.
+    must_load:
+      - .agents/skills/policy-action-gates/SKILL.md
+      - knowledge/source-of-truth.md
+
+  - id: runtime_proof_run
+    when: A change requires bounded runtime proof inside gmail-agent.
+    must_load:
+      - .agents/skills/gmail-agent-proof-run/SKILL.md
+      - knowledge/CONTROL_PLANE.md
+
+  - id: cross_node_topology
+    when: A change crosses the Node A / Node B boundary or reassigns ownership of a datum.
+    must_load:
+      - .agents/skills/topinstal-node-topology/SKILL.md
+      - knowledge/source-of-truth.md
+    required_markers:
+      - path: AGENTS.md
+        markers:
+          - Source of Truth
+
+  - id: author_or_edit_a_skill
+    when: A skill under .agents/skills is created, edited or reviewed.
+    must_load:
+      - .agents/skills/agent-skill-quality-gate/SKILL.md
+      - knowledge/system-atlas/tooling/agent-harness/AGENT_SKILLS_REGISTRY.md
+      - knowledge/system-atlas/tooling/agent-harness/AGENT_HARNESS_MANIFEST.yaml
+
+  - id: session_cold_start
+    when: A session starts, resumes or compacts and the agent must re-establish context.
+    must_load:
+      - AGENTS.md
+      - knowledge/INDEX.md
+      - knowledge/memory/OPERATOR_DECISIONS.md
+    required_markers:
+      - path: knowledge/INDEX.md
+        markers:
+          - Whole workspace session
+          - Work opened directly inside the `knowledge` Git repo
+          - knowledge/AGENTS.md
+
+  - id: high_risk_contract_change
+    when: >-
+      A change touches a public API, DTO or payload shape, database state,
+      authorization, policy or HITL, a cross-repo contract, Source of Truth
+      boundaries, routing, side effects or external communication.
+    must_load:
+      - knowledge/system-atlas/tooling/CODE_INTELLIGENCE_ROUTER.md
+      - knowledge/source-of-truth.md
+      - knowledge/CONTROL_PLANE.md
+    required_markers:
+      - path: knowledge/system-atlas/tooling/CODE_INTELLIGENCE_ROUTER.md
+        markers:
+          - High-risk protocol
+          - Index and freshness rules

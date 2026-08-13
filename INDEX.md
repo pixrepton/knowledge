@@ -66,12 +66,34 @@ are closed and re-verified clean. RAG staged activation = `STAGED_ACTIVATION_EXE
 
 ## Cold-Start
 
-1. `AGENTS.md`
+This is the only cold-start order in the workspace. Do not duplicate it elsewhere.
+It has two entry modes, because `knowledge` is an independent Git repository and can
+be opened on its own.
+
+### Whole workspace session
+
+Work started at `top-code workspace` root, targeting one or more product repos.
+
+1. root `AGENTS.md`
 2. this file
 3. `memory/OPERATOR_DECISIONS.md`
 4. `memory/BACKLOG.md` only when planning or package status matters
 5. `memory/ACTIVE_WORKSPACE.md` and `memory/LAST_SESSION.md` only for continuity
 6. target repo `AGENTS.md`
 7. the route selected above and the target repo manual/runbook only when needed
+
+### Work opened directly inside the `knowledge` Git repo
+
+Only this repository is open; root `AGENTS.md` may not be loaded.
+
+1. `knowledge/AGENTS.md` — the local Typ A adapter: role, owns/must-not, Gate A,
+   cross-repo duties and the safety capsule
+2. this file
+3. `memory/OPERATOR_DECISIONS.md`
+4. `DOCUMENTATION_POLICY.md` before adding or restructuring any document
+5. root `AGENTS.md` as soon as the change touches anything outside `knowledge/`
+
+Root `AGENTS.md` still governs whenever the work runs inside the workspace; the
+local adapter narrows it, never replaces it.
 
 History is in Git and in the operator's external copy, not in active documentation.

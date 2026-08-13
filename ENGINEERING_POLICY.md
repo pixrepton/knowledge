@@ -1,6 +1,6 @@
 # Engineering Policy
 
-Status: active. Last updated: 2026-07-13.
+Status: active. Last updated: 2026-08-02.
 
 ## Defaults
 
@@ -14,7 +14,7 @@ Status: active. Last updated: 2026-07-13.
 
 - Never print, commit or document secrets, DSNs, tokens, private keys or raw customer data.
 - Secret values belong in Bitwarden/local gitignored env files, not docs.
-- If a secret is found in a tracked diff, stop and report a redacted warning.
+- If a secret is found in a planned or tracked diff, stop and report a redacted warning.
 - Legal/license/security publication docs are protected.
 
 ## Error Handling
@@ -26,7 +26,16 @@ Status: active. Last updated: 2026-07-13.
 
 ## Workspace Lifecycle
 
-- Worktree may be dirty; separate your changes from pre-existing changes.
-- Do not run `git reset`, `git clean`, commit, push or deploy unless explicitly requested.
+- The workspace and nested repositories may already be dirty. Capture and preserve the pre-task staged, unstaged and untracked state per repository.
+- Every write task uses the Wave 01 checkpoint, declared `repo:path` scope and a non-protected task branch.
+- A request to fix, implement, configure, migrate, update or close a repair package authorizes safe local branch creation and scoped local commits required to finish that task.
+- Local commit authorization never implies push, PR, merge, deployment, VPS or production mutation.
+- Default publication mode is `LOCAL_ONLY`; use `PUBLISH` or `SHIP` only when the operator includes remote publication in scope.
+- Do not use raw `git add` or `git commit` for agent work. Use the ownership-aware `task-commit-plan` and `task-commit` commands.
+- Do not run `git reset`, `git clean`, destructive restore/checkout, force push, stash deletion, forced branch deletion or automatic history rewriting.
 - Do not stop containers or alter compose/env as part of documentation cleanup.
 - Update `world-state.yaml` only when a stable endpoint/owner changes.
+
+Canonical Git procedure:
+
+`knowledge/system-atlas/tooling/GIT_AND_CHANGE_CONTROL.md`
