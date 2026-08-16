@@ -1,32 +1,43 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-09 (`AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL`).
+Status: current direction only. Last updated: 2026-08-16 (Fresh38 measurement requalified; capability baseline 27/38).
 
 ## Current program (canonical)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
-**Strategic posture:** `AI-OS-FINAL-INFRA-CLOSEOUT-01` (final read-only audit before the
-28-CAPABILITY program) ran 2026-08-08 and originally returned **NO-GO** with one real blocker:
-`OPERATOR-COMMAND-RECONCILE-BYPASS-01`. That blocker is now **CLOSED** in `gmail-agent`
-with Gate A passing.
+**Strategic posture:** infrastructure cleanup remains `COMPLETE_LOCAL`. The one current full
+Fresh38 has been **executed and requalified** (measurement). Product capability remains
+**below threshold** (27/38 CLEAN_PASS vs 34 required) and is the current product-quality program.
 
 ```text
 AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
 CAPABILITY_PROGRAM_READINESS = GO
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
+FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
+FULL FRESH38 AGAINST CURRENT CODE = RUN (attempt fresh38_full_current_20260816T124100)
+CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (contract v5, threshold 34) → NOT QUALIFIED — CAPABILITY
+NEXT = CAPABILITY analysis of the 11 residual cases (not a new residual wave)
 ```
 
+Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
+13 Aug capture = 23 CLEAN_PASS / 15 CAPABILITY; 08 Aug capture = 10 CLEAN_PASS / 28 CAPABILITY.
+Fresh38 measurement requalification proof: `.artifacts/fresh38-full-current-20260816T124100`
+(38/38 QUALIFIED, four-case `fresh38_fourcase_repair2_20260816T123000` 4/4 QUALIFIED) — see
+`LAST_SESSION.md` and `docs/MEASUREMENT_INTEGRITY_V3.md` for the L0 execution-channel contract.
+
 Every other
-historical program/residual checked (Fresh38, FACT read+write, RAG-widget P0-4/P0-5,
+historical program/residual checked (Fresh38 harness recapture, FACT read+write, RAG-widget P0-4/P0-5,
 RAG-V2-FINAL-TECHNICAL-GATE-01, Calendar dispatch topology, desk membership, projection
 seam, 4.4, credential history) came back clean/closed/intentional — **do not reopen those
 without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` changelog
 2026-08-08 and this session’s report.
 
-**Next program:** Fresh38 28-CAPABILITY is the next real program. Do not open another residual
-wave. **Nie** otwieraj kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
+**Next program:** capability analysis of the 11 CAPABILITY residual cases (INT-01, INT-04,
+INT-05, NEW-03, NEW-05, FU-01, SVC-05, DOC-02, CTX-03, MI-01, MI-02) with focused proofs
+before any product change. Do not open another residual wave. **Nie** otwieraj kolejnych
+slice’ów 5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
 
@@ -69,8 +80,12 @@ AI_OS_INFRASTRUCTURE_CLEANUP: COMPLETE_LOCAL
 CAPABILITY_PROGRAM_READINESS: GO
 REQUIRED_OPEN: 0
 UNKNOWN_NEEDS_PROOF: 0
-NEXT_REAL_PROGRAM: Fresh38 28-CAPABILITY
+FRESH38_MEASUREMENT_QUALIFICATION: REQUALIFIED
+FULL FRESH38 AGAINST CURRENT CODE: RUN (2026-08-16)
+CURRENT CAPABILITY BASELINE: 27/38 CLEAN_PASS (v5, threshold 34) — NOT QUALIFIED — CAPABILITY
+NEXT: 11-CAPABILITY focused analysis
 P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
+L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```
 
 **Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01,

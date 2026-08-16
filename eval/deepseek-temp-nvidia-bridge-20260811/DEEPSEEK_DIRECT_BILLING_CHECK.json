@@ -1,0 +1,26 @@
+{
+  "investigation": "DEEPSEEK-TEMP-BRIDGE-01",
+  "generated_at_utc": "2026-08-11T05:58:07Z",
+  "check": "canonical DeepSeek Direct availability after the operator reported a top-up",
+  "credential_fingerprint_sha256_12": "72a31b22fa33",
+  "credential_definitions_in_env": 1,
+  "note": "Fingerprint only. The key value is never recorded.",
+  "chat_completions_smoke": {
+    "http": 402,
+    "error_class": "quota_exhausted",
+    "message": "Insufficient Balance",
+    "calls_spent": 1,
+    "completion_tokens": 0
+  },
+  "balance_endpoint": {
+    "request": "GET https://api.deepseek.com/user/balance",
+    "cost": "none - account query, not inference",
+    "http": 200,
+    "is_available": false,
+    "total_balance_usd": "-0.00",
+    "granted_balance_usd": "0.00",
+    "topped_up_balance_usd": "-0.00"
+  },
+  "conclusion": "The DeepSeek account this API key belongs to reports zero balance and is_available=false. The reported top-up is not visible to this credential: it landed on a different account/org, or has not settled. This is an account/billing fact, not a runtime or configuration defect - no repository change can affect it.",
+  "operator_check": "In the DeepSeek console, confirm the funded account is the same one that issued the key with sha256 fingerprint 72a31b22fa33. If it is a different account, either fund that one or replace DEEPSEEK_API_KEY with a key from the funded account."
+}

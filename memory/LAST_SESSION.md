@@ -1,72 +1,59 @@
 # Last Session
 
-Updated: 2026-08-09 — **AI-OS infrastructure cleanup** — **COMPLETE_LOCAL**.
+Updated: 2026-08-16 — **Fresh38 measurement requalification — PASS (measurement)**.
 
-## Latest follow-up
-
-- `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is closed in `gmail-agent`: sync and async Agent Chat now route operator commands through canonical `reconcile_signal()`/registered `operator_command` handler after a single `SignalJournal.append()`.
-- Proof completed: sync path, async worker path, handler reachability, EntityLinker execution, processing attempts, case/correlation propagation, general chat without Case, `user_instruction`, HITL receipt parity, failed receipt, no duplicate signal, no duplicate AgentRun, and idempotent replay.
-- Gate A `gmail-agent`: `python -m pytest tools/gmail_audit/tests -q` => `2357 passed, 28 skipped, 24 subtests passed`, `0 failed`.
-- Formal checkpoint recorded: `AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL`; `CAPABILITY_PROGRAM_READINESS = GO`.
-- Next real program: Fresh38 28-CAPABILITY, not another residual wave.
+## Headline
 
 ```text
-AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
-CAPABILITY_PROGRAM_READINESS = GO
-OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
-REQUIRED_OPEN = 0
-UNKNOWN_NEEDS_PROOF = 0
-NEXT_REAL_PROGRAM = Fresh38 28-CAPABILITY
+FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
+FULL FRESH38 AGAINST CURRENT CODE = RUN (38/38 capture QUALIFIED, FIRST_ATTEMPT#1)
+CURRENT CAPABILITY BASELINE (contract v5) = 27 CLEAN_PASS / 11 CAPABILITY → NOT QUALIFIED — CAPABILITY
+FOUR_CASE_CAPTURE_QUALIFICATION = PASS (CTX-04, MI-03, MI-04, DEC-02)
+L0 CHANNEL CONTRACT + HARNESS IDENTITY = see docs/MEASUREMENT_INTEGRITY_V3.md (canonical owner)
+L0_CHANNEL_FIX = IMPLEMENTED (committed 4210ed5, wrapper 035534a7…; capture runs used 3b3041e5)
+PRODUCT_SEMANTICS_CHANGE = 0
 ```
 
-## Done this session
+## What happened this session
 
-Read-only-first final audit across all AI-OS repos, before the Fresh38 28-CAPABILITY program.
-Precondition (`RAG-V2-FINAL-TECHNICAL-GATE-01` PASS) confirmed via `PROOF_SUMMARY.md` before starting.
+- **RCA closed** — pełny kontrakt L0 + tożsamość harnessa (`PROVEN_FULL_RUN_HARNESS=3b3041e5`,
+  `COMMITTED_HARNESS=035534a7…`, `IMPLEMENTATION_HARDENING_AFTER_FULL_PROOF=YES`) w
+  `docs/MEASUREMENT_INTEGRITY_V3.md` (canonical owner); tutaj tylko synteza: attach EOF /
+  docker client EOF ≠ completion authority; authenticated callback EOF = process-exit edge.
+- **FU-07 17/38 abort:** `HOST_SLEEP_ABORT_CAUSE = PROVEN_ENVIRONMENTAL` (host sleep, battery
+  critical → kernel-power 42/107; runner finished 90 s after wake; harness fail-closed correct)
+  — **not** an L0 channel root cause. `DOCKER_INTERNAL_PREMATURE_ATTACH_EOF_TRIGGER =
+  NOT_PROVEN_AND_NOT_REQUIRED`.
+- **Deterministic gates:** 6/6 PASS (lifecycle channel, exec instrumentation, capture contract,
+  reuse gate, SUT fingerprint, runner contract) — fresh logs
+  `C:\top-code-session-scratch\fresh38-deterministic-gates-20260816`.
+- **Four-case requalification:** `fresh38_fourcase_repair2_20260816T123000` — CTX-04 / MI-03 /
+  MI-04 / DEC-02 all QUALIFIED (FIRST_ATTEMPT#1, parity PASS).
+- **Full 38/38:** `fresh38_full_current_20260816T124100` — `COMPLETED ok=38 failed=0`,
+  `measurement_failures=0`, 38/38 manifests QUALIFIED, 0 engine-api exceptions, 0 confirm
+  re-inspects needed. SUT `gmail-agent@37d4b37` (clean worktree), corpus-v2 `6550a075`,
+  container `sha256:142cba…`, mode `production_faithful`.
+- **L3 (fresh, frozen contract):** judge `score-run` 30/30 SCORED (groq `llama-3.3-70b-versatile`,
+  `understanding-semantic-judge.v1`), then offline rescore contract **v5**
+  (corpus `04c561a4`, ground truth `ba144753`, scorer `6ac1761b`, threshold 34,
+  capture `4541e76f`, judge `2387daf9`): CLEAN_PASS=27, CAPABILITY=11,
+  `scoring_complete=true`, `judge_error_cases=[]`, `capture_gap_cases=[]`,
+  `unsafe_non_escalation=0` → product **NOT QUALIFIED — CAPABILITY** (separate from measurement).
 
-- **Repo manifest:** all 10 repos' local HEAD == origin HEAD (root workspace has no `origin`, N/A). Only
-  whitespace/CRLF-normalization dirty files found anywhere (gmail-agent test file, rag-widget
-  `chat-widget.js`, knowledge docs, root `scripts/*.ps1`) — no real uncommitted content changes.
-- **VERIFY-01 (OperatorCommand spine) — `REAL_CORRECTNESS_GAP`, confirmed and reproduced.**
-  `run_operator_command_spine()` (`gmail-agent/tools/gmail_audit/agent_runtime/operator_command_spine.py:102`)
-  calls `run_agent_reconcile_staging()` directly instead of `reconcile_signal()`, so the registered
-  `@register_signal_handler("operator_command")` handler is never reached from either live production
-  entrypoint (`api_app.py:282` sync `/agent-chat`, `agent_runtime/agent_chat_worker.py:43` async worker).
-  Entity linking, `case_key`, `projection_refresh_decision` are skipped; module docstring doesn't match
-  implementation. **New residual `OPERATOR-COMMAND-RECONCILE-BYPASS-01` logged to `BACKLOG.md`, not fixed
-  (per audit task rules).**
-- VERIFY-02 (Calendar dispatch) → `INTENTIONAL_BOUNDED` (documented RP-07 `READ_ONLY_EVENT_LINKED_LIFECYCLE`).
-- VERIFY-03 (Desk membership gate) → `SEMANTIC_DRIFT_RISK_NONBLOCKING` (dead-by-coincidence gate, noted).
-- VERIFY-04 (Projection seam `AGENT_PROJECTION_CANONICAL`) → `INTENTIONAL_COMPATIBILITY`.
-- Fresh38 artifact, FACT read+write, RAG-widget P0-4/P0-5, RAG-V2 final gate, Gmail/Calendar fail-closed
-  policy, 4.4 dormancy, credential/git-history security — all independently re-verified, all clean.
-- Gate A gmail-agent re-run clean (after a transient Docker Desktop engine outage mid-session was fixed by
-  restarting it): **2352 passed, 28 skipped, 0 failed**. The one failure seen during the outage was
-  Postgres-connectivity noise from Docker being down, not a code regression — confirmed by isolated re-run.
-- Flagged (non-blocking, see `BACKLOG.md`): `test_aios_canonical_runtime_ingress.py` has no DB-availability
-  skip gate unlike its siblings; rag-chat-asystent `engine.py:79` `PYTEST_CURRENT_TEST` override defeats
-  `USE_FAKE_EMBEDDINGS=0` opt-out.
+## Current state / next
 
-## Result
-
-```text
-AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL
-CAPABILITY_PROGRAM_READINESS = GO
-OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
-REQUIRED_OPEN = 0
-UNKNOWN_NEEDS_PROOF = 0
-NEXT_REAL_PROGRAM = Fresh38 28-CAPABILITY
-```
-
-Required blocker count is now zero.
+- Measurement: requalified and green. Product: below capability threshold (27/38).
+- Next real program: focused capability analysis of the 11 CAPABILITY cases (INT-01, INT-04,
+  INT-05, NEW-03, NEW-05, FU-01, SVC-05, DOC-02, CTX-03, MI-01, MI-02) before any product change.
+- L0 repair **committed** `4210ed5` (workspace, LOCAL_ONLY) as part of administrative closure.
 
 ## Still open
 
-1. Optional: IQ human adjudication.
-2. Optional: GOV-06 monitor.
-3. Non-blocking harness notes (see `BACKLOG.md`).
+1. 11-CAPABILITY product analysis (next program).
+2. Optional: IQ-01 human adjudication; GOV-06 `.serena` monitor.
 
 ## Stop
 
-Do not open another residual wave. The next real program is Fresh38 28-CAPABILITY. Do not reopen any
-of the closed programs listed in `ACTIVE_WORKSPACE.md` without new regression evidence.
+Do not re-run Fresh38 or re-investigate the L0 lifecycle anomaly without new regression
+evidence. Previous session handoff (2026-08-09 infra cleanup) is preserved in
+`docs/AI_OS_ROADMAP.md` changelog and closed-program tables in `ACTIVE_WORKSPACE.md`.

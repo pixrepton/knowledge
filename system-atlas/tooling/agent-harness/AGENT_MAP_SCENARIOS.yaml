@@ -195,3 +195,22 @@ scenarios:
         markers:
           - High-risk protocol
           - Index and freshness rules
+
+  - id: post_run_knowledge_writeback
+    when: >-
+      A substantial session (coding, debug, audit, repair, qualification, migration,
+      architecture) has reached a material checkpoint or completion and durable
+      conclusions must be reconciled into canonical knowledge / current-state docs /
+      backlog / decisions / task checkpoints.
+    must_load:
+      - .agents/skills/post-run-knowledge-writeback/SKILL.md
+      - knowledge/system-atlas/tooling/agent-harness/AGENT_SKILLS_REGISTRY.md
+    required_markers:
+      - path: .agents/skills/post-run-knowledge-writeback/SKILL.md
+        markers:
+          - Use When
+          - Non-negotiables
+          - canonical owner
+      - path: knowledge/system-atlas/tooling/agent-harness/AGENT_SKILLS_REGISTRY.md
+        markers:
+          - post-run-knowledge-writeback

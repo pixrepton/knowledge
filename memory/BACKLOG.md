@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-09 (AI-OS infrastructure cleanup — COMPLETE_LOCAL).
+Status: active only. Last updated: 2026-08-16 (Fresh38 measurement requalified; capability below threshold).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -12,14 +12,24 @@ CAPABILITY_PROGRAM_READINESS = GO
 OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
-NEXT_REAL_PROGRAM = Fresh38 28-CAPABILITY
+FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
+FULL FRESH38 AGAINST CURRENT CODE = RUN (2026-08-16, 38/38 capture QUALIFIED)
+CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) → NOT QUALIFIED — CAPABILITY
+NEXT = 11-CAPABILITY focused analysis (product), not a new residual wave
 ```
 
 | ID                               | Area        | Status   | Next action                                                                                  |
 | --------------------------------- | ----------- | -------- | --------------------------------------------------------------------------------------------- |
 | `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **CLOSED** | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed. |
+| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent | **OPEN — next program** | Focused per-case analysis/proof for the 11 CAPABILITY cases (INT-01, INT-04, INT-05, NEW-03, NEW-05, FU-01, SVC-05, DOC-02, CTX-03, MI-01, MI-02) before any product change. Measurement is green; product is below threshold. |
+| `FRESH38-L0-REPAIR-COMMIT-20260816` | workspace | **CLOSED** | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios). |
 | IQ-01-ADJUDICATED                | eval        | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                 |
 | GOV-06                           | knowledge   | PARTIAL  | `.serena` policy monitor — ignore by default                                                 |
+
+**Superseded (2026-08-16):** `FULL FRESH38 AGAINST CURRENT CODE = NOT_RUN` and
+`CURRENT CAPABILITY BASELINE = NOT_REQUALIFIED` — replaced by the requalified measurement and
+the v5 capability baseline above. Historical baselines (13 Aug 23/15, 08 Aug 10/28) remain
+historical evidence, not the current baseline.
 
 **Non-blocking harness notes (audit `AI-OS-FINAL-INFRA-CLOSEOUT-01`, not tracked as gating residuals):** gmail-agent `tests/test_aios_canonical_runtime_ingress.py` has no `MAILBOX_MEMORY_TEST_DATABASE_URL`-style skip gate unlike its Postgres-test siblings (unconditional live-DB dependency; ~140s of Gate A wall-clock, fails ungracefully instead of skipping when DB is briefly down); rag-chat-asystent `backend/engine.py:79` ORs `PYTEST_CURRENT_TEST` into `use_fake_embeddings`, so a test trying to opt into real embeddings via `USE_FAKE_EMBEDDINGS=0` silently still gets fake ones unless it also `monkeypatch.delenv("PYTEST_CURRENT_TEST")`; `daszek_engagement_feed/desk.py:58` has a dead-by-coincidence membership gate (`DESK_OPERATIONAL_CODES` happens to equal the full `OperationalStatus.code` Literal today — reactivates silently if a status code is ever added without updating both).
 

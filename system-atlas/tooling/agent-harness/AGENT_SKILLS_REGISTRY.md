@@ -45,6 +45,15 @@ Its **Step 0** — verifying which MCP servers are actually registered in the cu
 session — is mandatory every session, not once. Repo documentation describes GitNexus
 MCP tools as always available; that text is not evidence.
 
+## Phase / on-demand skills
+
+Skills invoked explicitly after a triggering event, not loaded per task. They stay out of
+`core_skills` so they do not inflate every task's context.
+
+| Skill | Path | Load when | Do not load when |
+| --- | --- | --- | --- |
+| `post-run-knowledge-writeback` | `.agents/skills/post-run-knowledge-writeback/` | A substantial run/session (coding, debug, audit, repair, qualification, migration, architecture) reached a material checkpoint/completion and durable conclusions must be written to canonical knowledge | Bulk documentation cleanup, trivial edits, actively debugging with unproven conclusions, opening new product work |
+
 ## Client-only skill packs
 
 `.claude/skills/gitnexus/` holds GitNexus usage skills (`gitnexus-exploring`,

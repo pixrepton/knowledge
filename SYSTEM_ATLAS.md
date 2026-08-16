@@ -1,6 +1,10 @@
 # System Atlas
 
-Status: active cross-repo map. Last updated: 2026-07-13.
+Status: active cross-repo map. Last updated: 2026-08-14.
+
+Short domain overview. Package navigation: `system-atlas/INDEX.md`.
+Case OS architecture: `gmail-agent/docs/core/CONSTITUTION_V2_1.md`.
+Ownership contract: `source-of-truth.md` — do not duplicate it here.
 
 ## Ownership
 
@@ -22,9 +26,9 @@ Status: active cross-repo map. Last updated: 2026-07-13.
 
 ## Main Flows
 
-1. Gmail case flow: Gmail signal -> `gmail-agent` -> Daszek projection -> operator HITL -> `gmail-agent` reconciliation.
-2. HVAC offer flow: form/Cieplo input -> `kalk-top` -> generator -> operator/customer document path.
-3. RAG flow: user/widget question -> `rag-chat-asystent` -> response; no case write ownership.
+1. Case OS ingress: Gmail / Drive / Calendar / Operator command → `gmail-agent` intake → signal worker → case/runtime state → Daszek projection → operator HITL → `gmail-agent` reconciliation. Architecture: `gmail-agent/docs/core/CONSTITUTION_V2_1.md`.
+2. HVAC offer flow: form/Cieplo input → `kalk-top` → generator → operator/customer document path.
+3. RAG flow: user/widget question → `rag-chat-asystent` → response; no case write ownership.
 
 ## Integration Rules
 

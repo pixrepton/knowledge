@@ -15,6 +15,49 @@ Format:
 
 ---
 
+## [ACTIVE] 2026-08-14 — Workspace consolidation then one current full Fresh38 — **wykonane 2026-08-16**
+
+- **Scope:** workspace + `knowledge` canonical sync; nested Git remotes; eval artifact tracking. No product semantic changes this wave. Does not include `kalk-top` (`AIOS-KALK-CANONICALIZE-20260811`).
+- **Decyzja:**
+  1. Immediate work is **workspace consolidation** (canonical docs, LF `.gitattributes`, eval gitignore, Git hygiene). Product semantics change = 0.
+  2. After consolidation: **ONE CURRENT FULL FRESH38** against current code. Historical qualified Fresh38 (prior SUT): 38/38 capture, 30/30 judge, 23 CLEAN_PASS / 15 CAPABILITY. Labels: `FULL FRESH38 AGAINST CURRENT CODE = NOT_RUN`; `CURRENT CAPABILITY BASELINE = NOT_REQUALIFIED`.
+  3. Root workspace repo remains `LOCAL_ONLY` — no GitHub remote, no push.
+  4. Nested product repos: push current branches as-is after local consolidation and secret scan. Do not invent a GitHub remote for root.
+  5. `knowledge` eval: track small/referenced artifacts; gitignore the two ~15MB bulk dumps (`eval/fresh38-clean-20260809T225941Z/`, `eval/fresh38-frozen-sut-clean-20260811T155139Z/`) plus `eval/**/*.zip` and `.serena/`. `_gate_docs_sync_a.ps1` stays tracked (Gate A).
+  6. `kalk-top` `wp-config` stays with `AIOS-KALK-CANONICALIZE-20260811`.
+- **Supersedes:** treating „Fresh38 28-CAPABILITY” as the immediate next step without consolidation; treating the historical Fresh38 snapshot as the current-code capability baseline.
+- **Review:** after consolidation closeout, before starting the one current full Fresh38.
+
+---
+
+## [ACTIVE] 2026-08-16 — Fresh38 measurement REQUALIFIED; product capability below threshold
+
+- **Scope:** Fresh38 measurement requalification on current code (`gmail-agent@37d4b37`), L0
+  execution-channel repair, L3 judge/scoring. Root workspace `LOCAL_ONLY`; no commit/push/deploy.
+- **Decyzja:**
+  1. **`FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED`** — measurement, not product: full
+     38/38 capture QUALIFIED (attempt `fresh38_full_current_20260816T124100`, all
+     FIRST_ATTEMPT#1, `ok=38 failed=0`), four-case requalification PASS
+     (`fresh38_fourcase_repair2_20260816T123000`: CTX-04/MI-03/MI-04/DEC-02).
+  2. **L0 execution-channel lifecycle contract (durable):** pełny kontrakt + tożsamość harnessa
+     (`PROVEN_FULL_RUN_HARNESS=3b3041e5` / `COMMITTED_HARNESS=035534a7…`,
+     `MEASUREMENT_CONTRACT_CHANGE=0`, `COMPLETION_AUTHORITY_CHANGE=0`,
+     `QUALIFICATION_SEMANTICS_CHANGE=0`, `IMPLEMENTATION_HARDENING_AFTER_FULL_PROOF=YES`) —
+     **canonical owner: `knowledge/docs/MEASUREMENT_INTEGRITY_V3.md`** (w tym miejscu tylko
+     synteza + link). Wdrożone w `scripts/run_fresh38_case_batch.ps1`, commit `4210ed5`
+     (workspace, LOCAL_ONLY); capture 38/38 zboundowany do wrappera `3b3041e5`.
+  3. **Produkt = osobno:** `CURRENT CAPABILITY BASELINE` (kontrakt v5, próg 34) =
+     27 CLEAN_PASS / 11 CAPABILITY → **NOT QUALIFIED — CAPABILITY**. Następny program:
+     analiza 11 przypadków CAPABILITY, nie nowa fala residualna, nie ponowny full Fresh38.
+  4. `PRODUCT_SEMANTICS_CHANGE = 0` — zmiany dotyczyły wyłącznie warstwy pomiarowej.
+- **Supersedes:** `FULL FRESH38 AGAINST CURRENT CODE = NOT_RUN`; `CURRENT CAPABILITY BASELINE
+  = NOT_REQUALIFIED`; traktowanie CTX-04 / DOCKER_ATTACH_LIFECYCLE_ANOMALY jako otwartego
+  blockera pomiaru (zamknięty).
+- **Review:** przed jakimkolwiek produktowym ruchem na bazie 27/38; wymagane focused proof na
+  przypadek przed zmianą produktu.
+
+---
+
 ## [ACTIVE] 2026-08-08 — 4.4 Install-prep: REJECTED_BY_OPERATOR (no product activation)
 
 - **Scope:** Roadmap slice 4.4 / `install_prep_projection` / Daszek `install_prep` feed.

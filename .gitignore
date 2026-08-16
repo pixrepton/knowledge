@@ -40,3 +40,11 @@ system-atlas/workflows/_raw/gap_registry_normalization_report.json
 system-atlas/workflows/_raw/n1_normalization_report.json
 system-atlas/workflows/_raw/n1_unattached_preview_seed.json
 system-atlas/workflows/_raw/registry_normalization_report.json
+
+# Local Serena cache (not project knowledge)
+.serena/
+
+# Fresh38 bulk dumps (~15MB each): local artifacts, not canonical tracked eval
+eval/fresh38-clean-20260809T225941Z/
+eval/fresh38-frozen-sut-clean-20260811T155139Z/
+eval/**/*.zip

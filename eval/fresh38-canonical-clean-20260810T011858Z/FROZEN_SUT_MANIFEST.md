@@ -8,7 +8,8 @@ Full machine-readable manifest: `FROZEN_SUT_MANIFEST.json` in this directory.
 ## Why this run exists
 
 The prior run `knowledge/eval/fresh38-clean-20260809T225941Z/` (`CLEAN_PASS=21/38`) is **not**
-a valid canonical baseline. Mechanical proof from its own `capture.log`: the hot-sync file list
+a valid canonical baseline. That directory is a **gitignored local bulk dump** (~15MB), not a
+canonical tracked artifact. Mechanical proof from its own `capture.log`: the hot-sync file list
 in `scripts/run_fresh38_case_batch.ps1` only started including `preclassifier.py` on the 5th of
 6 sub-runs (`2026-08-10 00:29:39`). Every case except `DEC-01` was `REUSE`d from a cache captured
 **before** that sync. 37/38 cases in that run reflect the pre-fix preclassifier; only `DEC-01`
@@ -50,3 +51,10 @@ health `healthy`; Node B -> kalk-top reachability confirmed live (HTTP 200 via
    SUT/tooling change invalidates the run and requires a new manifest + new `OutDir` from 0/38.
 
 `FROZEN_SUT_READY = YES`
+
+## Bulk dumps (not canonical tracked artifacts)
+
+`knowledge/eval/fresh38-clean-20260809T225941Z/` and
+`knowledge/eval/fresh38-frozen-sut-clean-20260811T155139Z/` are gitignored local dumps
+(~15MB each). They are not canonical tracked eval artifacts. Canonical tracked records for
+this run live in this directory (`FROZEN_SUT_MANIFEST.md` / `.json`).

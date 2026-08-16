@@ -1,25 +1,36 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-09 (AI-OS infrastructure cleanup — COMPLETE_LOCAL).
+Status: active entry point. Last updated: 2026-08-16 (Fresh38 measurement requalified; capability baseline 27/38).
 
 Read this file first, then only the files needed for the current task.
 
-**Current program posture (binding via memory):** `AI_OS_INFRASTRUCTURE_CLEANUP = COMPLETE_LOCAL`;
-`CAPABILITY_PROGRAM_READINESS = GO`. The next real program is Fresh38 28-CAPABILITY, not another
+**Current program posture (binding via memory):** the one current full Fresh38 has been
+**executed and requalified (measurement)**. Product capability remains below threshold; the
+current product program is focused analysis of the 11 CAPABILITY cases. Do not open another
 residual wave. Do not open roadmap 5.3-8.x "from the list".
-`OPERATOR-COMMAND-RECONCILE-BYPASS-01` is **CLOSED**; current registry:
-`REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`. RAG technical gates
-(`RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`)
-are closed and re-verified clean. RAG staged activation = `STAGED_ACTIVATION_EXECUTED` (allowlist
-`technical_manual,price_list` only, no global `RAG_CORE=v2`). Slice 4.4 =
-`REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION`. Details: `memory/OPERATOR_DECISIONS.md`,
-`memory/ACTIVE_WORKSPACE.md`, `memory/BACKLOG.md`, `docs/AI_OS_ROADMAP.md`.
+
+```text
+HISTORICAL BASELINES (prior SUT / older contract, not comparable to current): 13 Aug = 23 CLEAN_PASS / 15 CAPABILITY; 08 Aug = 10 / 28
+FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
+FULL FRESH38 AGAINST CURRENT CODE = RUN (38/38 capture QUALIFIED, attempt fresh38_full_current_20260816T124100)
+CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (contract v5, threshold 34) → NOT QUALIFIED — CAPABILITY
+NEXT = CAPABILITY analysis of the 11 residual cases (not a new residual wave)
+```
+
+Closed facts that remain binding: `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is **CLOSED**;
+registry `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`. RAG technical gates
+(`RAG-TEMPORAL-COMPLETE-01`, `RAG-IMAGE-BAKE-01`) are closed and re-verified clean.
+RAG staged activation = `STAGED_ACTIVATION_EXECUTED` (allowlist `technical_manual,price_list`
+only, no global `RAG_CORE=v2`). Slice 4.4 = `REJECTED_BY_OPERATOR / NO PRODUCT ACTIVATION`.
+Details: `memory/OPERATOR_DECISIONS.md`, `memory/ACTIVE_WORKSPACE.md`, `memory/BACKLOG.md`,
+`docs/AI_OS_ROADMAP.md`.
 
 ## Choose The Route
 
 | Need | Open next | Authority and freshness rule |
 | --- | --- | --- |
 | Owner of data or business logic | `source-of-truth.md` | Canonical ownership contract; confirm behavior in current code/runtime. |
+| Case OS architecture (runtime, memory, decision, execution, projection) | `gmail-agent/docs/core/CONSTITUTION_V2_1.md` | Authoritative Case OS constitution; do not duplicate it here. |
 | Current implementation or runtime | Owning repo source, Git, tests and local runtime | Stronger than every document or generated view. |
 | AI-OS program plan / residual registry | `docs/AI_OS_ROADMAP.md` | Plan + residual ledger; open tickets also mirrored in `memory/BACKLOG.md`. |
 | Workflow, repair, tooling or cross-repo evidence | `system-atlas/INDEX.md` | Canonical router for System Atlas packages. |
@@ -32,6 +43,7 @@ are closed and re-verified clean. RAG staged activation = `STAGED_ACTIVATION_EXE
 | Entry | Authority | Open when | Freshness / fallback |
 | --- | --- | --- | --- |
 | `source-of-truth.md` | `CANONICAL_CONTRACT` | Resolving domain and data ownership | Current code/runtime wins if implementation diverges. |
+| `gmail-agent/docs/core/CONSTITUTION_V2_1.md` | `CANONICAL_CONTRACT` | Case OS architecture: intake, journal, policy, HITL, execution, projection | Owned by `gmail-agent`; this index only points there. |
 | `CONTROL_PLANE.md` | `CANONICAL_CONTRACT` | Classifying evidence and claim strength | Use the root evidence hierarchy when runtime, code and docs disagree. |
 | `ARCHITECTURE_DECISIONS.md` | `CANONICAL_CONTRACT / LIMITED_FRESHNESS` | A change touches an active architectural invariant | Verify named symbols and runtime claims in the owning repo before relying on them. |
 | `DOCUMENTATION_POLICY.md`, `ENGINEERING_POLICY.md`, `SESSION_MEMORY_POLICY.md` | `CANONICAL_CONTRACT` | Documentation, engineering or memory rules apply | Higher `AGENTS.md` and explicit operator instructions retain precedence. |

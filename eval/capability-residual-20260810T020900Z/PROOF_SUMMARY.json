@@ -1,0 +1,97 @@
+{
+  "generated_at_utc": "2026-08-10T00:11:20.553127+00:00",
+  "source_clean_run": "C:\\top-code-session-scratch\\fresh38-clean-20260809T225941",
+  "new_canonical_baseline": "21/38",
+  "fresh38_qualification": "FAIL",
+  "remaining_non_clean_pass": 17,
+  "classification_counts": {
+    "NEEDS_ADJUDICATION": 12,
+    "ACTIONABLE_EVAL": 1,
+    "ACTIONABLE_PRODUCT": 4
+  },
+  "actionable_residuals": 5,
+  "intentional_or_non_actionable": 0,
+  "needs_adjudication": 12,
+  "pareto": [
+    {
+      "cluster": "UNDERSTANDING_GAPS_NEXT_STEP_BORDERLINE",
+      "cases": [
+        "INT-01",
+        "INT-04",
+        "NEW-02",
+        "NEW-03",
+        "FU-01",
+        "FU-02",
+        "FU-06",
+        "FU-07",
+        "DOC-01",
+        "CTX-04",
+        "MI-02",
+        "MI-03"
+      ],
+      "count": 12,
+      "FIRST_DIVERGENCE": "understanding semantic judge: first non-PASS dimension is gaps and/or recommended_next_step BORDERLINE",
+      "root_cause": "Understanding gaps/next step BORDERLINE; secondary draft missing thank-you token.",
+      "classification": "NEEDS_ADJUDICATION:12",
+      "business_impact": "medium",
+      "systemic_leverage": "high",
+      "recommended_disposition": "operator/eval adjudication before product change"
+    },
+    {
+      "cluster": "KALK_TOP_NON_JSON_RESPONSE",
+      "cases": [
+        "FU-05",
+        "DOC-02"
+      ],
+      "count": 2,
+      "FIRST_DIVERGENCE": "agent_runtime.kalk_top_client.call_calculate_offer: configured kalk-top route reached response.json() and raised JSONDecodeError",
+      "root_cause": "call_kalk_top_quote reached kalk-top but response.json() raised JSONDecodeError.",
+      "classification": "ACTIONABLE_PRODUCT:2",
+      "business_impact": "medium-high",
+      "systemic_leverage": "medium",
+      "recommended_disposition": "focused repair candidate"
+    },
+    {
+      "cluster": "DRAFT_REQUIRED_CONTENT_MISS",
+      "cases": [
+        "SVC-05"
+      ],
+      "count": 1,
+      "FIRST_DIVERGENCE": "draft_quality deterministic check: factual_correctness.missing contains required clarification content",
+      "root_cause": "Draft lacks required clarification request.",
+      "classification": "ACTIONABLE_PRODUCT:1",
+      "business_impact": "medium-high",
+      "systemic_leverage": "medium",
+      "recommended_disposition": "focused repair candidate"
+    },
+    {
+      "cluster": "DRAFT_SURFACE_REPLY_NOT_RECOMMENDED",
+      "cases": [
+        "DEC-02"
+      ],
+      "count": 1,
+      "FIRST_DIVERGENCE": "reply_drafter output: draft_enabled=false, do_not_send_reasons=[reply_not_recommended] despite planner request_operator_clarification text",
+      "root_cause": "Planner produced clarification; reply_drafter surface remains reply_not_recommended/no draft.",
+      "classification": "ACTIONABLE_PRODUCT:1",
+      "business_impact": "medium-high",
+      "systemic_leverage": "low-medium",
+      "recommended_disposition": "focused repair candidate"
+    },
+    {
+      "cluster": "KNOWN_FACT_REASK_EVAL_NO_QUALITY_GT",
+      "cases": [
+        "INT-05"
+      ],
+      "count": 1,
+      "FIRST_DIVERGENCE": "eval_final_rescore_versioned: score_status=no_quality_ground_truth while planner abstained after known_fact_reask_blocked",
+      "root_cause": "Known-fact re-ask blocked; scorer leaves CAPABILITY with no quality ground truth/failing component.",
+      "classification": "ACTIONABLE_EVAL:1",
+      "business_impact": "medium-high",
+      "systemic_leverage": "low-medium",
+      "recommended_disposition": "focused repair candidate"
+    }
+  ],
+  "residual_fix_round_executed": false,
+  "highest_leverage_next_cluster": "UNDERSTANDING_GAPS_NEXT_STEP_BORDERLINE",
+  "next_action_note": "Adjudicate whether repeated BORDERLINE gaps/next step results are product quality defects or eval expectation mismatch before product tuning."
+}
