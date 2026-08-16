@@ -67,6 +67,16 @@ evidence. Previous session handoff (2026-08-09 infra cleanup) is preserved in
   `INTENTIONAL_LOCAL_ONLY` (no remote). kalk-top push deferred to `AIOS-KALK-CANONICALIZE-20260811`.
 - **Code intelligence:** GitNexus root/gmail-agent/fast-kalk reindexed (INDEXED==HEAD);
   CBM gmail-agent refreshed; others `FRESH_PER_ROUTING`. CodeScene `UNAVAILABLE_AUTH`.
-- **Residues:** 3 phantom CRLF files (content identical — root `ai_os_task_commit.py`,
-  gmail-agent `mailbox_memory_runtime.py`, kalk-top `uiSummary.js`); renormalize deferred.
 - **Baseline unchanged:** 27 CLEAN_PASS / 11 CAPABILITY (v5). Next program: 11-CAPABILITY analysis.
+
+## Closeout 2026-08-16 (final)
+
+- **AI_OS_WORKSPACE_CONSOLIDATION = CLOSED_PASS** (bounded closeout): all 10 active repos CLEAN
+  (3 phantom residues resolved via `git add --renormalize`, blobs unchanged, `CONTENT_CHANGE=0`);
+  `workspace-repos.lock.json` → v2 (sound semantics: observed_before_snapshot_commit, no
+  self-referential HEAD claim); external exact terminal proof in
+  `pre-consolidation-20260816T204528\final-acceptance-snapshot.json`.
+- **Tasks:** `AIOS-WORKSPACE-CONSOLIDATION-20260813` CLOSED, `PROOF-ECONOMY-CONSOLIDATION-20260813`
+  CLOSED (harness audit credible); only `AIOS-KALK-CANONICALIZE-20260811` active (intentional).
+- **Procedural debt recorded:** `TASK-ENGINE-SCOPE-UPDATE` (scope/adoption needed direct JSON
+  mutation; future canonical op `task-scope-add`/`task-adopt-path`) — backlog, not a blocker.
