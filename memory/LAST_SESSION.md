@@ -57,3 +57,16 @@ PRODUCT_SEMANTICS_CHANGE = 0
 Do not re-run Fresh38 or re-investigate the L0 lifecycle anomaly without new regression
 evidence. Previous session handoff (2026-08-09 infra cleanup) is preserved in
 `docs/AI_OS_ROADMAP.md` changelog and closed-program tables in `ACTIVE_WORKSPACE.md`.
+
+## Follow-up — AI-OS Workspace Consolidation & Canonical Sync (2026-08-16, PASS)
+
+- **Committed (task engine):** root control-plane (`089945ba`+`ff098137`), knowledge writeback +
+  terminology + skill registry/map + eval artifacts (`e2436492`+`80a59278`), per-repo `.gitattributes`
+  LF policy, rag-widget chat-widget, kalk-top AGENTS.md adapter, GitNexus block refresh.
+- **Published:** 8 repos pushed, `LOCAL == REMOTE` verified per repo. Root stays
+  `INTENTIONAL_LOCAL_ONLY` (no remote). kalk-top push deferred to `AIOS-KALK-CANONICALIZE-20260811`.
+- **Code intelligence:** GitNexus root/gmail-agent/fast-kalk reindexed (INDEXED==HEAD);
+  CBM gmail-agent refreshed; others `FRESH_PER_ROUTING`. CodeScene `UNAVAILABLE_AUTH`.
+- **Residues:** 3 phantom CRLF files (content identical — root `ai_os_task_commit.py`,
+  gmail-agent `mailbox_memory_runtime.py`, kalk-top `uiSummary.js`); renormalize deferred.
+- **Baseline unchanged:** 27 CLEAN_PASS / 11 CAPABILITY (v5). Next program: 11-CAPABILITY analysis.

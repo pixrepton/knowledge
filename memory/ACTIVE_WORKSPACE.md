@@ -88,6 +88,25 @@ P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```
 
+### Konsolidacja 2026-08-16 — final state (Pass 2)
+
+```text
+PUBLISHED_REPOS_LOCAL_==_REMOTE = YES (gmail-agent, daszek, cieplo-orchestrator,
+  rag-chat-asystent, rag-widget, fast-kalk, top-instal-generator, knowledge)
+ROOT_PUBLICATION = INTENTIONAL_LOCAL_ONLY (no remote; decision 08-14)
+KALK_TOP_PUSH = DEFERRED (owner AIOS-KALK-CANONICALIZE-20260811; remote default handoff/...)
+PHANTOM_CRLF_RESIDUES = 3 (root ai_os_task_commit.py, gmail-agent mailbox_memory_runtime.py,
+  kalk-top uiSummary.js) — content byte-identical to index; renormalize deferred (no raw git add)
+GITNEXUS = FRESH_PER_ROUTING (root/gmail-agent/fast-kalk reindexed; others docs/.gitattributes-only)
+CBM = FRESH_PER_ROUTING (root+gmail-agent current; others no material change since index)
+POST_RUN_WRITEBACK_SKILL = REGISTERED (registry + AGENT_MAP_SCENARIOS; NOT core_skills)
+```
+
+Consolidation task: `AIOS-WORKSPACE-CONSOLIDATION-20260813` — committed + closed via task engine
+(commits: workspace `089945ba`+`ff098137`, knowledge `e2436492`+`80a59278`, gmail-agent `a0a7ffa2`+`db809664`,
+fast-kalk `79ba2454`+`82128e64`, daszek `2607af87`, cieplo `92c0e6b7`, rag-widget `46731422`,
+top-instal-generator `380bf989`, rag-chat-asystent `0715ccc8`, kalk-top `ef5db272`).
+
 **Nie startuj ponownie bez regresji:** FACT-01…05, FACT-4.1-HIGH-01 (read), FACT-SUPERSESSION-WRITE-01,
 RAG-WIDGET-ADMIN-SECURITY-CLOSEOUT-01, RAG-V2-FINAL-TECHNICAL-GATE-01 / TEMPORAL / IMAGE-BAKE,
 Faza 3, POST32 spine, RESIDUALS-WAVE-01/02 closed IDs, FRESH38-RECAPTURE-01 (harness),
