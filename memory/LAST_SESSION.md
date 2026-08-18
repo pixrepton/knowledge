@@ -1,18 +1,18 @@
 # Last Session
 
-Updated: 2026-08-18 — **P2 causal observability closeout PASS**.
+Updated: 2026-08-18 — **P2 closeout + P3A frozen K3 adjudication PASS**.
 
 ## Headline
 
 ```text
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
-P2_PRODUCT_SHA = ae59750565d2a0e334f646a4d5f7bc94bd92f602
-P2_RUNNER_SHA = 800318a7a2a34cfd0865889a0daacdcf530d9cda
-CAPABILITY-OBSERVABILITY-01 = CLOSED
-INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH (current reproduction NO)
-SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING (observability blocker REMOVED)
-NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01)
+P3A_FROZEN_K3_ADJUDICATION = COMPLETE
+P3A_PRIMARY_CLASS = EVALUATOR_WRONG (INT-04, NEW-05, FU-01, MI-01)
 NO_RECAPTURE_FOR_P3A = YES
+NO_MIXED_EXPERIMENT = YES
+INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH
+SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING
+NEXT = optional P3B (GT-unanchored judge class) or P4 proven current product defects
 OPERATOR_DECISIONS_UPDATED = NO
 ```
 
@@ -29,9 +29,10 @@ OPERATOR_DECISIONS_UPDATED = NO
 
 ## Stop / next
 
-P2 CLOSED. P3A must adjudicate frozen Fresh38 27/38 captures only.
-Do not run INT-04/NEW-05/FU-01/MI-01 again as the reason those cases failed in 27/38.
+P2 CLOSED. P3A COMPLETE against frozen 27/38 only.
+Do not recapture INT-04/NEW-05/FU-01/MI-01 as the reason those cases failed.
 Do not treat INT-01 as fixed forever.
+Do not start P3B as case-id exceptions. P4 only on proven current product defects.
 
 ## Previous headline (2026-08-16, preserved)
 

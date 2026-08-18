@@ -24,7 +24,8 @@ P2_RUNNER_SHA = 800318a7a2a34cfd0865889a0daacdcf530d9cda
 CAPABILITY-OBSERVABILITY-01 = CLOSED
 INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH (current reproduction NO)
 SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING (observability blocker REMOVED)
-NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01); do not recapture
+P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 = EVALUATOR_WRONG)
+NEXT = optional P3B general evaluator class, else P4 on proven current product defects (likely MI-02 / SVC-05 / CTX-03)
 ```
 
 Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
@@ -42,10 +43,12 @@ without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` change
 
 **Current residual owner:** `knowledge/eval/mail-agent-intelligence-current/`.
 
-**Next program:** P3A frozen K3 adjudication of INT-04, NEW-05, FU-01, MI-01 against
-canonical Fresh38 `fresh38_full_current_20260816T124100` only. Do not recapture.
-INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 remains a current product
-diagnosis candidate after P2. Do not open another residual wave. **Nie** otwieraj
+**Next program:** optional P3B only for the general GT-unanchored judge class
+proven on a positive+negative cohort; otherwise P4 on proven current product
+defects (priority after P3A: likely MI-02, then SVC-05 focused BR/gate, then
+CTX-03). INT-01 remains `HISTORICAL_ONLY / REGRESSION_WATCH`. K3 canonical
+failures are `EVALUATOR_WRONG`, not a product-fix queue. Do not recapture
+Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj
 kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
@@ -93,7 +96,8 @@ FRESH38_MEASUREMENT_QUALIFICATION: REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE: RUN (2026-08-16)
 CURRENT CAPABILITY BASELINE: 27/38 CLEAN_PASS (v5, threshold 34) — NOT QUALIFIED — CAPABILITY
 P2_CAPABILITY_CAUSAL_OBSERVABILITY: PASS / CLOSED
-NEXT: P3A frozen K3 adjudication (no recapture)
+P3A: COMPLETE (K3 EVALUATOR_WRONG)
+NEXT: optional P3B or P4 proven current product defects only
 P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```

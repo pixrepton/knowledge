@@ -1,0 +1,94 @@
+{
+  "schema_version": "p3a_frozen_k3_adjudication.v1",
+  "question": "Why did canonical frozen Fresh38 classify these four cases as CAPABILITY, and was that failure product or measurement?",
+  "invariants": {
+    "P3A": "ADJUDICATION_ONLY",
+    "PRODUCT_CODE_CHANGE": 0,
+    "EVALUATOR_CHANGE": 0,
+    "GT_CHANGE": 0,
+    "SCORER_CHANGE": 0,
+    "JUDGE_CHANGE": 0,
+    "NO_RECAPTURE": true,
+    "NO_MIXED_EXPERIMENT": true
+  },
+  "frozen_experiment": {
+    "attempt_id": "fresh38_full_current_20260816T124100",
+    "sut": "gmail-agent@37d4b37",
+    "outdir": ".artifacts/fresh38-full-current-20260816T124100",
+    "ground_truth_sha256": "ba1447534d534c9d047ed169beff45b94376be860b8347282794d8cb51a57cd8",
+    "ground_truth_changed_from_v4": false,
+    "frozen_judge_result_sha256": "2387daf90b1f9017bf2b473aa73a78398efe14f1e7dd0e9bf258f9929d4f542f",
+    "scorer_sha256": "6ac1761b0b343308947a5c585296f1bba7dbdddbe93b249705398d1f7ba2f355",
+    "current_scorer_sha256_matches_frozen": true,
+    "corpus_sha256_v5": "04c561a4c36600ab2dacd02956199706a47770c2f44a564343fce72174b1f827"
+  },
+  "current_tree_context_only": {
+    "p2_product_sha": "ae59750565d2a0e334f646a4d5f7bc94bd92f602",
+    "p2_runner_sha": "800318a7a2a34cfd0865889a0daacdcf530d9cda"
+  },
+  "shared_p3b_candidate": {
+    "class": "GT_UNANCHORED_JUDGE_DIMENSION",
+    "statement": "A case can meet case-level GT must/must_not and still fail an understanding-judge dimension that GT does not require; v5 then promotes CLEAN_PASS to CAPABILITY.",
+    "authorized_now": false
+  },
+  "cases": {
+    "INT-04": {
+      "capture_sha256_prefix": "7bbfdb920a85de91",
+      "comparisons": {
+        "input_vs_product": "PASS_ON_GT_INTENT — service complaint + missing contact recognized",
+        "product_vs_gt": "PASS — GT understanding must/must_not met",
+        "product_vs_judge": "FAIL — recommended_next_step BORDERLINE",
+        "gt_judge_vs_v5": "FAITHFUL — CLEAN_PASS base + quality_passed=false -> CAPABILITY"
+      },
+      "first_divergence_in_evaluation_chain": "PRODUCT_OUTPUT_VS_JUDGE_VERDICT",
+      "primary_class": "EVALUATOR_WRONG",
+      "adjudication_status": "COMPLETE",
+      "secondary_findings": [
+        "NBA title looks like a generic change-follow-up template"
+      ]
+    },
+    "NEW-05": {
+      "capture_sha256_prefix": "5d6605b15716bbb3",
+      "comparisons": {
+        "input_vs_product": "PASS_ON_GT_INTENT — third-party install question recognized; NBA title weaker",
+        "product_vs_gt": "PASS — GT understanding must/must_not met in intent",
+        "product_vs_judge": "FAIL — recommended_next_step BORDERLINE (specificity)",
+        "gt_judge_vs_v5": "FAITHFUL — CLEAN_PASS base + quality_passed=false -> CAPABILITY"
+      },
+      "first_divergence_in_evaluation_chain": "PRODUCT_OUTPUT_VS_JUDGE_VERDICT",
+      "primary_class": "EVALUATOR_WRONG",
+      "adjudication_status": "COMPLETE",
+      "secondary_findings": [
+        "NBA title independently misframes the case as an existing-install change"
+      ]
+    },
+    "FU-01": {
+      "capture_sha256_prefix": "0d347f2a42173d5f",
+      "comparisons": {
+        "input_vs_product": "PASS_ON_GT_INTENT — 120m2/Krakow offer context preserved",
+        "product_vs_gt": "PASS on understanding must; escalation_expectation=none vs BR escalate_review is secondary",
+        "product_vs_judge": "FAIL — gaps BORDERLINE even though judge says gaps do not affect overall understanding",
+        "gt_judge_vs_v5": "FAITHFUL — CLEAN_PASS base + quality_passed=false -> CAPABILITY"
+      },
+      "first_divergence_in_evaluation_chain": "PRODUCT_OUTPUT_VS_JUDGE_VERDICT",
+      "primary_class": "EVALUATOR_WRONG",
+      "adjudication_status": "COMPLETE",
+      "secondary_findings": [
+        "BR escalate_review vs GT escalation_expectation=none"
+      ]
+    },
+    "MI-01": {
+      "capture_sha256_prefix": "75ffe87394f7b2db",
+      "comparisons": {
+        "input_vs_product": "PASS_ON_GT_INTENT — both intents named (technical question + CWU failure at Kwiatowa 5)",
+        "product_vs_gt": "PASS — two-intent must/must_not met",
+        "product_vs_judge": "FAIL — gaps and risks BORDERLINE ('some but not all')",
+        "gt_judge_vs_v5": "FAITHFUL — CLEAN_PASS base + quality_passed=false -> CAPABILITY"
+      },
+      "first_divergence_in_evaluation_chain": "PRODUCT_OUTPUT_VS_JUDGE_VERDICT",
+      "primary_class": "EVALUATOR_WRONG",
+      "adjudication_status": "COMPLETE",
+      "secondary_findings": []
+    }
+  }
+}

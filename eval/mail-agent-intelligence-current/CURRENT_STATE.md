@@ -18,12 +18,14 @@ FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34)
 FROZEN_EXPERIMENT = .artifacts/fresh38-full-current-20260816T124100
 FROZEN_SUT = gmail-agent@37d4b37
-NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01)
+P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=EVALUATOR_WRONG)
+NEXT = optional P3B general GT-unanchored judge class, else P4 on proven current product defects only
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
 with recoverable causal chain; product diagnosis remains pending.
-K3 stays `ADJUDICATION_PENDING` until P3A assembles the frozen evaluation chain.
+K3 P3A is COMPLETE: INT-04, NEW-05, FU-01, MI-01 are `EVALUATOR_WRONG`
+for the canonical 27/38 CAPABILITY label. See `P3A_FROZEN_K3_ADJUDICATION.md`.
 
 Do not treat current Groq recapture as the reason the canonical 27/38 failed.
 Do not write operator decisions from this technical closeout.
