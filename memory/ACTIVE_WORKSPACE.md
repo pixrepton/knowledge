@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-16 (Fresh38 measurement requalified; capability baseline 27/38).
+Status: current direction only. Last updated: 2026-08-18 (P2 causal observability CLOSED).
 
 ## Current program (canonical)
 
@@ -18,7 +18,13 @@ UNKNOWN_NEEDS_PROOF = 0
 FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE = RUN (attempt fresh38_full_current_20260816T124100)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (contract v5, threshold 34) → NOT QUALIFIED — CAPABILITY
-NEXT = CAPABILITY analysis of the 11 residual cases (not a new residual wave)
+P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
+P2_PRODUCT_SHA = ae59750565d2a0e334f646a4d5f7bc94bd92f602
+P2_RUNNER_SHA = 800318a7a2a34cfd0865889a0daacdcf530d9cda
+CAPABILITY-OBSERVABILITY-01 = CLOSED
+INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH (current reproduction NO)
+SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING (observability blocker REMOVED)
+NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01); do not recapture
 ```
 
 Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
@@ -34,10 +40,13 @@ seam, 4.4, credential history) came back clean/closed/intentional — **do not r
 without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` changelog
 2026-08-08 and this session’s report.
 
-**Next program:** capability analysis of the 11 CAPABILITY residual cases (INT-01, INT-04,
-INT-05, NEW-03, NEW-05, FU-01, SVC-05, DOC-02, CTX-03, MI-01, MI-02) with focused proofs
-before any product change. Do not open another residual wave. **Nie** otwieraj kolejnych
-slice’ów 5.3–8.x „bo są na roadmapie”.
+**Current residual owner:** `knowledge/eval/mail-agent-intelligence-current/`.
+
+**Next program:** P3A frozen K3 adjudication of INT-04, NEW-05, FU-01, MI-01 against
+canonical Fresh38 `fresh38_full_current_20260816T124100` only. Do not recapture.
+INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 remains a current product
+diagnosis candidate after P2. Do not open another residual wave. **Nie** otwieraj
+kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
 
@@ -83,7 +92,8 @@ UNKNOWN_NEEDS_PROOF: 0
 FRESH38_MEASUREMENT_QUALIFICATION: REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE: RUN (2026-08-16)
 CURRENT CAPABILITY BASELINE: 27/38 CLEAN_PASS (v5, threshold 34) — NOT QUALIFIED — CAPABILITY
-NEXT: 11-CAPABILITY focused analysis
+P2_CAPABILITY_CAUSAL_OBSERVABILITY: PASS / CLOSED
+NEXT: P3A frozen K3 adjudication (no recapture)
 P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```

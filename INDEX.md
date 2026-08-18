@@ -1,20 +1,22 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-16 (Fresh38 measurement requalified; capability baseline 27/38).
+Status: active entry point. Last updated: 2026-08-18 (P2 causal observability CLOSED).
 
 Read this file first, then only the files needed for the current task.
 
 **Current program posture (binding via memory):** the one current full Fresh38 has been
-**executed and requalified (measurement)**. Product capability remains below threshold; the
-current product program is focused analysis of the 11 CAPABILITY cases. Do not open another
-residual wave. Do not open roadmap 5.3-8.x "from the list".
+**executed and requalified (measurement)**. Product capability remains below threshold.
+P2 causal observability is **CLOSED**. Next is P3A frozen K3 adjudication of the
+canonical 27/38 failure — not a new recapture. Do not open another residual wave.
+Do not open roadmap 5.3-8.x "from the list".
 
 ```text
 HISTORICAL BASELINES (prior SUT / older contract, not comparable to current): 13 Aug = 23 CLEAN_PASS / 15 CAPABILITY; 08 Aug = 10 / 28
 FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE = RUN (38/38 capture QUALIFIED, attempt fresh38_full_current_20260816T124100)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (contract v5, threshold 34) → NOT QUALIFIED — CAPABILITY
-NEXT = CAPABILITY analysis of the 11 residual cases (not a new residual wave)
+P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED (gmail-agent ae597505, workspace 800318a7)
+NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01) against frozen Fresh38 only
 ```
 
 Closed facts that remain binding: `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is **CLOSED**;
@@ -66,6 +68,7 @@ Details: `memory/OPERATOR_DECISIONS.md`, `memory/ACTIVE_WORKSPACE.md`, `memory/B
 
 ## On Demand
 
+- `eval/mail-agent-intelligence-current/` — current 11-CAPABILITY residual matrix, P2 proof, P3A reports.
 - `docs/AI_OS_ROADMAP.md` - active AI-OS program plan + residual registry (post-6-chat consolidation).
 - `docs/AIOS_4_1_FACT_SUPERSESSION_CONSUMER_AUDIT.md` - fact supersession consumer audit (write residual separate).
 - `eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md` - RAG V2 live cutover readiness proof.

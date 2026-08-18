@@ -1,0 +1,82 @@
+{
+  "schema_version": "p2_causal_observability_proof.v1",
+  "p2_capability_causal_observability": "PASS",
+  "p2_product_sha": "ae59750565d2a0e334f646a4d5f7bc94bd92f602",
+  "p2_runner_sha": "800318a7a2a34cfd0865889a0daacdcf530d9cda",
+  "semantic_change_contract": {
+    "OBSERVABILITY_SEMANTICS_CHANGE": 0,
+    "LLM_CALL_COUNT_DELTA": 0,
+    "PROVIDER_SELECTION_CHANGE": 0,
+    "DRAFT_BODY_SEMANTICS_CHANGE": 0,
+    "DRAFT_GATE_SEMANTICS_CHANGE": 0,
+    "CASE_STATE_SEMANTICS_CHANGE": 0,
+    "NEW_CAPTURE_HIST_UNRECOVERABLE": 0
+  },
+  "historical_rewrite": false,
+  "gitnexus": {
+    "repo": "gmail-agent",
+    "indexed_commit": "ae59750565d2a0e334f646a4d5f7bc94bd92f602",
+    "status": "up-to-date",
+    "module_in_graph": true,
+    "verified_calls": [
+      "run_reply_drafter -> evaluate_draft_gate",
+      "run_reply_drafter -> annotate_reply_causal_observability -> attach_causal_observability",
+      "run_reply_drafter -> evaluate_draft_postcheck",
+      "draft_reply -> run_reply_drafter",
+      "run_shared_downstream_stages -> annotate_reply_causal_observability"
+    ],
+    "index_limitations": [
+      "trace(evaluate_draft_gate -> run_reply_drafter) is no_path because CALLS is caller-to-callee",
+      "BusinessReasoning is structured data consumed by evaluate_draft_gate, not a CALLS edge from the BR stage function"
+    ]
+  },
+  "cases": {
+    "INT-01": {
+      "labels": [
+        "CURRENT_RECAPTURE_COMPLETE",
+        "CURRENT_DECISION_CHAIN_RECOVERABLE",
+        "NON_REPRODUCED_CURRENT",
+        "DRAFT_ACCEPTED"
+      ],
+      "draft_path_outcome": "DRAFT_ACCEPTED",
+      "first_terminal_reason_code": "BR_ACTION_COLLECT_DATA",
+      "gate_decision": "RUN",
+      "execution_status": "SUCCESS",
+      "postcheck_decision": "ACCEPT",
+      "source_path": "C:\\top-code-session-scratch\\p2-causal-obs-recapture\\one-INT-01.json",
+      "source_sha256": "9bd1ad39ab13f9d847a83a7920883afe870eb5ffbe06df4c2cea11138707fb59"
+    },
+    "SVC-05": {
+      "labels": [
+        "CURRENT_RECAPTURE_COMPLETE",
+        "CURRENT_DECISION_CHAIN_RECOVERABLE",
+        "CURRENT_FIRST_DIVERGENCE_CLASSIFIABLE",
+        "SKIPPED_PRE_DRAFTER"
+      ],
+      "draft_path_outcome": "SKIPPED_PRE_DRAFTER",
+      "first_terminal_reason_code": "BR_ACTION_AND_REPLY_FLAG_NOT_ELIGIBLE",
+      "gate_decision": "SKIP",
+      "execution_status": "NOT_STARTED",
+      "postcheck_decision": "NOT_APPLICABLE",
+      "business_recommended_next_action": "escalate_review",
+      "reply_recommended": false,
+      "source_path": "C:\\top-code-session-scratch\\p2-causal-obs-recapture-svc\\one-SVC-05.json",
+      "source_sha256": "410fa68e624a4f7e4a63a9e31d24aa636b7e7a1b554c43af39e27a837619095a"
+    },
+    "SVC-01": {
+      "labels": [
+        "CURRENT_RECAPTURE_COMPLETE",
+        "CURRENT_DECISION_CHAIN_RECOVERABLE",
+        "DRAFTER_FAILED",
+        "PROVIDER_FAILURE"
+      ],
+      "draft_path_outcome": "DRAFTER_FAILED",
+      "first_terminal_reason_code": "GROQ_CLIENT_ERROR",
+      "gate_decision": "RUN",
+      "execution_status": "PROVIDER_FAILURE",
+      "postcheck_decision": "NOT_APPLICABLE",
+      "source_path": "C:\\top-code-session-scratch\\p2-causal-obs-recapture-svc01\\one-SVC-01.json",
+      "source_sha256": "e5ea000b2384ca7fadce3d5b63f2393f3b69ffc0291da0564cef24eab4a1b253"
+    }
+  }
+}

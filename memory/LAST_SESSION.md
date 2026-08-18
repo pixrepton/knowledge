@@ -1,18 +1,49 @@
 # Last Session
 
-Updated: 2026-08-16 — **Fresh38 measurement requalification — PASS (measurement)**.
+Updated: 2026-08-18 — **P2 causal observability closeout PASS**.
 
 ## Headline
+
+```text
+P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
+P2_PRODUCT_SHA = ae59750565d2a0e334f646a4d5f7bc94bd92f602
+P2_RUNNER_SHA = 800318a7a2a34cfd0865889a0daacdcf530d9cda
+CAPABILITY-OBSERVABILITY-01 = CLOSED
+INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH (current reproduction NO)
+SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING (observability blocker REMOVED)
+NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01)
+NO_RECAPTURE_FOR_P3A = YES
+OPERATOR_DECISIONS_UPDATED = NO
+```
+
+## What this closeout proved
+
+- Additive Brain1 draft-path evidence (`draft_path_observability.v1`) without product
+  draft/gate/case-state semantics change.
+- Current INT-01 draft-absent symptom is **not** reproduced (`DRAFT_ACCEPTED`).
+- Current SVC-05 draft-absent **is** reproduced and classifiable (`SKIPPED_PRE_DRAFTER` /
+  `BR_ACTION_AND_REPLY_FLAG_NOT_ELIGIBLE`).
+- GitNexus gmail-agent reindexed at `ae59750`; module is on the live call path.
+  Missing reverse CALLS and BR-as-data are index limitations, not code defects.
+- Canonical residual owner: `eval/mail-agent-intelligence-current/`.
+
+## Stop / next
+
+P2 CLOSED. P3A must adjudicate frozen Fresh38 27/38 captures only.
+Do not run INT-04/NEW-05/FU-01/MI-01 again as the reason those cases failed in 27/38.
+Do not treat INT-01 as fixed forever.
+
+## Previous headline (2026-08-16, preserved)
 
 ```text
 FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE = RUN (38/38 capture QUALIFIED, FIRST_ATTEMPT#1)
 CURRENT CAPABILITY BASELINE (contract v5) = 27 CLEAN_PASS / 11 CAPABILITY → NOT QUALIFIED — CAPABILITY
-FOUR_CASE_CAPTURE_QUALIFICATION = PASS (CTX-04, MI-03, MI-04, DEC-02)
-L0 CHANNEL CONTRACT + HARNESS IDENTITY = see docs/MEASUREMENT_INTEGRITY_V3.md (canonical owner)
-L0_CHANNEL_FIX = IMPLEMENTED (committed 4210ed5, wrapper 035534a7…; capture runs used 3b3041e5)
-PRODUCT_SEMANTICS_CHANGE = 0
 ```
+
+The 2026-08-16 measurement requalification and consolidation notes below remain
+historical/current measurement truth. They are not rewritten.
+
 
 ## What happened this session
 

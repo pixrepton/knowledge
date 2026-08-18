@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-16 (Fresh38 measurement requalified; capability below threshold).
+Status: active only. Last updated: 2026-08-18 (P2 causal observability CLOSED).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -15,16 +15,18 @@ UNKNOWN_NEEDS_PROOF = 0
 FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE = RUN (2026-08-16, 38/38 capture QUALIFIED)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) → NOT QUALIFIED — CAPABILITY
-NEXT = 11-CAPABILITY focused analysis (product), not a new residual wave
+P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
+CAPABILITY-OBSERVABILITY-01 = CLOSED
+NEXT = P3A frozen K3 adjudication (INT-04, NEW-05, FU-01, MI-01), not a new residual wave and not a new recapture
 ```
 
 | ID                               | Area        | Status   | Next action                                                                                  |
 | --------------------------------- | ----------- | -------- | --------------------------------------------------------------------------------------------- |
 | `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **CLOSED** | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed. |
-| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent | **OPEN — next program** | Focused per-case analysis/proof for the 11 CAPABILITY cases (INT-01, INT-04, INT-05, NEW-03, NEW-05, FU-01, SVC-05, DOC-02, CTX-03, MI-01, MI-02) before any product change. Measurement is green; product is below threshold. |
+| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent | **OPEN — next: P3A** | P2 causal observability CLOSED (`gmail-agent@ae597505`, runner `800318a7`). Next: frozen K3 adjudication of INT-04, NEW-05, FU-01, MI-01 against `.artifacts/fresh38-full-current-20260816T124100` only. Do not recapture. Do not mix new judge/scorer with frozen capture. Residual matrix: `eval/mail-agent-intelligence-current/`. |
 | `FRESH38-L0-REPAIR-COMMIT-20260816` | workspace | **CLOSED** | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios). |
 | `TASK-ENGINE-SCOPE-UPDATE` | workspace (scripts) | **OPEN — procedural debt** | Task engine lacks a supported operation for scope/adoption updates; consolidation required direct JSON mutation of checkpoints. Desired future capability: canonical `task-scope-add` / `task-adopt-path` with validation, ownership safeguards, audit trail, checkpoint integration. Not a blocker for consolidation PASS; do not implement in closeout. |
-| `CAPABILITY-OBSERVABILITY-01` | gmail-agent (eval capture) | **OPEN — observability debt** | Fresh38 persisted `reply_draft_enabled` but not enough to answer WHY it was false post-run (missing `business_result.reply_recommended`, `intake_result.review_required`, drafter eligibility reason, relevant BR decision fields). Persist decision-critical intermediate fields needed for post-run causal diagnosis without persisting sensitive/raw LLM content. Not a product-semantics change; do not fix inside K1. |
+| `CAPABILITY-OBSERVABILITY-01` | gmail-agent (eval capture) | **CLOSED** | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change. |
 | IQ-01-ADJUDICATED                | eval        | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                 |
 | GOV-06                           | knowledge   | PARTIAL  | `.serena` policy monitor — ignore by default                                                 |
 
