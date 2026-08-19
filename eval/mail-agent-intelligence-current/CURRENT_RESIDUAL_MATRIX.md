@@ -5,7 +5,8 @@ Baseline remains `27 CLEAN_PASS / 11 CAPABILITY` from
 `.artifacts/fresh38-full-current-20260816T124100` (historical labels preserved).
 
 P2 closeout changed **current** status of INT-01 and SVC-05 only.
-K3 classes are not guessed here.
+K3 classes are not guessed here. Execution fork frozen in `P4_VS_P3B_FORK.md`
+(P4 first; P3B deferred to step 5). Case classifications below unchanged.
 
 | case_id | frozen_base | frozen_quality_passed | frozen_failed_component | cluster | current_classification | current_root_cause_status | fix_surface_status |
 | --- | --- | --- | --- | --- | --- | --- | --- |

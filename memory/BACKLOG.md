@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-18 (P2 causal observability CLOSED).
+Status: active only. Last updated: 2026-08-19 (P4 vs P3B fork freeze).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -17,13 +17,14 @@ FULL FRESH38 AGAINST CURRENT CODE = RUN (2026-08-16, 38/38 capture QUALIFIED)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) → NOT QUALIFIED — CAPABILITY
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
 CAPABILITY-OBSERVABILITY-01 = CLOSED
-NEXT = optional P3B (general GT-unanchored judge class) or P4 on proven current product defects; not a new recapture
+P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02)
+NEXT = P4-A MI-02; P3B deferred step 5; not a new recapture
 ```
 
 | ID                               | Area        | Status   | Next action                                                                                  |
 | --------------------------------- | ----------- | -------- | --------------------------------------------------------------------------------------------- |
 | `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **CLOSED** | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed. |
-| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent | **OPEN — next: P3B optional / P4** | P2 CLOSED. P3A frozen K3 COMPLETE: INT-04/NEW-05/FU-01/MI-01 `EVALUATOR_WRONG` for canonical 27/38. Do not recapture. Do not add case-id evaluator exceptions. Next: optional P3B general GT-unanchored judge class on +/- cohort, else P4 on proven current product defects only. Residual matrix: `eval/mail-agent-intelligence-current/`. |
+| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent | **OPEN — next: P4-A MI-02** | P2 CLOSED. P3A COMPLETE (`EVALUATOR_WRONG` K3). Fork frozen: P4 first, P3B step 5. Next slice P4-A MI-02 adjudication + minimal fix candidate only after separate plan. Sequence: `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`. Do not recapture. No case-id evaluator exceptions. |
 | `FRESH38-L0-REPAIR-COMMIT-20260816` | workspace | **CLOSED** | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios). |
 | `TASK-ENGINE-SCOPE-UPDATE` | workspace (scripts) | **OPEN — procedural debt** | Task engine lacks a supported operation for scope/adoption updates; consolidation required direct JSON mutation of checkpoints. Desired future capability: canonical `task-scope-add` / `task-adopt-path` with validation, ownership safeguards, audit trail, checkpoint integration. Not a blocker for consolidation PASS; do not implement in closeout. |
 | `CAPABILITY-OBSERVABILITY-01` | gmail-agent (eval capture) | **CLOSED** | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change. |

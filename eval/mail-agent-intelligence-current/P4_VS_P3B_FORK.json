@@ -1,0 +1,105 @@
+{
+  "schema_version": "p4_vs_p3b_fork.v1",
+  "frozen_at": "2026-08-19",
+  "task_id": "FRESH38-CAPABILITY-11-ANALYSIS-20260816",
+  "slice": "P4_VS_P3B_FORK_FREEZE",
+  "invariants": {
+    "PRODUCT_CODE_CHANGE": 0,
+    "EVALUATOR_CHANGE": 0,
+    "GT_CHANGE": 0,
+    "SCORER_CHANGE": 0,
+    "JUDGE_CHANGE": 0,
+    "NO_RECAPTURE": true,
+    "NO_MIXED_EXPERIMENT": true,
+    "OPERATOR_DECISIONS_UPDATED": false
+  },
+  "fork": {
+    "NEXT_EXECUTION": "P4",
+    "NEXT_SLICE": "P4-A_MI-02",
+    "P3B": "DEFERRED_TO_STEP_5",
+    "P3B.authorized_now": false
+  },
+  "execution_sequence": [
+    {
+      "step": 1,
+      "id": "P4_VS_P3B_FORK",
+      "status": "COMPLETE",
+      "note": "Freeze fork; overlay only"
+    },
+    {
+      "step": 2,
+      "id": "P4-A_MI-02",
+      "status": "PENDING",
+      "note": "Adjudication + minimal fix candidate"
+    },
+    {
+      "step": 3,
+      "id": "P4-B_SVC-05",
+      "status": "PENDING",
+      "note": "BR/gate diagnosis + optional fix"
+    },
+    {
+      "step": 4,
+      "id": "BOUNDED_COHORT_REPROOF",
+      "status": "PENDING",
+      "note": "MI-02, SVC-05, INT-01 regression watch"
+    },
+    {
+      "step": 5,
+      "id": "P3B_GT_UNANCHORED_JUDGE",
+      "status": "DEFERRED",
+      "note": "Optional; +/- cohort; never case-id exceptions"
+    },
+    {
+      "step": 6,
+      "id": "P4-C_CTX-03",
+      "status": "PENDING",
+      "note": "Design contract then fix; RP-29 high blast"
+    },
+    {
+      "step": 7,
+      "id": "P1.4B_LIVE",
+      "status": "PARKED_PARALLEL",
+      "note": "RC3 live AUTH when RC3 enters scope"
+    },
+    {
+      "step": 8,
+      "id": "FULL_FRESH38",
+      "status": "PENDING",
+      "note": "One qualified experiment vs frozen 27/11"
+    }
+  ],
+  "rationale": {
+    "p4_first_facts": [
+      "P3A: INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=EVALUATOR_WRONG on frozen 27/38",
+      "v5 scorer faithfully maps judge fail to CAPABILITY",
+      "PRODUCT_AFFECTING with strong mechanism: MI-02; SVC-05 current diagnosis pending; CTX-03 high blast"
+    ],
+    "p3b_deferred_facts": [
+      "GT_UNANCHORED_JUDGE_DIMENSION is P3B candidate only",
+      "authorized_now=false until step 5"
+    ]
+  },
+  "frozen_baseline_unchanged": {
+    "attempt_id": "fresh38_full_current_20260816T124100",
+    "clean_pass": 27,
+    "capability": 11,
+    "threshold": 34,
+    "contract": "v5"
+  },
+  "anti_scope": [
+    "No product code in this slice",
+    "No evaluator/GT/scorer/judge change in this slice",
+    "No recapture or Groq in this slice",
+    "Do not start P4-A in this slice",
+    "Do not write OPERATOR_DECISIONS.md"
+  ],
+  "record_owner": "eval/mail-agent-intelligence-current/",
+  "supersedes_next_line_in": [
+    "CURRENT_STATE.md",
+    "ACTIVE_WORKSPACE.md",
+    "BACKLOG.md",
+    "LAST_SESSION.md",
+    "INDEX.md"
+  ]
+}

@@ -1,8 +1,35 @@
 # Last Session
 
-Updated: 2026-08-18 — **P2 closeout + P3A frozen K3 adjudication PASS**.
+Updated: 2026-08-19 — **P4 vs P3B fork freeze PASS**.
 
 ## Headline
+
+```text
+P4_VS_P3B_FORK = FROZEN
+NEXT_EXECUTION = P4
+NEXT_SLICE = P4-A_MI-02
+P3B = DEFERRED_TO_STEP_5
+P3B.authorized_now = false
+PRODUCT_CODE_CHANGE = 0
+EVALUATOR_CHANGE = 0
+OPERATOR_DECISIONS_UPDATED = NO
+STOP = YES (P4-A only after separate plan acceptance)
+```
+
+## What this slice did
+
+- Froze eight-step capability execution sequence (operator accepted in chat).
+- Recorded fork in `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md` + `.json`.
+- Updated CURRENT_STATE, INDEX, ACTIVE_WORKSPACE, BACKLOG overlay NEXT lines.
+- Did not change frozen 27/11 baseline or residual case classifications.
+- Did not write `OPERATOR_DECISIONS.md`.
+
+## Stop / next
+
+Next slice: **P4-A MI-02** — adjudication + minimal fix candidate.
+Requires separate plan acceptance before implementation.
+
+## Previous headline (2026-08-18, preserved)
 
 ```text
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
@@ -16,23 +43,15 @@ NEXT = optional P3B (GT-unanchored judge class) or P4 proven current product def
 OPERATOR_DECISIONS_UPDATED = NO
 ```
 
-## What this closeout proved
+## What P2/P3A closeout proved (unchanged)
 
 - Additive Brain1 draft-path evidence (`draft_path_observability.v1`) without product
   draft/gate/case-state semantics change.
 - Current INT-01 draft-absent symptom is **not** reproduced (`DRAFT_ACCEPTED`).
 - Current SVC-05 draft-absent **is** reproduced and classifiable (`SKIPPED_PRE_DRAFTER` /
   `BR_ACTION_AND_REPLY_FLAG_NOT_ELIGIBLE`).
-- GitNexus gmail-agent reindexed at `ae59750`; module is on the live call path.
-  Missing reverse CALLS and BR-as-data are index limitations, not code defects.
+- P3A: INT-04, NEW-05, FU-01, MI-01 are `EVALUATOR_WRONG` on frozen 27/38.
 - Canonical residual owner: `eval/mail-agent-intelligence-current/`.
-
-## Stop / next
-
-P2 CLOSED. P3A COMPLETE against frozen 27/38 only.
-Do not recapture INT-04/NEW-05/FU-01/MI-01 as the reason those cases failed.
-Do not treat INT-01 as fixed forever.
-Do not start P3B as case-id exceptions. P4 only on proven current product defects.
 
 ## Previous headline (2026-08-16, preserved)
 
@@ -45,7 +64,6 @@ CURRENT CAPABILITY BASELINE (contract v5) = 27 CLEAN_PASS / 11 CAPABILITY → NO
 The 2026-08-16 measurement requalification and consolidation notes below remain
 historical/current measurement truth. They are not rewritten.
 
-
 ## What happened this session
 
 - **RCA closed** — pełny kontrakt L0 + tożsamość harnessa (`PROVEN_FULL_RUN_HARNESS=3b3041e5`,
@@ -55,7 +73,7 @@ historical/current measurement truth. They are not rewritten.
 - **FU-07 17/38 abort:** `HOST_SLEEP_ABORT_CAUSE = PROVEN_ENVIRONMENTAL` (host sleep, battery
   critical → kernel-power 42/107; runner finished 90 s after wake; harness fail-closed correct)
   — **not** an L0 channel root cause. `DOCKER_INTERNAL_PREMATURE_ATTACH_EOF_TRIGGER =
-  NOT_PROVEN_AND_NOT_REQUIRED`.
+NOT_PROVEN_AND_NOT_REQUIRED`.
 - **Deterministic gates:** 6/6 PASS (lifecycle channel, exec instrumentation, capture contract,
   reuse gate, SUT fingerprint, runner contract) — fresh logs
   `C:\top-code-session-scratch\fresh38-deterministic-gates-20260816`.
@@ -75,13 +93,12 @@ historical/current measurement truth. They are not rewritten.
 ## Current state / next
 
 - Measurement: requalified and green. Product: below capability threshold (27/38).
-- Next real program: focused capability analysis of the 11 CAPABILITY cases (INT-01, INT-04,
-  INT-05, NEW-03, NEW-05, FU-01, SVC-05, DOC-02, CTX-03, MI-01, MI-02) before any product change.
+- Next real program: P4-A MI-02 per frozen fork (`P4_VS_P3B_FORK.md`).
 - L0 repair **committed** `4210ed5` (workspace, LOCAL_ONLY) as part of administrative closure.
 
 ## Still open
 
-1. 11-CAPABILITY product analysis (next program).
+1. P4-A MI-02 product analysis and fix candidate (next slice).
 2. Optional: IQ-01 human adjudication; GOV-06 `.serena` monitor.
 
 ## Stop

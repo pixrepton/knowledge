@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-18 (P2 causal observability CLOSED).
+Status: current direction only. Last updated: 2026-08-19 (P4 vs P3B fork freeze).
 
 ## Current program (canonical)
 
@@ -25,7 +25,8 @@ CAPABILITY-OBSERVABILITY-01 = CLOSED
 INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH (current reproduction NO)
 SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING (observability blocker REMOVED)
 P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 = EVALUATOR_WRONG)
-NEXT = optional P3B general evaluator class, else P4 on proven current product defects (likely MI-02 / SVC-05 / CTX-03)
+P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_TO_STEP_5)
+NEXT = P4-A MI-02; P3B deferred step 5; bounded re-proof then P4-B / P4-C per sequence
 ```
 
 Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
@@ -43,12 +44,11 @@ without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` change
 
 **Current residual owner:** `knowledge/eval/mail-agent-intelligence-current/`.
 
-**Next program:** optional P3B only for the general GT-unanchored judge class
-proven on a positive+negative cohort; otherwise P4 on proven current product
-defects (priority after P3A: likely MI-02, then SVC-05 focused BR/gate, then
-CTX-03). INT-01 remains `HISTORICAL_ONLY / REGRESSION_WATCH`. K3 canonical
-failures are `EVALUATOR_WRONG`, not a product-fix queue. Do not recapture
-Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj
+**Next program:** frozen eight-step sequence in `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`.
+**Now:** P4-A MI-02 (adjudication + minimal fix candidate). P3B at step 5 only.
+Priority after P4-A: P4-B SVC-05, bounded re-proof, then P4-C CTX-03. INT-01 remains
+`HISTORICAL_ONLY / REGRESSION_WATCH`. K3 canonical failures are `EVALUATOR_WRONG`, not a
+product-fix queue. Do not recapture Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj
 kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
@@ -97,7 +97,8 @@ FULL FRESH38 AGAINST CURRENT CODE: RUN (2026-08-16)
 CURRENT CAPABILITY BASELINE: 27/38 CLEAN_PASS (v5, threshold 34) — NOT QUALIFIED — CAPABILITY
 P2_CAPABILITY_CAUSAL_OBSERVABILITY: PASS / CLOSED
 P3A: COMPLETE (K3 EVALUATOR_WRONG)
-NEXT: optional P3B or P4 proven current product defects only
+P4_VS_P3B_FORK: FROZEN (P4 first)
+NEXT: P4-A MI-02; STOP until separate P4-A plan accepted
 P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```
