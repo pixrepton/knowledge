@@ -136,3 +136,50 @@ GitNexus, CBM, Serena or maintained `knowledge/` artifacts require refresh.
   documentation.
 - When tools disagree, verify current source, configuration and runtime. Never
   silently reconcile conflicting evidence by guessing.
+
+## Operational runbook (index refresh and CBM cache)
+
+Operational facts observed during the 2026-08-19/20 reindex; keep them here rather
+than re-discovering them.
+
+### GitNexus reindex
+
+- Analyze from the **repo root**, sequentially, one repo at a time (no parallel
+  analyze; KuzuDB/timeout risk).
+- Cheap-first order when refreshing many repos: smallest `commitsBehind` first,
+  then the expensive repos (`knowledge`, `gmail-agent`, root workspace).
+- Verify with live MCP `list_repos` (`commitsBehind = 0`) or CLI
+  `node .gitnexus/run.cjs status` -> `up-to-date`; do not call "done" on
+  "index completed" text alone.
+
+### FTS corruption recovery
+
+- Symptom: `file_fts inconsistent` (observed in `gmail-agent` and root).
+- Recovery: `clean --force` then a full `analyze`. This is allowed only on a proven
+  corruption signal, not as routine freshness work.
+
+### Nested `.git` sidetrack
+
+- After removing a nested `.git` (e.g. `rag-chat-asystent/backend/.git`), the old
+  registry entry becomes a sidetrack. In the same session: `clean` the stale index
+  dir, re-analyze the root repo, and optionally `group sync topinstal-workspace`.
+- Analyze the Typ A repo root, never `backend/` as its own target.
+
+### Root full-analyze side effect
+
+- A full root workspace analyze can grow the indexed file count dramatically
+  (observed ~166 -> ~14.7k) because it includes nested workspace content. This is a
+  side effect of `analyze`, not a corruption; observe it rather than "fixing" it.
+
+### CBM canonical cache
+
+- Canonical cache directory: `C:/ai-os-codebase-memory` (same as
+  `scripts/dev-tooling/cbm_mcp_stdio.py`). The default
+  `%USERPROFILE%\.cache\codebase-memory-mcp` is stale and should not be used.
+- Set `CBM_ALLOWED_ROOT` and `CBM_CACHE_DIR` in `.cursor/mcp.json` and `.mcp.json`.
+  Requires an MCP restart / new session to take effect.
+- `project=` values are path-encoded, e.g.
+  `C-Users-compg-Desktop-top-code-workspace-gmail-agent` (not short `gmail-agent`).
+- Reindex command: `python scripts/dev-tooling/cbm_index_repos.py [repos...]`
+  (all repos with no arguments). Verify with a real smoke query, not only the
+  "indexed" message.

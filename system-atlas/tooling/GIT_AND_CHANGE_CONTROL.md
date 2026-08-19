@@ -110,3 +110,43 @@ Copy from `decision.agent_report` when using `task-commit-plan --json`.
 - Proof economy: root `AGENTS.md` §Change Discipline / Proof Economy
 - Execution ladder: `.agents/skills/cursor-codex-harness/SKILL.md`
 - Proof gates: `.cursor/rules/92-proof-gate-discipline.mdc`
+
+## Control-plane gotchas
+
+Short operational notes from consolidation sessions. Keep them concrete.
+
+### Task-id resolution precedence
+
+`resolve_task_id` resolves in this order:
+
+1. explicit `--task-id`
+2. `AI_OS_TASK_ID` environment variable
+3. a single active task
+4. otherwise error
+
+A stale `AI_OS_TASK_ID` pointing to a closed/archived task can block writes or
+raise "task is archived". Prefer passing `--task-id` explicitly; the env var set in
+a parent process cannot be cleared from inside the session.
+
+### Raw-git guard
+
+The destructive/raw-git/publication regexes match newline-separated commands
+(`(^|[;&|\n]\s*)` with `re.M`), so a bare `git add`/`commit`/`push` on its own
+line is caught. Do not rely on this as an excuse to bypass `task-commit`; it is a
+guard, not an authorization path.
+
+### CRLF phantom detection
+
+A "modified" file with an empty `--numstat` or `--ignore-cr-at-eol --numstat` is
+usually a CRLF phantom. Confirm by comparing the `md5` of `HEAD:<file>` and the
+working file **with and without** stripping `\r`; identical-after-strip means
+CRLF-only. 18 of 22 dirty files in the consolidation pass were CRLF-only.
+
+Prefer a `.gitattributes` LF policy per repository. Renormalize only after proving
+content is identical, and never fold foreign dirty state into the same commit.
+
+### Foreign ownership
+
+Do not commit autoformat/whitespace changes to files owned by another active task
+(e.g. a task that declares `knowledge:INDEX.md` or `knowledge:eval/...` in
+`declared_write_scope`). Isolate your own owned paths and leave the rest untouched.
