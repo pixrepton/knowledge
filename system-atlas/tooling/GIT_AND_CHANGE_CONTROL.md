@@ -1,249 +1,111 @@
-# Git And Change Control
+# Git and change control (canonical)
 
-Status: canonical shared Git procedure for Codex, Claude Code and human-led agent runs.
-Qualified: 2026-08-02.
+Status: canonical procedure for agent Git workflow in `top-code workspace`.
+Referenced from root `AGENTS.md`, `scripts/README.md`, `scripts/AGENTS.md`, harness skills.
 
-This document defines how agent work becomes durable local Git history without
-absorbing unrelated workspace state. It extends the workspace `AGENTS.md` and
-`CODEX_EXECUTION_MAP.md`; it does not create another task registry or project
-memory layer.
+## Principles
 
-## Core Decision
+1. **Nested repos are separate Git units.** Root workspace meta-repo never commits product paths (`gmail-agent/`, `kalk-top/`, …) — use `task-commit --repo <nested>`.
+2. **Agents never use raw `git add` / `git commit`** for task work. Use `scripts/ai_os_task.py`.
+3. **Commit is a reasoned decision, not a checkbox and not an operator poll.** The agent analyzes, emits a verdict, then acts.
+4. **Default publication is `LOCAL_ONLY`.** Local commit authorization does not authorize push, PR, merge or deploy.
 
-An accepted write task authorizes the agent to create a local task branch and
-safe scoped local commits needed to complete that task.
-
-It does not authorize push, pull request creation, merge, deployment, VPS work,
-production mutation, destructive cleanup or history rewriting.
-
-The default publication mode is `LOCAL_ONLY`.
-
-## Required Flow
+## Task lifecycle
 
 ```text
-task-start
-  -> task-branch when current branch is protected/default
-  -> implementation and task-gate
-  -> task-commit-plan
-  -> task-commit
-  -> post-commit gates
-  -> READY_TO_CLOSE
-  -> task-close
+task-start → task-branch (if needed) → writes → task-gate → task-commit-plan → decision → task-commit → task-close
 ```
 
-All write routes (`SMALL`, `MEDIUM`, `CRITICAL`) use the Wave 01 checkpoint.
-`READ` never creates a checkpoint solely to answer a question.
+Full command examples: `scripts/README.md` §Agent task and Git workflow.
 
-## Publication Modes
+## Commit decision discipline
 
-| Mode | Local branch/commit | Push and draft PR | Merge | Deploy/live mutation |
-|---|---:|---:|---:|---:|
-| `LOCAL_ONLY` | Allowed | Not allowed | Not allowed | Not allowed |
-| `PUBLISH` | Allowed | Allowed within task scope | Not allowed | Not allowed |
-| `SHIP` | Allowed | Allowed; prepare merge-ready proof | Separate approval | Separate approval |
+Before every `task-commit`, run:
 
-Change mode explicitly in the checkpoint. Never infer publication permission
-from a previous conversation or from the existence of a remote.
-
-## Branch Rule
-
-Before the first write, determine the exact repository root and current branch.
-Do not edit on:
-
-- the repository default branch;
-- `main`, `master` or `trunk`;
-- detached HEAD;
-- a branch involved in merge, rebase, cherry-pick or revert.
-
-Use:
-
-```text
-python scripts/ai_os_task.py task-branch --repo <repo> --name <branch>
-```
-
-Prefer work-based names, not tool-based names:
-
-```text
-repair/RP-22-runtime-proof
-fix/DQ-17-runtime-ownership
-docs/git-change-control
-```
-
-Do not name branches `codex/*` or `claude/*` by default. One agent may start the
-work and another may resume it.
-
-## Commit Readiness
-
-`COMMIT_READY` requires all of the following:
-
-- the repository belongs to the active checkpoint;
-- the current branch is a non-protected task branch;
-- no merge/rebase/cherry-pick/revert is in progress;
-- the task is not blocked and has no open blocker;
-- the current owned diff is inside declared `repo:path` scope;
-- ownership conflicts are absent or can be mechanically isolated from the
-  preserved task-start baseline;
-- a current passing gate matches the exact current repo state;
-- the planned commit contains no detected secret or sensitive path;
-- the commit can be built without staging or absorbing unrelated changes.
-
-`NO_COMMIT` means the repository has no task-owned change to record.
-
-`BLOCKED` means the agent must resolve the stated issue and rerun the plan. The
-agent must not bypass the wrapper with raw Git commands.
-
-## Commands
-
-Plan:
-
-```text
+```powershell
 python scripts/ai_os_task.py task-commit-plan --repo <repo> --json
 ```
 
-Commit:
+The JSON payload includes a `decision` object. The agent **must** read it and include the same reasoning in the session report (section `## Decyzja commit`).
 
-```text
-python scripts/ai_os_task.py task-commit \
-  --repo <repo> \
-  --message "fix(scope): describe the completed result"
+### Verdicts
+
+| `decision.decision` | Meaning | Agent action |
+| --- | --- | --- |
+| `COMMIT_NOW` | Slice complete; plan `COMMIT_READY`; scope coherent | Run `task-commit` without asking the operator |
+| `COMMIT_LATER` | Owned work exists but blockers remain | Fix blockers; do **not** commit yet |
+| `NO_COMMIT` | No owned paths in this repo | Continue work or close if no residue |
+| `DEFER_OPERATOR` | Ownership conflict or policy ambiguity | Stop; state conflict; wait for operator |
+
+### When `COMMIT_NOW`
+
+All must hold:
+
+1. `task-commit-plan.verdict` = `COMMIT_READY`
+2. Every owned path is inside `declared_write_scope` (or adopted baseline)
+3. Gate fingerprint matches current repo state (PASS recorded)
+4. Logical slice is complete — no imminent edit to the same contract in the same turn
+5. Task is not `CLOSED` / `ABORTED_WITH_EVIDENCE` (open micro-task first if follow-up)
+6. `next_action` is empty when preparing `READY_TO_CLOSE`
+
+### When `COMMIT_LATER`
+
+Typical signals (engine surfaces these in `decision.blockers`):
+
+- plan `BLOCKED` (stale gate, protected branch, secrets, nested path from root)
+- `next_action` still describes unfinished slice work
+- owned paths outside scope
+- ownership conflicts
+- task already closed while files remain dirty
+- lock-file / topology snapshot must be regenerated **after** final harness edits (order: content → gates → lock → commit)
+
+### When `NO_COMMIT`
+
+- No task-owned dirty paths in the repo
+- Review-only / Ask mode (no writes)
+
+### Forbidden agent behavior
+
+- Asking the operator "czy commit?" for routine scoped implementation
+- Claiming `PASS` / `done` with uncommitted task-owned residue
+- Closing a task before committing in-scope harness changes that are part of the same slice
+- `git add -A` from workspace root
+
+### Allowed operator ask
+
+Only when `decision.ask_operator` is true or publication requires explicit push/merge/deploy authorization.
+
+## Multi-repo tasks
+
+Commit **per repository**, in dependency order when known:
+
+1. Contracts / shared types owner first
+2. Consumers second
+3. Workspace harness / docs last (often includes `workspace-repos.lock.json` as final step)
+
+Run `task-commit-plan` separately per repo; each plan carries its own `decision`.
+
+## Agent report template
+
+```markdown
+## Decyzja commit
+- Werdykt: COMMIT_NOW | COMMIT_LATER | NO_COMMIT | DEFER_OPERATOR
+- Repo: <repo>
+- Uzasadnienie: <1-3 zdania>
+- Proof: <gate / test run>
+- Następny krok: <task-commit | naprawa blockera | brak>
 ```
 
-The commit wrapper:
+Copy from `decision.agent_report` when using `task-commit-plan --json`.
 
-1. refreshes the ownership model;
-2. obtains a per-repository commit lock;
-3. builds an isolated temporary Git index from `HEAD`;
-4. includes only task-owned file states;
-5. subtracts preserved pre-task dirty hunks when mechanically safe;
-6. preserves unrelated staged files and same-file foreign staged hunks;
-7. scans planned file states for high-confidence secrets;
-8. runs normal Git commit hooks through the temporary index;
-9. restores the real index to the expected preserved-user state;
-10. verifies the actual paths in the new commit;
-11. records `repo:SHA` in the Wave 01 checkpoint;
-12. performs no push.
+## Hooks and adapters
 
-After a commit, rerun the applicable final gates. A gate fingerprint containing
-the previous `HEAD` is intentionally stale after the commit.
+- Codex: `scripts/ai_os_codex_hook.py`
+- Claude Code: `scripts/ai_os_claude_hook.py`
+- Cursor: `.cursor/rules/95-commit-decision-discipline.mdc`
 
-## Dirty Tree Ownership
+## Related
 
-The task-start baseline distinguishes:
-
-- foreign staged files;
-- foreign unstaged files;
-- foreign untracked files;
-- explicitly adopted baseline paths;
-- task-owned staged, unstaged and untracked changes.
-
-Never treat an unfamiliar change as disposable. Do not stage, commit, restore,
-clean or reset it.
-
-A pre-existing dirty path may be adopted only through explicit task scope. An
-adopted path becomes task-owned and must be committed or otherwise resolved
-before closure.
-
-If task and foreign changes touch non-overlapping text hunks in one tracked
-file, the wrapper may isolate the task-only commit and leave the foreign hunk
-staged or unstaged after the new `HEAD`.
-
-If changes overlap, are binary, involve a foreign untracked file, or cannot be
-reconstructed deterministically, commit planning returns `BLOCKED`.
-
-## Multi-Repository Work
-
-Each repository has its own:
-
-- branch;
-- baseline SHA;
-- dirty state;
-- gates;
-- commit SHA;
-- remote publication action.
-
-There is no atomic workspace-wide commit. A cross-repo task creates one or more
-commits in each owner repository and records every `repo:SHA` in the same task
-checkpoint. Verify owner and consumer contracts before closure.
-
-Do not use root Git status as evidence for nested repositories.
-
-## Multiple Agents
-
-In one shared working tree:
-
-- subagents may inspect and edit only disjoint declared scopes;
-- the main agent owns branch changes, staging, commit planning and commits;
-- no two agents may manipulate the same Git index concurrently;
-- the commit lock is a safety net, not a substitute for file ownership.
-
-A subagent may commit only when it runs in a separate explicit worktree and
-branch with its own checkpointed scope. It returns the branch and SHA to the
-main agent for integration.
-
-## Prohibited Operations
-
-Agents must not run:
-
-- raw `git add` or raw `git commit`;
-- `git reset`;
-- `git clean`;
-- destructive `git restore`;
-- `git checkout -- <path>`;
-- force push;
-- `git stash drop` or `git stash clear`;
-- `git branch -D`;
-- automatic amend, rebase or other history rewrite;
-- hook/check bypasses.
-
-Recovery possibility through reflog is not authorization.
-
-## GitHub Handoff
-
-GitHub is publication and collaboration, not the source of truth for the local
-runtime or dirty working tree.
-
-Before push or PR creation:
-
-- publication mode must be `PUBLISH` or `SHIP`;
-- inspect the complete branch diff against the intended base;
-- run the repository checks that would block CI;
-- confirm the branch and remote;
-- ensure every commit belongs to the task;
-- write PR text from the actual diff and evidence.
-
-A claimed PR must be confirmed by its actual repository, number and head SHA.
-Do not report a PR merely because a title/body was prepared.
-
-Merge remains a separate operator-approved action. `SHIP` does not authorize
-merge or deployment.
-
-## Completion Report
-
-Report per repository:
-
-- branch and base;
-- initial and final SHA;
-- created commit SHA and subject;
-- actual committed paths;
-- preserved foreign staged/unstaged/untracked state;
-- gates and exact outcomes;
-- publication action, if any;
-- remaining residue, blockers and risk.
-
-Never report `PASS` while required post-commit gates or runtime proof are
-missing.
-
-## Regression Scenarios
-
-The shared engine must keep automated tests for at least:
-
-1. protected-branch write denial;
-2. scoped local commit and automatic SHA recording;
-3. foreign staged file not absorbed;
-4. foreign staged hunk in the same file preserved;
-5. task/foreign overlap blocked;
-6. secret pattern blocked;
-7. write outside declared scope blocked;
-8. raw Git add/commit blocked in Claude and Codex adapters;
-9. `LOCAL_ONLY` push/PR denial;
-10. closure blocked when task-owned residue remains.
+- Proof economy: root `AGENTS.md` §Change Discipline / Proof Economy
+- Execution ladder: `.agents/skills/cursor-codex-harness/SKILL.md`
+- Proof gates: `.cursor/rules/92-proof-gate-discipline.mdc`
