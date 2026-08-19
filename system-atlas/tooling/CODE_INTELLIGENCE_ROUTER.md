@@ -25,9 +25,9 @@ ToolSearch(query: "gitnexus", max_results: 15)
   back silently to plain `Read`/`Grep`. Route through Codebase Memory (CBM).
 
 The same applies to Serena. `knowledge/TOOLING_POLICY.md` states the general form
-of this rule: *"Before relying on an index, prove tool availability plus the
-freshness and coverage needed for the claim"* and *"Do not use errored or stale
-MCP servers as evidence."*
+of this rule: _"Before relying on an index, prove tool availability plus the
+freshness and coverage needed for the claim"_ and _"Do not use errored or stale
+MCP servers as evidence."_
 
 Observed on 2026-08-13: `gitnexus` and `serena` were declared in `.mcp.json`, their
 binaries were on PATH, and `gitnexus mcp` answered a direct MCP handshake with 17
@@ -36,15 +36,15 @@ is a per-session fact, not a property of the config file.
 
 ## Tool roles
 
-| Tool | Owns | Is not |
-| --- | --- | --- |
-| **Context7** | Current public documentation for external libraries, frameworks, SDKs, APIs | Aware of local architecture |
-| **GitNexus** | Architecture, processes, clusters, dependencies, blast radius, routes, cross-repo contracts | An editor or runtime proof |
-| **CBM** | Structural graph, call graph, types, routes, resources, custom Cypher | The default tool for every exploration |
-| **Serena** | Symbols, declarations, implementations, references, semantic edits | A complete cross-repo architecture map |
-| **CodeScene** | Maintainability, Code Health, change-quality gates | A dependency oracle or functional test |
-| **Playwright** | Browser behavior, UI flows, console, network, browser→backend proof | A code architecture tool |
-| **Tests and runtime** | Proof of actual system behavior | Optional |
+| Tool                  | Owns                                                                                        | Is not                                 |
+| --------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------- |
+| **Context7**          | Current public documentation for external libraries, frameworks, SDKs, APIs                 | Aware of local architecture            |
+| **GitNexus**          | Architecture, processes, clusters, dependencies, blast radius, routes, cross-repo contracts | An editor or runtime proof             |
+| **CBM**               | Structural graph, call graph, types, routes, resources, custom Cypher                       | The default tool for every exploration |
+| **Serena**            | Symbols, declarations, implementations, references, semantic edits                          | A complete cross-repo architecture map |
+| **CodeScene**         | Maintainability, Code Health, change-quality gates                                          | A dependency oracle or functional test |
+| **Playwright**        | Browser behavior, UI flows, console, network, browser→backend proof                         | A code architecture tool               |
+| **Tests and runtime** | Proof of actual system behavior                                                             | Optional                               |
 
 Graphs do not prove runtime behavior. Do not run every tool when one canonical
 route answers the question.
@@ -54,24 +54,24 @@ route answers the question.
 Each row lists the first tool when its server is live, and the fallback that
 applies when Step 0 says it is not.
 
-| Need | First tool | Fallback when unavailable | Next step |
-| --- | --- | --- | --- |
-| External library or API documentation | Context7 | web docs | inspect local integration |
-| Unknown local area or concept | GitNexus `query` | CBM `search_code` | process, cluster or context |
-| Architecture or workflow | GitNexus resources/process | CBM `get_architecture` | key symbols |
-| Concrete symbol | Serena `find_symbol` | CBM `search_graph` | references or implementations |
-| Dependencies or blast radius | GitNexus `impact` | CBM `trace_path` (`direction=inbound`, `risk_labels=true`) | confirm callers |
-| Exact call graph or custom relation | CBM `get_graph_schema` → `trace_path` / `query_graph` | — | implementation read |
-| Public HTTP API | GitNexus `route_map` / `api_impact` | CBM `query_graph` over route nodes | `shape_check`, contract test |
-| MCP, RPC or tool contract | GitNexus `tool_map` | CBM `search_graph` | implementation |
-| Cross-repo contract | GitNexus group contracts | CBM per-repo `project=` + manual join | verify owners and runtime path |
-| Type, interface or DTO | Serena | CBM `search_graph` | CBM confirmation at high risk |
-| Refactor | CodeScene review + GitNexus impact | CodeScene review + CBM `trace_path` | semantic edit |
-| Rename | Serena rename | manual + CBM `trace_path` to enumerate callers | never find-and-replace |
-| Backend or workflow debugging | GitNexus query/trace | CBM `trace_path` | runtime |
-| UI or browser debugging | Playwright | — | owning backend path |
-| Before commit | tests → GitNexus `detect_changes` | tests → CBM `detect_changes` | CodeScene safeguard |
-| Final UI proof | Playwright | — | confirm console and network |
+| Need                                  | First tool                                            | Fallback when unavailable                                  | Next step                      |
+| ------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------- | ------------------------------ |
+| External library or API documentation | Context7                                              | web docs                                                   | inspect local integration      |
+| Unknown local area or concept         | GitNexus `query`                                      | CBM `search_code`                                          | process, cluster or context    |
+| Architecture or workflow              | GitNexus resources/process                            | CBM `get_architecture`                                     | key symbols                    |
+| Concrete symbol                       | Serena `find_symbol`                                  | CBM `search_graph`                                         | references or implementations  |
+| Dependencies or blast radius          | GitNexus `impact`                                     | CBM `trace_path` (`direction=inbound`, `risk_labels=true`) | confirm callers                |
+| Exact call graph or custom relation   | CBM `get_graph_schema` → `trace_path` / `query_graph` | —                                                          | implementation read            |
+| Public HTTP API                       | GitNexus `route_map` / `api_impact`                   | CBM `query_graph` over route nodes                         | `shape_check`, contract test   |
+| MCP, RPC or tool contract             | GitNexus `tool_map`                                   | CBM `search_graph`                                         | implementation                 |
+| Cross-repo contract                   | GitNexus group contracts                              | CBM per-repo `project=` + manual join                      | verify owners and runtime path |
+| Type, interface or DTO                | Serena                                                | CBM `search_graph`                                         | CBM confirmation at high risk  |
+| Refactor                              | CodeScene review + GitNexus impact                    | CodeScene review + CBM `trace_path`                        | semantic edit                  |
+| Rename                                | Serena rename                                         | manual + CBM `trace_path` to enumerate callers             | never find-and-replace         |
+| Backend or workflow debugging         | GitNexus query/trace                                  | CBM `trace_path`                                           | runtime                        |
+| UI or browser debugging               | Playwright                                            | —                                                          | owning backend path            |
+| Before commit                         | tests → GitNexus `detect_changes`                     | tests → CBM `detect_changes`                               | CodeScene safeguard            |
+| Final UI proof                        | Playwright                                            | —                                                          | confirm console and network    |
 
 ## Standard change path
 
@@ -112,14 +112,14 @@ about to edit → confirm no CRITICAL/HIGH caller you have not accounted for →
 
 ## Index and freshness rules
 
-| Tool | Scope | Freshness rule |
-| --- | --- | --- |
-| **CBM** | Per-repository projects, named `C-Users-<user>-Desktop-top-code-workspace-<repo>` | Always pass explicit `project=`. Run `list_projects` once per session rather than guessing. Compare the project's `head_sha` against `git rev-parse HEAD`. Never substitute the root project for a repo-specific graph. |
-| **GitNexus** | True Git repos plus root shell; group `topinstal-workspace` for cross-repo | Reindex with `node .gitnexus/run.cjs analyze` from the project root |
-| **Serena** | Per-repository project configuration | Root is only a workspace shell |
-| **CodeScene** | On-demand analysis | No durable local graph |
-| **Context7** | External documentation only | Always current by definition |
-| **Playwright** | Current browser state only | No index |
+| Tool           | Scope                                                                             | Freshness rule                                                                                                                                                                                                                                                                                       |
+| -------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **CBM**        | Per-repository projects, named `C-Users-<user>-Desktop-top-code-workspace-<repo>` | Always pass explicit `project=`. Run `list_projects` once per session rather than guessing. Compare the project's `head_sha` against `git rev-parse HEAD`. Never substitute the root project for a repo-specific graph.                                                                              |
+| **GitNexus**   | True Git repos plus root shell; group `topinstal-workspace` for cross-repo        | Reindex with `node .gitnexus/run.cjs analyze` from the **repo root** (never from a subdirectory that was ever a nested `.git`, e.g. `rag-chat-asystent/backend/`). Nested `.git` creates a sidetrack registry entry; after removal, `clean` stale index dir and re-analyze root in the same session. |
+| **Serena**     | Per-repository project configuration                                              | Root is only a workspace shell                                                                                                                                                                                                                                                                       |
+| **CodeScene**  | On-demand analysis                                                                | No durable local graph                                                                                                                                                                                                                                                                               |
+| **Context7**   | External documentation only                                                       | Always current by definition                                                                                                                                                                                                                                                                         |
+| **Playwright** | Current browser state only                                                        | No index                                                                                                                                                                                                                                                                                             |
 
 Reindex only the affected repository. Do not auto-reindex broad workspaces.
 Report stale, incomplete or unavailable tools explicitly instead of working around
