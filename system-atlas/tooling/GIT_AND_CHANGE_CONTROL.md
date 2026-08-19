@@ -30,12 +30,12 @@ The JSON payload includes a `decision` object. The agent **must** read it and in
 
 ### Verdicts
 
-| `decision.decision` | Meaning | Agent action |
-| --- | --- | --- |
-| `COMMIT_NOW` | Slice complete; plan `COMMIT_READY`; scope coherent | Run `task-commit` without asking the operator |
-| `COMMIT_LATER` | Owned work exists but blockers remain | Fix blockers; do **not** commit yet |
-| `NO_COMMIT` | No owned paths in this repo | Continue work or close if no residue |
-| `DEFER_OPERATOR` | Ownership conflict or policy ambiguity | Stop; state conflict; wait for operator |
+| `decision.decision` | Meaning                                             | Agent action                                  |
+| ------------------- | --------------------------------------------------- | --------------------------------------------- |
+| `COMMIT_NOW`        | Slice complete; plan `COMMIT_READY`; scope coherent | Run `task-commit` without asking the operator |
+| `COMMIT_LATER`      | Owned work exists but blockers remain               | Fix blockers; do **not** commit yet           |
+| `NO_COMMIT`         | No owned paths in this repo                         | Continue work or close if no residue          |
+| `DEFER_OPERATOR`    | Ownership conflict or policy ambiguity              | Stop; state conflict; wait for operator       |
 
 ### When `COMMIT_NOW`
 
@@ -89,6 +89,7 @@ Run `task-commit-plan` separately per repo; each plan carries its own `decision`
 
 ```markdown
 ## Decyzja commit
+
 - Werdykt: COMMIT_NOW | COMMIT_LATER | NO_COMMIT | DEFER_OPERATOR
 - Repo: <repo>
 - Uzasadnienie: <1-3 zdania>
