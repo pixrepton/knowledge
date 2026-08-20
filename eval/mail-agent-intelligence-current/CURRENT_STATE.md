@@ -27,7 +27,8 @@ P4C_CTX03 = FIXED_IN_CODE (replace_message_facts conflicts surfaced)
 P3B = COMPLETE (INT-04/NEW-05/FU-01/MI-01 evaluator applicability fixed)
 SVC-05 = KNOWN_PRODUCT_RESIDUAL / DEFERRED_CONTRACT_GAP (does not block Fresh38)
 P1.4B = LIVE_PASS (INT-05/DOC-02/NEW-03 no call_kalk_top)
-NEXT = one full Fresh38
+FRESH38_RERUN = NO (focused/bounded proofs only)
+NEXT = STOP (11 CAPABILITY resolved or explicitly classified)
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
@@ -58,4 +59,5 @@ CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
 
 Closeout: CTX-03 is fixed in code (customer-message value changes now surface
 as conflicts). P3B fixed the four GT-unanchored evaluator dimensions. P1.4B
-live check passed (no unexpected kalk-top tool use). Next: one full Fresh38.
+live check passed (no unexpected kalk-top tool use). No full Fresh38 re-run.
+See `P4_FINAL_ACCOUNTING.md` for the 11-case resolution.

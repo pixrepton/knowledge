@@ -42,7 +42,7 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 | 5    | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort   | DEFERRED                 |
 | 6    | P4-C CTX-03 — design contract, then fix               | DESIGN_CONTRACT_PENDING  |
 | 7    | P1.4B live (parallel when RC3 in scope)               | PARKED                   |
-| 8    | Full Fresh38 — one qualified experiment vs 27/11      | PENDING                  |
+| 8    | Full Fresh38 — one qualified experiment vs 27/11      | CANCELLED (bounded proofs only) |
 
 ## P3B guardrails (when step 5 opens)
 
