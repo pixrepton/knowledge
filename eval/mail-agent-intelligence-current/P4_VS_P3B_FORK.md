@@ -7,10 +7,10 @@ This slice records **execution order only**. It does not rewrite frozen Fresh38
 
 ```text
 NEXT_EXECUTION = P4
-NEXT_SLICE = P4-A_MI-02
+NEXT_SLICE = P4-B_SVC-05
 P3B = DEFERRED_TO_STEP_5
 P3B.authorized_now = false
-PRODUCT_CODE_CHANGE = 0
+PRODUCT_CODE_CHANGE = 1  (P4-A MI-02 understanding intent projection only)
 EVALUATOR_CHANGE = 0
 GT_CHANGE = 0
 SCORER_CHANGE = 0
@@ -33,16 +33,16 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 
 ## Eight-step sequence (operator accepted)
 
-| Step | ID | Status |
-| ---- | -- | ------ |
-| 1 | P4 vs P3B fork freeze | COMPLETE (this document) |
-| 2 | P4-A MI-02 — adjudication + minimal fix candidate | PENDING |
-| 3 | P4-B SVC-05 — BR/gate diagnosis + optional fix | PENDING |
-| 4 | Bounded cohort re-proof (MI-02, SVC-05, INT-01 watch) | PENDING |
-| 5 | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort | DEFERRED |
-| 6 | P4-C CTX-03 — design contract, then fix | PENDING |
-| 7 | P1.4B live (parallel when RC3 in scope) | PARKED |
-| 8 | Full Fresh38 — one qualified experiment vs 27/11 | PENDING |
+| Step | ID                                                    | Status                   |
+| ---- | ----------------------------------------------------- | ------------------------ |
+| 1    | P4 vs P3B fork freeze                                 | COMPLETE (this document) |
+| 2    | P4-A MI-02 — adjudication + minimal fix candidate     | COMPLETE (f6c3b6a)       |
+| 3    | P4-B SVC-05 — BR/gate diagnosis + optional fix        | PENDING                  |
+| 4    | Bounded cohort re-proof (MI-02, SVC-05, INT-01 watch) | PENDING                  |
+| 5    | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort   | DEFERRED                 |
+| 6    | P4-C CTX-03 — design contract, then fix               | PENDING                  |
+| 7    | P1.4B live (parallel when RC3 in scope)               | PARKED                   |
+| 8    | Full Fresh38 — one qualified experiment vs 27/11      | PENDING                  |
 
 ## P3B guardrails (when step 5 opens)
 
@@ -60,5 +60,6 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 
 ## STOP
 
-Next slice: **P4-A MI-02** only after separate plan acceptance. Do not start P4-A
-in the fork-freeze slice.
+P4-A MI-02 is complete: adjudicated `PRODUCT_WRONG` and the minimal fix is
+implemented in gmail-agent (`P4A_MI02_ADJUDICATION_AND_FIX.md`, `f6c3b6a`).
+Next slice: **P4-B SVC-05** BR/gate diagnosis + optional fix.

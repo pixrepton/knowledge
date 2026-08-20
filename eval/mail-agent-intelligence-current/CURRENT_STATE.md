@@ -1,6 +1,6 @@
 # Mail-agent intelligence — current program state
 
-Owner: this directory. Last updated: 2026-08-19 (P4 vs P3B fork freeze).
+Owner: this directory. Last updated: 2026-08-20 (P4-A MI-02).
 
 This is the tracked current overlay for the 11-CAPABILITY program.
 It supersedes the gitignored working copy
@@ -20,7 +20,9 @@ FROZEN_EXPERIMENT = .artifacts/fresh38-full-current-20260816T124100
 FROZEN_SUT = gmail-agent@37d4b37
 P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=EVALUATOR_WRONG)
 P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_TO_STEP_5)
-NEXT = P4-A MI-02 adjudication + minimal fix candidate; P3B deferred to step 5
+P4A_MI02 = COMPLETE (PRIMARY_CLASS=PRODUCT_WRONG; minimal fix implemented)
+P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
+NEXT = P4-B SVC-05 BR/gate diagnosis + optional fix; P3B deferred to step 5
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
@@ -30,3 +32,7 @@ for the canonical 27/38 CAPABILITY label. See `P3A_FROZEN_K3_ADJUDICATION.md`.
 
 Do not treat current Groq recapture as the reason the canonical 27/38 failed.
 Do not write operator decisions from this technical closeout.
+
+MI-02 current multi-intent collapse was adjudicated `PRODUCT_WRONG` and the
+minimal fix is implemented in gmail-agent (see
+`P4A_MI02_ADJUDICATION_AND_FIX.md`). Capability re-proof remains pending.
