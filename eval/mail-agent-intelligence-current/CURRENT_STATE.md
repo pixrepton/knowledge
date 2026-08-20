@@ -23,7 +23,9 @@ P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_
 P4A_MI02 = COMPLETE (PRIMARY_CLASS=PRODUCT_WRONG; minimal fix implemented)
 P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
 P4B_SVC05 = DIAGNOSED (PRIMARY_CLASS=PRODUCT_WRONG; optional fix deferred to cohort re-proof)
-NEXT = bounded cohort re-proof (MI-02, SVC-05, INT-01 watch); P3B deferred to step 5
+P4B_BOUNDED_COHORT = COMPLETE (MI-02 re-proved; INT-01 no regression; SVC-05 BLOCKED_DECISION)
+SVC-05 = BLOCKED_DECISION (active residual; no narrow rule without unacceptable blast radius)
+NEXT = P4-C CTX-03 (AUTHORIZED after bounded cohort); P3B deferred; full Fresh38 not authorized
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
@@ -42,3 +44,8 @@ SVC-05 was diagnosed `PRODUCT_WRONG` (BusinessReasoning over-escalates an
 ambiguous service message instead of drafting a clarifying reply). The optional
 fix is deferred to the bounded cohort re-proof
 (`P4B_SVC05_DIAGNOSIS.md`).
+
+Bounded runtime re-proof is recorded in `P4B_BOUNDED_COHORT_PROOF.md`: MI-02 no
+longer collapses intent, INT-01 is `DRAFT_ACCEPTED`, and SVC-05 still reproduces
+the skip. The SVC-05 fix is `BLOCKED_DECISION` (no narrow deterministic rule
+without unacceptable blast radius).
