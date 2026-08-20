@@ -1,6 +1,7 @@
 # AI-OS Intelligence Spine Contract
 
-Status: active contract spike. Created: 2026-08-20.
+Status: active contract with bounded implementation slices. Created:
+2026-08-20.
 
 Purpose: preserve business decision semantics from BusinessReasoning through
 tool execution without moving policy authority into the semantic layer.
@@ -53,15 +54,16 @@ whitelist, not merely an action-tool whitelist.
 
 Consequence: semantic envelopes must not narrow `allowed_tools` to a single
 action tool unless it is intentional to hide every read-only helper for that
-turn. A safer v1 pattern is:
+turn. The v1 pattern is:
 
 ```text
 forbidden_tools: tools that cannot realize the decision meaning
 allowed_tools: empty unless a full planner-turn whitelist is required
+allowed_action_tools: action tools that may realize this decision meaning
 ```
 
-If AI-OS later needs an action-only whitelist, introduce a separate field rather
-than overloading `allowed_tools`.
+`allowed_action_tools` is the action-only whitelist. It must not be treated as
+a full planner-turn whitelist.
 
 ## Customer Missing-Data Invariant
 
@@ -127,6 +129,24 @@ heated_area_m2=180, trust_state=conflicted, decision_usable=false
 This blocks calculations or offers that require heated area. It does not block
 a customer reply that does not consume heated area, such as acknowledging
 received documents.
+
+Implemented bounded surface:
+
+- `mailbox_memory.active_facts.annotate_decision_fact_use()`
+- `mailbox_memory.active_facts.action_conflict_block()`
+- `case_context_contract.build_case_context_pack_vnext()` annotates active
+  facts after conflicts are finalized.
+
+Focused proof on 2026-08-20:
+
+- `test_slice3b_policy_execution_spine.py`
+- `test_planner_execution_fidelity_01.py`
+- `test_rp30_policy_enforcement.py`
+- `test_active_facts_decision_usability.py`
+- `test_split_conflicting_facts_tiebreak.py`
+- `test_rp29_fact_supersession.py`
+- `test_case_context_contract.py`
+- `test_daszek_v3_operational_feed.py`
 
 ## Non-Goals
 
