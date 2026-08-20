@@ -1,6 +1,6 @@
 # Last Session
 
-Updated: 2026-08-20 — **SVC-05 CLOSED; 11-CAPABILITY closed**.
+Updated: 2026-08-20 — **AI-OS truth sync after SVC-05 closeout**.
 
 ## Headline
 
@@ -12,8 +12,30 @@ SVC05_DOWNSTREAM_FIX = PASS (gmail-agent:78603fb)
 SVC05_FINAL_PROVIDER_LIVE_PROOF = PASS
 SVC05_FINAL_COMMIT = gmail-agent:70c3d94efa41f6b46a87fbd4b1c07d96ca3e6d66
 FRESH38_RERUN = NO
+AI_OS_TRUTH_SYNC = IN_PROGRESS
 NEXT = STOP
 ```
+
+## AI-OS truth sync 2026-08-20
+
+- 11-CAPABILITY is closed; no product residual remains open in that program.
+- SVC-05 final runtime proof remains the canonical closeout:
+  `.artifacts/svc05-final-live-proof-fix-20260820T113843/recovery-attempt-2`;
+  chain `collect_data -> DRAFT_ACCEPTED -> prepare_reply ->
+  ask_for_missing_data/mail -> generate_draft_reply -> HITL`;
+  `operator_clarification_requested=false`.
+- Current local runtime proof: Node B API `127.0.0.1:8766/health` OK and mailbox
+  memory healthy. RAG backend `127.0.0.1:8000/health` is not currently healthy;
+  canonical RAG Docker compose start attempted but hung in compose/build without
+  creating RAG containers. Do not claim current core/FullStack preflight PASS
+  until RAG health is re-proven.
+- Code intelligence current facts: CBM MCP query-plane callable and indexed repo
+  heads match active repo HEADs; GitNexus active repo indexes refreshed to
+  current HEAD but exposed as CLI/index in this Codex session, not callable MCP;
+  CodeScene configured but unauthenticated (`NO_ACCESS_TOKEN`).
+- Publication policy for this closeout: GitHub push/parity authorized for scoped
+  closeout commits and completed AI-OS branch heads; no force push, no PR
+  auto-merge, no prod/VPS mutation.
 
 ## What the SVC-05 slice did
 

@@ -15,8 +15,8 @@ foreach ($r in $required) {
   }
 }
 $aw = Get-Content -Raw 'memory/ACTIVE_WORKSPACE.md'
-if ($aw -notmatch 'STAGED_ACTIVATION_AUTHORIZED') {
-  Write-Error 'ACTIVE missing STAGED_ACTIVATION_AUTHORIZED'
+if ($aw -notmatch 'STAGED_ACTIVATION_EXECUTED') {
+  Write-Error 'ACTIVE missing STAGED_ACTIVATION_EXECUTED'
   exit 1
 }
 if ($aw -notmatch 'REJECTED_BY_OPERATOR') {

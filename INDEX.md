@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-20 (SVC-05 closed; 11-CAPABILITY closed).
+Status: active entry point. Last updated: 2026-08-20 (AI-OS truth sync after SVC-05 closeout).
 
 Read this file first, then only the files needed for the current task.
 
@@ -27,6 +27,14 @@ SVC-05_DOWNSTREAM_FIX = PASS
 SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS
 NEXT = STOP (11 CAPABILITY closed)
 ```
+
+Current workspace sync facts (2026-08-20): Node B local API is healthy on
+`127.0.0.1:8766` and mailbox memory is healthy. RAG backend is not currently
+healthy on `127.0.0.1:8000`; do not claim current core/FullStack preflight PASS
+until RAG health is re-proven. GitNexus indexes for active repos were refreshed
+to current HEAD as CLI/index; GitNexus MCP tools are not exposed in this Codex
+session. CBM MCP query-plane is callable and active repo heads match current
+HEAD. CodeScene is configured but unauthenticated in this session.
 
 Closed facts that remain binding: `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is **CLOSED**;
 registry `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`. RAG technical gates

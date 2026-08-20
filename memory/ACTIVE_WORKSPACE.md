@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-20 (SVC-05 closed; 11-CAPABILITY closed).
+Status: current direction only. Last updated: 2026-08-20 (AI-OS truth sync after SVC-05 closeout).
 
 ## Current program (canonical)
 
@@ -29,6 +29,31 @@ P4_VS_P3B_FORK = CLOSED (all P4 steps complete; P3B deferred; no full Fresh38)
 11-CAPABILITY = CLOSED (all 11 fixed or explicitly classified)
 NEXT = STOP
 ```
+
+### AI-OS truth sync — current workspace posture (2026-08-20)
+
+```text
+AI_OS_FULL_WORKSPACE_TRUTH_SYNC = IN_PROGRESS
+11-CAPABILITY_PRODUCT_RESIDUALS_OPEN = 0
+SVC-05 = CLOSED / PRODUCT_FIX PASS / DOWNSTREAM_FIX PASS / FINAL_PROVIDER_LIVE_PROOF PASS
+FULL_FRESH38_RERUN_FOR_CLOSEOUT = NO
+```
+
+Current runtime/tooling facts from the 2026-08-20 sync:
+
+- `gmail-agent` HEAD is `70c3d94efa41f6b46a87fbd4b1c07d96ca3e6d66`; worktree clean.
+- Local Node B API is running and healthy on `127.0.0.1:8766`; mailbox memory container is healthy.
+- RAG backend is not currently healthy on `127.0.0.1:8000`; canonical `rag-chat-asystent`
+  Docker compose start attempted but hung in build/compose without creating RAG containers.
+  Treat full core preflight as **not current PASS** until RAG is started and health is proven.
+- Codebase Memory MCP query-plane is callable in Codex; CBM project heads match current active
+  repo HEADs.
+- GitNexus is configured as local CLI/index in this Codex session, not callable as MCP; active
+  repo indexes were refreshed to current HEAD during this sync.
+- CodeScene MCP is configured but current call returns missing access token; do not claim
+  CodeScene API proof until authentication is restored.
+- GitHub publication/parity is authorized for this closeout; previous root `LOCAL_ONLY/no remote`
+  statement is superseded by `OPERATOR_DECISIONS.md` 2026-08-20.
 
 Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
 13 Aug capture = 23 CLEAN_PASS / 15 CAPABILITY; 08 Aug capture = 10 CLEAN_PASS / 28 CAPABILITY.
@@ -112,15 +137,16 @@ AI_OS_WORKSPACE_CONSOLIDATION = CLOSED_PASS
 REOPEN_CONDITION = NEW_EVIDENCE_OF_DRIFT_OR_CONTRACT_BREAK
 AIOS-WORKSPACE-CONSOLIDATION-20260813 = CLOSED
 PROOF-ECONOMY-CONSOLIDATION-20260813 = CLOSED
-AIOS-KALK-CANONICALIZE-20260811 = ACTIVE (intentional; kalk-top push decision)
-ALL_ACTIVE_REPOS_CLEAN = YES (3 phantom CRLF residues resolved via renormalize; blobs unchanged)
+AIOS-KALK-CANONICALIZE-20260811 = SUPERSEDED_AS_PUSH_BLOCKER_BY_2026-08-20_TRUTH_SYNC
+ALL_ACTIVE_REPOS_CLEAN = YES before truth-sync documentation edits
 FINAL_SNAPSHOT_SEMANTICS = SOUND (lock v2 + external final-acceptance-snapshot.json)
-PUBLISHED_REPOS_LOCAL_==_REMOTE = YES (gmail-agent, daszek, cieplo-orchestrator,
-  rag-chat-asystent, rag-widget, fast-kalk, top-instal-generator, knowledge)
-ROOT_PUBLICATION = INTENTIONAL_LOCAL_ONLY (no remote; decision 08-14)
-KALK_TOP_PUSH = DEFERRED (owner AIOS-KALK-CANONICALIZE-20260811; remote default handoff/...)
-GITNEXUS = FRESH_PER_ROUTING (root/gmail-agent/fast-kalk reindexed; others docs/.gitattributes-only)
-CBM = FRESH_PER_ROUTING (root+gmail-agent current; others no material change since index)
+PUBLISHED_REPOS_LOCAL_==_REMOTE = PENDING_2026-08-20_TRUTH_SYNC_PUSH
+ROOT_PUBLICATION = PUBLISH_AUTHORIZED_FOR_2026-08-20_TRUTH_SYNC (no force push, no PR auto-merge)
+KALK_TOP_PUSH = AUTHORIZED_FOR_CURRENT_BRANCH_PARITY_IN_2026-08-20_TRUTH_SYNC
+GITNEXUS = FRESH_ALL_ACTIVE_REPOS_TO_CURRENT_HEAD (CLI/index; MCP namespace not exposed in Codex)
+CBM = FRESH_ALL_ACTIVE_REPOS_TO_CURRENT_HEAD (query-plane callable; no broad auto-watch)
+CODESCENE = CONFIGURED_BUT_NO_ACCESS_TOKEN_PROVEN
+LOCAL_RUNTIME = NODE_B_HEALTHY; RAG_BACKEND_NOT_HEALTHY; CORE_PREFLIGHT_NOT_CURRENT_PASS
 POST_RUN_WRITEBACK_SKILL = REGISTERED (registry + AGENT_MAP_SCENARIOS; NOT core_skills)
 ```
 

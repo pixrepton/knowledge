@@ -236,7 +236,9 @@ These are navigation warnings, not implementation plans:
   coverage are not proven. The current host must expose and prove the canonical
   project before use, and a known symbol should resolve before any result is
   trusted.
-- CodeScene is configured but has no live call proof from this wave.
+- CodeScene is configured, but the current Codex call proof returns
+  `NO_ACCESS_TOKEN`; do not claim CodeScene analysis until authentication is
+  restored.
 - `rag-chat-asystent/AGENTS.md` references missing
   `knowledge/ARCHITECTURE_DISCOVERY_POLICY.md`, `knowledge/agent-os/*`, and
   `rag-chat-asystent/docs/EVAL_GATE.md`. Use the live repo router,
@@ -252,7 +254,9 @@ These are navigation warnings, not implementation plans:
 - Several repositories have focused/package tests but no aggregate closure;
   Wave 01 closes only the declared task cycle.
 
-Baseline detail and evidence statuses: [Codex Execution Stack Current State](CODEX_EXECUTION_STACK_CURRENT_STATE.md).
+Baseline detail and evidence statuses live in [ACTIVE_WORKSPACE](../../memory/ACTIVE_WORKSPACE.md)
+and [LAST_SESSION](../../memory/LAST_SESSION.md). A previous link target
+`CODEX_EXECUTION_STACK_CURRENT_STATE.md` is not present in this repository.
 
 ## Route Acceptance Scenarios
 

@@ -15,34 +15,72 @@ Format:
 
 ---
 
-## [ACTIVE] 2026-08-20 — SVC-05: minimal BusinessReasoning fix (no full Fresh38)
+## [ACTIVE] 2026-08-20 — SVC-05 CLOSED: product + downstream + final provider-live proof
 
-- **Scope:** `gmail-agent` BusinessReasoning normalization only. `knowledge` docs
-  and memory are synchronized afterwards. No other residual wave, no full
-  Fresh38, no architecture redesign.
-- **Decyzja:** Ambiguous service message (`"Cos nie dziala, prosze o pomoc."`)
-  must ask the customer for missing diagnostic details instead of operator
-  escalation. Fix uses one general deterministic signal,
-  `customer_clarification_possible`, derived from existing intake fields
-  (`business_area=service`, `ambiguous_signal`, non-empty
-  `missing_information`, no forced review flags). It normalizes
-  `escalate_review -> collect_data` only for `unclear`/`waiting_for_data`.
-  The fix does **not** key on `hvac_intent == "nieznane"`, a case id, or a
-  global LLM prompt.
-- **Proof:** focused pytest 89 passed; bounded Docker cohort SVC-05 + SVC-01 +
-  SVC-02 + MI-03 + DEC-01 + CTX-05 = 6/6 QUALIFIED, plus NEW-05 QUALIFIED.
-  SVC-05 post-fix `DRAFT_ACCEPTED` / `BR_ACTION_COLLECT_DATA`; negative cohort
-  still `escalate_review`.
-- **Commit:** `gmail-agent:0a407cb3` (LOCAL_ONLY, branch
-  `feature/aios-roadmap-1.4-2.4`).
-- **Supersedes:** prior residual label `SVC-05 = KNOWN_PRODUCT_RESIDUAL /
-  DEFERRED_CONTRACT_GAP`.
+- **Scope:** `gmail-agent` SVC-05 closeout and canonical accounting. No other
+  residual wave, no full Fresh38, no architecture redesign.
+- **Decyzja:** Ambiguous service messages must ask the customer for missing
+  diagnostic details; HITL/review may approve the prepared customer-facing
+  reply, but must not change the missing-data addressee from customer to
+  operator.
+- **Product fix:** BusinessReasoning normalization uses the general
+  deterministic signal `customer_clarification_possible`; it is not keyed on
+  SVC-05, one prompt literal, `hvac_intent == "nieznane"`, or a global prompt.
+  Commit `gmail-agent:0a407cb3`.
+- **Downstream fix:** ActionPlan/Case Intelligence preserve the customer
+  `collect_data` path instead of collapsing it into review-only or
+  `request_operator_clarification`. Commit `gmail-agent:78603fb`.
+- **Final provider-live proof:** commit
+  `gmail-agent:70c3d94efa41f6b46a87fbd4b1c07d96ca3e6d66`; proof
+  `.artifacts/svc05-final-live-proof-fix-20260820T113843/recovery-attempt-2`.
+  `SVC-05`, `SVC-02`, `MI-03` = 3/3 `QUALIFIED`; final SVC-05 chain:
+  `collect_data -> DRAFT_ACCEPTED -> prepare_reply -> ask_for_missing_data/mail
+  -> generate_draft_reply -> HITL`; `operator_clarification_requested=false`;
+  no executed `request_operator_clarification` substitute.
+- **Status:** `SVC-05 = CLOSED`,
+  `SVC-05_PRODUCT_FIX = PASS`,
+  `SVC-05_DOWNSTREAM_FIX = PASS`,
+  `SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS`.
+- **Supersedes:** prior residual labels `SVC-05 = KNOWN_PRODUCT_RESIDUAL`,
+  `DEFERRED_CONTRACT_GAP`, `BLOCKED_DECISION`, and the earlier
+  BusinessReasoning-only closeout.
 - **Review:** no full Fresh38; a new product change or broad blast-radius
   change requires a separate operator decision.
 
 ---
 
-## [ACTIVE] 2026-08-14 — Workspace consolidation then one current full Fresh38 — **wykonane 2026-08-16**
+## [ACTIVE] 2026-08-20 — AI-OS full workspace truth sync and publication
+
+- **Scope:** canonical truth sync for `top-code workspace`, `knowledge`,
+  `gmail-agent` docs, task/checkpoint state, code-intelligence indexes, local
+  Docker/runtime posture, and Git/GitHub parity. No product development and no
+  full Fresh38.
+- **Decyzja:** publish the scoped closeout/accounting commits and previously
+  completed AI-OS branch heads needed for parity. Use normal `git push`, no
+  force push, no PR auto-merge, no VPS/prod mutation, no secret/local artifact
+  publication.
+- **Current Git policy:** the 2026-08-14 root `LOCAL_ONLY/no remote` statement
+  is superseded for this closeout because the root workspace has an actual
+  GitHub remote and current operator authorization includes push/parity
+  verification.
+- **Code intelligence:** in this Codex session GitNexus is configured and
+  usable as CLI/index, not as a callable MCP namespace. Codebase Memory MCP
+  query-plane is callable and indexes active repos under the workspace-wide
+  local store. Both GitNexus and CBM freshness must be verified against current
+  repo HEADs before being claimed current.
+- **Runtime truth:** local Docker is the default proof scope. A service is
+  current only when a fresh health/preflight or equivalent local proof confirms
+  it; historical runbook PASS is not promoted to current runtime PASS.
+- **Supersedes:** active operational parts of 2026-08-14 workspace
+  consolidation that said root remains unpublished/no remote; active CBM
+  topology claims from 2026-07-20 that restricted the current store to
+  `gmail-agent` only.
+- **Review:** after this truth-sync closeout or on new evidence of workspace
+  drift.
+
+---
+
+## [SUPERSEDED] 2026-08-14 — Workspace consolidation then one current full Fresh38 — **wykonane 2026-08-16**
 
 - **Scope:** workspace + `knowledge` canonical sync; nested Git remotes; eval artifact tracking. No product semantic changes this wave. Does not include `kalk-top` (`AIOS-KALK-CANONICALIZE-20260811`).
 - **Decyzja:**
@@ -53,14 +91,18 @@ Format:
   5. `knowledge` eval: track small/referenced artifacts; gitignore the two ~15MB bulk dumps (`eval/fresh38-clean-20260809T225941Z/`, `eval/fresh38-frozen-sut-clean-20260811T155139Z/`) plus `eval/**/*.zip` and `.serena/`. `_gate_docs_sync_a.ps1` stays tracked (Gate A).
   6. `kalk-top` `wp-config` stays with `AIOS-KALK-CANONICALIZE-20260811`.
 - **Supersedes:** treating „Fresh38 28-CAPABILITY” as the immediate next step without consolidation; treating the historical Fresh38 snapshot as the current-code capability baseline.
-- **Review:** after consolidation closeout, before starting the one current full Fresh38.
+- **Review:** superseded by 2026-08-16 measurement requalification and
+  2026-08-20 AI-OS truth sync. Kept as history only.
 
 ---
 
 ## [ACTIVE] 2026-08-16 — Fresh38 measurement REQUALIFIED; product capability below threshold
 
 - **Scope:** Fresh38 measurement requalification on current code (`gmail-agent@37d4b37`), L0
-  execution-channel repair, L3 judge/scoring. Root workspace `LOCAL_ONLY`; no commit/push/deploy.
+  execution-channel repair, L3 judge/scoring. The measurement run itself was
+  local-only and involved no product semantic commit/push/deploy; publication
+  policy for the 2026-08-20 truth sync is governed by the newer active decision
+  above.
 - **Decyzja:**
   1. **`FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED`** — measurement, not product: full
      38/38 capture QUALIFIED (attempt `fresh38_full_current_20260816T124100`, all
@@ -140,7 +182,7 @@ Format:
 
 ---
 
-## [ACTIVE] 2026-07-20 — RESTORATION-TOOLING-1: Codebase Memory MCP (CBM) v0.9.0 przywrócone dla Claude Code — status: PASS / CLOSED
+## [SUPERSEDED] 2026-07-20 — RESTORATION-TOOLING-1: Codebase Memory MCP (CBM) v0.9.0 przywrócone dla Claude Code — status: PASS / CLOSED
 
 - **Scope:** wyłącznie tooling/infra (Codebase Memory MCP dla Claude Code) — bez zmian w kodzie aplikacji, kontraktach, SoT ani chronionym runtime. Nie należy do toru Intelligence Evolution.
 - **Decyzja (trwała konfiguracja CBM):** CBM jest project-scoped MCP `codebase-memory` w `.mcp.json`, przypięty do runtime `uvx --from codebase-memory-mcp==0.9.0 codebase-memory-mcp`. `auto_index=false`, `auto_watch=false`. `CBM_ALLOWED_ROOT` ograniczony wyłącznie do `C:/Users/compg/Desktop/top-code workspace/gmail-agent` (nigdy do workspace root). Cache izolowany: `CBM_CACHE_DIR=C:/top-code-session-scratch/cbm/gmail-agent-v090`. **Nie podnosimy `CBM_ALLOWED_ROOT` do workspace root** — technicznie dopuszczałoby to indeksowanie całego `top-code workspace`.
@@ -152,7 +194,9 @@ Format:
 - **`persistence=false` — standing default (2026-07-21):** indeksowanie CBM nie włącza persistence, więc CBM nie zapisuje `.codebase-memory/graph.db.zst` ani `.gitattributes` do repo (to funkcja współdzielenia gotowych artefaktów w zespole, niepotrzebna przy pracy lokalnej z jednym wspólnym workspace). Zmiana tylko po jawnej decyzji operatora.
 - **`Pending approval` po zmianie configu:** stan `Pending approval` w `claude mcp get` po edycji `.mcp.json` to oczekiwany efekt trust-hash, **nie** regresja RESTORATION-TOOLING-1 do PARTIAL; następna świeża sesja jedynie zatwierdza zmieniony config, bez powtarzania pełnego proofu.
 - **Proof:** ta sesja (inline) + closeout RESTORATION-TOOLING-1. Konfiguracja: `.mcp.json` (project scope), `claude mcp get codebase-memory`.
-- **Review:** przy stabilnym upgrade CBM ponad v0.9.0 (m.in. `tools/list` fixes, `check_index_coverage`, dojrzalszy blast-radius, dojrzalsze integracje klientów), przy realnej potrzebie multi-repo indeksowania (patrz `BACKLOG.md` `CBM-MULTIREPO-TOPOLOGY-1` + `CBM-MULTIREPO-PROOF-1` jako następny mały proof), albo po nowym jawnym poleceniu operatora. Nie przechodzimy teraz na unreleased `main`.
+- **Review:** superseded operationally by 2026-08-20 workspace-wide CBM
+  topology. Historical proof of the original gmail-agent-only restoration is
+  preserved here.
 
 ---
 
