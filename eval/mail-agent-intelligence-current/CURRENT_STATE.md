@@ -22,11 +22,12 @@ P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=E
 P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_TO_STEP_5)
 P4A_MI02 = COMPLETE (PRIMARY_CLASS=PRODUCT_WRONG; minimal fix implemented)
 P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
-P4B_SVC05 = DIAGNOSED (PRIMARY_CLASS=PRODUCT_WRONG; optional fix deferred to cohort re-proof)
-P4B_BOUNDED_COHORT = COMPLETE (MI-02 re-proved; INT-01 no regression; SVC-05 BLOCKED_DECISION)
-SVC-05 = BLOCKED_DECISION (active residual; no narrow rule without unacceptable blast radius)
-P4C_CTX03 = ADJUDICATED (PRIMARY_CLASS=PRODUCT_WRONG; DESIGN_CONTRACT_PENDING)
-NEXT = operator decision on correction vs conflict vs supersession; P3B deferred; full Fresh38 not authorized
+P4B_BOUNDED_COHORT = COMPLETE (MI-02 re-proved; INT-01 no regression; SVC-05 diagnosed)
+P4C_CTX03 = FIXED_IN_CODE (replace_message_facts conflicts surfaced)
+P3B = COMPLETE (INT-04/NEW-05/FU-01/MI-01 evaluator applicability fixed)
+SVC-05 = KNOWN_PRODUCT_RESIDUAL / DEFERRED_CONTRACT_GAP (does not block Fresh38)
+P1.4B = LIVE_PASS (INT-05/DOC-02/NEW-03 no call_kalk_top)
+NEXT = one full Fresh38
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
@@ -54,3 +55,7 @@ without unacceptable blast radius).
 CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
 120 vs 160 contradiction. The design contract is pending an operator decision
 (`P4C_CTX03_DESIGN_CONTRACT.md`).
+
+Closeout: CTX-03 is fixed in code (customer-message value changes now surface
+as conflicts). P3B fixed the four GT-unanchored evaluator dimensions. P1.4B
+live check passed (no unexpected kalk-top tool use). Next: one full Fresh38.
