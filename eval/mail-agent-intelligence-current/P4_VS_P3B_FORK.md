@@ -7,7 +7,7 @@ This slice records **execution order only**. It does not rewrite frozen Fresh38
 
 ```text
 NEXT_EXECUTION = P4
-NEXT_SLICE = P4-C_CTX-03
+NEXT_SLICE = CTX-03_DESIGN_DECISION
 P3B = DEFERRED_TO_STEP_5
 P3B.authorized_now = false
 PRODUCT_CODE_CHANGE = 1  (P4-A MI-02 understanding intent projection only)
@@ -40,7 +40,7 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 | 3    | P4-B SVC-05 — BR/gate diagnosis + optional fix        | BLOCKED_DECISION         |
 | 4    | Bounded cohort re-proof (MI-02, SVC-05, INT-01 watch) | COMPLETE (see proof)     |
 | 5    | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort   | DEFERRED                 |
-| 6    | P4-C CTX-03 — design contract, then fix               | PENDING                  |
+| 6    | P4-C CTX-03 — design contract, then fix               | DESIGN_CONTRACT_PENDING  |
 | 7    | P1.4B live (parallel when RC3 in scope)               | PARKED                   |
 | 8    | Full Fresh38 — one qualified experiment vs 27/11      | PENDING                  |
 
@@ -60,8 +60,8 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 
 ## STOP
 
-P4-A MI-02 is implemented (`f6c3b6a`). P4-B SVC-05 is `BLOCKED_DECISION` (no
-narrow deterministic rule without unacceptable blast radius). The bounded cohort
-is complete (`P4B_BOUNDED_COHORT_PROOF.md`). Next slice: **P4-C CTX-03**
-(authorized after bounded cohort), as a separate slice with its own
-adjudication, minimal fix surface and proof.
+P4-A MI-02 is implemented (`f6c3b6a`). P4-B SVC-05 is `BLOCKED_DECISION`. The
+bounded cohort is complete (`P4B_BOUNDED_COHORT_PROOF.md`). P4-C CTX-03 is
+adjudicated `PRODUCT_WRONG` with `DESIGN_CONTRACT_PENDING`
+(`P4C_CTX03_DESIGN_CONTRACT.md`): the correction-vs-conflict-vs-supersession
+semantics need an operator decision before any fact-policy code change.

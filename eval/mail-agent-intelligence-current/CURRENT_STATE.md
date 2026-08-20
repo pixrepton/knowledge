@@ -25,7 +25,8 @@ P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
 P4B_SVC05 = DIAGNOSED (PRIMARY_CLASS=PRODUCT_WRONG; optional fix deferred to cohort re-proof)
 P4B_BOUNDED_COHORT = COMPLETE (MI-02 re-proved; INT-01 no regression; SVC-05 BLOCKED_DECISION)
 SVC-05 = BLOCKED_DECISION (active residual; no narrow rule without unacceptable blast radius)
-NEXT = P4-C CTX-03 (AUTHORIZED after bounded cohort); P3B deferred; full Fresh38 not authorized
+P4C_CTX03 = ADJUDICATED (PRIMARY_CLASS=PRODUCT_WRONG; DESIGN_CONTRACT_PENDING)
+NEXT = operator decision on correction vs conflict vs supersession; P3B deferred; full Fresh38 not authorized
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
@@ -49,3 +50,7 @@ Bounded runtime re-proof is recorded in `P4B_BOUNDED_COHORT_PROOF.md`: MI-02 no
 longer collapses intent, INT-01 is `DRAFT_ACCEPTED`, and SVC-05 still reproduces
 the skip. The SVC-05 fix is `BLOCKED_DECISION` (no narrow deterministic rule
 without unacceptable blast radius).
+
+CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
+120 vs 160 contradiction. The design contract is pending an operator decision
+(`P4C_CTX03_DESIGN_CONTRACT.md`).
