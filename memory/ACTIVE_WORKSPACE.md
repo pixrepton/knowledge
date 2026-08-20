@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-19 (P4 vs P3B fork freeze).
+Status: current direction only. Last updated: 2026-08-20 (SVC-05 fixed; 11-CAPABILITY closed).
 
 ## Current program (canonical)
 
@@ -23,10 +23,11 @@ P2_PRODUCT_SHA = ae59750565d2a0e334f646a4d5f7bc94bd92f602
 P2_RUNNER_SHA = 800318a7a2a34cfd0865889a0daacdcf530d9cda
 CAPABILITY-OBSERVABILITY-01 = CLOSED
 INT-01 = HISTORICAL_ONLY / REGRESSION_WATCH (current reproduction NO)
-SVC-05 = CURRENT_PRODUCT_DIAGNOSIS_PENDING (observability blocker REMOVED)
+SVC-05 = FIXED (customer_clarification_possible normalization; gmail-agent 0a407cb3)
 P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 = EVALUATOR_WRONG)
-P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_TO_STEP_5)
-NEXT = P4-A MI-02; P3B deferred step 5; bounded re-proof then P4-B / P4-C per sequence
+P4_VS_P3B_FORK = CLOSED (all P4 steps complete; P3B deferred; no full Fresh38)
+11-CAPABILITY = CLOSED (all 11 fixed or explicitly classified)
+NEXT = STOP
 ```
 
 Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
@@ -45,8 +46,8 @@ without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` change
 **Current residual owner:** `knowledge/eval/mail-agent-intelligence-current/`.
 
 **Next program:** frozen eight-step sequence in `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`.
-**Now:** P4-A MI-02 (adjudication + minimal fix candidate). P3B at step 5 only.
-Priority after P4-A: P4-B SVC-05, bounded re-proof, then P4-C CTX-03. INT-01 remains
+**Now:** STOP. P4-A MI-02, P4-B SVC-05, bounded re-proof and P4-C CTX-03 are
+complete. P3B remains deferred to step 5 only. INT-01 remains
 `HISTORICAL_ONLY / REGRESSION_WATCH`. K3 canonical failures are `EVALUATOR_WRONG`, not a
 product-fix queue. Do not recapture Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj
 kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
@@ -97,8 +98,9 @@ FULL FRESH38 AGAINST CURRENT CODE: RUN (2026-08-16)
 CURRENT CAPABILITY BASELINE: 27/38 CLEAN_PASS (v5, threshold 34) — NOT QUALIFIED — CAPABILITY
 P2_CAPABILITY_CAUSAL_OBSERVABILITY: PASS / CLOSED
 P3A: COMPLETE (K3 EVALUATOR_WRONG)
-P4_VS_P3B_FORK: FROZEN (P4 first)
-NEXT: P4-A MI-02; STOP until separate P4-A plan accepted
+P4_VS_P3B_FORK: CLOSED
+SVC-05: FIXED (0a407cb3)
+NEXT: STOP
 P3 Optional: IQ-01-ADJUDICATED (human labels); GOV-06 .serena monitor (ignore by default)
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```

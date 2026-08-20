@@ -17,7 +17,7 @@ COMMITTED_HARNESS_FULL_FRESH38 = NOT_RUN_AND_NOT_REQUIRED
 | --- | --- | --- |
 | MI-02 | FIXED (`f6c3b6a`) | focused Gate A + runtime re-proof (bounded) |
 | CTX-03 | FIXED (`gmail-agent 7683299`, `workspace e4c41e5`) | focused facts tests + runner contract test |
-| SVC-05 | KNOWN_PRODUCT_RESIDUAL / DEFERRED_CONTRACT_GAP | bounded cohort reproduction; no narrow rule |
+| SVC-05 | FIXED (`gmail-agent 0a407cb3`) | focused 89 tests + bounded cohort (SVC-05 + SVC-01/SVC-02/MI-03/DEC-01) |
 | INT-04 | EVALUATOR_FIXED (`c7eedf9`) | judge applicability focused tests |
 | NEW-05 | EVALUATOR_FIXED (`c7eedf9`) | judge applicability focused tests |
 | FU-01 | EVALUATOR_FIXED (`c7eedf9`) | judge applicability focused tests |
@@ -29,12 +29,13 @@ COMMITTED_HARNESS_FULL_FRESH38 = NOT_RUN_AND_NOT_REQUIRED
 
 ## Remaining residuals
 
-- SVC-05: true product residual (BusinessReasoning over-escalates an ambiguous
-  service message). `DEFERRED_CONTRACT_GAP`; not fixed without a narrow rule.
-- CTX-03 and MI-02 are fixed in code and re-proved; capability re-qualification
-  is intentionally not re-run as a full Fresh38.
+None. SVC-05 is fixed by a general `customer_clarification_possible`
+BusinessReasoning normalization (`0a407cb3`); the fix does not use
+`hvac_intent == "nieznane"`, a case id, or a global prompt rewrite. CTX-03 and
+MI-02 are fixed in code and re-proved. Capability re-qualification is
+intentionally not re-run as a full Fresh38.
 
 ## STOP
 
-All 11 residuals are resolved or explicitly classified. Do not run a full
-Fresh38. No next round of fixes without an operator decision.
+All 11 residuals are resolved or explicitly classified and SVC-05 is now fixed.
+Do not run a full Fresh38. No next round of fixes without an operator decision.

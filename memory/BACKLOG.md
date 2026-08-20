@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-19 (P4 vs P3B fork freeze).
+Status: active only. Last updated: 2026-08-20 (SVC-05 fixed; 11-CAPABILITY closed).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -17,19 +17,20 @@ FULL FRESH38 AGAINST CURRENT CODE = RUN (2026-08-16, 38/38 capture QUALIFIED)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) → NOT QUALIFIED — CAPABILITY
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
 CAPABILITY-OBSERVABILITY-01 = CLOSED
-P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02)
-NEXT = P4-A MI-02; P3B deferred step 5; not a new recapture
+P4_VS_P3B_FORK = CLOSED
+SVC-05 = FIXED (0a407cb3)
+NEXT = STOP
 ```
 
-| ID                               | Area        | Status   | Next action                                                                                  |
-| --------------------------------- | ----------- | -------- | --------------------------------------------------------------------------------------------- |
-| `OPERATOR-COMMAND-RECONCILE-BYPASS-01` | gmail-agent | **CLOSED** | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed. |
-| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent | **OPEN — next: P4-A MI-02** | P2 CLOSED. P3A COMPLETE (`EVALUATOR_WRONG` K3). Fork frozen: P4 first, P3B step 5. Next slice P4-A MI-02 adjudication + minimal fix candidate only after separate plan. Sequence: `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`. Do not recapture. No case-id evaluator exceptions. |
-| `FRESH38-L0-REPAIR-COMMIT-20260816` | workspace | **CLOSED** | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios). |
-| `TASK-ENGINE-SCOPE-UPDATE` | workspace (scripts) | **OPEN — procedural debt** | Task engine lacks a supported operation for scope/adoption updates; consolidation required direct JSON mutation of checkpoints. Desired future capability: canonical `task-scope-add` / `task-adopt-path` with validation, ownership safeguards, audit trail, checkpoint integration. Not a blocker for consolidation PASS; do not implement in closeout. |
-| `CAPABILITY-OBSERVABILITY-01` | gmail-agent (eval capture) | **CLOSED** | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change. |
-| IQ-01-ADJUDICATED                | eval        | DEFERRED | Human-adjudicated labels (optional measurement; not product)                                 |
-| GOV-06                           | knowledge   | PARTIAL  | `.serena` policy monitor — ignore by default                                                 |
+| ID                                        | Area                       | Status                      | Next action                                                                                                                                                                                                                                                                                                                                               |
+| ----------------------------------------- | -------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `OPERATOR-COMMAND-RECONCILE-BYPASS-01`    | gmail-agent                | **CLOSED**                  | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed.                                                                                                                                                                   |
+| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent                | **CLOSED**                  | P2 CLOSED. P3A COMPLETE (`EVALUATOR_WRONG` K3). P4-A MI-02, P4-B SVC-05, P4-C CTX-03 and P1.4B closed; no full Fresh38. SVC-05 fixed `0a407cb3`. Sequence: `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`. No case-id evaluator exceptions. |
+| `FRESH38-L0-REPAIR-COMMIT-20260816`       | workspace                  | **CLOSED**                  | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios).                                                                                                                                                                 |
+| `TASK-ENGINE-SCOPE-UPDATE`                | workspace (scripts)        | **OPEN — procedural debt**  | Task engine lacks a supported operation for scope/adoption updates; consolidation required direct JSON mutation of checkpoints. Desired future capability: canonical `task-scope-add` / `task-adopt-path` with validation, ownership safeguards, audit trail, checkpoint integration. Not a blocker for consolidation PASS; do not implement in closeout. |
+| `CAPABILITY-OBSERVABILITY-01`             | gmail-agent (eval capture) | **CLOSED**                  | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change.                                                             |
+| IQ-01-ADJUDICATED                         | eval                       | DEFERRED                    | Human-adjudicated labels (optional measurement; not product)                                                                                                                                                                                                                                                                                              |
+| GOV-06                                    | knowledge                  | PARTIAL                     | `.serena` policy monitor — ignore by default                                                                                                                                                                                                                                                                                                              |
 
 **Superseded (2026-08-16):** `FULL FRESH38 AGAINST CURRENT CODE = NOT_RUN` and
 `CURRENT CAPABILITY BASELINE = NOT_REQUALIFIED` — replaced by the requalified measurement and

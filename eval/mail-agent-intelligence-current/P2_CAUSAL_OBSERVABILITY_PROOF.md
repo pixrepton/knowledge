@@ -42,6 +42,9 @@ frozen 2026-08-16 captures.
 SVC-05 BR: `recommended_next_action=escalate_review`, `reply_recommended=false`.
 INT-01 draft-absent **not** reproduced on current code.
 
+The SVC-05 row above is the pre-fix recapture; the fixed runtime capture is
+recorded in `P4B_BOUNDED_COHORT_PROOF.md`.
+
 ## GitNexus (gmail-agent, indexed commit ae59750)
 
 ```text

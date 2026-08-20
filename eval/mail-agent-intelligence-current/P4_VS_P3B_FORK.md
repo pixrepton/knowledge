@@ -6,11 +6,11 @@ This slice records **execution order only**. It does not rewrite frozen Fresh38
 27/11 evidence and does not change residual case classifications.
 
 ```text
-NEXT_EXECUTION = P4
-NEXT_SLICE = CTX-03_DESIGN_DECISION
+NEXT_EXECUTION = STOP
+NEXT_SLICE = STOP
 P3B = DEFERRED_TO_STEP_5
 P3B.authorized_now = false
-PRODUCT_CODE_CHANGE = 1  (P4-A MI-02 understanding intent projection only)
+PRODUCT_CODE_CHANGE = 2  (P4-A MI-02 + P4-B SVC-05)
 EVALUATOR_CHANGE = 0
 GT_CHANGE = 0
 SCORER_CHANGE = 0
@@ -37,11 +37,11 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 | ---- | ----------------------------------------------------- | ------------------------ |
 | 1    | P4 vs P3B fork freeze                                 | COMPLETE (this document) |
 | 2    | P4-A MI-02 — adjudication + minimal fix candidate     | COMPLETE (f6c3b6a)       |
-| 3    | P4-B SVC-05 — BR/gate diagnosis + optional fix        | BLOCKED_DECISION         |
+| 3    | P4-B SVC-05 — BR/gate diagnosis + fix                 | COMPLETE (0a407cb3)      |
 | 4    | Bounded cohort re-proof (MI-02, SVC-05, INT-01 watch) | COMPLETE (see proof)     |
 | 5    | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort   | DEFERRED                 |
-| 6    | P4-C CTX-03 — design contract, then fix               | DESIGN_CONTRACT_PENDING  |
-| 7    | P1.4B live (parallel when RC3 in scope)               | PARKED                   |
+| 6    | P4-C CTX-03 — design contract, then fix               | COMPLETE (7683299/e4c41e5) |
+| 7    | P1.4B live (parallel when RC3 in scope)               | LIVE_PASS                |
 | 8    | Full Fresh38 — one qualified experiment vs 27/11      | CANCELLED (bounded proofs only) |
 
 ## P3B guardrails (when step 5 opens)
@@ -60,8 +60,7 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 
 ## STOP
 
-P4-A MI-02 is implemented (`f6c3b6a`). P4-B SVC-05 is `BLOCKED_DECISION`. The
-bounded cohort is complete (`P4B_BOUNDED_COHORT_PROOF.md`). P4-C CTX-03 is
-adjudicated `PRODUCT_WRONG` with `DESIGN_CONTRACT_PENDING`
-(`P4C_CTX03_DESIGN_CONTRACT.md`): the correction-vs-conflict-vs-supersession
-semantics need an operator decision before any fact-policy code change.
+P4-A MI-02 is implemented (`f6c3b6a`). P4-B SVC-05 is fixed (`0a407cb3`) and
+the bounded cohort is complete (`P4B_BOUNDED_COHORT_PROOF.md`). P4-C CTX-03 is
+fixed in code (`7683299` + `e4c41e5`). P1.4B live passed. The 11-CAPABILITY
+program is closed without a full Fresh38.

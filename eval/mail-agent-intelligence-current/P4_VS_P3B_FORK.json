@@ -14,8 +14,8 @@
     "OPERATOR_DECISIONS_UPDATED": false
   },
   "fork": {
-    "NEXT_EXECUTION": "P4",
-    "NEXT_SLICE": "P4-A_MI-02",
+    "NEXT_EXECUTION": "STOP",
+    "NEXT_SLICE": "STOP",
     "P3B": "DEFERRED_TO_STEP_5",
     "P3B.authorized_now": false
   },
@@ -29,19 +29,19 @@
     {
       "step": 2,
       "id": "P4-A_MI-02",
-      "status": "PENDING",
-      "note": "Adjudication + minimal fix candidate"
+      "status": "COMPLETE",
+      "note": "Adjudication + minimal fix candidate (f6c3b6a)"
     },
     {
       "step": 3,
       "id": "P4-B_SVC-05",
-      "status": "PENDING",
-      "note": "BR/gate diagnosis + optional fix"
+      "status": "COMPLETE",
+      "note": "BR/gate diagnosis + fix (0a407cb3)"
     },
     {
       "step": 4,
       "id": "BOUNDED_COHORT_REPROOF",
-      "status": "PENDING",
+      "status": "COMPLETE",
       "note": "MI-02, SVC-05, INT-01 regression watch"
     },
     {
@@ -53,20 +53,20 @@
     {
       "step": 6,
       "id": "P4-C_CTX-03",
-      "status": "PENDING",
-      "note": "Design contract then fix; RP-29 high blast"
+      "status": "COMPLETE",
+      "note": "Design contract then fix; gmail-agent 7683299 + workspace e4c41e5"
     },
     {
       "step": 7,
       "id": "P1.4B_LIVE",
-      "status": "PARKED_PARALLEL",
-      "note": "RC3 live AUTH when RC3 enters scope"
+      "status": "LIVE_PASS",
+      "note": "INT-05/DOC-02/NEW-03 no call_kalk_top"
     },
     {
       "step": 8,
       "id": "FULL_FRESH38",
-      "status": "PENDING",
-      "note": "One qualified experiment vs frozen 27/11"
+      "status": "CANCELLED",
+      "note": "Bounded proofs only; no full Fresh38"
     }
   ],
   "rationale": {

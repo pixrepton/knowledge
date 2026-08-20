@@ -1,6 +1,6 @@
 # Mail-agent intelligence — current program state
 
-Owner: this directory. Last updated: 2026-08-20 (P4-A MI-02).
+Owner: this directory. Last updated: 2026-08-20 (SVC-05 fixed).
 
 This is the tracked current overlay for the 11-CAPABILITY program.
 It supersedes the gitignored working copy
@@ -23,16 +23,18 @@ P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_
 P4A_MI02 = COMPLETE (PRIMARY_CLASS=PRODUCT_WRONG; minimal fix implemented)
 P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
 P4B_BOUNDED_COHORT = COMPLETE (MI-02 re-proved; INT-01 no regression; SVC-05 diagnosed)
+P4B_SVC05 = FIXED (customer_clarification_possible normalization; gmail-agent 0a407cb3)
 P4C_CTX03 = FIXED_IN_CODE (replace_message_facts conflicts surfaced)
 P3B = COMPLETE (INT-04/NEW-05/FU-01/MI-01 evaluator applicability fixed)
-SVC-05 = KNOWN_PRODUCT_RESIDUAL / DEFERRED_CONTRACT_GAP (does not block Fresh38)
 P1.4B = LIVE_PASS (INT-05/DOC-02/NEW-03 no call_kalk_top)
+SVC-05 = FIXED (ambiguous service gaps -> collect_data; draft not skipped)
 FRESH38_RERUN = NO (focused/bounded proofs only)
-NEXT = STOP (11 CAPABILITY resolved or explicitly classified)
+NEXT = STOP (11 CAPABILITY closed; SVC-05 fixed)
 ```
 
-INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
-with recoverable causal chain; product diagnosis remains pending.
+INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 was current-reproduced
+with recoverable causal chain and is now fixed with a deterministic
+BusinessReasoning normalization, not an LLM-prompt or case-id exception.
 K3 P3A is COMPLETE: INT-04, NEW-05, FU-01, MI-01 are `EVALUATOR_WRONG`
 for the canonical 27/38 CAPABILITY label. See `P3A_FROZEN_K3_ADJUDICATION.md`.
 
@@ -44,14 +46,15 @@ minimal fix is implemented in gmail-agent (see
 `P4A_MI02_ADJUDICATION_AND_FIX.md`). Capability re-proof remains pending.
 
 SVC-05 was diagnosed `PRODUCT_WRONG` (BusinessReasoning over-escalates an
-ambiguous service message instead of drafting a clarifying reply). The optional
-fix is deferred to the bounded cohort re-proof
-(`P4B_SVC05_DIAGNOSIS.md`).
+ambiguous service message instead of drafting a clarifying reply). It is now
+fixed by `customer_clarification_possible`: when intake has already marked the
+service signal `ambiguous_signal`, review is required only because customer
+data is missing, and BusinessReasoning named concrete gaps, the validator
+normalizes `escalate_review` to `collect_data`.
 
 Bounded runtime re-proof is recorded in `P4B_BOUNDED_COHORT_PROOF.md`: MI-02 no
-longer collapses intent, INT-01 is `DRAFT_ACCEPTED`, and SVC-05 still reproduces
-the skip. The SVC-05 fix is `BLOCKED_DECISION` (no narrow deterministic rule
-without unacceptable blast radius).
+longer collapses intent, INT-01 is `DRAFT_ACCEPTED`, and the post-fix SVC-05
+capture is `DRAFT_ACCEPTED` with `recommended_next_action=collect_data`.
 
 CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
 120 vs 160 contradiction. The design contract is pending an operator decision
@@ -59,5 +62,6 @@ CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
 
 Closeout: CTX-03 is fixed in code (customer-message value changes now surface
 as conflicts). P3B fixed the four GT-unanchored evaluator dimensions. P1.4B
-live check passed (no unexpected kalk-top tool use). No full Fresh38 re-run.
-See `P4_FINAL_ACCOUNTING.md` for the 11-case resolution.
+live check passed (no unexpected kalk-top tool use). SVC-05 is fixed by a
+general BusinessReasoning contract signal. No full Fresh38 re-run. See
+`P4_FINAL_ACCOUNTING.md` for the 11-case resolution.

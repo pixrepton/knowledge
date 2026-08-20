@@ -7,6 +7,7 @@ Owner: this directory. Frozen evidence: `.artifacts/fresh38-full-current-2026081
 `PRIMARY_CLASS = PRODUCT_WRONG` (BusinessReasoning decision), not evaluator and
 not measurement. First divergence is the DRAFT_GATE skip driven by
 `recommended_next_action = escalate_review` + `reply_recommended = false`.
+The fix is now implemented and runtime-proved (`0a407cb3`).
 
 ## Frozen evidence
 
@@ -31,19 +32,34 @@ diagnostic data, instead of recommending a bounded clarifying customer reply.
 That single recommendation disables the reply drafter before it can ask the
 customer "co dokładnie nie działa".
 
-## Fix surface (candidate, not implemented)
+## Fix surface (implemented)
 
 For ambiguous `service_problem` messages whose only missing data is diagnostic
-specifics, BusinessReasoning (or a deterministic normalize rule) should prefer a
-clarifying `reply` over `escalate_review`.
+specifics, `validate_business_reasoning_result` now derives a deterministic
+`customer_clarification_possible` signal from the existing intake contract and
+prefers `collect_data` over `escalate_review`.
 
-Blast radius: all `service_problem` cases. This is an LLM/policy decision change
-and requires a positive cohort (ambiguous service -> clarifying reply) plus a
-negative cohort (genuine review/escalation cases stay escalated) before it can
-be committed as product semantics. It is therefore deferred to the bounded
-cohort re-proof step.
+The rule is general and one-directional:
+
+- business area is `service`;
+- intake review is required and carries `ambiguous_signal`;
+- no forced human-review flags are present
+  (`multiple_competing_signals`, `legal_or_compliance_risk`,
+  `security_or_platform_risk`, `financial_document_without_payable_context`,
+  `deadline_found_without_owner`);
+- BusinessReasoning named concrete `missing_information`.
+
+It does **not** key on `hvac_intent == "nieznane"`, a case id, or a global LLM
+prompt. It only rewrites a conservative `escalate_review` into `collect_data`;
+it can never downgrade an escalation into an unsafe live action, and it leaves
+the intake `review_required` gate unchanged.
+
+Blast radius is bounded by the negative cohort (SVC-01/SVC-02/MI-03/DEC-01
+remain `escalate_review`) and by the draft-gate path (`collect_data` is allowed
+under `review_required`, so the drafter runs).
 
 ## Status
 
-Diagnosis complete. Optional fix NOT implemented in this slice; it is a
-semantic decision change pending cohort proof.
+Diagnosis complete and fix implemented. Post-fix runtime proof is in
+`P4B_BOUNDED_COHORT_PROOF.md` and
+`.artifacts/svc05-bounded-20260820/recovery-attempt-1/`.

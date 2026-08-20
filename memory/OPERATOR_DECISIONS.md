@@ -15,6 +15,33 @@ Format:
 
 ---
 
+## [ACTIVE] 2026-08-20 — SVC-05: minimal BusinessReasoning fix (no full Fresh38)
+
+- **Scope:** `gmail-agent` BusinessReasoning normalization only. `knowledge` docs
+  and memory are synchronized afterwards. No other residual wave, no full
+  Fresh38, no architecture redesign.
+- **Decyzja:** Ambiguous service message (`"Cos nie dziala, prosze o pomoc."`)
+  must ask the customer for missing diagnostic details instead of operator
+  escalation. Fix uses one general deterministic signal,
+  `customer_clarification_possible`, derived from existing intake fields
+  (`business_area=service`, `ambiguous_signal`, non-empty
+  `missing_information`, no forced review flags). It normalizes
+  `escalate_review -> collect_data` only for `unclear`/`waiting_for_data`.
+  The fix does **not** key on `hvac_intent == "nieznane"`, a case id, or a
+  global LLM prompt.
+- **Proof:** focused pytest 89 passed; bounded Docker cohort SVC-05 + SVC-01 +
+  SVC-02 + MI-03 + DEC-01 + CTX-05 = 6/6 QUALIFIED, plus NEW-05 QUALIFIED.
+  SVC-05 post-fix `DRAFT_ACCEPTED` / `BR_ACTION_COLLECT_DATA`; negative cohort
+  still `escalate_review`.
+- **Commit:** `gmail-agent:0a407cb3` (LOCAL_ONLY, branch
+  `feature/aios-roadmap-1.4-2.4`).
+- **Supersedes:** prior residual label `SVC-05 = KNOWN_PRODUCT_RESIDUAL /
+  DEFERRED_CONTRACT_GAP`.
+- **Review:** no full Fresh38; a new product change or broad blast-radius
+  change requires a separate operator decision.
+
+---
+
 ## [ACTIVE] 2026-08-14 — Workspace consolidation then one current full Fresh38 — **wykonane 2026-08-16**
 
 - **Scope:** workspace + `knowledge` canonical sync; nested Git remotes; eval artifact tracking. No product semantic changes this wave. Does not include `kalk-top` (`AIOS-KALK-CANONICALIZE-20260811`).

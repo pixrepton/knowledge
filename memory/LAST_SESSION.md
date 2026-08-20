@@ -1,33 +1,48 @@
 # Last Session
 
-Updated: 2026-08-19 — **P4 vs P3B fork freeze PASS**.
+Updated: 2026-08-20 — **SVC-05 fixed; 11-CAPABILITY closed**.
 
 ## Headline
+
+```text
+P4_VS_P3B_FORK = CLOSED
+P4B_SVC05 = FIXED
+SVC05_COMMIT = gmail-agent:0a407cb3
+FRESH38_RERUN = NO
+NEXT = STOP
+```
+
+## What the SVC-05 slice did
+
+- Diagnosed SVC-05 as `PRODUCT_WRONG` in BusinessReasoning, not evaluator or
+  measurement: `escalate_review + reply_recommended=false` skipped the drafter.
+- Implemented a general deterministic `customer_clarification_possible`
+  normalization in `intake_schema.validate_business_reasoning_result`; passed
+  `intake_result` into `business_reasoner.parse_and_validate_business_reasoning`.
+- Positive/negative bounded Docker cohort:
+  `SVC-05`, `SVC-01`, `SVC-02`, `MI-03`, `DEC-01`, `CTX-05` = 6/6 QUALIFIED;
+  extra `NEW-05` QUALIFIED.
+- SVC-05 post-fix: `collect_data`, `reply_recommended=true`, `draft_enabled=true`,
+  `DRAFT_ACCEPTED` / `BR_ACTION_COLLECT_DATA`.
+- Negative cohort SVC-01/SVC-02/MI-03/DEC-01 remained `escalate_review`.
+- Focused tests: 89 passed.
+- Committed `gmail-agent:0a407cb3` (LOCAL_ONLY).
+- No full Fresh38.
+
+## Stop / next
+
+Next: **STOP**. The 11-CAPABILITY program is closed. Do not re-run Fresh38 or
+start another fix round without an operator decision.
+
+## Previous headline (2026-08-19, preserved)
 
 ```text
 P4_VS_P3B_FORK = FROZEN
 NEXT_EXECUTION = P4
 NEXT_SLICE = P4-A_MI-02
 P3B = DEFERRED_TO_STEP_5
-P3B.authorized_now = false
-PRODUCT_CODE_CHANGE = 0
-EVALUATOR_CHANGE = 0
-OPERATOR_DECISIONS_UPDATED = NO
-STOP = YES (P4-A only after separate plan acceptance)
+STOP = YES
 ```
-
-## What this slice did
-
-- Froze eight-step capability execution sequence (operator accepted in chat).
-- Recorded fork in `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md` + `.json`.
-- Updated CURRENT_STATE, INDEX, ACTIVE_WORKSPACE, BACKLOG overlay NEXT lines.
-- Did not change frozen 27/11 baseline or residual case classifications.
-- Did not write `OPERATOR_DECISIONS.md`.
-
-## Stop / next
-
-Next slice: **P4-A MI-02** — adjudication + minimal fix candidate.
-Requires separate plan acceptance before implementation.
 
 ## Previous headline (2026-08-18, preserved)
 
@@ -93,13 +108,14 @@ NOT_PROVEN_AND_NOT_REQUIRED`.
 ## Current state / next
 
 - Measurement: requalified and green. Product: below capability threshold (27/38).
-- Next real program: P4-A MI-02 per frozen fork (`P4_VS_P3B_FORK.md`).
+- 11-CAPABILITY program: closed. MI-02/CTX-03/SVC-05 fixed; P3B evaluator cases
+  fixed; P1.4B live passed; INT-01 regression watch green.
 - L0 repair **committed** `4210ed5` (workspace, LOCAL_ONLY) as part of administrative closure.
 
 ## Still open
 
-1. P4-A MI-02 product analysis and fix candidate (next slice).
-2. Optional: IQ-01 human adjudication; GOV-06 `.serena` monitor.
+1. Optional: IQ-01 human adjudication; GOV-06 `.serena` monitor.
+2. Full Fresh38 is not required after the local bounded fixes; no automatic rerun.
 
 ## Stop
 
