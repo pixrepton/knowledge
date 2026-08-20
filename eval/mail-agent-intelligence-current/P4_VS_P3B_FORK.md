@@ -7,7 +7,7 @@ This slice records **execution order only**. It does not rewrite frozen Fresh38
 
 ```text
 NEXT_EXECUTION = P4
-NEXT_SLICE = P4-B_SVC-05
+NEXT_SLICE = BOUNDED_COHORT_REPROOF
 P3B = DEFERRED_TO_STEP_5
 P3B.authorized_now = false
 PRODUCT_CODE_CHANGE = 1  (P4-A MI-02 understanding intent projection only)
@@ -37,7 +37,7 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 | ---- | ----------------------------------------------------- | ------------------------ |
 | 1    | P4 vs P3B fork freeze                                 | COMPLETE (this document) |
 | 2    | P4-A MI-02 — adjudication + minimal fix candidate     | COMPLETE (f6c3b6a)       |
-| 3    | P4-B SVC-05 — BR/gate diagnosis + optional fix        | PENDING                  |
+| 3    | P4-B SVC-05 — BR/gate diagnosis + optional fix        | COMPLETE (diagnosis)     |
 | 4    | Bounded cohort re-proof (MI-02, SVC-05, INT-01 watch) | PENDING                  |
 | 5    | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort   | DEFERRED                 |
 | 6    | P4-C CTX-03 — design contract, then fix               | PENDING                  |

@@ -22,7 +22,8 @@ P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=E
 P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_TO_STEP_5)
 P4A_MI02 = COMPLETE (PRIMARY_CLASS=PRODUCT_WRONG; minimal fix implemented)
 P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
-NEXT = P4-B SVC-05 BR/gate diagnosis + optional fix; P3B deferred to step 5
+P4B_SVC05 = DIAGNOSED (PRIMARY_CLASS=PRODUCT_WRONG; optional fix deferred to cohort re-proof)
+NEXT = bounded cohort re-proof (MI-02, SVC-05, INT-01 watch); P3B deferred to step 5
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 is current-reproduced
@@ -36,3 +37,8 @@ Do not write operator decisions from this technical closeout.
 MI-02 current multi-intent collapse was adjudicated `PRODUCT_WRONG` and the
 minimal fix is implemented in gmail-agent (see
 `P4A_MI02_ADJUDICATION_AND_FIX.md`). Capability re-proof remains pending.
+
+SVC-05 was diagnosed `PRODUCT_WRONG` (BusinessReasoning over-escalates an
+ambiguous service message instead of drafting a clarifying reply). The optional
+fix is deferred to the bounded cohort re-proof
+(`P4B_SVC05_DIAGNOSIS.md`).
