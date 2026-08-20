@@ -33,7 +33,7 @@ NEXT = STOP
 ### AI-OS truth sync — current workspace posture (2026-08-20)
 
 ```text
-AI_OS_FULL_WORKSPACE_TRUTH_SYNC = IN_PROGRESS
+AI_OS_FULL_WORKSPACE_TRUTH_SYNC = CLOSED_PASS
 11-CAPABILITY_PRODUCT_RESIDUALS_OPEN = 0
 SVC-05 = CLOSED / PRODUCT_FIX PASS / DOWNSTREAM_FIX PASS / FINAL_PROVIDER_LIVE_PROOF PASS
 FULL_FRESH38_RERUN_FOR_CLOSEOUT = NO
@@ -52,8 +52,8 @@ Current runtime/tooling facts from the 2026-08-20 sync:
   repo indexes were refreshed to current HEAD during this sync.
 - CodeScene MCP is configured but current call returns missing access token; do not claim
   CodeScene API proof until authentication is restored.
-- GitHub publication/parity is authorized for this closeout; previous root `LOCAL_ONLY/no remote`
-  statement is superseded by `OPERATOR_DECISIONS.md` 2026-08-20.
+- GitHub publication/parity completed for this closeout on active branches; previous root
+  `LOCAL_ONLY/no remote` statement is superseded by `OPERATOR_DECISIONS.md` 2026-08-20.
 
 Historical baselines (prior SUT / older contract, not comparable to the 2026-08-16 baseline):
 13 Aug capture = 23 CLEAN_PASS / 15 CAPABILITY; 08 Aug capture = 10 CLEAN_PASS / 28 CAPABILITY.
@@ -140,7 +140,8 @@ PROOF-ECONOMY-CONSOLIDATION-20260813 = CLOSED
 AIOS-KALK-CANONICALIZE-20260811 = SUPERSEDED_AS_PUSH_BLOCKER_BY_2026-08-20_TRUTH_SYNC
 ALL_ACTIVE_REPOS_CLEAN = YES before truth-sync documentation edits
 FINAL_SNAPSHOT_SEMANTICS = SOUND (lock v2 + external final-acceptance-snapshot.json)
-PUBLISHED_REPOS_LOCAL_==_REMOTE = PENDING_2026-08-20_TRUTH_SYNC_PUSH
+PUBLISHED_REPOS_LOCAL_==_REMOTE = YES (workspace, knowledge, gmail-agent, kalk-top, daszek,
+  rag-chat-asystent, rag-widget, cieplo-orchestrator, top-instal-generator, fast-kalk)
 ROOT_PUBLICATION = PUBLISH_AUTHORIZED_FOR_2026-08-20_TRUTH_SYNC (no force push, no PR auto-merge)
 KALK_TOP_PUSH = AUTHORIZED_FOR_CURRENT_BRANCH_PARITY_IN_2026-08-20_TRUTH_SYNC
 GITNEXUS = FRESH_ALL_ACTIVE_REPOS_TO_CURRENT_HEAD (CLI/index; MCP namespace not exposed in Codex)

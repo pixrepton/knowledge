@@ -12,7 +12,7 @@ SVC05_DOWNSTREAM_FIX = PASS (gmail-agent:78603fb)
 SVC05_FINAL_PROVIDER_LIVE_PROOF = PASS
 SVC05_FINAL_COMMIT = gmail-agent:70c3d94efa41f6b46a87fbd4b1c07d96ca3e6d66
 FRESH38_RERUN = NO
-AI_OS_TRUTH_SYNC = IN_PROGRESS
+AI_OS_TRUTH_SYNC = CLOSED_PASS
 NEXT = STOP
 ```
 
@@ -36,6 +36,10 @@ NEXT = STOP
 - Publication policy for this closeout: GitHub push/parity authorized for scoped
   closeout commits and completed AI-OS branch heads; no force push, no PR
   auto-merge, no prod/VPS mutation.
+- Publication result: active branches for workspace, knowledge, gmail-agent,
+  kalk-top, daszek, rag-chat-asystent, rag-widget, cieplo-orchestrator,
+  top-instal-generator and fast-kalk pushed to GitHub; `HEAD...origin/<branch>`
+  = `0 0` for all.
 
 ## What the SVC-05 slice did
 
