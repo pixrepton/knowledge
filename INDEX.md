@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-20 (SVC-05 fixed; 11-CAPABILITY closed).
+Status: active entry point. Last updated: 2026-08-20 (SVC-05 closed; 11-CAPABILITY closed).
 
 Read this file first, then only the files needed for the current task.
 
@@ -8,7 +8,8 @@ Read this file first, then only the files needed for the current task.
 **executed and requalified (measurement)**. Product capability remains below threshold.
 P2 causal observability is **CLOSED**. P3A frozen K3 adjudication is **COMPLETE**.
 Execution fork closed: P4-A MI-02, P4-B SVC-05, P4-C CTX-03 and P1.4B are
-complete; P3B deferred to step 5. SVC-05 is fixed (`0a407cb3`).
+complete; P3B deferred to step 5. SVC-05 is closed (`0a407cb3`, `78603fb`,
+final proof/writeback `70c3d94`).
 Do not open another residual wave.
 Do not open roadmap 5.3-8.x "from the list".
 
@@ -20,7 +21,10 @@ CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (contract v5, thresh
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED (gmail-agent ae597505, workspace 800318a7)
 P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=EVALUATOR_WRONG)
 P4_VS_P3B_FORK = CLOSED
-SVC-05 = FIXED (0a407cb3)
+SVC-05 = CLOSED
+SVC-05_PRODUCT_FIX = PASS
+SVC-05_DOWNSTREAM_FIX = PASS
+SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS
 NEXT = STOP (11 CAPABILITY closed)
 ```
 
@@ -73,7 +77,7 @@ Details: `memory/OPERATOR_DECISIONS.md`, `memory/ACTIVE_WORKSPACE.md`, `memory/B
 
 ## On Demand
 
-- `eval/mail-agent-intelligence-current/` — current 11-CAPABILITY accounting (SVC-05 fixed), P2 proof, P3A reports, P4 vs P3B fork.
+- `eval/mail-agent-intelligence-current/` — current 11-CAPABILITY accounting (SVC-05 closed), P2 proof, P3A reports, P4 vs P3B fork.
 - `docs/AI_OS_ROADMAP.md` - active AI-OS program plan + residual registry (post-6-chat consolidation).
 - `docs/AIOS_4_1_FACT_SUPERSESSION_CONSUMER_AUDIT.md` - fact supersession consumer audit (write residual separate).
 - `eval/rag-v2-live-cutover-20260808/PROOF_SUMMARY.md` - RAG V2 live cutover readiness proof.

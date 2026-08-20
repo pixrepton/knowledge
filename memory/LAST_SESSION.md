@@ -1,13 +1,16 @@
 # Last Session
 
-Updated: 2026-08-20 — **SVC-05 fixed; 11-CAPABILITY closed**.
+Updated: 2026-08-20 — **SVC-05 CLOSED; 11-CAPABILITY closed**.
 
 ## Headline
 
 ```text
 P4_VS_P3B_FORK = CLOSED
-P4B_SVC05 = FIXED
-SVC05_COMMIT = gmail-agent:0a407cb3
+P4B_SVC05 = CLOSED
+SVC05_PRODUCT_FIX = PASS (gmail-agent:0a407cb3)
+SVC05_DOWNSTREAM_FIX = PASS (gmail-agent:78603fb)
+SVC05_FINAL_PROVIDER_LIVE_PROOF = PASS
+SVC05_FINAL_COMMIT = gmail-agent:70c3d94efa41f6b46a87fbd4b1c07d96ca3e6d66
 FRESH38_RERUN = NO
 NEXT = STOP
 ```
@@ -27,6 +30,15 @@ NEXT = STOP
 - Negative cohort SVC-01/SVC-02/MI-03/DEC-01 remained `escalate_review`.
 - Focused tests: 89 passed.
 - Committed `gmail-agent:0a407cb3` (LOCAL_ONLY).
+- Downstream closeout preserved customer clarification through
+  ActionPlan/Case Intelligence/planner (`gmail-agent:78603fb`, final
+  `70c3d94`).
+- Final provider-live proof:
+  `.artifacts/svc05-final-live-proof-fix-20260820T113843/recovery-attempt-2`;
+  SVC-05/SVC-02/MI-03 = 3/3 `QUALIFIED`; final SVC-05 chain
+  `collect_data -> DRAFT_ACCEPTED -> prepare_reply -> ask_for_missing_data/mail
+  -> generate_draft_reply -> HITL`;
+  `operator_clarification_requested=false`.
 - No full Fresh38.
 
 ## Stop / next
@@ -108,7 +120,7 @@ NOT_PROVEN_AND_NOT_REQUIRED`.
 ## Current state / next
 
 - Measurement: requalified and green. Product: below capability threshold (27/38).
-- 11-CAPABILITY program: closed. MI-02/CTX-03/SVC-05 fixed; P3B evaluator cases
+- 11-CAPABILITY program: closed. MI-02/CTX-03 fixed; SVC-05 closed; P3B evaluator cases
   fixed; P1.4B live passed; INT-01 regression watch green.
 - L0 repair **committed** `4210ed5` (workspace, LOCAL_ONLY) as part of administrative closure.
 

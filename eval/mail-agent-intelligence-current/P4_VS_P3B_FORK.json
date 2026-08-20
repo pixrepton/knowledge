@@ -36,7 +36,7 @@
       "step": 3,
       "id": "P4-B_SVC-05",
       "status": "COMPLETE",
-      "note": "BR/gate diagnosis + fix (0a407cb3)"
+      "note": "BR/gate diagnosis + downstream closeout (0a407cb3, 78603fb, final 70c3d94)"
     },
     {
       "step": 4,
@@ -73,7 +73,7 @@
     "p4_first_facts": [
       "P3A: INT-04/NEW-05/FU-01/MI-01 PRIMARY_CLASS=EVALUATOR_WRONG on frozen 27/38",
       "v5 scorer faithfully maps judge fail to CAPABILITY",
-      "PRODUCT_AFFECTING with strong mechanism: MI-02; SVC-05 current diagnosis pending; CTX-03 high blast"
+      "PRODUCT_AFFECTING with strong mechanism: MI-02 and CTX-03; SVC-05 closed by product + downstream fixes"
     ],
     "p3b_deferred_facts": [
       "GT_UNANCHORED_JUDGE_DIMENSION is P3B candidate only",

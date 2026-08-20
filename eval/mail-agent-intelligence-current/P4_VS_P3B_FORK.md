@@ -37,7 +37,7 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 | ---- | ----------------------------------------------------- | ------------------------ |
 | 1    | P4 vs P3B fork freeze                                 | COMPLETE (this document) |
 | 2    | P4-A MI-02 — adjudication + minimal fix candidate     | COMPLETE (f6c3b6a)       |
-| 3    | P4-B SVC-05 — BR/gate diagnosis + fix                 | COMPLETE (0a407cb3)      |
+| 3    | P4-B SVC-05 — BR/gate diagnosis + downstream closeout | CLOSED (0a407cb3/78603fb/70c3d94) |
 | 4    | Bounded cohort re-proof (MI-02, SVC-05, INT-01 watch) | COMPLETE (see proof)     |
 | 5    | P3B — `GT_UNANCHORED_JUDGE_DIMENSION` on +/- cohort   | DEFERRED                 |
 | 6    | P4-C CTX-03 — design contract, then fix               | COMPLETE (7683299/e4c41e5) |
@@ -60,7 +60,9 @@ CTX-03 / P1.4B / full Fresh38. Do not mix evaluator and product fixes in one sli
 
 ## STOP
 
-P4-A MI-02 is implemented (`f6c3b6a`). P4-B SVC-05 is fixed (`0a407cb3`) and
-the bounded cohort is complete (`P4B_BOUNDED_COHORT_PROOF.md`). P4-C CTX-03 is
+P4-A MI-02 is implemented (`f6c3b6a`). P4-B SVC-05 is closed: product fix
+`0a407cb3`, downstream preservation `78603fb`, final proof/writeback
+`70c3d94`; final provider-live proof SVC-05/SVC-02/MI-03 = 3/3 `QUALIFIED`
+without executed `request_operator_clarification` for SVC-05. P4-C CTX-03 is
 fixed in code (`7683299` + `e4c41e5`). P1.4B live passed. The 11-CAPABILITY
 program is closed without a full Fresh38.

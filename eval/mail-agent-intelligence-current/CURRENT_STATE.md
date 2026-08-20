@@ -1,6 +1,6 @@
 # Mail-agent intelligence — current program state
 
-Owner: this directory. Last updated: 2026-08-20 (SVC-05 fixed).
+Owner: this directory. Last updated: 2026-08-20 (SVC-05 closed).
 
 This is the tracked current overlay for the 11-CAPABILITY program.
 It supersedes the gitignored working copy
@@ -23,13 +23,16 @@ P4_VS_P3B_FORK = FROZEN (NEXT_EXECUTION=P4, NEXT_SLICE=P4-A_MI-02, P3B=DEFERRED_
 P4A_MI02 = COMPLETE (PRIMARY_CLASS=PRODUCT_WRONG; minimal fix implemented)
 P4A_PRODUCT_SHA = f6c3b6a0006c7185708c729d68b42ac14d3ceb79
 P4B_BOUNDED_COHORT = COMPLETE (MI-02 re-proved; INT-01 no regression; SVC-05 diagnosed)
-P4B_SVC05 = FIXED (customer_clarification_possible normalization; gmail-agent 0a407cb3)
+P4B_SVC05 = CLOSED
+SVC-05_PRODUCT_FIX = PASS (gmail-agent 0a407cb3)
+SVC-05_DOWNSTREAM_FIX = PASS (gmail-agent 78603fb; final planner-hint closeout 70c3d94)
+SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS (.artifacts/svc05-final-live-proof-fix-20260820T113843/recovery-attempt-2)
 P4C_CTX03 = FIXED_IN_CODE (replace_message_facts conflicts surfaced)
 P3B = COMPLETE (INT-04/NEW-05/FU-01/MI-01 evaluator applicability fixed)
 P1.4B = LIVE_PASS (INT-05/DOC-02/NEW-03 no call_kalk_top)
-SVC-05 = FIXED (ambiguous service gaps -> collect_data; draft not skipped)
+SVC-05 = CLOSED (collect_data -> DRAFT_ACCEPTED -> prepare_reply -> ask_for_missing_data/mail -> generate_draft_reply -> HITL; no executed request_operator_clarification)
 FRESH38_RERUN = NO (focused/bounded proofs only)
-NEXT = STOP (11 CAPABILITY closed; SVC-05 fixed)
+NEXT = STOP (11 CAPABILITY closed; SVC-05 closed)
 ```
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 was current-reproduced
@@ -45,16 +48,21 @@ MI-02 current multi-intent collapse was adjudicated `PRODUCT_WRONG` and the
 minimal fix is implemented in gmail-agent (see
 `P4A_MI02_ADJUDICATION_AND_FIX.md`). Capability re-proof remains pending.
 
-SVC-05 was diagnosed `PRODUCT_WRONG` (BusinessReasoning over-escalates an
-ambiguous service message instead of drafting a clarifying reply). It is now
-fixed by `customer_clarification_possible`: when intake has already marked the
-service signal `ambiguous_signal`, review is required only because customer
-data is missing, and BusinessReasoning named concrete gaps, the validator
-normalizes `escalate_review` to `collect_data`.
+SVC-05 was diagnosed `PRODUCT_WRONG` and is now closed. The product fix uses
+`customer_clarification_possible`: when intake has already marked the service
+signal `ambiguous_signal`, review is required only because customer data is
+missing, and BusinessReasoning named concrete gaps, the validator normalizes
+`escalate_review` to `collect_data`. The downstream fix preserves that customer
+clarification through ActionPlan/Case Intelligence/planner instead of
+substituting `request_operator_clarification`.
 
-Bounded runtime re-proof is recorded in `P4B_BOUNDED_COHORT_PROOF.md`: MI-02 no
-longer collapses intent, INT-01 is `DRAFT_ACCEPTED`, and the post-fix SVC-05
-capture is `DRAFT_ACCEPTED` with `recommended_next_action=collect_data`.
+Bounded runtime re-proof is recorded in `P4B_BOUNDED_COHORT_PROOF.md` for the
+first product fix. Final provider-live closeout is
+`.artifacts/svc05-final-live-proof-fix-20260820T113843/recovery-attempt-2`:
+SVC-05, SVC-02 and MI-03 are 3/3 `QUALIFIED`; SVC-05 keeps
+`collect_data -> DRAFT_ACCEPTED -> prepare_reply -> ask_for_missing_data/mail
+-> generate_draft_reply -> HITL` and
+`operator_clarification_requested=false`.
 
 CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
 120 vs 160 contradiction. The design contract is pending an operator decision
@@ -62,6 +70,7 @@ CTX-03 was adjudicated `PRODUCT_WRONG`: fact supersession silently hides the
 
 Closeout: CTX-03 is fixed in code (customer-message value changes now surface
 as conflicts). P3B fixed the four GT-unanchored evaluator dimensions. P1.4B
-live check passed (no unexpected kalk-top tool use). SVC-05 is fixed by a
-general BusinessReasoning contract signal. No full Fresh38 re-run. See
-`P4_FINAL_ACCOUNTING.md` for the 11-case resolution.
+live check passed (no unexpected kalk-top tool use). SVC-05 is closed by the
+general BusinessReasoning contract signal plus downstream customer-clarification
+preservation. No full Fresh38 re-run. See `P4_FINAL_ACCOUNTING.md` for the
+11-case resolution.

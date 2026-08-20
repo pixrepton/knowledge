@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-20 (SVC-05 fixed; 11-CAPABILITY closed).
+Status: active only. Last updated: 2026-08-20 (SVC-05 closed; 11-CAPABILITY closed).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -18,14 +18,17 @@ CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) �
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
 CAPABILITY-OBSERVABILITY-01 = CLOSED
 P4_VS_P3B_FORK = CLOSED
-SVC-05 = FIXED (0a407cb3)
+SVC-05 = CLOSED
+SVC-05_PRODUCT_FIX = PASS
+SVC-05_DOWNSTREAM_FIX = PASS
+SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS
 NEXT = STOP
 ```
 
 | ID                                        | Area                       | Status                      | Next action                                                                                                                                                                                                                                                                                                                                               |
 | ----------------------------------------- | -------------------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `OPERATOR-COMMAND-RECONCILE-BYPASS-01`    | gmail-agent                | **CLOSED**                  | `run_operator_command_spine()` now routes newly appended operator commands through `reconcile_signal()`/registered `operator_command` handler; Gate A gmail-agent passed with 0 failed.                                                                                                                                                                   |
-| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent                | **CLOSED**                  | P2 CLOSED. P3A COMPLETE (`EVALUATOR_WRONG` K3). P4-A MI-02, P4-B SVC-05, P4-C CTX-03 and P1.4B closed; no full Fresh38. SVC-05 fixed `0a407cb3`. Sequence: `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`. No case-id evaluator exceptions. |
+| `FRESH38-CAPABILITY-11-ANALYSIS-20260816` | gmail-agent                | **CLOSED**                  | P2 CLOSED. P3A COMPLETE (`EVALUATOR_WRONG` K3). P4-A MI-02, P4-B SVC-05, P4-C CTX-03 and P1.4B closed; no full Fresh38. SVC-05 CLOSED: PRODUCT_FIX PASS (`0a407cb3`), DOWNSTREAM_FIX PASS (`78603fb`), FINAL_PROVIDER_LIVE_PROOF PASS (`70c3d94`; SVC-05/SVC-02/MI-03 3/3 QUALIFIED). Sequence: `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`. No case-id evaluator exceptions. |
 | `FRESH38-L0-REPAIR-COMMIT-20260816`       | workspace                  | **CLOSED**                  | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios).                                                                                                                                                                 |
 | `TASK-ENGINE-SCOPE-UPDATE`                | workspace (scripts)        | **OPEN — procedural debt**  | Task engine lacks a supported operation for scope/adoption updates; consolidation required direct JSON mutation of checkpoints. Desired future capability: canonical `task-scope-add` / `task-adopt-path` with validation, ownership safeguards, audit trail, checkpoint integration. Not a blocker for consolidation PASS; do not implement in closeout. |
 | `CAPABILITY-OBSERVABILITY-01`             | gmail-agent (eval capture) | **CLOSED**                  | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change.                                                             |
