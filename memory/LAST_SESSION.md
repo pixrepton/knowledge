@@ -41,6 +41,9 @@ NEXT_NON_CAPABILITY_PROGRAM = UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01
    writeback/gates.
 2. Close `TASK-ENGINE-SCOPE-UPDATE`, `GOV-06`, and `IQ-01-ADJUDICATED` to a
    concrete professional status instead of leaving loose residual labels.
+   Current progress: `TASK-ENGINE-SCOPE-UPDATE` closed by `workspace:7696a26`;
+   `GOV-06` closed by tracked `knowledge/.serena/project.yml`; `IQ-01` remains
+   to classify or execute.
 3. Implement `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`.
 4. Then run 10-15 historical real-mail cases in no-side-effect discovery mode
    and classify actual intelligence gaps before broad RAG/facts/reasoning work.
@@ -181,7 +184,7 @@ NOT_PROVEN_AND_NOT_REQUIRED`.
 
 ## Still open
 
-1. Optional: IQ-01 human adjudication; GOV-06 `.serena` monitor.
+1. Optional: IQ-01 human adjudication.
 2. Full Fresh38 is not required after the local bounded fixes; no automatic rerun.
 
 ## Stop

@@ -1,0 +1,48 @@
+# Serena project policy for the knowledge repository.
+#
+# This file is intentionally tracked. Local overrides, memories, caches and logs
+# remain ignored by .gitignore.
+
+project_name: "topinstal-knowledge"
+
+languages:
+  - markdown
+  - yaml
+  - json
+  - python
+  - powershell
+
+ignore_all_files_in_gitignore: true
+
+ignored_paths:
+  - ".serena/cache/**"
+  - ".serena/logs/**"
+  - ".serena/memories/**"
+  - ".serena/project.local.yml"
+  - "eval/fresh38-clean-20260809T225941Z/**"
+  - "eval/fresh38-frozen-sut-clean-20260811T155139Z/**"
+  - "eval/**/*.zip"
+  - "gitnexus/unified-workspace/mirror/**"
+  - "gitnexus/unified-workspace/root/**"
+  - "gitnexus/unified-workspace/_probe/**"
+  - "graphify/graphify-out/**"
+  - "graphify/_semantic-batch/**"
+
+encoding: "utf-8"
+line_ending: lf
+
+# Serena is used here as code intelligence, not as the canonical editor.
+read_only: true
+
+default_modes: []
+added_modes: []
+excluded_tools: []
+included_optional_tools: []
+fixed_tools: []
+symbol_info_budget:
+language_backend:
+read_only_memory_patterns: []
+ignored_memory_patterns: []
+ls_specific_settings: {}
+additional_workspace_folders: []
+initial_prompt: ''

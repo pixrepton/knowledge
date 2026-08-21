@@ -687,7 +687,7 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 | -- | ---- | ------ |
 | *(none for RAG technical gate)* | — | Closed by `RAG-V2-FINAL-TECHNICAL-GATE-01` → `STAGED_ACTIVATION_EXECUTED` |
 
-Optional only: `IQ-01-ADJUDICATED`, `GOV-06`.
+Optional only: `IQ-01-ADJUDICATED`. `GOV-06` is closed.
 
 ### P1 — RAG (po 1.6 COMPLETE_BOUNDED)
 
@@ -770,7 +770,7 @@ Nie otwierać całej Fazy 3 — tylko te rozszerzenia Guardian.
 | **GOV-03** | `.env.playwright.local.example`                                            | **FIXED** (tracked)                                                                                                                                                      |
 | **GOV-04** | `ACTIVE_WORKSPACE.md` ↔ roadmap                                            | **FIXED** 2026-08-06                                                                                                                                                     |
 | **GOV-05** | `LAST_SESSION.md` handoff                                                  | **FIXED** 2026-08-06                                                                                                                                                     |
-| **GOV-06** | `.serena/` policy                                                          | **PARTIAL** — `knowledge/.serena/project.yml` tracked; cache/local gitignored                                                                                            |
+| **GOV-06** | `.serena/` policy                                                          | **CLOSED** — `knowledge/.serena/project.yml` tracked as read-only project policy; cache/logs/memories/local overrides gitignored                                          |
 | **GOV-07** | Non-secret proof summary/hash w repo (obok gitignored artifacts/)          | **COMPLETE** — `knowledge:e916ff6` `PHASE3_RUNTIME_PROOF_SUMMARY.json`                                                                                                   |
 | **GOV-08** | Pełne pola manifestu (`test_command` często puste; trace/screenshot puste) | **COMPLETE** — harness enforcement `gmail-agent:d2ce80d`                                                                                                                 |
 | **GOV-09** | LOCAL_ONLY commits bez push — ryzyko dysku                                 | **COMPLETE_BOUNDED** 2026-08-20 — remotes/push parity are part of AI-OS truth sync; root workspace now has a GitHub remote and the older `no origin` statement is superseded. |

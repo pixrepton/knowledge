@@ -41,8 +41,10 @@ system-atlas/workflows/_raw/n1_normalization_report.json
 system-atlas/workflows/_raw/n1_unattached_preview_seed.json
 system-atlas/workflows/_raw/registry_normalization_report.json
 
-# Local Serena cache (not project knowledge)
-.serena/
+# Local Serena cache (not project knowledge). Keep the project policy tracked.
+.serena/*
+!.serena/
+!.serena/project.yml
 
 # Fresh38 bulk dumps (~15MB each): local artifacts, not canonical tracked eval
 eval/fresh38-clean-20260809T225941Z/
