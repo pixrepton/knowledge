@@ -61,7 +61,8 @@ Current operator-authorized execution order:
 2. Close procedural/tooling residuals to professional `PASS` where bounded:
    `TASK-ENGINE-SCOPE-UPDATE` is closed by `workspace:7696a26`; `GOV-06` is
    closed by tracked `knowledge/.serena/project.yml`; `IQ-01-ADJUDICATED`
-   still needs a concrete disposition.
+   is closed as `CLOSED_NOT_REQUIRED` because human labels must not be
+   fabricated and will be superseded by real-mail discovery labels.
 3. Implement `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`.
 4. Run `REAL-MAIL INTELLIGENCE DISCOVERY` on 10-15 historical cases without
    side effects.
@@ -164,7 +165,8 @@ P3A: COMPLETE (K3 EVALUATOR_WRONG)
 P4_VS_P3B_FORK: CLOSED
 SVC-05: CLOSED (PRODUCT_FIX PASS; DOWNSTREAM_FIX PASS; FINAL_PROVIDER_LIVE_PROOF PASS; no executed request_operator_clarification in final SVC-05 proof)
 NEXT: STOP
-P3 Optional: IQ-01-ADJUDICATED (human labels). GOV-06 is closed.
+P3 Optional residuals are closed or dispositioned: IQ-01 human adjudication is
+`CLOSED_NOT_REQUIRED`; GOV-06 is closed.
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression
 ```
 

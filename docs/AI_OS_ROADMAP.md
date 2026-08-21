@@ -687,7 +687,8 @@ Audit `COMPLETE` / `FOCUSED_LOCAL` ≠ naprawiony kod. SoT: `AIOS_4_1_FACT_SUPER
 | -- | ---- | ------ |
 | *(none for RAG technical gate)* | — | Closed by `RAG-V2-FINAL-TECHNICAL-GATE-01` → `STAGED_ACTIVATION_EXECUTED` |
 
-Optional only: `IQ-01-ADJUDICATED`. `GOV-06` is closed.
+Optional residuals are now dispositioned: `IQ-01-ADJUDICATED` is
+`CLOSED_NOT_REQUIRED`; `GOV-06` is closed.
 
 ### P1 — RAG (po 1.6 COMPLETE_BOUNDED)
 

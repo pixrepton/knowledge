@@ -139,3 +139,16 @@ Fresh38 labels: machine_proposed only — NOT adjudicated for all 36
 
 Do **not** mark IQ-01 `COMPLETE` (unbounded) or claim human Fresh38 adjudication
 from this protocol alone.
+
+## 2026-08-21 disposition
+
+`IQ-01-ADJUDICATED` is closed as `CLOSED_NOT_REQUIRED`, not implemented by
+synthetic labels. The existing IQ-01 bounded harness remains valid:
+
+- synthetic cohort: 13/13 PASS;
+- frozen capture integrity: sha256 verified;
+- frozen dual-score labels: `machine_proposed` only, not gold.
+
+Future human/business labels belong to `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`,
+where real historical cases are reviewed with no side effects. Do not backfill
+`expected_decision_state` from the current classifier output.
