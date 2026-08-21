@@ -97,6 +97,7 @@ Details: `memory/OPERATOR_DECISIONS.md`, `memory/ACTIVE_WORKSPACE.md`, `memory/B
 
 ## On Demand
 
+- `eval/intelligence-audit-20260821/` - full 23-area AI-OS intelligence audit (2026-08-21, read-only; report + evidence index).
 - `eval/mail-agent-intelligence-current/` — current 11-CAPABILITY accounting (SVC-05 closed), P2 proof, P3A reports, P4 vs P3B fork.
 - `docs/AI_OS_ROADMAP.md` - active AI-OS program plan + residual registry (post-6-chat consolidation).
 - `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` - active contract for preserving business decision semantics through policy, tool planning and execution.
