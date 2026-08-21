@@ -55,12 +55,37 @@ PASS_LOCAL_BOUNDED | PROVEN_RUNTIME
 11-CAPABILITY = CLOSED
 SVC-05 = CLOSED
 INTELLIGENCE_SPINE_P0 = CLOSED (PASS_LOCAL_BOUNDED)
+INTELLIGENCE_SPINE_P0_5 = CLOSED (PASS_LOCAL_BOUNDED)
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
 REAL_MAIL_INTELLIGENCE_DISCOVERY_TOOLING = READY (gmail-agent:a3d3ae6)
 REAL_MAIL_INTELLIGENCE_DISCOVERY_FORMAL_COHORT = DATASET_REQUIRED
 ```
+
+## Program: AI-OS INTELLIGENCE SPINE - P0.5 DATA vs AUTHORITY HARDENING
+
+Status: `CLOSED` (2026-08-21). Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`;
+Full Gate A `PASS` (2715 passed / 15 skipped / 24 subtests / 0 failed).
+P1 remains `NOT_STARTED`.
+
+Central principle: `UNTRUSTED AS AUTHORITY != UNTRUSTED AS INFORMATION`.
+Wspolny kontrakt provenance: `gmail-agent/tools/gmail_audit/evidence_authority.py`
+(source_origin / evidence_authority / instruction_authority); enforcement
+w istniejacym `untrusted_input_boundary.py` (UNTRUSTED_AUTHORITY_OVERRIDE,
+UNTRUSTED_RECIPIENT_OVERRIDE, UNTRUSTED_APPROVAL_CLAIM,
+CANONICAL_ARGUMENT_MISMATCH); planner context z jawnym podzialem
+TRUSTED_SYSTEM / TRUSTED_OPERATOR / BUSINESS_STATE / EXTERNAL_EVIDENCE
+(defense in depth).
+
+Commits (LOCAL_ONLY): `gmail-agent:896c5c6` (kontrakt provenance),
+`604c9e2` (binding argumentow + approval/authority claims),
+`3c8f452` (deterministyczna suita A-J + metamorphic).
+Provider micro-cohort (n=6, DeepSeek priority-1): forbidden_tool_attempt_rate
+= 0.0; executed_policy_violation_rate = 0.0.
+Artefakty: `.artifacts/intelligence-spine-p0-5-20260821T194500/`
+(audyt, bounded malicious trajectory, provider-micro-cohort.json).
+Kontrakt: `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` §P0.5.
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
@@ -101,7 +126,7 @@ Status: `CLOSED` (2026-08-21). Owner contract:
 
 P0 closeout: Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`; Full Gate A
 `PASS` (0 failed); Semantic Conservation `ENFORCED`; First CAD slice `PROVEN`;
-`FULL_FRESH38 = NOT_RUN`. P0.5 / P1 / P2 nie startowane.
+`FULL_FRESH38 = NOT_RUN`. P1 / P2 nie startowane (P0.5 patrz sekcja poniżej).
 Commits: `knowledge:121dde29`; `gmail-agent:38797c7`, `c47f8c2`, `45a41fa`,
 `d12e087`, `b5c90a1`, `ccbe5c6` (Gate A triage/fix), `4e6ec55`
 (semantic_hash propagation + fail-closed guard + bounded runtime test).

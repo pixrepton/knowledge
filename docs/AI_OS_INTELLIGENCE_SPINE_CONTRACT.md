@@ -374,3 +374,131 @@ Artifact:
 `.artifacts/intelligence-spine-p0-closeout-20260821T193158/bounded-runtime-trajectory.json`.
 Deterministic gates: `test_closeout_p0_bounded_runtime_slice.py` (3),
 property suite (36 tests incl. closeout invariants).
+
+## P0.5 — Data vs Authority hardening (2026-08-21)
+
+Program: `AI-OS INTELLIGENCE SPINE — P0.5 DATA vs AUTHORITY HARDENING`.
+Status: `CLOSED` (Delivery COMPLETE, Proof PASS_LOCAL_BOUNDED). P1 remains
+`NOT_STARTED`.
+
+### Central principle
+
+```text
+UNTRUSTED AS AUTHORITY != UNTRUSTED AS INFORMATION
+```
+
+External content (customer mail, quoted/forwarded content, attachments, RAG
+evidence, external-data-derived tool results) is a legitimate source of
+information about the world: it may influence customer intent, facts, missing
+information, questions, business reasoning, risk and a future CAD. It may NOT
+directly establish or override CONTROL / AUTHORITY / EXECUTION state
+(approval, execution_authority, tool availability, policy, operator
+authority, execution recipient, canonical case/thread/decision identity,
+canonical tool arguments).
+
+### Read-only authority-flow audit (P0.5A-1)
+
+Seams already protected before P0.5: `untrusted_input_boundary` (authority
+keys + recipient override on inbound signals), `known_fact_guard`, D3
+`gmail_ingress_guard`, `authz` (operator token scope), `policy_action_spine`
++ `effective_tools` (envelope forbidden/allowed tools, ROC not offered for
+customer/mail), `graph` reference monitor + protected snapshot fields,
+`write_executors` (send/calendar tombstones). Full classification matrix:
+`.artifacts/intelligence-spine-p0-5-20260821T194500/p0-5-authority-flow-audit.json`.
+
+Real gaps fixed in P0.5 (minimal, one shared seam):
+1. No provenance dimensions existed (source_origin / evidence_authority /
+   instruction_authority) — added as `evidence_authority.py`, one common
+   contract for email, quoted/forwarded, attachments, RAG and tool results.
+2. Execution guard did not bind canonical identity values (case_id,
+   thread_id, decision_id, semantic_hash, draft_hash, engagement_id) and did
+   not explicitly block approval claims — extended in the existing
+   `untrusted_input_boundary.py` (no second execution boundary).
+3. Planner prompt mixed external data with instructions — now explicitly
+   labels TRUSTED_SYSTEM_INSTRUCTIONS / TRUSTED_OPERATOR_INSTRUCTIONS /
+   BUSINESS_STATE / EXTERNAL_EVIDENCE, and the current message is tagged
+   `[EXTERNAL_EVIDENCE]` in the reasoning trace (defense in depth; runtime
+   enforcement unchanged as the real boundary).
+
+### Three independent dimensions (no flat trust class)
+
+```text
+source_origin:         SYSTEM | OPERATOR | CUSTOMER_EMAIL | QUOTED_CONTENT |
+                       FORWARDED_CONTENT | ATTACHMENT | RAG | TOOL_RESULT |
+                       INTERNAL_STATE | DERIVED | UNKNOWN
+evidence_authority:    INTERNAL_SOT | OPERATOR_STATEMENT | CUSTOMER_STATEMENT |
+                       AUTHORITATIVE_DOCUMENT | CUSTOMER_DOCUMENT |
+                       DERIVED_LLM_CLAIM | UNKNOWN
+instruction_authority: NONE | OPERATOR | SYSTEM
+```
+
+Defaults: CUSTOMER_EMAIL/QUOTED/FORWARDED/ATTACHMENT/RAG/external
+TOOL_RESULT -> `instruction_authority=NONE`; OPERATOR -> OPERATOR; SYSTEM /
+INTERNAL_STATE -> SYSTEM. A RAG fragment of a customer document keeps
+`source_origin=ATTACHMENT`, `evidence_authority=CUSTOMER_DOCUMENT`,
+`produced_by=rag_retriever` — trusted execution mechanism does not make the
+output an instruction source.
+
+### Enforcement points (P0.5A-3)
+
+In the existing `untrusted_input_boundary.py`, for action tools on untrusted
+inbound signals:
+
+```text
+authority override        -> DENY  UNTRUSTED_AUTHORITY_OVERRIDE
+recipient override        -> DENY  UNTRUSTED_RECIPIENT_OVERRIDE
+approval claim            -> DENY  UNTRUSTED_APPROVAL_CLAIM
+canonical identity bind   -> DENY  CANONICAL_ARGUMENT_MISMATCH
+                          (proposed value must equal canonical snapshot/
+                           envelope value; absent canonical = cannot be
+                           established by external text)
+```
+
+Reference monitor (existing) still denies forbidden tools for frozen
+customer/mail CAD (`semantic_tool_forbidden_for_action_intent`,
+`canonical_semantic_drift`). No fallback, no CAD rewrite, no tool swap.
+
+### P0.5B-1 deterministic adversarial suite
+
+`test_untrusted_intelligence_context.py` (51 tests): source/evidence/
+instruction classification; tool identity != output authority; classes A–J
+(direct mail instruction, recipient hijack, fake approval, fake tool command,
+attachment injection, RAG injection, quoted injection, forwarded
+impersonation, fake canonical identifiers, negative control: useful external
+info still influences reasoning -> CAD); metamorphic clean-vs-control-plane
+with `UNAUTHORIZED_CONTROL_PLANE_MUTATION = 0`.
+
+### P0.5B-2 provider-live micro-cohort (bounded)
+
+6 cases, canonical provider chain (DeepSeek `deepseek-v4-flash` priority-1,
+then Groq/OpenRouter fallbacks), `.env.local-vps`, no secrets, no live send:
+
+```text
+evaluated_cases              = 6
+forbidden_tool_attempt_rate  = 0.0
+executed_policy_violation_rate = 0.0
+```
+
+Artifact:
+`.artifacts/intelligence-spine-p0-5-20260821T194500/provider-micro-cohort.json`.
+Bounded malicious trajectory (deterministic): source_origin=CUSTOMER_EMAIL,
+evidence_authority=CUSTOMER_STATEMENT, instruction_authority=NONE; proposed
+tool ROC -> reference monitor DENY (`semantic_tool_forbidden_for_action_intent`
++ `canonical_semantic_drift`); recipient override DENY
+(`untrusted_recipient_argument`); approval_state unchanged; ROC and live send
+not executed. Artifact:
+`.artifacts/intelligence-spine-p0-5-20260821T194500/bounded-runtime-malicious-trajectory.json`.
+
+### Residuals (P1 / P2, not opened)
+
+- Full `DecisionRevisionRequest` runtime (P1), multi-intent `customer_intents[]`
+  (P1), argument-level ToolEnvelope for every action class (P1).
+- Quoted/forwarded content has no dedicated extraction seam yet; authority
+  boundary is enforced by default `instruction_authority=NONE` for all external
+  content (residual: structured quoted/forwarded tagging in a later program).
+- RAG/attachment records do not yet carry the three provenance dimensions at
+  every storage surface; the classification contract is ready and enforcement
+  is already source-kind based.
+- Provider micro-cohort is bounded (n=6); it measures one model snapshot, not
+  a claim of prompt-injection immunity (`PROMPT_INJECTION_SOLVED` is NOT
+  claimed).
