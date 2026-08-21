@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-21 (Live Boundary closeout writeback).
+Status: active only. Last updated: 2026-08-21 (Real Mail Discovery harness writeback).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -26,6 +26,8 @@ NEXT = STOP
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
+REAL_MAIL_INTELLIGENCE_DISCOVERY_TOOLING = READY (gmail-agent:a3d3ae6)
+REAL_MAIL_INTELLIGENCE_DISCOVERY_FORMAL_COHORT = DATASET_REQUIRED
 ```
 
 | ID                                        | Area                       | Status                      | Next action                                                                                                                                                                                                                                                                                                                                               |
@@ -35,7 +37,7 @@ NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
 | `FRESH38-L0-REPAIR-COMMIT-20260816`       | workspace                  | **CLOSED**                  | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios).                                                                                                                                                                 |
 | `INTELLIGENCE-SPINE-1-2-3`                | gmail-agent / knowledge     | **CLOSED_BOUNDED**          | `gmail-agent:3469dbd`, `7fc257b`, `c80be17`; `knowledge:7d2fa39`, `cbf0cda`. Proven invariants: customer/mail ToolEnvelope preservation, execution rejection of semantic drift, decision-safety metadata preservation, dependent action blocked on conflicted critical fact, independent action remains legal. Not a live autonomy claim and no Full Fresh38. |
 | `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`   | gmail-agent                 | **CLOSED**                  | `gmail-agent:2e1d95b` adds a central pre-execution boundary: inbound mail/attachments remain evidence, not authority; action tools fail closed on untrusted authority arguments or recipient override, while read-only tools remain unaffected. Proof: boundary 4 passed; spine/planner 36 passed; write-lock/tool contract 12 passed; py_compile/diff-check PASS. |
-| `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`     | gmail-agent / knowledge     | **AUTHORIZED_NEXT**         | 10-15 historical real cases, no side effects, classify root causes (`RAG_GAP`, `FACT_GAP`, `ATTACHMENT_UNDERSTANDING_GAP`, `BUSINESS_REASONING_GAP`, etc.) before broader RAG/facts/reasoning work.                                                                                              |
+| `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`     | gmail-agent / knowledge     | **TOOLING_READY / DATASET_REQUIRED** | `gmail-agent:a3d3ae6` adds `gmail_intake.py real-mail-discovery`: file-only/no-side-effect JSON/JSONL harness, no Gmail fetch, no LLM calls, no outbound actions, formal `DISCOVERY_QUALIFIED` only for 10-15 labelled historical cases. Next: provide curated real cases and run without `--allow-small-sample`. |
 | `TASK-ENGINE-SCOPE-UPDATE`                | workspace (scripts)        | **CLOSED**                  | `workspace:7696a26` adds supported `task-scope-add`, `task-adopt-path`, and `task-next-clear` operations with validation, ownership safeguards, audit trail and checkpoint integration. Focused task-engine tests 31 passed; `agent_harness_audit` and `agent_map_audit` passed. |
 | `CAPABILITY-OBSERVABILITY-01`             | gmail-agent (eval capture) | **CLOSED**                  | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change.                                                             |
 | IQ-01-ADJUDICATED                         | eval                       | **CLOSED_NOT_REQUIRED**     | Do not fabricate human-adjudicated labels. IQ-01 is already `COMPLETE_BOUNDED`: synthetic 13/13 PASS plus frozen dual-score on pinned Fresh38 capture with `machine_proposed` labels only. Future human/business labels move to `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`, where real historical cases provide the right label source. |

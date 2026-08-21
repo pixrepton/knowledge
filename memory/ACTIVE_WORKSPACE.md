@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-21 (Live Boundary closeout writeback).
+Status: current direction only. Last updated: 2026-08-21 (Real Mail Discovery harness writeback).
 
 ## Current program (canonical)
 
@@ -67,9 +67,13 @@ Current operator-authorized execution order:
    inbound mail/attachments are evidence, not authority; action tools fail
    closed on untrusted authority/recipient arguments; read-only tools are not
    blocked by the boundary.
-4. Run `REAL-MAIL INTELLIGENCE DISCOVERY` on 10-15 historical cases without
-   side effects.
-5. Use the resulting gap map to prioritize RAG/facts/attachments/reasoning/tools
+4. `REAL-MAIL-INTELLIGENCE-DISCOVERY-01` tooling is ready in
+   `gmail-agent:a3d3ae6`: `gmail_intake.py real-mail-discovery` consumes
+   operator-curated JSON/JSONL historical cases, writes a gap map, and performs
+   no Gmail fetch, no LLM calls, no tool execution and no outbound actions.
+5. Formal discovery is still `DATASET_REQUIRED`: collect 10-15 labelled
+   historical real-mail cases and run the harness without `--allow-small-sample`.
+6. Use the resulting gap map to prioritize RAG/facts/attachments/reasoning/tools
    work before larger historical qualification and shadow-live.
 
 ### AI-OS truth sync — current workspace posture (2026-08-20)

@@ -1,6 +1,6 @@
 # Last Session
 
-Updated: 2026-08-21 - **Live Boundary closeout after 2e1d95b**.
+Updated: 2026-08-21 - **Real Mail Discovery harness ready after a3d3ae6**.
 
 ## Headline
 
@@ -17,6 +17,8 @@ NEXT = STOP
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
+REAL_MAIL_INTELLIGENCE_DISCOVERY_TOOLING = READY (gmail-agent:a3d3ae6)
+REAL_MAIL_INTELLIGENCE_DISCOVERY_FORMAL_COHORT = DATASET_REQUIRED
 ```
 
 ## Intelligence Spine closeout 2026-08-21
@@ -46,8 +48,15 @@ NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
    `gmail-agent:2e1d95b01a392d1aa512a6ccf792fcab6784574a`.
    Proof: untrusted boundary 4 passed; spine/planner regression 36 passed;
    write-lock/tool contract 12 passed; py_compile/diff-check PASS.
-4. Then run 10-15 historical real-mail cases in no-side-effect discovery mode
-   and classify actual intelligence gaps before broad RAG/facts/reasoning work.
+4. `REAL-MAIL-INTELLIGENCE-DISCOVERY-01` tooling is ready in
+   `gmail-agent:a3d3ae6b923405d0c55023f8393129951c68b6c0`:
+   `python tools/gmail_audit/gmail_intake.py real-mail-discovery --input <cases.jsonl>`.
+   It is file-only/no-side-effect: no Gmail fetch, no LLM calls, no tool
+   execution, no outbound actions. `--allow-small-sample` is smoke/dev only and
+   reports `SMOKE_ONLY`, not formal discovery qualification.
+5. Formal discovery remains `DATASET_REQUIRED`: collect 10-15 operator-labelled
+   historical real-mail cases and run the harness without `--allow-small-sample`
+   to classify actual intelligence gaps before broad RAG/facts/reasoning work.
 
 ## AI-OS truth sync 2026-08-20
 

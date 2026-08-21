@@ -1,6 +1,6 @@
 # AI-OS Roadmap — plan programu i przyszłe wdrożenia
 
-Status: **active program plan**. Last updated: 2026-08-21 (Live Boundary closeout writeback).
+Status: **active program plan**. Last updated: 2026-08-21 (Real Mail Discovery harness writeback).
 
 **Rola dokumentu:** kanoniczny plan AI-OS — zamknięte fazy/slice’y, kolejność przyszłych wdrożeń, **rejestr residuali** (świadomie bounded / odłożone / do weryfikacji) oraz granice proofu. To nie jest tylko lista „następnych slice’ów”.
 
@@ -57,6 +57,8 @@ SVC-05 = CLOSED
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
+REAL_MAIL_INTELLIGENCE_DISCOVERY_TOOLING = READY (gmail-agent:a3d3ae6)
+REAL_MAIL_INTELLIGENCE_DISCOVERY_FORMAL_COHORT = DATASET_REQUIRED
 ```
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
@@ -64,7 +66,19 @@ preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed
 by `gmail-agent:2e1d95b`: inbound mail and attachments remain evidence, not
 authority, and action tools fail closed on untrusted authority/recipient
-arguments. The next program is no-side-effect real-mail intelligence discovery.
+arguments.
+
+`gmail-agent:a3d3ae6` adds the no-side-effect discovery harness:
+
+```powershell
+python tools/gmail_audit/gmail_intake.py real-mail-discovery --input <cases.jsonl>
+```
+
+The harness consumes operator-curated JSON/JSONL historical case records and
+writes a capability gap map. It performs no Gmail fetch, no LLM calls, no tool
+execution and no outbound actions. Formal `DISCOVERY_QUALIFIED` requires 10-15
+labelled real-mail cases; `--allow-small-sample` is smoke/dev only and reports
+`SMOKE_ONLY`.
 
 Updated strategy:
 
