@@ -54,6 +54,7 @@ PASS_LOCAL_BOUNDED | PROVEN_RUNTIME
 ```text
 11-CAPABILITY = CLOSED
 SVC-05 = CLOSED
+INTELLIGENCE_SPINE_P0 = CLOSED (PASS_LOCAL_BOUNDED)
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
@@ -95,8 +96,17 @@ Intelligence Spine closeout
 
 ## Program: AI-OS INTELLIGENCE SPINE — CONTRACT + FIRST ENFORCED SLICE (P0)
 
-Status: `IN_PROGRESS` (2026-08-21). Owner contract:
+Status: `CLOSED` (2026-08-21). Owner contract:
 `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` §CanonicalActionDecision (CAD).
+
+P0 closeout: Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`; Full Gate A
+`PASS` (0 failed); Semantic Conservation `ENFORCED`; First CAD slice `PROVEN`;
+`FULL_FRESH38 = NOT_RUN`. P0.5 / P1 / P2 nie startowane.
+Commits: `knowledge:121dde29`; `gmail-agent:38797c7`, `c47f8c2`, `45a41fa`,
+`d12e087`, `b5c90a1`, `ccbe5c6` (Gate A triage/fix), `4e6ec55`
+(semantic_hash propagation + fail-closed guard + bounded runtime test).
+Bounded proof artifact:
+`.artifacts/intelligence-spine-p0-closeout-20260821T193158/bounded-runtime-trajectory.json`.
 
 Goal: one hard invariant — after `ask_for_missing_data / customer / mail` is
 created, no further layer may change it to `operator / internal /

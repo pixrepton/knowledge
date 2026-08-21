@@ -284,3 +284,93 @@ change the canonical semantic signature.
   CanonicalizationFailure -> NEEDS_REVIEW, decision_id/semantic_hash rules.
 - Metamorphic LLM cohort (paraphrase, noise, prompt injection) is a separate
   P0.5 track and is not part of the deterministic gate.
+
+### P0 closeout (2026-08-21) — semantic identity propagation + bounded proof
+
+Delivery: `COMPLETE`. Proof: `PASS_LOCAL_BOUNDED`. Full Gate A: `PASS`
+(0 failed). Semantic Conservation: `ENFORCED`. First CAD slice: `PROVEN`.
+`FULL_FRESH38 = NOT_RUN`. P0.5 / P1 / P2 are **not** started (program order).
+
+#### Semantic identity invariant (beyond canonical_decision_id)
+
+Semantic identity of the first slice is preserved mechanically through every
+downstream seam:
+
+```text
+CAD.semantic_hash
+== ActionPlan.semantic_hash
+== NBA.primary_next_action.semantic_hash
+== APv2 raw proposal semantic_hash (lineage)
+== PolicyActionEnvelopeV1.source_semantic_hash   # Policy + ToolEnvelope seam
+== ToolCallPlan.semantic_hash                     # observed identity at execution
+== ActionItem.source_semantic_hash                # materialized execution record
+```
+
+`source_semantic_hash` is projected from the APv2 record produced from the
+CAD-driven ActionPlan; it is never recomputed downstream. The semantic hash
+covers only the canonical payload (`case_id`, `situation_version`, `goal`,
+`action_type`, `target`, `channel`, sorted `required_information`,
+`schema_version`, `semantic_status`); it never includes transient metadata
+(`created_at`, rationale, confidence, latency, provider, approval
+timestamps).
+
+Projection layers keep their own vocabulary: APv2 projects the frozen
+customer/mail decision as `prepare_reply_draft` (execution vocabulary) while
+`action_target=customer`, `action_channel=mail` and `source_semantic_hash`
+stay frozen. Vocabulary labels are projections; the semantic signature is
+the hash.
+
+#### Runtime guard (reference monitor, fail closed)
+
+Before an action tool executes, the reference monitor compares:
+
+```text
+expected = PolicyActionEnvelopeV1.source_semantic_hash
+observed = ToolCallPlan.semantic_hash
+```
+
+- match -> consistent (existing tool-level checks still apply);
+- mismatch -> DENY, `reason = canonical_semantic_drift`;
+- missing observed hash -> existing correlation/forbidden-tool checks still
+  apply (never a silent pass).
+
+The planner client binds the plan to the hash of the envelope it was offered;
+if the envelope changes between prompt and execution, the monitor denies.
+Denial never rewrites the hash, never recomputes the decision downstream,
+never substitutes a tool and never falls back to
+`request_operator_clarification`.
+
+#### Bounded runtime proof (CLOSEOUT-03)
+
+One production-faithful trajectory through the `eval_planner_spine_handoff`
+harness (no LLM call, no live send):
+
+```text
+Signal (service fault, missing diagnostic data)
+-> SituationUnderstanding -> BusinessReasoning (collect_data)
+-> BusinessDecisionProposal -> CanonicalActionDecision (FROZEN)
+-> ActionPlan (execution_step=prepare_reply)
+-> Case Intelligence / NBA (case_guidance=ask_for_missing_data)
+-> DecisionCandidate -> Policy (allowed_with_review, approval required)
+-> PolicyActionEnvelopeV1 (source_semantic_hash == CAD.semantic_hash)
+-> effective_tools (generate_draft_reply offered;
+   request_operator_clarification filtered: SEMANTIC_TOOL_FORBIDDEN)
+-> Reference Monitor (consistent; canonical_semantic_drift=false)
+-> generate_draft_reply (ok) -> HITL (draft_ready_for_approval)
+```
+
+Result: `action_type=ask_for_missing_data`, `target=customer`,
+`channel=mail`; `canonical_decision_id` and `semantic_hash` identical at
+every seam; `request_operator_clarification_executed=false`;
+`live_send_executed=false`; `HITL_REQUIRED=true`.
+
+Negative proof: a plan attempting `request_operator_clarification` against
+the frozen customer/mail CAD is DENIED before execution
+(`semantic_tool_forbidden_for_action_intent` +
+`canonical_semantic_drift`; `hitl_gate.reason=
+semantic_tool_mismatch:request_operator_clarification`).
+
+Artifact:
+`.artifacts/intelligence-spine-p0-closeout-20260821T193158/bounded-runtime-trajectory.json`.
+Deterministic gates: `test_closeout_p0_bounded_runtime_slice.py` (3),
+property suite (36 tests incl. closeout invariants).
