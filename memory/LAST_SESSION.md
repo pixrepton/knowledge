@@ -1,6 +1,6 @@
 # Last Session
 
-Updated: 2026-08-21 — **Intelligence Spine closeout writeback after c80be17**.
+Updated: 2026-08-21 - **Live Boundary closeout after 2e1d95b**.
 
 ## Headline
 
@@ -15,7 +15,8 @@ FRESH38_RERUN = NO
 AI_OS_TRUTH_SYNC = CLOSED_PASS
 NEXT = STOP
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
-NEXT_NON_CAPABILITY_PROGRAM = UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01
+UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
+NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
 ```
 
 ## Intelligence Spine closeout 2026-08-21
@@ -37,14 +38,14 @@ NEXT_NON_CAPABILITY_PROGRAM = UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01
 
 ## Current operator direction after writeback
 
-1. Publish current `gmail-agent` and `knowledge` branch heads after scoped
+1. `gmail-agent` and `knowledge` branch heads are published after scoped
    writeback/gates.
-2. Close `TASK-ENGINE-SCOPE-UPDATE`, `GOV-06`, and `IQ-01-ADJUDICATED` to a
-   concrete professional status instead of leaving loose residual labels.
-   Current progress: `TASK-ENGINE-SCOPE-UPDATE` closed by `workspace:7696a26`;
-   `GOV-06` closed by tracked `knowledge/.serena/project.yml`; `IQ-01` closed
-   as `CLOSED_NOT_REQUIRED` rather than fabricating human-adjudicated labels.
-3. Implement `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`.
+2. `TASK-ENGINE-SCOPE-UPDATE`, `GOV-06`, and `IQ-01-ADJUDICATED` are closed or
+   explicitly dispositioned.
+3. `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01` is closed by
+   `gmail-agent:2e1d95b01a392d1aa512a6ccf792fcab6784574a`.
+   Proof: untrusted boundary 4 passed; spine/planner regression 36 passed;
+   write-lock/tool contract 12 passed; py_compile/diff-check PASS.
 4. Then run 10-15 historical real-mail cases in no-side-effect discovery mode
    and classify actual intelligence gaps before broad RAG/facts/reasoning work.
 

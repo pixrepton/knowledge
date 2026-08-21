@@ -1,6 +1,6 @@
 # AI-OS Roadmap — plan programu i przyszłe wdrożenia
 
-Status: **active program plan**. Last updated: 2026-08-21 (Intelligence Spine closeout writeback).
+Status: **active program plan**. Last updated: 2026-08-21 (Live Boundary closeout writeback).
 
 **Rola dokumentu:** kanoniczny plan AI-OS — zamknięte fazy/slice’y, kolejność przyszłych wdrożeń, **rejestr residuali** (świadomie bounded / odłożone / do weryfikacji) oraz granice proofu. To nie jest tylko lista „następnych slice’ów”.
 
@@ -55,13 +55,16 @@ PASS_LOCAL_BOUNDED | PROVEN_RUNTIME
 11-CAPABILITY = CLOSED
 SVC-05 = CLOSED
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
-NEXT_NON_CAPABILITY_PROGRAM = UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01
+UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
+NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
 ```
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
-autonomous live execution. The next program is safety/readiness for untrusted
-real inbound mail, followed by no-side-effect real-mail intelligence discovery.
+autonomous live execution. The untrusted input execution boundary is now closed
+by `gmail-agent:2e1d95b`: inbound mail and attachments remain evidence, not
+authority, and action tools fail closed on untrusted authority/recipient
+arguments. The next program is no-side-effect real-mail intelligence discovery.
 
 Updated strategy:
 

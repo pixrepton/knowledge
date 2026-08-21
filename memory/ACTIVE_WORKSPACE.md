@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-21 (Intelligence Spine closeout writeback).
+Status: current direction only. Last updated: 2026-08-21 (Live Boundary closeout writeback).
 
 ## Current program (canonical)
 
@@ -57,13 +57,16 @@ Proven bounded invariants:
 
 Current operator-authorized execution order:
 
-1. Write back and publish current Intelligence Spine state.
-2. Close procedural/tooling residuals to professional `PASS` where bounded:
+1. Intelligence Spine writeback and publication are complete.
+2. Procedural/tooling residuals are closed or explicitly dispositioned:
    `TASK-ENGINE-SCOPE-UPDATE` is closed by `workspace:7696a26`; `GOV-06` is
    closed by tracked `knowledge/.serena/project.yml`; `IQ-01-ADJUDICATED`
    is closed as `CLOSED_NOT_REQUIRED` because human labels must not be
    fabricated and will be superseded by real-mail discovery labels.
-3. Implement `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`.
+3. `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01` is closed by `gmail-agent:2e1d95b`:
+   inbound mail/attachments are evidence, not authority; action tools fail
+   closed on untrusted authority/recipient arguments; read-only tools are not
+   blocked by the boundary.
 4. Run `REAL-MAIL INTELLIGENCE DISCOVERY` on 10-15 historical cases without
    side effects.
 5. Use the resulting gap map to prioritize RAG/facts/attachments/reasoning/tools
