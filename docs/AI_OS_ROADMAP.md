@@ -1,6 +1,6 @@
 # AI-OS Roadmap — plan programu i przyszłe wdrożenia
 
-Status: **active program plan**. Last updated: 2026-08-20 (AI-OS truth sync after SVC-05 closeout).
+Status: **active program plan**. Last updated: 2026-08-21 (Intelligence Spine closeout writeback).
 
 **Rola dokumentu:** kanoniczny plan AI-OS — zamknięte fazy/slice’y, kolejność przyszłych wdrożeń, **rejestr residuali** (świadomie bounded / odłożone / do weryfikacji) oraz granice proofu. To nie jest tylko lista „następnych slice’ów”.
 
@@ -48,6 +48,33 @@ PASS_LOCAL_BOUNDED | PROVEN_RUNTIME
 | Cel produktu    | Prowadzenie spraw do poprawnego wyniku (nie Capability Registry)       |
 | Mapa sufitów    | Rejestr barier (`CANONICAL_POST_REPAIR_CEILING_MAP`), nie backlog 1→38 |
 | Scope domyślny  | Lokalny Docker; brak VPS/prod/live send bez jawnej decyzji operatora   |
+
+### Aktualny kierunek po 11-CAPABILITY
+
+```text
+11-CAPABILITY = CLOSED
+SVC-05 = CLOSED
+INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
+NEXT_NON_CAPABILITY_PROGRAM = UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01
+```
+
+Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
+preservation and consumer enforcement. It does not mean the system is ready for
+autonomous live execution. The next program is safety/readiness for untrusted
+real inbound mail, followed by no-side-effect real-mail intelligence discovery.
+
+Updated strategy:
+
+```text
+Intelligence Spine closeout
+  -> Untrusted Input / Execution Boundary
+  -> 10-15 real historical mail Intelligence Discovery
+  -> real capability gap map
+  -> targeted RAG / facts / attachments / reasoning / tools fixes
+  -> 30-50 historical qualification
+  -> shadow-live
+  -> capability-by-capability autonomy
+```
 
 ### Anti-goals (świadomie poza tym programem)
 

@@ -1,6 +1,6 @@
 # Last Session
 
-Updated: 2026-08-20 — **AI-OS truth sync after SVC-05 closeout**.
+Updated: 2026-08-21 — **Intelligence Spine closeout writeback after c80be17**.
 
 ## Headline
 
@@ -14,7 +14,36 @@ SVC05_FINAL_COMMIT = gmail-agent:70c3d94efa41f6b46a87fbd4b1c07d96ca3e6d66
 FRESH38_RERUN = NO
 AI_OS_TRUTH_SYNC = CLOSED_PASS
 NEXT = STOP
+INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
+NEXT_NON_CAPABILITY_PROGRAM = UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01
 ```
+
+## Intelligence Spine closeout 2026-08-21
+
+- `gmail-agent:3469dbd` introduced the bounded Intelligence Spine slices:
+  semantic ToolEnvelope preservation and hybrid active-facts contract.
+- `gmail-agent:7fc257b` completed active fact decision-use annotation.
+- `gmail-agent:c80be17` closed the consumer-side enforcement gap: decision-safety
+  metadata is preserved through the normalization boundaries needed by the real
+  dependent kalk/offer consumer; actions depending on conflicted critical facts
+  are blocked; independent actions remain legal; `allowed_action_tools`
+  mismatches are rejected by execution even when the selected tool is not
+  globally forbidden.
+- Final focused proof reported `110 passed` across the affected spine, active
+  facts, kalk eligibility, planner execution fidelity and fact supersession
+  regression tests.
+- This is a bounded contract proof, not product autonomy readiness and not a
+  Full Fresh38 run.
+
+## Current operator direction after writeback
+
+1. Publish current `gmail-agent` and `knowledge` branch heads after scoped
+   writeback/gates.
+2. Close `TASK-ENGINE-SCOPE-UPDATE`, `GOV-06`, and `IQ-01-ADJUDICATED` to a
+   concrete professional status instead of leaving loose residual labels.
+3. Implement `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`.
+4. Then run 10-15 historical real-mail cases in no-side-effect discovery mode
+   and classify actual intelligence gaps before broad RAG/facts/reasoning work.
 
 ## AI-OS truth sync 2026-08-20
 
@@ -67,7 +96,7 @@ NEXT = STOP
   `operator_clarification_requested=false`.
 - No full Fresh38.
 
-## Stop / next
+## Stop / next for 11-CAPABILITY
 
 Next: **STOP**. The 11-CAPABILITY program is closed. Do not re-run Fresh38 or
 start another fix round without an operator decision.

@@ -1,7 +1,7 @@
 # AI-OS Intelligence Spine Contract
 
 Status: active contract with bounded implementation slices. Created:
-2026-08-20.
+2026-08-20. Current closeout writeback: 2026-08-21.
 
 Purpose: preserve business decision semantics from BusinessReasoning through
 tool execution without moving policy authority into the semantic layer.
@@ -147,6 +147,18 @@ Focused proof on 2026-08-20:
 - `test_rp29_fact_supersession.py`
 - `test_case_context_contract.py`
 - `test_daszek_v3_operational_feed.py`
+
+Closeout extension on 2026-08-21:
+
+- `gmail-agent:c80be17` proves the missing consumer-side enforcement seam.
+- `allowed_action_tools` mismatch is rejected by execution even when the tool is
+  not globally forbidden.
+- decision-safety metadata is preserved through the normalization boundaries
+  needed by the actual dependent kalk/offer consumer.
+- dependent kalk/offer action is blocked when it requires conflicted
+  `heated_area_m2`.
+- independent acknowledgement remains legal with the same conflict.
+- final focused proof: `110 passed`.
 
 ## Non-Goals
 

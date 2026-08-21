@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-20 (AI-OS truth sync after SVC-05 closeout).
+Status: current direction only. Last updated: 2026-08-21 (Intelligence Spine closeout writeback).
 
 ## Current program (canonical)
 
@@ -29,6 +29,43 @@ P4_VS_P3B_FORK = CLOSED (all P4 steps complete; P3B deferred; no full Fresh38)
 11-CAPABILITY = CLOSED (all 11 fixed or explicitly classified)
 NEXT = STOP
 ```
+
+### Intelligence Spine closeout (2026-08-21)
+
+```text
+INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS
+SCOPE = bounded invariants only
+PRODUCT_AUTONOMY_READINESS = NOT_CLAIMED
+FULL_FRESH38 = NOT_RUN
+```
+
+Proof owner: `gmail-agent` commits `3469dbd`, `7fc257b`, `c80be17`; contract
+owner: `knowledge/docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` commits `7d2fa39`,
+`cbf0cda`.
+
+Proven bounded invariants:
+
+- `allowed_action_tools` is an action-tool whitelist and execution rejects
+  mismatches even when a tool is not globally forbidden.
+- customer/mail/ask-for-missing-data cannot silently become
+  `request_operator_clarification`.
+- `trust_state`, `decision_usable` and `decision_block_reason` survive the
+  normalization boundaries needed by the real dependent consumer.
+- a consumer depending on conflicted `heated_area_m2` cannot execute the
+  dependent kalk/offer action, while independent customer acknowledgement
+  remains legal.
+
+Current operator-authorized execution order:
+
+1. Write back and publish current Intelligence Spine state.
+2. Close procedural/tooling residuals to professional `PASS` where bounded:
+   `TASK-ENGINE-SCOPE-UPDATE`, `GOV-06`, and a concrete disposition for
+   `IQ-01-ADJUDICATED`.
+3. Implement `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`.
+4. Run `REAL-MAIL INTELLIGENCE DISCOVERY` on 10-15 historical cases without
+   side effects.
+5. Use the resulting gap map to prioritize RAG/facts/attachments/reasoning/tools
+   work before larger historical qualification and shadow-live.
 
 ### AI-OS truth sync — current workspace posture (2026-08-20)
 
@@ -71,7 +108,7 @@ without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` change
 **Current residual owner:** `knowledge/eval/mail-agent-intelligence-current/`.
 
 **Next program:** frozen eight-step sequence in `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`.
-**Now:** STOP. P4-A MI-02, P4-B SVC-05 final provider-live closeout, bounded re-proof and P4-C CTX-03 are
+**Now for 11-CAPABILITY:** STOP. P4-A MI-02, P4-B SVC-05 final provider-live closeout, bounded re-proof and P4-C CTX-03 are
 complete. P3B remains deferred to step 5 only. INT-01 remains
 `HISTORICAL_ONLY / REGRESSION_WATCH`. K3 canonical failures are `EVALUATOR_WRONG`, not a
 product-fix queue. Do not recapture Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj

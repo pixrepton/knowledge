@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-20 (AI-OS truth sync after SVC-05 closeout).
+Status: active entry point. Last updated: 2026-08-21 (Intelligence Spine closeout writeback).
 
 Read this file first, then only the files needed for the current task.
 
@@ -25,8 +25,20 @@ SVC-05 = CLOSED
 SVC-05_PRODUCT_FIX = PASS
 SVC-05_DOWNSTREAM_FIX = PASS
 SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS
-NEXT = STOP (11 CAPABILITY closed)
+NEXT = STOP (11 CAPABILITY closed; next non-capability program is Live Readiness Boundary)
 ```
+
+Post-SVC-05 Intelligence Spine closeout is also current: `gmail-agent:3469dbd`,
+`7fc257b`, `c80be17` and `knowledge:7d2fa39`, `cbf0cda` close the bounded
+spine work. `INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS` only for the
+agreed invariants: customer/mail ToolEnvelope preservation, independent
+execution rejection of semantic tool drift, decision-safety metadata
+preservation for fact consumers, and blocking only actions dependent on
+conflicted critical facts. This is not a Full Fresh38 claim and not live
+autonomy readiness.
+
+Next operator-authorized direction after current-state/parity cleanup:
+`UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`, then real-mail intelligence discovery.
 
 Current workspace sync facts (2026-08-20): Node B local API is healthy on
 `127.0.0.1:8766` and mailbox memory is healthy. RAG backend is not currently
