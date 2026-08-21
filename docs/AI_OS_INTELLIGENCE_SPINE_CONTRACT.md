@@ -168,3 +168,119 @@ Closeout extension on 2026-08-21:
 - No global BusinessReasoning prompt rewrite.
 - No global "critical conflict blocks case" rule.
 - No policy approval decision inside semantic constraints.
+
+## CanonicalActionDecision (CAD) — Contract + First Enforced Slice (2026-08-21)
+
+Program: `AI-OS INTELLIGENCE SPINE — CONTRACT + FIRST ENFORCED SLICE` (P0).
+This section is the contract extension implemented by P0; it does not replace
+the Core Rule above.
+
+### Core invariant
+
+```text
+After CanonicalActionDecision is created for
+  goal / action_type / target / channel,
+no further layer may change goal, action_type, target or channel.
+Downstream may execute, restrict, block, or request an explicit revision
+(DecisionRevisionRequest) — it must not reinterpret the decision.
+```
+
+First enforced vertical slice:
+
+```text
+action_type = ask_for_missing_data
+target      = customer
+channel     = mail
+```
+
+### Lifecycle split
+
+Two distinct mechanisms, separated by the existence of the CAD:
+
+```text
+BusinessDecisionProposal
+  -> CanonicalizationFailure        # BEFORE CAD exists; no decision_id yet
+  -> NEEDS_REVIEW                   # workflow state, never a new action_type
+
+CanonicalActionDecision (FROZEN)
+  -> DecisionRevisionRequest        # AFTER CAD exists; carries decision_id
+  -> decision owner -> new CAD
+```
+
+- `CanonicalizationFailure` is emitted when a proposal cannot be canonicalized.
+  It has `decision_state="NO_CANONICAL_DECISION"`. The workflow outcome is
+  `NEEDS_REVIEW` (operational/review state). It is **never** converted into a
+  different business action such as `escalate_review`.
+- `DecisionRevisionRequest` is emitted when downstream discovers new evidence,
+  a conflict, or an impossible precondition after the CAD was frozen. It
+  references `decision_id` + `revision` and asks the decision owner for a new
+  CAD. Downstream never changes target/action by itself.
+
+### SituationUnderstanding is state, not a target owner
+
+SituationUnderstanding states facts: customer asked X, missing_information=Y,
+open_questions=Z, risks, lifecycle, evidence. It does not decide `target`.
+The canonicalizer checks logical support of the proposal by the state of
+things (e.g. `required_information` is a subset of `missing_information`; no
+conflicted/uncertain fact is used as certainty), **not** a
+`SituationUnderstanding.target == proposal.target` equality.
+
+### BusinessDecisionProposal
+
+New typed artifact derived from the existing BusinessReasoning result:
+
+```text
+goal, action_type, target, channel, required_information[],
+confidence, reason, risk_class, proposal_id
+```
+
+`BusinessReasoningResult` itself is not extended in P0 (consumer inventory:
+~80 files touch the recommendation surface; separate artifact instead).
+
+### CanonicalActionDecision
+
+```text
+decision_id      = dec_<uuid4>            # stable across revisions
+revision         = int (starts at 1)
+semantic_hash    = SHA256(canonical JSON: schema_version, case_id,
+                  situation_version, goal, action_type, target, channel,
+                  required_information(sorted), semantic_status)
+semantic_status  = FROZEN
+```
+
+`semantic_hash` excludes `created_at`, rationale text, confidence and
+presentation fields. It is the basis for Semantic Conservation checks:
+any downstream artifact may reference `decision_id`/`semantic_hash`; none may
+change the canonical semantic signature.
+
+### Layer re-roles (P0)
+
+- `ActionPlan` consumes the CAD and answers "how to execute": it carries
+  `canonical_decision_id` and its own execution vocabulary
+  (`execution_step=prepare_reply`). It does not re-select business meaning.
+- `Case Intelligence / NBA` carries `canonical_decision_id` and its own
+  projection vocabulary (`case_guidance=ask_for_missing_data`); it keeps
+  missing info, risks, readiness, lifecycle, open loops and evidence, but does
+  not re-choose the business action after the CAD is frozen.
+- Policy adds only authority: `execution_authority` (`prepare_only`),
+  `approval_required`, `max_side_effect` (`local_draft`). Policy never changes
+  `action_type/target/channel`.
+- Safety for the planner comes from capability filtering: the envelope's
+  `forbidden_tools` / `allowed_action_tools` are applied in
+  `effective_tools`, so `request_operator_clarification` is **not offered**
+  for frozen customer/mail actions (planner sees only `generate_draft_reply`
+  as the action tool). No special-cased planner prompt path.
+- Reference monitor (`graph.py`) blocks any plan that would change
+  target/channel relative to the CAD (reason codes:
+  `semantic_tool_forbidden_for_action_intent`,
+  `canonical_semantic_drift`).
+
+### P0 test surface
+
+- Deterministic spine property suite
+  (`test_canonical_action_decision_properties.py`): semantic conservation,
+  review invariant, tool availability invariant, unsupported channel,
+  forbidden tool, missing_info permutation, policy cannot retarget,
+  CanonicalizationFailure -> NEEDS_REVIEW, decision_id/semantic_hash rules.
+- Metamorphic LLM cohort (paraphrase, noise, prompt injection) is a separate
+  P0.5 track and is not part of the deterministic gate.

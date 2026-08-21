@@ -93,6 +93,39 @@ Intelligence Spine closeout
   -> capability-by-capability autonomy
 ```
 
+## Program: AI-OS INTELLIGENCE SPINE — CONTRACT + FIRST ENFORCED SLICE (P0)
+
+Status: `IN_PROGRESS` (2026-08-21). Owner contract:
+`docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` §CanonicalActionDecision (CAD).
+
+Goal: one hard invariant — after `ask_for_missing_data / customer / mail` is
+created, no further layer may change it to `operator / internal /
+clarification`; downstream may execute, restrict, block, or request explicit
+revision (`DecisionRevisionRequest`), never reinterpret.
+
+Sequence (Delivery/Proof per status taxonomy):
+
+1. **P0 — contract + first enforced slice** (`knowledge` + `gmail-agent`):
+   `BusinessDecisionProposal` -> `CanonicalizationFailure` (przed CAD) /
+   `CanonicalActionDecision` (FROZEN, `decision_id` + `semantic_hash`) ->
+   ActionPlan/NBA re-role -> policy authority only -> capability filtering
+   (`effective_tools` nie oferuje `request_operator_clarification` dla
+   customer/mail) -> reference monitor (`canonical_semantic_drift`) ->
+   deterministyczne property tests. Bez Full Fresh38.
+2. **P0.5 — Untrusted Input / Prompt Injection boundary** (przed pilotem):
+   indirect prompt injection review (RAG/załącznik/forwarded message poza
+   action-args) + adversarial metamorphic cohort (noise, prompt injection,
+   same meaning/different wording) — osobny track, nie w deterministycznym gate.
+3. **P1**: pełna obsługa `DecisionRevisionRequest` (nowy CAD), explicit
+   „unknown vs inferred" w drafcie, multi-intent `customer_intents[]`, unified
+   fact/memory consolidation proof, argument-level ToolEnvelope.
+4. **P2**: `SystemCapabilityState`/A23, agregacja kosztu LLM per Case, cleanup
+   dormant legacy (`_case_intelligence_legacy.py`), canonical replay CLI,
+   pełniejszy Open Loops / obligations lifecycle.
+5. **Pilot**: quick qualification 10-15 (dane wyselekcjonowane w
+   `.artifacts/real-mail-cohort-selection-20260821T042708`) -> formalny pilot
+   ~40 historycznych Case'ów -> shadow LIVE.
+
 ### Anti-goals (świadomie poza tym programem)
 
 - Capability Registry, mega-broker CBM
