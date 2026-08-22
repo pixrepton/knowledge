@@ -862,6 +862,112 @@ Artefakty: `.artifacts/intelligence-spine-p1-2b-20260822T140000/`
 `bounded-write-argument-trajectory.json` (+ `run_p1_2b_write_trajectory.py`).
 Commity (LOCAL_ONLY): `gmail-agent:5b68efff`.
 
+## P1.3 - EPISTEMIC CORRECTNESS (2026-08-22)
+
+Program: `AI-OS INTELLIGENCE SPINE - P1.3 EPISTEMIC CORRECTNESS`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
+(0 failed). P1.4 / P1.5: `NOT_STARTED`.
+
+Central invariant:
+
+```text
+AI-OS MUST NOT PRESENT
+INFERRED OR UNKNOWN INFORMATION
+AS A CONFIRMED FACT.
+```
+
+### Status semantics
+
+- `CONFIRMED` - system posiada wystarczajace, niekonfliktowe wsparcie zgodne z
+  istniejacymi regulami fact/evidence (>=1 evidence ref + brak conflictu +
+  confirmable evidence authority). Nigdy nie znaczy "absolutna prawda we
+  wszechswiecie".
+- `INFERRED` - wartosc wyprowadzona; wymaga `inference_basis`. Moze byc
+  wyrazona warunkowo/alternatywnie albo pominieta.
+- `UNKNOWN` - brak wartosci/podstawy do customer-facing assertion; moze stac
+  sie pytaniem / missing-information request.
+- `CONFLICTED` - nierozwiazany conflict (istniejaca semantyka
+  decision_usable=false); nigdy CONFIRMED, nigdy jako pewnik.
+
+Status dotyczy PROPOZYCJI, nie zrodla. `customer_reported_error_code=H70` moze
+byc CONFIRMED, podczas gdy `device_fault_cause` pozostaje INFERRED, a
+`exact_symptoms` UNKNOWN. P0.5 (source_origin / evidence_authority /
+instruction_authority) pozostaje niezaleznym wymiarem: epistemic status NIE
+przyznaje instruction/execution authority.
+
+### Wlasnosc i projekcja
+
+- Owner: `agent_runtime/epistemic_projection.py` (deterministyczna projekcja
+  facts + evidence + Understanding missing fields) + kontrakt
+  `llm_contracts/epistemic_claims.py` (EpistemicClaim, DraftClaimContext).
+- `project_epistemic_claims(facts, conflicting_facts)` - status z
+  struktury source/evidence/fact, NIGDY z progu LLM confidence.
+- `CONFIRMED` bez evidence ref -> downgrade do UNKNOWN (confirmed_without_evidence).
+- LLM-derived claim (DERIVED_LLM_CLAIM / DERIVED / TOOL_RESULT / inferred) bez
+  bezposredniego canonical evidence -> INFERRED (z basis) lub UNKNOWN.
+- Autoritative RAG proposition moze byc CONFIRMED (retrieval ref), ale wnioski
+  LLM z niego NIE dziedzicza CONFIRMED automatycznie.
+- Conflict -> CONFLICTED / decision_usable=False; usuniecie jedynego evidence
+  downgrade CONFIRMED; zmiana timestampow/source order nie promuje statusu.
+
+### Draft context i realizacja
+
+`build_draft_claim_context(claims, missing_fields)` -> typed
+confirmed_claims / inferred_claims / unknown_fields / conflicted_fields.
+`generate_draft_reply` (deterministyczny Model A) potwierdza CONFIRMED
+customer-reported claims i pyta TYLKO o UNKNOWN fields (np. "Dziekujemy za
+informacje o kodzie bledu H70. Prosimy o dokladny opis objawow..."); INFERRED
+jest pomijane. Legacy template zachowany, gdy nie ma store/claims.
+
+### Sanity enforcement
+
+`evaluate_draft_epistemic_sanity(body, claim_context)` (defense-in-depth nad
+deterministycznym kompozytorem): UNKNOWN_AS_CONFIRMED, INFERRED_AS_CONFIRMED,
+CONFLICTED_FACT_ASSERTED, CONFIRMED_WITHOUT_EVIDENCE,
+UNSUPPORTED_CUSTOMER_FACT. Wpiety przez `evaluate_draft_sanity(...,
+epistemic_context=...)`. Zly draft -> DRAFT_EPISTEMIC_SANITY_FAILED, brak
+HITL-ready artifactu (bez silent repair).
+
+### BR / CAD consistency
+
+UNKNOWN required field pozostaje missing (BR missing_information /
+Understanding missing_critical_fields / CAD required_information spójne).
+Nowe CONFIRMED evidence (np. error_code=H70) -> BR zmienia
+missing_information -> legalna sciezka P1.1: DecisionRevisionRequest -> CAD r2
+(semantic_hash recomputed z canonical payload, NIGDY recznie edytowany).
+
+### Bounded proof
+
+`.artifacts/intelligence-spine-p1-3-20260822T150000/`:
+`p1-3-epistemic-flow-audit.json` + `bounded-epistemic-trajectory.json`
+(positive draft: potwierdzenie H70 + pytania o objawy/start; bad draft DENY
+INFERRED_AS_CONFIRMED; CAD r1->r2 legal revision; live_send=false). Testy: 29
+w `test_epistemic_claims.py`, `test_draft_epistemic_guard.py`,
+`test_epistemic_properties.py`, `test_epistemic_runtime_slice.py`.
+Provider-live NOT required (first-slice draft jest deterministyczny).
+Commit (LOCAL_ONLY): `gmail-agent:6cd3ab10`.
+
+### Claim limit
+
+NIE twierdzimy `AI_OS_CAN_ALWAYS_DISTINGUISH_TRUTH_FROM_FALSEHOOD`.
+Poprawny claim:
+
+```text
+AI_OS_EXPLICITLY_TRACKS
+THE EPISTEMIC STATUS OF BOUNDED CUSTOMER-FACING CLAIMS
+AND FAILS CLOSED AGAINST UNSUPPORTED CERTAINTY
+IN THE PROVEN SLICE.
+```
+
+### Residuale P1.3
+
+- Free-text fabricated diagnosis nieobecna w kontekscie claimow (np. wymyslony
+  objaw bez claimu) - wykrywalna tylko wzorcowo w base sanity; pelne pokrycie
+  wymaga P1.5 claim/event consolidation.
+- LLM-composed customer-facing wording (poza obecnym deterministycznym
+  slajsem) - provider epistemic guard jako przyszly slice.
+- Pełne multi-intent (P1.4) i unified fact consolidation (P1.5).
+
 ### Naprawiony pre-existing defect (Gate A blocker)
 
 `MetricsCollector` uzywal nie-reentrantnego `threading.Lock`, a `_flush` →

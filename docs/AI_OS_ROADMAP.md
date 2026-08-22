@@ -173,6 +173,26 @@ denials, revision-aware r1 DENY / r2 PASS; LIVE_SEND=false. Full Gate A PASS
 oraz `bounded-write-argument-trajectory.json`. Status: P1.2 COMPLETE
 (P1.2A + P1.2B); P1.3 / P1.4 / P1.5: NOT_STARTED.
 
+P1.3 EPISTEMIC CORRECTNESS (2026-08-22, closeout): per-proposition epistemic
+status (CONFIRMED/INFERRED/UNKNOWN/CONFLICTED) w nowym kontrakcie
+`llm_contracts/epistemic_claims.py` + deterministycznej projekcji
+`agent_runtime/epistemic_projection.py` (CONFIRMED wymaga evidence ref +
+brak conflictu; INFERRED wymaga inference_basis; UNKNOWN bez wartosci/podstawy;
+CONFLICTED nigdy CONFIRMED). DraftClaimContext (confirmed/inferred/unknown/
+conflicted) zasila deterministyczny kompozytor `generate_draft_reply`:
+potwierdzenie CONFIRMED customer-reported claims + pytania tylko o UNKNOWN
+fields. `evaluate_draft_epistemic_sanity` (UNKNOWN_AS_CONFIRMED /
+INFERRED_AS_CONFIRMED / CONFLICTED_FACT_ASSERTED /
+CONFIRMED_WITHOUT_EVIDENCE / UNSUPPORTED_CUSTOMER_FACT) przez
+`evaluate_draft_sanity(epistemic_context=...)`. Nowe CONFIRMED evidence
+zmienia missing_information -> legalna rewizja CAD przez P1.1
+(DecisionRevisionRequest -> r2, semantic_hash recomputed). Provider-live NOT
+required (draft deterministyczny). Full Gate A PASS (0 failed). Commit
+(LOCAL_ONLY): `gmail-agent:6cd3ab10`. Artefakty:
+`.artifacts/intelligence-spine-p1-3-20260822T150000/p1-3-epistemic-flow-audit.json`
+oraz `bounded-epistemic-trajectory.json`. Status: P1.3 COMPLETE;
+P1.4 / P1.5: NOT_STARTED.
+
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed
