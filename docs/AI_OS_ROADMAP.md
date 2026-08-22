@@ -155,6 +155,24 @@ Artefakty:
 oraz `bounded-argument-trajectory.json`. Specyfikacja:
 `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` sekcja P1.2.
 
+P1.2B REAL EXECUTION ARGUMENT BINDING (2026-08-22, closeout): realny
+post-HITL/write boundary (bridge queue -> `execute_hitl_send_from_bridge_row`
+-> `hitl_gmail_send` tombstone) otrzymal kanoniczne argument binding przez
+`agent_runtime/write_argument_binding.py` (reuse P1.2A ArgumentConstraint):
+case/draft/body_hash/revision/recipient EXACT, decision_version_id +
+semantic_hash + durable current revision check (STALE_DECISION_REVISION),
+approval/approval-artifact binding (APPROVAL_MISSING /
+APPROVAL_ARTIFACT_MISMATCH), thread runtime-owned. Fail-closed
+`WriteBoundaryDeniedError` przed jakakolwiek autoryzacja manual delivery.
+Proof: positive WRITE_BOUNDARY_READY (executor otrzymuje dokladnie
+zatwierdzone body/case/action), 5 bridge-level DENY (recipient override,
+foreign case, modified draft, stale preview, stale revision), evaluator-level
+denials, revision-aware r1 DENY / r2 PASS; LIVE_SEND=false. Full Gate A PASS
+(2851/17/24/0). Commit (LOCAL_ONLY): `gmail-agent:5b68efff`. Artefakty:
+`.artifacts/intelligence-spine-p1-2b-20260822T140000/p1-2b-execution-argument-flow-audit.json`
+oraz `bounded-write-argument-trajectory.json`. Status: P1.2 COMPLETE
+(P1.2A + P1.2B); P1.3 / P1.4 / P1.5: NOT_STARTED.
+
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed

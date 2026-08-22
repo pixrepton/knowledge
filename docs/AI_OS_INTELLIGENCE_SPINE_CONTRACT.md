@@ -711,7 +711,7 @@ Commity: `gmail-agent:f57028ea` (durable seam), `gmail-agent:b13945d0`
 
 Program: `AI-OS INTELLIGENCE SPINE — P1.2 ARGUMENT-LEVEL TOOL ENVELOPE`.
 Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
-(2831 passed / 17 skipped / 24 subtests / 0 failed).
+(2851 passed / 17 skipped / 24 subtests / 0 failed; P1.2A + P1.2B).
 P1.3 / P1.4 / P1.5: `NOT_STARTED`.
 
 ### Cel
@@ -789,6 +789,78 @@ live_send=false). Deterministic suite: 58 testów w
 `test_tool_argument_constraints.py`, `test_tool_argument_reference_monitor.py`,
 `test_tool_argument_revision_binding.py`, `test_tool_argument_properties.py`.
 Commity: `gmail-agent:950f9670`, `gmail-agent:4cc7595a`.
+
+### P1.2B - real post-HITL/write execution argument binding
+
+Program: `AI-OS INTELLIGENCE SPINE - P1.2B REAL EXECUTION ARGUMENT BINDING`.
+Domyka brak P1.2A: realny schema `generate_draft_reply` ma tylko `intent`,
+wiec sama projekcja nie dowodzila, ze post-HITL/write boundary odrzuca zly
+recipient/thread/case/draft/approval/revision.
+
+Realny write flow (audyt, nie nazwy z promptu):
+
+```text
+daszek bridge queue (agent_hitl / hitl_action_execute)
+  -> daszek_bridge_queue_drain.drain_bridge_rows
+  -> agent_hitl_bridge.execute_hitl_send_from_bridge_row
+  -> P1.2B write-boundary binding
+  -> hitl_gmail_send.execute_hitl_gmail_send (TOMBSTONE)
+     (Node B nie wysyla Gmaila; zwraca manual_operator packet,
+      delivery_mode=manual_operator, executed=false)
+```
+
+Approval: `AgentMcpService.approve_hitl_action` waliduje
+`expected_body_hash`/`expected_revision` i zapisuje
+`communication_receipt` (state=ready_for_manual_send, draft_id, body_hash,
+target_email).
+
+Nowy modul `agent_runtime/write_argument_binding.py` (reuse P1.2A
+`ArgumentConstraint`; zero nowego frameworka):
+
+- `approved_write_reference(...)` - kanoniczna projekcja zatwierdzonego
+  artefaktu ze snapshota (action draft identity + receipt + envelope).
+- `project_write_execution_constraints(...)` - EXACT dla case_id, draft_id,
+  body_hash, revision, decision_version_id, semantic_hash, recipient.
+- `evaluate_write_execution_binding(...)` - werdykt PASS/DENY:
+  APPROVAL_MISSING (hitl_gate wymagany), APPROVAL_ARTIFACT_MISMATCH
+  (receipt vs action), UNBOUND_EXECUTION_ARGUMENT (brak decision_id /
+  decision_version_id / semantic_hash / approved recipient / durable current
+  revision), STALE_DECISION_REVISION (durable current != approved version),
+  CANONICAL_ARGUMENT_MISMATCH (recipient/case/draft/hash/revision/thread).
+- Thread jest runtime-owned: pochodzi wylacznie z kanonicznej rozwiazki
+  (mailbox context pack), nigdy z argumentu artefaktu; obcy thread claim jest
+  DENIED.
+- `WriteBoundaryDeniedError` - fail-closed przed jakakolwiek autoryzacja
+  manual delivery / write.
+
+Wiring w `agent_hitl_bridge.execute_hitl_send_from_bridge_row`:
+store-backed ledger P1.1P + `resolve_send_target` (public w
+`hitl_gmail_send.py`) + binding przed pierwszym wykonaniem (replay
+idempotency zachowane). Kazdy DENY blokuje executor i zapisuje failed row
+w bridge queue.
+
+Deterministyczne dowody (testy + bounded trajectory):
+positive -> `WRITE_BOUNDARY_READY`, executor otrzymuje dokladnie zatwierdzone
+body/case/action; 5 negative przez realny seam (recipient env override,
+recipient resolution, foreign case, modified draft po approval, stale preview
+hash) -> `WRITE_BOUNDARY_DENIED` bez executor; evaluator-level: wrong draft_id,
+wrong thread claim, unknown argument, missing approval; revision-aware:
+approval r1 + durable r2 -> DENY STALE_DECISION_REVISION, nowy approval r2 ->
+PASS. `LIVE_SEND=false`.
+
+Reason codes: reuse P1.2A (CANONICAL_ARGUMENT_MISMATCH, ARGUMENT_NOT_ALLOWED,
+STALE_DECISION_REVISION, UNBOUND_EXECUTION_ARGUMENT) + minimalne
+APPROVAL_MISSING, APPROVAL_ARTIFACT_MISMATCH.
+
+Korekta residualu P1.2A: zapis o `approval/send stages` jako `LATER_STAGE_ONLY`
+dotyczy juz tylko innych action classes/tools; dla pierwszego slice post-HITL
+binding jest domkniety (attachment sets + materialize composite_plan
+WRITE_EXECUTORS pozostaja pozniejszymi slice'ami).
+
+Artefakty: `.artifacts/intelligence-spine-p1-2b-20260822T140000/`
+`p1-2b-execution-argument-flow-audit.json` +
+`bounded-write-argument-trajectory.json` (+ `run_p1_2b_write_trajectory.py`).
+Commity (LOCAL_ONLY): `gmail-agent:5b68efff`.
 
 ### Naprawiony pre-existing defect (Gate A blocker)
 
