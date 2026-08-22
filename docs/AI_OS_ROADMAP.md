@@ -56,6 +56,7 @@ PASS_LOCAL_BOUNDED | PROVEN_RUNTIME
 SVC-05 = CLOSED
 INTELLIGENCE_SPINE_P0 = CLOSED (PASS_LOCAL_BOUNDED)
 INTELLIGENCE_SPINE_P0_5 = CLOSED (PASS_LOCAL_BOUNDED)
+INTELLIGENCE_SPINE_P1_1 = CLOSED (PASS_LOCAL_BOUNDED)
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
@@ -86,6 +87,22 @@ Provider micro-cohort (n=6, DeepSeek priority-1): forbidden_tool_attempt_rate
 Artefakty: `.artifacts/intelligence-spine-p0-5-20260821T194500/`
 (audyt, bounded malicious trajectory, provider-micro-cohort.json).
 Kontrakt: `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` §P0.5.
+
+## Program: AI-OS INTELLIGENCE SPINE - P1.1 DECISION REVISION RUNTIME
+
+Status: `CLOSED` (2026-08-22). Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`;
+Full Gate A `PASS` (0 failed). P1.2 / P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+
+Jeden problem: CAD jest immutable; P1.1 buduje jedyna legalna droge zmiany
+decyzji (`DecisionRevisionRequest` -> canonical re-evaluation -> CAD r2).
+Tozsamosc: `decision_id` stabilne, `revision` monotonic, `decision_version_id`
+unikalne, `semantic_hash` tylko z canonical payload. Supersession r1
+(SUPERSEDED) + stale invalidation: zaden artifact z superseded revision nie
+moze autoryzowac wykonania (STALE_DECISION_REVISION); approval wiaze
+decision_version_id; stale/duplicate requests bez nowego CAD; audit trail
+w `DecisionRevisionLedger`. Kompletna specyfikacja: `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` §P1.1.
+Commits (LOCAL_ONLY): `gmail-agent:42440af`, `5f0979d`, `e42f774`, `99ae4e8`.
+Bounded artifact: `.artifacts/intelligence-spine-p1-1-20260822T100000/bounded-revision-trajectory.json`.
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for

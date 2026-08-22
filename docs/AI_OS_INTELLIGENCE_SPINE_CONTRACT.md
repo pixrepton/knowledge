@@ -502,3 +502,105 @@ not executed. Artifact:
 - Provider micro-cohort is bounded (n=6); it measures one model snapshot, not
   a claim of prompt-injection immunity (`PROMPT_INJECTION_SOLVED` is NOT
   claimed).
+
+## P1.1 — Decision Revision Runtime (2026-08-22)
+
+Program: `AI-OS INTELLIGENCE SPINE — P1.1 DECISION REVISION RUNTIME`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS` (0 failed).
+P1.2 / P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+
+### Core invariant
+
+P0 ustanowil: downstream cannot mutate canonical semantics. P1.1 dodaje:
+
+```text
+downstream MAY request revision,
+but ONLY the canonical decision layer may create a new CAD revision.
+```
+
+Niedozwolone: silent mutation, downstream reinterpretation, in-place CAD
+update, downstream edit of `semantic_hash`.
+
+### Decision identity (logical decision vs revision)
+
+```text
+decision_id        = dec_<uuid>            # stable decision lineage identity
+revision           = monotonic int (1,2,3)
+decision_version_id= dec_<id>:r<rev>       # unique concrete version
+semantic_hash      = SHA256(canonical semantic payload of THIS revision)
+```
+
+`semantic_hash` zalezy wyłącznie od canonical payload (case_id,
+situation_version, goal, action_type, target, channel, required_information,
+schema_version, semantic_status); NIE haszuje revision, requested_at,
+approval/provider, rationale, journal id. Po ponownej walidacji bez zmiany
+znaczenia `semantic_hash` MOZE pozostac ten sam, ale `decision_version_id`
+MUSI sie zmienic.
+
+### DecisionRevisionRequest (public contract)
+
+```text
+request_id, decision_id, current_revision, current_decision_version_id,
+reason_code (enum), failed_precondition, source_layer, source_event_id,
+evidence_refs, requested_at, status (PENDING|ACCEPTED|REJECTED|SUPERSEDED)
+```
+
+Reason codes (P1.1 minimum): NEW_CONFLICTING_EVIDENCE, FAILED_PRECONDITION,
+CANONICAL_FACT_CHANGED, STALE_SITUATION, TOOL_CAPABILITY_MISSING,
+POLICY_REEVALUATION_REQUIRED (+ legacy IMPOSSIBLE_PRECONDITION,
+OUT_OF_SCOPE_REQUEST).
+
+### Lifecycle
+
+```text
+CAD r1 [FROZEN/CURRENT]
+  -> new evidence / conflict / failed precondition
+  -> DecisionRevisionRequest (jedyny kanoniczny path emisji)
+  -> canonical decision boundary (canonical_action_decision + ledger)
+  -> ACCEPT -> CAD r2 [FROZEN/CURRENT], CAD r1 [SUPERSEDED]
+  -> REJECT -> CAD r1 pozostaje CURRENT, request REJECTED
+```
+
+Re-evaluation uzywa aktualnego SituationUnderstanding/faktow/BR inputu +
+revision reason (trigger + evidence pointer); nigdy copy+patch z requestu.
+Request nie niesie pol canonical semantics (target/action_type/channel/...
+sa poza kontraktem).
+
+### Supersession + stale invalidation (glowny invariant)
+
+```text
+No artifact derived from a superseded CAD revision may authorize execution.
+```
+
+`decision_version_id` jest wiazane w: ActionPlan, NBA, APv2,
+PolicyActionEnvelopeV1, ToolCallPlan, ActionItem, ActionProposal (approval).
+Guard (policy_action_spine + graph): jezeli plan/envelope roznia sie wersja ->
+DENY `STALE_DECISION_REVISION` (fail closed, bez podmiany toola, bez fallbacku).
+Approval wiaze decision_id + decision_version_id + semantic_hash + draft_hash;
+stara zgoda nie autoryzuje nowej rewizji. Concurrency: `expected_current_revision`
+(stale request -> STALE_REVISION_REQUEST, bez nowego CAD; duplikat -> co
+najwyzej jeden r2). Porzadek rewizji = integer/expected, nigdy timestamp.
+`COUNT(current execution-eligible revisions per decision_id) == 1`; naruszenie
+-> fail closed (`DecisionRevisionError.one_current_revision_violation`).
+
+### Observability codes
+
+DECISION_REVISION_REQUIRED, DECISION_REVISION_ACCEPTED,
+DECISION_REVISION_REJECTED, STALE_DECISION_REVISION, STALE_REVISION_REQUEST,
+DUPLICATE_REVISION_REQUEST, SUPERSEDED_DECISION_ARTIFACT. Audit trail:
+append-only `DecisionRevisionLedger` (decision_id, old/new version ids,
+request id, reason, outcome, created_at) + opcjonalny event sink do istniejacego
+event memory. Bez drugiego journala / decision engine / Temporal.
+
+### Bounded proof
+
+`.artifacts/intelligence-spine-p1-1-20260822T100000/bounded-revision-trajectory.json`:
+r1 -> CANONICAL_FACT_CHANGED -> r2 (required_information reduced); stale
+ToolCallPlan r1 vs envelope r2 -> DENY STALE_DECISION_REVISION (tool not
+executed); nowy plan r2 -> consistent -> generate_draft_reply -> HITL;
+live_send=false; FULL_FRESH38=NOT_RUN. Commits: `gmail-agent:42440af`,
+`5f0979d`, `e42f774`, `99ae4e8`.
+
+Pozostale P1 (not started): P1.2 argument-level ToolEnvelope; P1.3
+known/inferred/unknown; P1.4 customer_intents[]; P1.5 unified fact/memory
+consolidation proof.
