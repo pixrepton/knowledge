@@ -865,7 +865,7 @@ Commity (LOCAL_ONLY): `gmail-agent:5b68efff`.
 ## P1.3 - EPISTEMIC CORRECTNESS (2026-08-22)
 
 Program: `AI-OS INTELLIGENCE SPINE - P1.3 EPISTEMIC CORRECTNESS`.
-Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
+Status: `FROZEN / COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
 (0 failed). P1.4 / P1.5: `NOT_STARTED`.
 
 Central invariant:
@@ -986,3 +986,94 @@ additive fields.
   sets, approval/send stages) — późniejsze slice'y.
 - Wpięcie ledgera do kazdego produkcyjnego `ToolExecutionContext` (obecnie w
   `execute_agent_run`; inne konstrukcje ctx przekazują go jawnie w proofach).
+
+### FREEZE (2026-08-22)
+
+#### Final status
+
+```text
+AI_OS_INTELLIGENCE_SPINE_P1_3
+Delivery: COMPLETE
+Proof: PASS_LOCAL_BOUNDED
+Epistemic Status Model: ENFORCED
+Evidence-Bound Confirmed Claims: ENFORCED
+Inference Separation: ENFORCED
+Unknown Handling: ENFORCED
+Draft Epistemic Guard: PROVEN_BOUNDED
+First Epistemic Customer-Facing Slice: PROVEN
+Customer-Facing Unsupported Assertions: 0 in bounded proof
+FULL_GATE_A = PASS (0 failed)
+LIVE_SEND = false
+FULL_FRESH38 = NOT_RUN
+P1.4 = NOT_STARTED
+P1.5 = NOT_STARTED
+```
+
+#### Final scope (frozen)
+
+Jeden bounded slice: per-proposition epistemic status
+(`CONFIRMED / INFERRED / UNKNOWN / CONFLICTED`) projektowany deterministycznie
+z facts/evidence/Understanding dla pierwszego customer-facing draftu
+(`ask_for_missing_data / customer / mail` -> `generate_draft_reply`).
+Obejmuje: kontrakt `llm_contracts/epistemic_claims.py`, projekcję
+`agent_runtime/epistemic_projection.py`, kompozytor `generate_draft_reply`
+(potwierdzenie CONFIRMED, pytania tylko o UNKNOWN, INFERRED pomijane),
+guard `evaluate_draft_epistemic_sanity` przez `evaluate_draft_sanity(...,
+epistemic_context=...)` oraz legalną rewizję CAD przez P1.1 po nowym
+CONFIRMED evidence.
+
+#### Proven guarantees (frozen)
+
+- CONFIRMED wymaga >=1 evidence ref + brak conflictu + confirmable evidence
+  authority; CONFIRMED bez evidence -> UNKNOWN (`confirmed_without_evidence`).
+- INFERRED wymaga `inference_basis`; brak basis -> UNKNOWN; LLM-derived claim
+  nie dziedziczy CONFIRMED.
+- CONFLICTED nigdy nie jest CONFIRMED; `decision_usable=false`.
+- Status nigdy nie wynika z progu LLM confidence; timestampy/source order nie
+  promują statusu.
+- Draft guard fail-closed: `UNKNOWN_AS_CONFIRMED`, `INFERRED_AS_CONFIRMED`,
+  `CONFLICTED_FACT_ASSERTED`, `CONFIRMED_WITHOUT_EVIDENCE`,
+  `UNSUPPORTED_CUSTOMER_FACT` -> `DRAFT_EPISTEMIC_SANITY_FAILED`, brak
+  HITL-ready artifactu, bez silent repair.
+- Nowe CONFIRMED evidence -> `DecisionRevisionRequest` -> CAD r2
+  (semantic_hash recomputed z canonical payload).
+
+#### Explicit non-guarantees (frozen; poza zakresem P1.3)
+
+NIE twierdzimy:
+
+- `AI_OS_CAN_ALWAYS_DISTINGUISH_TRUTH_FROM_FALSEHOOD` - status jest
+  deklaratywny dla bounded slice, nie absolutna prawda.
+- wszystkie free-text fabrications są wykrywane - wolny tekst poza znanym
+  claim context pozostaje residualem.
+- wszystkie LLM-composed drafty są pokryte - slice jest deterministyczny.
+- fact consolidation jest zakończone - to domena P1.5.
+
+#### Residuale (przypisane do przyszłych etapów, NIE do P1.3)
+
+1. Free-text fabricated diagnosis poza znanym claim context -> P1.5
+   claim/event consolidation (wykrywanie wzorcowe w base sanity pozostaje).
+2. Pełniejsze customer-facing LLM-composed wording + provider epistemic guard
+   -> przyszły slice po P1.5 (niezdefiniowany w roadmapie jako osobny etap).
+3. Unified fact consolidation -> P1.5.
+4. Multi-intent -> P1.4.
+
+#### Freeze guard
+
+P1.3 nie może być rozszerzane przez prace P1.4/P1.5 ani żadne późniejsze
+programy bez jawnej decyzji operatora `REOPEN_P1_3`. Każdy nowy problem
+epistemiczny jest przypisywany do właściwego przyszłego etapu (residual),
+nie retroaktywnie do P1.3.
+
+#### Evidence / tests
+
+- 29 testów: `test_epistemic_claims.py`, `test_draft_epistemic_guard.py`,
+  `test_epistemic_properties.py`, `test_epistemic_runtime_slice.py`.
+- Full Gate A: PASS (0 failed) na finalnym committed HEAD.
+- Artefakty: `.artifacts/intelligence-spine-p1-3-20260822T150000/`
+  (`p1-3-epistemic-flow-audit.json`, `bounded-epistemic-trajectory.json`,
+  `run_p1_3_epistemic_trajectory.py`).
+- Commit (LOCAL_ONLY): `gmail-agent:6cd3ab10`; knowledge writeback:
+  `knowledge:ba308a3`.
+
+Dalsze zmiany w tym zakresie wymagają osobnej decyzji `REOPEN_P1_3`.

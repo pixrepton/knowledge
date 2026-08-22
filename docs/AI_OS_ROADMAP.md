@@ -173,7 +173,7 @@ denials, revision-aware r1 DENY / r2 PASS; LIVE_SEND=false. Full Gate A PASS
 oraz `bounded-write-argument-trajectory.json`. Status: P1.2 COMPLETE
 (P1.2A + P1.2B); P1.3 / P1.4 / P1.5: NOT_STARTED.
 
-P1.3 EPISTEMIC CORRECTNESS (2026-08-22, closeout): per-proposition epistemic
+P1.3 EPISTEMIC CORRECTNESS (2026-08-22, closeout; 2026-08-22 FREEZE): per-proposition epistemic
 status (CONFIRMED/INFERRED/UNKNOWN/CONFLICTED) w nowym kontrakcie
 `llm_contracts/epistemic_claims.py` + deterministycznej projekcji
 `agent_runtime/epistemic_projection.py` (CONFIRMED wymaga evidence ref +
@@ -191,7 +191,12 @@ required (draft deterministyczny). Full Gate A PASS (0 failed). Commit
 (LOCAL_ONLY): `gmail-agent:6cd3ab10`. Artefakty:
 `.artifacts/intelligence-spine-p1-3-20260822T150000/p1-3-epistemic-flow-audit.json`
 oraz `bounded-epistemic-trajectory.json`. Status: P1.3 COMPLETE;
-P1.4 / P1.5: NOT_STARTED.
+P1.4 / P1.5: NOT_STARTED. FREEZE (2026-08-22): P1.3 = FROZEN / COMPLETE /
+PASS_LOCAL_BOUNDED; explicit non-guarantees + residuals (free-text
+fabrication -> P1.5, LLM-composed wording -> future slice, fact consolidation
+-> P1.5, multi-intent -> P1.4) zapisane w
+`docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` sekcja `P1.3 FREEZE`.
+Freeze guard: dalsze zmiany wymagają jawnej decyzji `REOPEN_P1_3`.
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
