@@ -661,5 +661,48 @@ approval/ToolPlan DENY, nowy plan r2 -> generate_draft_reply -> HITL.
 Deterministic suite: `test_decision_revision_durable_restart.py` (10 testow).
 Commit: `gmail-agent:f57028ea`.
 
-Residual: produkcyjne wpiecie store-backed ledgera do worker boot (ledger nie
-byl jeszcze wpiety w worker w P1.1) — do rozpatrzenia razem z P1.2.
+### Production worker boot wiring (P1.1P final runtime closeout)
+
+Production seam: `build_mailbox_memory_runtime(settings)` ->
+`MailboxMemoryRuntime.bootstrap()` (signal worker `_build_runtime_context`,
+HITL bridge, api_app). `bootstrap()` wykonuje `store.bootstrap()` (tabele),
+po czym buduje `runtime.decision_revision_ledger` przez
+`build_store_backed_decision_ledger(store)` (from_store + rebuild). Ledger
+uzywany przez runtime jest store-backed; in-memory ledger bez store pozostaje
+wyłącznie dla unit tests / jawnych test doubles.
+
+Fail-closed boot: jesli rebuild wykryje 0 CURRENT / >1 CURRENT / uszkodzony
+lineage -> `DecisionRevisionStateInvalidError` z observable reason code
+`REVISION_STATE_INVALID` (detail: `rebuild_one_current_violation`). Worker
+nie wybiera decyzji heurystycznie; nie uzywa timestamp/latest-wins.
+
+### Real Postgres runtime proof
+
+Testy (`test_decision_revision_worker_boot.py`, 5 testow; Postgres czesc
+uruchamiana z `MAILBOX_MEMORY_TEST_DATABASE_URL`) przeszly przez production
+boot seam na lokalnym canonical mailbox-memory Postgres
+(container `gmail-agent-mailbox-memory`, testowa baza, bez danych
+produkcyjnych):
+
+- worker restart round-trip: CAD r1 -> ACCEPT (r2) -> zniszczenie runtime ->
+  nowy boot -> `current_revision=2`, r1 SUPERSEDED, r2 CURRENT;
+- atomicity: `COUNT(CURRENT) == 1` po commit; ponowny accept tego samego
+  old CAD -> RuntimeError `decision_revision_conflict`, durable state bez
+  czesciowej rewizji;
+- stale safety po realnym restarcie: old ToolPlan r1 -> DENY
+  `STALE_DECISION_REVISION`, old approval -> INVALID, duplicate ->
+  `DUPLICATE_REVISION_REQUEST` (bez r3), stale -> `STALE_REVISION_REQUEST`;
+- fail-closed boot: 2 CURRENT / 0 CURRENT w durable state ->
+  `REVISION_STATE_INVALID`.
+
+Artefakt:
+`.artifacts/intelligence-spine-p1-1p-final-20260822T120000/p1-1p-postgres-worker-restart.json`
+(store_backend=postgres, przed/po restarcie, current_revision_count=1,
+old_tool_plan_verdict=STALE_DECISION_REVISION, old_approval_verdict=INVALID,
+duplicate/stale verdicts, live_send=false).
+
+Commity: `gmail-agent:f57028ea` (durable seam), `gmail-agent:b13945d0`
+(worker boot wiring + fail-closed + Postgres tests). Full Gate A
+`PASS` (2772 passed / 17 skipped / 24 subtests / 0 failed).
+`FULL_FRESH38=NOT_RUN`, `LIVE_SEND=false`. P1.2 / P1.3 / P1.4 / P1.5:
+`NOT_STARTED`.

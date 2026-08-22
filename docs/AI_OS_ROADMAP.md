@@ -107,7 +107,7 @@ Bounded artifact: `.artifacts/intelligence-spine-p1-1-20260822T100000/bounded-re
 ## Program: AI-OS INTELLIGENCE SPINE - P1.1P DURABLE REVISION STATE
 
 Status: `CLOSED` (2026-08-22). Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`;
-Full Gate A `PASS` (2769/15/24/0). P1.2 / P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+Full Gate A `PASS` (2772/17/24/0). P1.2 / P1.3 / P1.4 / P1.5: `NOT_STARTED`.
 
 Problem: P1.1 ledger byl in-memory. P1.1P przenosi lineage do istniejacego
 durable `MailboxMemoryStore` (2 nowe tabele w tym samym store, bez nowej bazy);
@@ -120,6 +120,17 @@ approval/ToolPlan dzialaja tak samo. Kompletna specyfikacja:
 Commit (LOCAL_ONLY): `gmail-agent:f57028ea`.
 Bounded artifact:
 `.artifacts/intelligence-spine-p1-1p-20260822T110000/restart-trajectory.json`.
+
+Final runtime closeout (2026-08-22): worker boot wiring ENFORCED —
+`MailboxMemoryRuntime.bootstrap()` (production seam signal worker / HITL /
+api_app) rebuilduje store-backed ledger przez
+`build_store_backed_decision_ledger()`; invalid durable state fails closed
+z observable reason code `REVISION_STATE_INVALID`
+(`DecisionRevisionStateInvalidError`). Real Postgres runtime proof PASS na
+lokalnym canonical mailbox-memory test DB (worker restart round-trip,
+atomic one-CURRENT, stale r1 guards po restarcie). Commit:
+`gmail-agent:b13945d0`. Artefakt:
+`.artifacts/intelligence-spine-p1-1p-final-20260822T120000/p1-1p-postgres-worker-restart.json`.
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
