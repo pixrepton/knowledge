@@ -1253,3 +1253,113 @@ IN THE PROVEN SLICE.
 ```
 
 P1.5 = NOT_STARTED.
+
+## P1.5 - FACT / MEMORY CONSOLIDATION PROOF (2026-08-23)
+
+Program: `AI-OS INTELLIGENCE SPINE - P1.5 FACT / MEMORY CONSOLIDATION PROOF`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
+(0 failed). P1.3: `FROZEN / COMPLETE`; P1.4: `COMPLETE`.
+
+Central invariant:
+
+```text
+SAME BUSINESS PROPOSITION ACROSS MULTIPLE SOURCES
+MUST NOT BECOME MULTIPLE INDEPENDENT TRUTHS.
+CONSOLIDATION != BLIND MERGE. NEWEST != TRUE.
+EVIDENCE AUTHORITY != INSTRUCTION AUTHORITY.
+```
+
+### Canonical fact owner
+
+- Proposition identity: `(case_id, entity_scope, fact_key)` — istniejący klucz,
+  bez nowego globalnego ontology.
+- Store: `MailboxMemoryStore` (InMemory + Postgres, ta sama semantyka).
+- JEDEN canonical read resolver: `split_conflicting_facts`
+  (`mailbox_memory_runtime.py`): active = highest confidence, tie -> newest
+  observed_at; conflict = >1 distinct value (casefold-normalized) per
+  proposition, w tym superseded `replace_message_facts` (CTX-03) ORAZ
+  cross-scope "mixed" wartości (P1.5 convergence z snapshot builderem).
+- Write semantics: `replace_message_facts` (mail snapshot; disagreement ->
+  conflict), `append_facts_with_supersession` (authoritative append; settled
+  supersession), `reconcile_active_fact_identities` (case-merge rule, bounded;
+  NIE jest generalnym truth resolverem).
+- `_EphemeralSnapshotStore.append_facts_with_supersession` = parity mirror
+  (identyczna semantyka, test_fact03).
+
+### Konsolidacja (P1.5)
+
+- Same value mail + attachment -> jeden efektywny business value; provenance
+  z obu źródeł zachowana. Minimal repair: same-value append MERGE evidence do
+  active row (`metadata.evidence_refs`, dedup deterministyczny) zamiast
+  dropu; implementacja w InMemory/Postgres/ephemeral mirror (parity).
+- Konflikt mail X + attachment Y (customer vs document scope) -> `mixed`
+  conflict, `decision_usable=false` (P1.3 CONFLICTED, nigdy CONFIRMED).
+- Timestamp permutation -> ten sam conflict verdict; `TIMESTAMP_ONLY_TRUTH_SELECTION = false`.
+- Legal supersession: korekta operatora w DOMENIE, której dotyczy (customer
+  i/lub document); jedna jednostronna korekta zostawia konserwatywny mixed
+  conflict. Superseded history + provenance zachowane.
+- Document fact rows niosą provenance trio (ATTACHMENT) od utworzenia
+  (minimal repair w `structured_fields_to_fact_rows` /
+  `document_fields_to_fact_rows`); derived claims nigdy nie stają się
+  INTERNAL_SOT przez konsolidację.
+- RAG = context evidence, NIE Case fact; nie jest wymuszana konsolidacja
+  wiedzy domenowej do faktów case.
+
+### Downstream
+
+`case_context_pack` (Understanding/BR) i projekcja P1.3 korzystają z tego
+samego `split_conflicting_facts`; konflikt blokuje premise decyzyjne;
+zmiana faktu wymaga legalnej ścieżki P1.1 (`DecisionRevisionRequest` -> CAD
+r2), CAD r1 nigdy nie jest mutowany.
+
+### Dowód
+
+- 29 nowych testów (5 plików + postgres): `test_fact_consolidation.py`,
+  `test_fact_conflict_resolution.py`, `test_fact_supersession.py`,
+  `test_fact_consolidation_properties.py`,
+  `test_fact_consolidation_runtime_slice.py`,
+  `test_fact_consolidation_postgres.py`.
+- Trajectory: `.artifacts/intelligence-spine-p1-5-20260823T100000/`
+  (`p1-5-fact-memory-consolidation-audit.json`,
+  `bounded-fact-consolidation-trajectory.json`,
+  `run_p1_5_fact_consolidation_trajectory.py`) — 17 assertions PASS
+  (ProofArtifact): same-value single view + provenance union; conflict +
+  decision_usable=false; timestamp permutation; legal supersession + history;
+  durable reload; downstream pack; P1.3; P1.1 revision.
+- Full Gate A final HEAD: PASS (0 failed). Postgres fact consolidation proof:
+  PASS (real local Postgres, restart round-trip) — rozdzielone od Gate A.
+- Commity (LOCAL_ONLY): `gmail-agent:742bed58`, `gmail-agent:e3ae165f`.
+- `LIVE_SEND=false`, `FULL_FRESH38=NOT_RUN`.
+
+### Exact non-guarantees
+
+- NIE `AI_OS_HAS PERFECT TRUTH RESOLUTION` ani `ALL BUSINESS FACTS ARE
+  GLOBALLY CONSOLIDATED` — dowód obejmuje bounded proposition/source matrix.
+- Normalizacja wartości zapisu nie jest jeszcze ujednolicona (mail zachowuje
+  case, document promotion lowercases) — resolver porównuje casefold, ale
+  reprezentacja w active view może się różnić (residual).
+- Behavioral extraction quality pozostaje poza P1.5 (jak w P1.4
+  `RAW_INBOUND_MULTI_INTENT_DETECTION = NOT_BEHAVIORALLY_PROVEN`).
+
+Poprawny claim:
+
+```text
+AI-OS HAS A PROVEN CANONICAL FACT/CONFLICT CONSOLIDATION PATH
+FOR THE BOUNDED PROPOSITION/SOURCE MATRIX,
+WITH PROVENANCE AND AUTHORITY PRESERVED
+AND NO TIMESTAMP-ONLY TRUTH SELECTION.
+```
+
+### Residuale
+
+- Ujednolicenie normalizacji wartości na zapisie (case/format) — przyszły
+  slice; obecnie bezpieczne przez casefold w resolverze.
+- `RAW-INBOUND MULTI-INTENT DETECTION EVALUATION` pozostaje osobny behavioral
+  item P1.4 (nie P1.5, nie P1.5-consuming).
+- Behavioral extraction benchmark / pełny free-text fabrication detection —
+  poza P1.5.
+- Reconcile-active-identities (merge) jako reguła newest-per-identity jest
+  udokumentowana i bounded; ewentualna jawna policy supersession w merge to
+  przyszła decyzja.
+
+P1.3 = FROZEN / COMPLETE; P1.4 = COMPLETE; P1.5 = COMPLETE / PASS_LOCAL_BOUNDED.

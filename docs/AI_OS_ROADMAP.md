@@ -234,6 +234,29 @@ Understanding/BR nie utworzyło. P1.4 pozostaje COMPLETE/PASS_LOCAL_BOUNDED
 RAW-INBOUND MULTI-INTENT DETECTION EVALUATION (przyszły provider-live/
 behavioral cohort; osobny item, nie przypisywany automatycznie do P1.5).
 
+P1.5 FACT / MEMORY CONSOLIDATION PROOF (2026-08-23, closeout): kanoniczny
+owner faktów = MailboxMemoryStore (InMemory+Postgres, ta sama semantyka);
+proposition identity (case_id, entity_scope, fact_key); JEDEN canonical read
+resolver `split_conflicting_facts` (active = highest confidence, tie ->
+newest; conflict = >1 casefold-normalized value, w tym CTX-03 superseded
+`replace_message_facts` i cross-scope mixed — konwergencja ze snapshot
+builderem). Write: `replace_message_facts` (mail; disagreement -> conflict),
+`append_facts_with_supersession` (authoritative append; settled supersession;
+same-value MERGE evidence — minimal repair, parity InMemory/Postgres/mirror),
+`reconcile_active_fact_identities` (case-merge rule, bounded, nie truth
+resolver). Document fact rows niosą provenance trio ATTACHMENT od utworzenia.
+RAG = context evidence, nie Case fact. Downstream (pack + P1.3) używa tego
+samego resolvera; conflict -> decision_usable=false; zmiana faktu -> legalna
+rewizja P1.1 (CAD r1 nie mutowany). Timestamp permutation -> ten sam verdict
+(TIMESTAMP_ONLY_TRUTH_SELECTION=false). Full Gate A PASS (0 failed) na
+finalnym HEAD; POSTGRES_FACT_MEMORY_PROOF PASS (real Postgres restart
+round-trip, rozdzielony od Gate A). Commity (LOCAL_ONLY):
+`gmail-agent:742bed58`, `gmail-agent:e3ae165f`. Artefakty:
+`.artifacts/intelligence-spine-p1-5-20260823T100000/`
+(`p1-5-fact-memory-consolidation-audit.json`,
+`bounded-fact-consolidation-trajectory.json`). Status: P1.5 COMPLETE /
+PASS_LOCAL_BOUNDED; P1.3 FROZEN; P1.4 COMPLETE.
+
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed
