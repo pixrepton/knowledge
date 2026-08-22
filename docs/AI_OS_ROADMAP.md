@@ -132,6 +132,29 @@ atomic one-CURRENT, stale r1 guards po restarcie). Commit:
 `gmail-agent:b13945d0`. Artefakt:
 `.artifacts/intelligence-spine-p1-1p-final-20260822T120000/p1-1p-postgres-worker-restart.json`.
 
+## Program: AI-OS INTELLIGENCE SPINE - P1.2 ARGUMENT-LEVEL TOOL ENVELOPE
+
+Status: `CLOSED` (2026-08-22). Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`;
+Full Gate A `PASS` (2831/17/24/0). P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+
+Odpowiedz na pytanie: planner wybral dozwolone narzedzie — czy moze zmienic
+znaczenie/authority przez dowolne argumenty? Nie. Pierwszy enforced
+argument-level slice: `ask_for_missing_data/customer/mail ->
+generate_draft_reply`. Typed ArgumentConstraint (EXACT/ONE_OF/SUBSET_OF/
+PRESENT/ABSENT/PLANNER_GENERATED) projektowany deterministycznie do
+`PolicyActionEnvelopeV1.argument_constraints`; reference monitor waliduje
+`plan.arguments` (intent ONE_OF missing_info; ABSENT dla case_id/target/
+channel/recipient/required_information/attachment_ids/approval_receipt/
+draft_hash; unknown args -> ARGUMENT_NOT_ALLOWED). Durable-current envelope
+check przez P1.1P ledger (stale envelope -> STALE_DECISION_REVISION); nowa
+rewizja -> nowa projekcja. Tool schema bez zmian (intent-only); provider-live
+nie wymagany. Naprawiony pre-existing MetricsCollector deadlock (RLock).
+Commity (LOCAL_ONLY): `gmail-agent:950f9670`, `gmail-agent:4cc7595a`.
+Artefakty:
+`.artifacts/intelligence-spine-p1-2-20260822T130000/p1-2-argument-flow-audit.json`
+oraz `bounded-argument-trajectory.json`. Specyfikacja:
+`docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` sekcja P1.2.
+
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed

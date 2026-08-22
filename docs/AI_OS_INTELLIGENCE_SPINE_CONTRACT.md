@@ -706,3 +706,105 @@ Commity: `gmail-agent:f57028ea` (durable seam), `gmail-agent:b13945d0`
 `PASS` (2772 passed / 17 skipped / 24 subtests / 0 failed).
 `FULL_FRESH38=NOT_RUN`, `LIVE_SEND=false`. P1.2 / P1.3 / P1.4 / P1.5:
 `NOT_STARTED`.
+
+## P1.2 — Argument-Level Tool Envelope (2026-08-22)
+
+Program: `AI-OS INTELLIGENCE SPINE — P1.2 ARGUMENT-LEVEL TOOL ENVELOPE`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
+(2831 passed / 17 skipped / 24 subtests / 0 failed).
+P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+
+### Cel
+
+Jeżeli planner wybral dozwolone narzedzie, nie moze zmienic znaczenia lub
+authority dzialania przez dowolne argumenty. Zasada:
+
+```text
+ALLOWED TOOL != ALLOWED ARBITRARY ARGUMENTS
+Planner may propose. Planner may not establish canonical execution state.
+```
+
+### Realny schema pierwszego slice (audyt, nie nazwy z promptu)
+
+`generate_draft_reply` (Model A — deterministyczny kompozytor szablonu):
+jedyne pole w `tool_schemas.py` to `intent` (enum `quote|missing_info`,
+`additionalProperties: false`). Handler czyta tylko `intent`; case_id,
+body, body_hash, draft_id pochodza z runtime snapshot / deterministycznej
+produkcji. Pelna tabela argumentow: `p1-2-argument-flow-audit.json`.
+
+### Ownership model
+
+- CANONICALLY_BOUND (plan-level, istniejące guardy): `decision_version_id`
+  (STALE_DECISION_REVISION), `semantic_hash` (canonical_semantic_drift).
+- PARTIALLY_BOUND → P1.2 BIND: `intent` = ONE_OF(`[missing_info]`) dla
+  `ask_for_missing_data`; OUT-OF-DOMAIN → `ARGUMENT_OUTSIDE_CANONICAL_SET`.
+- ABSENT (planner must not supply): `case_id`, `thread_id`, `customer_id`,
+  `decision_id`, `decision_version_id`, `semantic_hash`, `action_type`,
+  `target`, `channel`, `recipient`, `required_information`, `attachment_ids`,
+  `draft_hash`, `approval_receipt`, `body`, `subject` → wykryty w arguments
+  → `ARGUMENT_NOT_ALLOWED`; nieznany argument → `ARGUMENT_NOT_ALLOWED`.
+- NOT_APPLICABLE / LATER_STAGE_ONLY: `attachment_ids` (inny slice),
+  `approval_receipt` / `draft_hash` (post-draft / approve / send).
+- PLANNER_GENERATED: brak w tym toolu (schema celowo nie zawiera treści);
+  generative freedom zyje w handlerze (szablony) + draft sanity.
+
+### Kontrakt constraintów
+
+Typed `ArgumentConstraint` (bez generycznego DSL): `argument_name`,
+`constraint_mode` (EXACT | ONE_OF | SUBSET_OF | PRESENT | ABSENT |
+PLANNER_GENERATED), `expected_value`/`allowed_values`, `source_kind`,
+`source_ref`, `decision_id`, `decision_version_id`, `semantic_hash`.
+Normalizacja deterministyczna i typowana (set ordering / whitespace / case to
+reprezentacja, nie semantyka); brak LLM w ocenie zgodnosci.
+
+### Projekcja i enforcement
+
+- `project_slice_argument_constraints(...)` — deterministyczna projekcja z
+  (envelope + revision); zwraca [] poza bounded slice. Wynik trafia do
+  `PolicyActionEnvelopeV1.argument_constraints` (persist w
+  `_semantic_tool_constraints` z kanonicznego `nba_action`, nie z APv2
+  `prepare_reply_draft`).
+- Reference monitor (`evaluate_semantic_policy_plan_consistency`) waliduje
+  `plan.arguments` per constraint i zwraca `argument_violations`
+  (argument_name, mode, expected, proposed, decision_version_id).
+- `graph._policy_enforcement_block` DENY przed wykonaniem dla:
+  CANONICAL_ARGUMENT_MISMATCH, ARGUMENT_NOT_ALLOWED,
+  ARGUMENT_OUTSIDE_CANONICAL_SET, MISSING_REQUIRED_CANONICAL_ARGUMENT,
+  UNBOUND_EXECUTION_ARGUMENT, STALE_DECISION_REVISION,
+  canonical_semantic_drift. Bez silent repair, bez fallbacku do ROC.
+- Durable-current: envelope musi byc projekcja CURRENT durable CAD revision
+  (P1.1P ledger przez `ToolExecutionContext.decision_revision_ledger`,
+  wiring w `execute_agent_run`); mismatch → DENY STALE_DECISION_REVISION.
+  Nowa rewizja CAD → nowa projekcja constraintów (stare envelope stale).
+- Tool schema nie zostal zmieniony (intent-only); provider-live cohort NIE byl
+  wymagany (enforcement po stronie runtime).
+
+### Bounded proof
+
+`.artifacts/intelligence-spine-p1-2-20260822T130000/`:
+`p1-2-argument-flow-audit.json` (read-only audit) +
+`bounded-argument-trajectory.json` (positive PASS→HITL; 7 negative plans
+DENY bez wykonania; revision test r1 DENY / r2 PASS; approval_required=true,
+live_send=false). Deterministic suite: 58 testów w
+`test_tool_argument_constraints.py`, `test_tool_argument_reference_monitor.py`,
+`test_tool_argument_revision_binding.py`, `test_tool_argument_properties.py`.
+Commity: `gmail-agent:950f9670`, `gmail-agent:4cc7595a`.
+
+### Naprawiony pre-existing defect (Gate A blocker)
+
+`MetricsCollector` uzywal nie-reentrantnego `threading.Lock`, a `_flush` →
+`report()` re-akwizytowal ten sam lock (deadlock przy progu flush 100
+zdarzeń). Fix: `threading.RLock` + regression guard
+(`test_agent_runtime_metrics_flush.py`). Golden schema
+`docs/contracts/engagement_snapshot_v2.schema.json` zregenerowany po
+additive fields.
+
+### Residuale
+
+- Intent binding dla envelope bez persisted projection i z niejednoznacznym
+  `action_intent` (np. legacy `prepare_reply_draft`) pozostaje domena schema
+  (quote|missing_info); produkcja zawsze persistuje kanoniczna projekcję.
+- Argument-level constraints dla innych tools / action classes (attachment
+  sets, approval/send stages) — późniejsze slice'y.
+- Wpięcie ledgera do kazdego produkcyjnego `ToolExecutionContext` (obecnie w
+  `execute_agent_run`; inne konstrukcje ctx przekazują go jawnie w proofach).
