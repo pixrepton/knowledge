@@ -1166,12 +1166,61 @@ pozostałe intenty pozostają jawnie otwarte (status/blocking_gaps).
 - Bounded trajectory: `.artifacts/intelligence-spine-p1-4-20260822T160000/`
   (`p1-4-multi-intent-flow-audit.json`,
   `bounded-multi-intent-trajectory.json`, `run_p1_4_multi_intent_trajectory.py`):
-  3 intenty -> projekcja -> draft -> coverage PASS -> HITL-ready; bad draft A
+  INPUT = gotowe `customer_intents[]` wstrzyknięte w fixture
+  `understanding_output` (NIE raw inbound; patrz claim correction poniżej);
+  projekcja -> draft -> coverage PASS -> HITL-ready; bad draft A
   (document_request ignored) -> MULTI_INTENT_DROPPED DENY; bad draft B
   (wizyta umówiona bez evidence) -> INTENT_EXECUTION_ASSERTED_WITHOUT_EVIDENCE
   DENY; bad draft C (false completion) -> INTENT_FALSELY_COMPLETED DENY.
 - Commit (LOCAL_ONLY): `gmail-agent:f29e1ac0`.
 - `LIVE_SEND=false`, `FULL_FRESH38=NOT_RUN`.
+
+### PROVEN vs NOT BEHAVIORALLY PROVEN (claim correction 2026-08-23)
+
+Read-only proof audit potwierdził, że proof P1.4 zaczyna się na seamy
+projekcji/wiringu, a nie na detekcji z surowej wiadomości. Dlatego P1.4 jest
+rozliczane jednoznacznie:
+
+PROVEN (bounded, deterministyczny):
+
+- structured `customer_intents[]` (kontrakt + per-intent state);
+- deterministic normalization/projection
+  (`agent_runtime/intent_projection.py`; kanonizacja, dedupe, stabilna
+  kolejność, shared required-info mapping);
+- per-intent missing information / status / authority;
+- downstream preservation (understanding_output -> projection -> snapshot ->
+  draft -> sanity);
+- draft coverage (`ActionItem.intent_coverage`) i guardy
+  `MULTI_INTENT_DROPPED` / `INTENT_REQUIRED_INFO_NOT_REQUESTED` /
+  `INTENT_EXECUTION_ASSERTED_WITHOUT_EVIDENCE` / `INTENT_FALSELY_COMPLETED`;
+- dropped-known-intent guard, false-completion guard, authority separation;
+- single-intent regression (legacy path byte-stabilny).
+
+NOT BEHAVIORALLY PROVEN:
+
+- raw inbound message -> complete multi-intent extraction (produkcyjny
+  Understanding/BusinessReasoning z realnego maila NIE był wykonany w
+  proofie; intenty były wstrzykiwane jako gotowe `customer_intents[]`);
+- provider recall/completeness of detected intents (LLM emisja
+  `customer_intents` nie była weryfikowana provider-live);
+- primary-intent prioritization quality (wybór primary jest deterministyczny,
+  ale jakość względem intencji użytkownika nie była mierzona);
+- arbitrary free-text multi-intent detection (poza bounded vocabulary).
+
+Jawny claim:
+
+```text
+RAW_INBOUND_MULTI_INTENT_DETECTION = NOT_BEHAVIORALLY_PROVEN
+```
+
+Zakres `MULTI_INTENT_DROPPED`: guard chroni intent obecny JUŻ w
+`CustomerIntentProjection` przed zgubieniem downstream. NIE wykrywa intentu,
+którego Understanding/BusinessReasoning nigdy nie utworzyło — detekcja
+pozostaje poza zakresem dowodu P1.4.
+
+P1.4 pozostaje `COMPLETE / PASS_LOCAL_BOUNDED`, ponieważ scope P1.4
+udowodnił strukturalną reprezentację i preservation, a nie pełny behavioral
+extraction recall.
 
 ### Residuale P1.4
 
@@ -1183,6 +1232,12 @@ pozostałe intenty pozostają jawnie otwarte (status/blocking_gaps).
   (provider epistemic/intent guard).
 - Deduplikacja shared fields ograniczona do znanych canonical field keys;
   rozszerzenie słownika -> kolejne slice'y.
+- `RAW-INBOUND MULTI-INTENT DETECTION EVALUATION` -> przyszły
+  provider-live/behavioral cohort: realistic raw emails -> production signal
+  extraction -> BusinessReasoning -> `customer_intents[]` -> porównanie z
+  labeled expected intents (recall/completeness, primary prioritization).
+  To jest osobny behavioral evaluation item; NIE jest automatycznie
+  przypisywany do P1.5 (P1.5 dotyczy fact/memory consolidation proof).
 
 ### Claim limit
 

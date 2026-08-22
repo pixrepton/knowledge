@@ -218,7 +218,21 @@ write intenty HITL_ONLY. P1.3 epistemic regression PASS. Full Gate A PASS
 (0 failed). Commit (LOCAL_ONLY): `gmail-agent:f29e1ac0`. Artefakty:
 `.artifacts/intelligence-spine-p1-4-20260822T160000/p1-4-multi-intent-flow-audit.json`
 oraz `bounded-multi-intent-trajectory.json`. Status: P1.4 COMPLETE;
-P1.5: NOT_STARTED.
+P1.5: NOT_STARTED. CLAIM CORRECTION (2026-08-23): proof P1.4 zaczyna się na
+seamy projekcji/wiringu — intenty w trajectory były wstrzykiwane jako gotowe
+`customer_intents[]`, NIE wydobywane z raw inbound. Jawny claim:
+`RAW_INBOUND_MULTI_INTENT_DETECTION = NOT_BEHAVIORALLY_PROVEN`.
+PROVEN: structured customer_intents[], deterministyczna normalizacja/
+projekcja, per-intent state/missing info, downstream preservation, draft
+coverage, dropped-known-intent guard, false-completion guard, authority
+separation. NOT BEHAVIORALLY PROVEN: raw inbound -> multi-intent extraction,
+provider recall/completeness, primary-intent prioritization quality,
+arbitrary free-text multi-intent detection. `MULTI_INTENT_DROPPED` chroni
+intent obecny w CustomerIntentProjection, nie wykrywa intentu, którego
+Understanding/BR nie utworzyło. P1.4 pozostaje COMPLETE/PASS_LOCAL_BOUNDED
+(scope = strukturalna reprezentacja i preservation). Residual:
+RAW-INBOUND MULTI-INTENT DETECTION EVALUATION (przyszły provider-live/
+behavioral cohort; osobny item, nie przypisywany automatycznie do P1.5).
 
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
