@@ -198,6 +198,28 @@ fabrication -> P1.5, LLM-composed wording -> future slice, fact consolidation
 `docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` sekcja `P1.3 FREEZE`.
 Freeze guard: dalsze zmiany wymagają jawnej decyzji `REOPEN_P1_3`.
 
+P1.4 MULTI-INTENT (2026-08-22, closeout): strukturalna preservacja wielu
+intentów od intake do customer-facing draft + HITL. Nowy kontrakt
+`llm_contracts/customer_intents.py` (CustomerIntent / CustomerIntentProjection,
+bounded vocabulary service_problem/schedule_service/document_request/other,
+niezależny status READY/NEEDS_INFORMATION/BLOCKED/INFORMATIONAL_ONLY,
+per-intent execution authority NONE/HITL_ONLY/DRAFT_ONLY) + deterministyczna
+projekcja `agent_runtime/intent_projection.py` (kanonizacja, dedupe, stabilna
+kolejność, shared required-info mapping, jeden primary actionable intent).
+BusinessReasoning dostaje addytywny opcjonalny `customer_intents`; ścieżka
+Understanding -> `build_case_understanding_projection` ->
+`CaseUnderstandingProjection.customer_intents` (produkcyjny wiring).
+`generate_draft_reply` używa multi-intent kompozytora tylko przy >1 intent
+(single-intent legacy byte-stabilny), coverage w `ActionItem.intent_coverage`;
+guardy `MULTI_INTENT_DROPPED`, `INTENT_REQUIRED_INFO_NOT_REQUESTED`,
+`INTENT_EXECUTION_ASSERTED_WITHOUT_EVIDENCE`, `INTENT_FALSELY_COMPLETED`
+fail-closed. CAD pozostaje single-action ask_for_missing_data/customer/mail;
+write intenty HITL_ONLY. P1.3 epistemic regression PASS. Full Gate A PASS
+(0 failed). Commit (LOCAL_ONLY): `gmail-agent:f29e1ac0`. Artefakty:
+`.artifacts/intelligence-spine-p1-4-20260822T160000/p1-4-multi-intent-flow-audit.json`
+oraz `bounded-multi-intent-trajectory.json`. Status: P1.4 COMPLETE;
+P1.5: NOT_STARTED.
+
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed

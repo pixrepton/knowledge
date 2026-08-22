@@ -1077,3 +1077,124 @@ nie retroaktywnie do P1.3.
   `knowledge:ba308a3`.
 
 Dalsze zmiany w tym zakresie wymagają osobnej decyzji `REOPEN_P1_3`.
+
+## P1.4 - MULTI-INTENT (2026-08-22)
+
+Program: `AI-OS INTELLIGENCE SPINE - P1.4 MULTI-INTENT`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
+(0 failed). P1.5: `NOT_STARTED`.
+
+Central invariant:
+
+```text
+AI-OS MUST STRUCTURALLY PRESERVE
+EVERY SIGNIFICANT CUSTOMER INTENT
+FROM INTAKE TO THE CUSTOMER-FACING DRAFT AND HITL,
+WITHOUT INTENT LOSS, AUTHORITY LEAKAGE
+OR EPISTEMIC REGRESSION (P1.3).
+```
+
+### Kontrakt
+
+- `llm_contracts/customer_intents.py`: `CustomerIntent` (intent_id,
+  intent_type, description, source_span, evidence_refs, required_information,
+  blocking_gaps, status, decision_state, execution_authority, confidence) +
+  `CustomerIntentProjection` (case_id, source_signal_id, intents,
+  primary_actionable_intent, missing_information_by_intent,
+  shared_required_information).
+- Bounded canonical vocabulary pierwszego slice:
+  `service_problem / schedule_service / document_request / other`.
+- Niezależny lifecycle per intent:
+  `READY / NEEDS_INFORMATION / BLOCKED / INFORMATIONAL_ONLY`.
+- Per-intent execution authority: `NONE / HITL_ONLY / DRAFT_ONLY`. Write
+  intenty (schedule_service, document_request) NIGDY nie otrzymują execution
+  authority w tym slice (`HITL_ONLY` + `execution_authority_hitl_required`).
+- Intent existence nigdy nie zależy od confidence threshold; LLM może
+  proponować intenty, ale deterministyczne guardy weryfikują konsekwencje.
+
+### Źródło intentów i projekcja
+
+- BusinessReasoning (LLM) otrzymuje addytywny opcjonalny `customer_intents`
+  (schema + `BusinessReasoningResult.customer_intents` +
+  `validate_business_reasoning_result` normalizacja strukturalna).
+- `agent_runtime/intent_projection.py` = jedyny deterministyczny owner
+  normalizacji: kanonizacja typu (nieznany -> `other`, nigdy nie drop),
+  dedupe per type (merge required_information), stabilna kolejność
+  (reordering nie zmienia projekcji), status/authority derivation, shared
+  required-information mapping (field -> intent_ids), jeden
+  `primary_actionable_intent` (dla pierwszego slice: service_problem).
+- `understanding_output.customer_intents` -> `build_case_understanding_projection`
+  -> `CaseUnderstandingProjection.customer_intents` (snapshot produkcyjny).
+
+### CAD / policy (bez przebudowy)
+
+CAD pozostaje single-action `ask_for_missing_data / customer / mail`; P1.4 NIE
+tworzy multi-action CAD. Wybierany jest jeden `primary actionable intent`;
+pozostałe intenty pozostają jawnie otwarte (status/blocking_gaps).
+
+### Draft coverage
+
+- `generate_draft_reply` (deterministyczny kompozytor) używa multi-intent body
+  TYLKO gdy projekcja ma >1 intent; single-intent path pozostaje
+  byte-stabilny (legacy). Każdy intent jest potwierdzany; brakujace dane są
+  pytane RAZ (globalna deduplikacja shared fields); żadne execution nie jest
+  asertowane (brak scheduling/sending claim).
+- `ActionItem.intent_coverage` (additive): intent_ids, covered_intent_ids,
+  unresolved_intent_ids, ignored_intent_ids, requested_information_by_intent,
+  required_information_by_intent.
+- Draft sanity (fail-closed, bez silent repair):
+  `MULTI_INTENT_DROPPED` (intent pominiety/ignored),
+  `INTENT_REQUIRED_INFO_NOT_REQUESTED` (wymagane pole bez requestu),
+  `INTENT_EXECUTION_ASSERTED_WITHOUT_EVIDENCE` (np. „Wizyta została
+  umówiona"), `INTENT_FALSELY_COMPLETED` (np. „Sprawa została zamknięta"
+  przy otwartych intentach).
+
+### P1.3 pozostaje nienaruszone
+
+- Epistemic status pozostaje per claim; multi-intent nie naprawia conflicted
+  facts i nie podnosi UNKNOWN.
+- Epistemic guard (`evaluate_draft_epistemic_sanity`) działa niezależnie od
+  intent coverage; kompozytor multi-intent nie emituje pewnikow/claimów
+  diagnostycznych.
+
+### Dowód
+
+- 31 nowych testów: `test_customer_intent_contract.py`,
+  `test_multi_intent_projection.py`, `test_draft_multi_intent_coverage.py`,
+  `test_multi_intent_runtime_slice.py`.
+- Full Gate A: PASS (0 failed) pre- i post-commit.
+- Bounded trajectory: `.artifacts/intelligence-spine-p1-4-20260822T160000/`
+  (`p1-4-multi-intent-flow-audit.json`,
+  `bounded-multi-intent-trajectory.json`, `run_p1_4_multi_intent_trajectory.py`):
+  3 intenty -> projekcja -> draft -> coverage PASS -> HITL-ready; bad draft A
+  (document_request ignored) -> MULTI_INTENT_DROPPED DENY; bad draft B
+  (wizyta umówiona bez evidence) -> INTENT_EXECUTION_ASSERTED_WITHOUT_EVIDENCE
+  DENY; bad draft C (false completion) -> INTENT_FALSELY_COMPLETED DENY.
+- Commit (LOCAL_ONLY): `gmail-agent:f29e1ac0`.
+- `LIVE_SEND=false`, `FULL_FRESH38=NOT_RUN`.
+
+### Residuale P1.4
+
+- Rzeczywiste wykonanie schedule_service / document_request (calendar/document
+  send) -> przyszłe action classes poza bounded slice (pozostaje za HITL).
+- Multi-action CAD (jeden CAD odpowiedzający na wiele intentów) -> celowo
+  poza P1.4; pierwszy slice wybiera jeden primary actionable intent.
+- LLM-composed customer-facing wording z pokryciem intentów -> po P1.5
+  (provider epistemic/intent guard).
+- Deduplikacja shared fields ograniczona do znanych canonical field keys;
+  rozszerzenie słownika -> kolejne slice'y.
+
+### Claim limit
+
+NIE twierdzimy `AI_OS_UNDERSTANDS_ALL_EMAILS` ani `ALL_INTENTS_ALWAYS
+EXECUTABLE`. Poprawny claim:
+
+```text
+AI_OS_STRUCTURALLY_PRESERVES
+BOUNDED MULTI-INTENT SURFACE
+AND FAILS CLOSED ON DROPPED INTENT / FALSE COMPLETION /
+EXECUTION ASSERTED WITHOUT EVIDENCE
+IN THE PROVEN SLICE.
+```
+
+P1.5 = NOT_STARTED.
