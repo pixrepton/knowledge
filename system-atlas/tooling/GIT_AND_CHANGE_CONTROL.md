@@ -18,6 +18,17 @@ task-start → task-branch (if needed) → writes → task-gate → task-commit-
 
 Full command examples: `scripts/README.md` §Agent task and Git workflow.
 
+### Harness ergonomics (2026-08-23)
+
+- `task-gate` supports `--profile <name>` (deterministic repo-scoped pytest
+  collections from `scripts/ai_os_task_profiles.py`; unknown profile fails
+  closed), a gate-level `--timeout` with owned-process-tree termination and
+  always-on UTF-8 gate logs under `<AI_OS_TASK_STATE_DIR>/gate-logs/`.
+- `task-finalize` orchestrates the close ceremony deterministically
+  (validate -> commit-plan -> commit -> optional post-commit gate -> stale
+  PASSED-gate refresh -> checkpoint READY_TO_CLOSE -> close). It never skips
+  gates, auto-adopts foreign changes, pushes, force-commits or invents PASS.
+
 ## Commit decision discipline
 
 Before every `task-commit`, run:

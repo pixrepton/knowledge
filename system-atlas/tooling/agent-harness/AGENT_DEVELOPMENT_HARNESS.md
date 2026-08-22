@@ -89,6 +89,13 @@ Recorded here so they are not rediscovered as if new:
   the machine. A task pointer belongs to a session, never to `HKCU\Environment`.
 - `task-close` requires at least one commit and one gate, so a legitimate read-only
   task cannot be closed cleanly — only archived via `task-cleanup --archive`.
+- `task-finalize` (2026-08-23) runs the deterministic close orchestration in one
+  command: validate -> commit-plan -> commit -> optional post-commit gate
+  (`--gate-id/--gate-repo/--gate-profile`) -> refresh stale PASSED gate
+  fingerprints from recorded argv -> checkpoint READY_TO_CLOSE -> close.
+  `task-gate --profile <name>` resolves deterministic pytest collections
+  (repo-scoped, `scripts/ai_os_task_profiles.py`) and supports `--timeout` with
+  owned-process cleanup + always-on UTF-8 gate logs.
 
 ## Anti-goals
 
