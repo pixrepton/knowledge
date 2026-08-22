@@ -104,6 +104,23 @@ w `DecisionRevisionLedger`. Kompletna specyfikacja: `docs/AI_OS_INTELLIGENCE_SPI
 Commits (LOCAL_ONLY): `gmail-agent:42440af`, `5f0979d`, `e42f774`, `99ae4e8`.
 Bounded artifact: `.artifacts/intelligence-spine-p1-1-20260822T100000/bounded-revision-trajectory.json`.
 
+## Program: AI-OS INTELLIGENCE SPINE - P1.1P DURABLE REVISION STATE
+
+Status: `CLOSED` (2026-08-22). Delivery `COMPLETE`; Proof `PASS_LOCAL_BOUNDED`;
+Full Gate A `PASS` (2769/15/24/0). P1.2 / P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+
+Problem: P1.1 ledger byl in-memory. P1.1P przenosi lineage do istniejacego
+durable `MailboxMemoryStore` (2 nowe tabele w tym samym store, bez nowej bazy);
+`DecisionRevisionLedger` staje sie projection/cache z `rebuild()` i fail-closed
+(0 lub >1 CURRENT -> blad; porzadek po revision integer, nigdy timestamp).
+Accept transition atomically (old SUPERSEDED / new CURRENT / request ACCEPTED).
+Po restarcie: current revision, supersession, duplicate/stale guards oraz stale
+approval/ToolPlan dzialaja tak samo. Kompletna specyfikacja:
+`docs/AI_OS_INTELLIGENCE_SPINE_CONTRACT.md` sekcja P1.1P.
+Commit (LOCAL_ONLY): `gmail-agent:f57028ea`.
+Bounded artifact:
+`.artifacts/intelligence-spine-p1-1p-20260822T110000/restart-trajectory.json`.
+
 Intelligence Spine proof after `gmail-agent:c80be17` is bounded to semantic
 preservation and consumer enforcement. It does not mean the system is ready for
 autonomous live execution. The untrusted input execution boundary is now closed

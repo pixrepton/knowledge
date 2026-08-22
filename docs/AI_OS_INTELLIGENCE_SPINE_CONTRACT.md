@@ -604,3 +604,62 @@ live_send=false; FULL_FRESH38=NOT_RUN. Commits: `gmail-agent:42440af`,
 Pozostale P1 (not started): P1.2 argument-level ToolEnvelope; P1.3
 known/inferred/unknown; P1.4 customer_intents[]; P1.5 unified fact/memory
 consolidation proof.
+
+## P1.1P — Durable Decision Revision State (2026-08-22)
+
+Program: `AI-OS INTELLIGENCE SPINE — P1.1P DURABLE REVISION STATE`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS` (0 failed).
+P1.2 / P1.3 / P1.4 / P1.5: `NOT_STARTED`.
+
+### Problem
+
+P1.1 zamknal lifecycle rewizji, ale `DecisionRevisionLedger` byl in-memory.
+P1.1P czyni lineage trwalym: po restarcie procesu odtwarzane sa
+`decision_id`, `revision`, `decision_version_id`, `semantic_hash`, status,
+`supersedes_version_id` / `superseded_by_version_id`, request + request status
+oraz dokladnie jedna CURRENT revision na lineage.
+
+### Durable seam (bez nowej bazy)
+
+Istniejacy canonical store `MailboxMemoryStore` (Postgres + InMemory, ten sam
+protokol) rozszerzony addytywnie o dwie tabele:
+`mailbox_memory_decision_revisions` oraz
+`mailbox_memory_decision_revision_requests`
+(schema: `tools/gmail_audit/mailbox_memory/schema.py`). Nowe metody protokolu:
+`append_decision_revision`, `append_decision_revision_request`,
+`accept_decision_revision_transition`, `fetch_decision_revisions`,
+`fetch_decision_revision_requests`, `list_decision_lineage_ids`.
+
+### Ledger = projection/cache, nie SoT
+
+`DecisionRevisionLedger(store=...)` pisze przez store przed aktualizacja
+projekcji; `DecisionRevisionLedger.from_store(store)` / `rebuild()` odtwarza
+stan po restarcie. Fail closed:
+
+- 0 CURRENT lub >1 CURRENT w durable lineage -> `DecisionRevisionError.rebuild_one_current_violation`;
+- porzadek wylacznie po `revision` integer / `expected_current_revision`, nigdy po timestamp.
+
+### Failure atomicity
+
+`accept_decision_revision_transition` wykonuje w jednej transakcji (Postgres:
+advisory lock + commit/rollback): old -> SUPERSEDED, new -> CURRENT,
+request -> ACCEPTED. Durable state nie moze legalnie zawierac dwoch CURRENT.
+
+### Idempotencja po restarcie
+
+- replay tego samego `request_id` po restarcie -> `DUPLICATE_REVISION_REQUEST`, bez r3;
+- stale request (expected r1, durable current r2) -> `STALE_REVISION_REQUEST`;
+- stary approval / ToolPlan / envelope r1 po restarcie -> DENY `STALE_DECISION_REVISION`;
+- audit trail rekonstruowany z durable lineage + requests.
+
+### Bounded proof
+
+`.artifacts/intelligence-spine-p1-1p-20260822T110000/restart-trajectory.json`
+(+ `run_restart_trajectory.py`): r1 -> accept -> r2 -> zniszczenie ledgera ->
+rebuild -> current=r2, r1 SUPERSEDED, duplicate/stale guards, old
+approval/ToolPlan DENY, nowy plan r2 -> generate_draft_reply -> HITL.
+Deterministic suite: `test_decision_revision_durable_restart.py` (10 testow).
+Commit: `gmail-agent:f57028ea`.
+
+Residual: produkcyjne wpiecie store-backed ledgera do worker boot (ledger nie
+byl jeszcze wpiety w worker w P1.1) — do rozpatrzenia razem z P1.2.
