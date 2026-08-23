@@ -1254,112 +1254,119 @@ IN THE PROVEN SLICE.
 
 P1.5 = NOT_STARTED.
 
-## P1.5 - FACT / MEMORY CONSOLIDATION PROOF (2026-08-23)
+## P1.5 - FACT / MEMORY CONSOLIDATION + P1.5B SUBJECT-AWARE PROPOSITION IDENTITY (2026-08-23)
 
-Program: `AI-OS INTELLIGENCE SPINE - P1.5 FACT / MEMORY CONSOLIDATION PROOF`.
-Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
+Program: `AI-OS INTELLIGENCE SPINE - P1.5 FACT / MEMORY CONSOLIDATION + P1.5B SUBJECT-AWARE PROPOSITION IDENTITY`.
+Status: `COMPLETE` / Proof `PASS_LOCAL_BOUNDED`; `P1.5B = COMPLETE / PASS_LOCAL_BOUNDED`; Full Gate A `PASS`
 (0 failed). P1.3: `FROZEN / COMPLETE`; P1.4: `COMPLETE`.
 
 Central invariant:
 
 ```text
-SAME BUSINESS PROPOSITION ACROSS MULTIPLE SOURCES
-MUST NOT BECOME MULTIPLE INDEPENDENT TRUTHS.
-CONSOLIDATION != BLIND MERGE. NEWEST != TRUE.
-EVIDENCE AUTHORITY != INSTRUCTION AUTHORITY.
+EVIDENCE IDENTITY != SUBJECT IDENTITY != PROPOSITION IDENTITY.
+SAME BUSINESS SUBJECT ACROSS MULTIPLE SOURCES
+MUST CONVERGE TO ONE PROPOSITION.
+UNKNOWN SUBJECT MUST FAIL CLOSED.
 ```
 
 ### Canonical fact owner
 
-- Proposition identity: `(case_id, entity_scope, fact_key)` — istniejący klucz,
-  bez nowego globalnego ontology.
 - Store: `MailboxMemoryStore` (InMemory + Postgres, ta sama semantyka).
-- JEDEN canonical read resolver: `split_conflicting_facts`
-  (`mailbox_memory_runtime.py`): active = highest confidence, tie -> newest
-  observed_at; conflict = >1 distinct value (casefold-normalized) per
-  proposition, w tym superseded `replace_message_facts` (CTX-03) ORAZ
-  cross-scope "mixed" wartości (P1.5 convergence z snapshot builderem).
-- Write semantics: `replace_message_facts` (mail snapshot; disagreement ->
-  conflict), `append_facts_with_supersession` (authoritative append; settled
-  supersession), `reconcile_active_fact_identities` (case-merge rule, bounded;
-  NIE jest generalnym truth resolverem).
-- `_EphemeralSnapshotStore.append_facts_with_supersession` = parity mirror
-  (identyczna semantyka, test_fact03).
+- JEDEN shared semantic owner: `mailbox_memory.facts` + `mailbox_memory_runtime.split_conflicting_facts`.
+- SubjectRef: `kind`, `id`, `resolution`.
+  `resolution = EXPLICIT | SINGLE_SUBJECT_DEFAULT | AMBIGUOUS`.
+- Minimal bounded subject kinds: `CASE`, `CUSTOMER`, `PROPERTY`, `DEVICE`, `SERVICE_EVENT`.
+- Proposition identity dla subject-aware facts:
+  `(subject_kind, subject_id, fact_key)`.
+- Fallback legacy identity `(entity_scope, fact_key)` pozostaje tylko dla facts
+  niesubject-aware.
+- `entity_scope` jest dimension storage/projection, NIE truth identity proposition.
+- `message_id`, `document_id`, `source_ref`, `evidence_ref` pozostają evidence/provenance;
+  nie stają się subject id.
 
-### Konsolidacja (P1.5)
+### Subject resolution (P1.5B)
 
-- Same value mail + attachment -> jeden efektywny business value; provenance
-  z obu źródeł zachowana. Minimal repair: same-value append MERGE evidence do
-  active row (`metadata.evidence_refs`, dedup deterministyczny) zamiast
-  dropu; implementacja w InMemory/Postgres/ephemeral mirror (parity).
-- Konflikt mail X + attachment Y (customer vs document scope) -> `mixed`
-  conflict, `decision_usable=false` (P1.3 CONFLICTED, nigdy CONFIRMED).
-- Timestamp permutation -> ten sam conflict verdict; `TIMESTAMP_ONLY_TRUTH_SELECTION = false`.
-- Legal supersession: korekta operatora w DOMENIE, której dotyczy (customer
-  i/lub document); jedna jednostronna korekta zostawia konserwatywny mixed
-  conflict. Superseded history + provenance zachowane.
-- Document fact rows niosą provenance trio (ATTACHMENT) od utworzenia
-  (minimal repair w `structured_fields_to_fact_rows` /
-  `document_fields_to_fact_rows`); derived claims nigdy nie stają się
-  INTERNAL_SOT przez konsolidację.
-- RAG = context evidence, NIE Case fact; nie jest wymuszana konsolidacja
-  wiedzy domenowej do faktów case.
+- `EXPLICIT`: producer zapisuje stabilny subject identity i jest on używany
+  jako canonical `subject_id`.
+- `SINGLE_SUBJECT_DEFAULT`: bounded fallback tylko tam, gdzie istnieje
+  mechanicznie bezpieczny default (`CASE`, `CUSTOMER`, `PROPERTY` w obecnym
+  kontrakcie; np. `case:<case_id>:primary_property`).
+- `AMBIGUOUS`: brak bezpiecznej deterministycznej asocjacji do konkretnego
+  subjecta; evidence zostaje zachowane, ale nie jest zgadywane ani
+  false-merged z innym subjectem.
 
-### Downstream
+### Konsolidacja
 
-`case_context_pack` (Understanding/BR) i projekcja P1.3 korzystają z tego
-samego `split_conflicting_facts`; konflikt blokuje premise decyzyjne;
-zmiana faktu wymaga legalnej ścieżki P1.1 (`DecisionRevisionRequest` -> CAD
-r2), CAD r1 nigdy nie jest mutowany.
+- Same subject + same value + wiele źródeł -> ONE proposition + wiele evidence.
+  Same-value merge zachowuje per-evidence provenance/authority przez
+  `metadata.evidence_refs`.
+- Different subjects + ten sam `fact_key` -> niezależne propositions, bez
+  false conflict.
+- Same subject + different value bez legal supersession -> `CONFLICTED`,
+  `decision_usable=false`.
+- Legal supersession jest subject-local. Korekta dla `device:A` nie dotyka
+  `device:B`.
+- `replace_message_facts`, `append_facts_with_supersession`,
+  `reconcile_active_fact_identities`, snapshot, pack i P1.3 korzystają z tej
+  samej identity/resolution semantics.
+- `RAG` pozostaje context evidence, nie Case fact.
+
+### Producer wiring
+
+- Mail / customer extraction -> `attach_subject_metadata`.
+- Structured attachments -> `structured_fields_to_fact_rows` + `attach_subject_metadata`.
+- Document intelligence promotion -> `document_fields_to_fact_rows` + `attach_subject_metadata`.
+- Case/internal facts -> `write_executors._write_fact_row` + `attach_subject_metadata`.
+- Drive fact promotion -> `drive_ingest_runtime.build_fact` + `attach_subject_metadata`.
 
 ### Dowód
 
-- 29 nowych testów (5 plików + postgres): `test_fact_consolidation.py`,
-  `test_fact_conflict_resolution.py`, `test_fact_supersession.py`,
+- Subject taxonomy audit:
+  `.artifacts/intelligence-spine-p1-5-20260823T100000/p1-5b-subject-taxonomy-audit.json`.
+- Bounded trajectory proof:
+  `.artifacts/intelligence-spine-p1-5-20260823T100000/bounded-subject-identity-trajectory.json`
+  (22 assertions PASS).
+- Focused suites green:
+  `test_fact_consolidation.py`,
   `test_fact_consolidation_properties.py`,
   `test_fact_consolidation_runtime_slice.py`,
-  `test_fact_consolidation_postgres.py`.
-- Trajectory: `.artifacts/intelligence-spine-p1-5-20260823T100000/`
-  (`p1-5-fact-memory-consolidation-audit.json`,
-  `bounded-fact-consolidation-trajectory.json`,
-  `run_p1_5_fact_consolidation_trajectory.py`) — 17 assertions PASS
-  (ProofArtifact): same-value single view + provenance union; conflict +
-  decision_usable=false; timestamp permutation; legal supersession + history;
-  durable reload; downstream pack; P1.3; P1.1 revision.
-- Full Gate A final HEAD: PASS (0 failed). Postgres fact consolidation proof:
-  PASS (real local Postgres, restart round-trip) — rozdzielone od Gate A.
-- Commity (LOCAL_ONLY): `gmail-agent:742bed58`, `gmail-agent:e3ae165f`.
+  `test_fact_consolidation_postgres.py`,
+  `test_fact_conflict_resolution.py`,
+  `test_fact_supersession.py`,
+  `test_fact_supersession_write_01.py`,
+  `test_aios_4_2_documents_to_facts.py`,
+  `test_aios_4_2b_active_fact_consumers.py`.
+- Real Postgres proof PASS: restart round-trip, same-subject convergence,
+  same-subject conflict, legal subject-local supersession, ambiguous-subject persistence.
+- `SPINE_CORE`: PASS.
+- Full Gate A final HEAD: PASS (0 failed).
 - `LIVE_SEND=false`, `FULL_FRESH38=NOT_RUN`.
 
 ### Exact non-guarantees
 
-- NIE `AI_OS_HAS PERFECT TRUTH RESOLUTION` ani `ALL BUSINESS FACTS ARE
-  GLOBALLY CONSOLIDATED` — dowód obejmuje bounded proposition/source matrix.
-- Normalizacja wartości zapisu nie jest jeszcze ujednolicona (mail zachowuje
-  case, document promotion lowercases) — resolver porównuje casefold, ale
-  reprezentacja w active view może się różnić (residual).
-- Behavioral extraction quality pozostaje poza P1.5 (jak w P1.4
-  `RAW_INBOUND_MULTI_INTENT_DETECTION = NOT_BEHAVIORALLY_PROVEN`).
+- NIE `AI_OS_HAS_GLOBAL_ENTITY_RESOLUTION`.
+- NIE `AI_OS_CAN_ALWAYS_ASSIGN_EVERY_DOCUMENT_TO_THE_CORRECT_DEVICE`.
+- NIE `AI_OS_HAS_PERFECT_TRUTH_RESOLUTION`.
+- NIE budujemy ontology subsystem ani knowledge graph.
+- Behavioral extraction quality pozostaje poza P1.5/P1.5B.
 
 Poprawny claim:
 
 ```text
-AI-OS HAS A PROVEN CANONICAL FACT/CONFLICT CONSOLIDATION PATH
-FOR THE BOUNDED PROPOSITION/SOURCE MATRIX,
-WITH PROVENANCE AND AUTHORITY PRESERVED
-AND NO TIMESTAMP-ONLY TRUTH SELECTION.
+FOR THE PROVEN SUBJECT KINDS AND SOURCE MATRIX,
+AI-OS PRESERVES SUBJECT-AWARE PROPOSITION IDENTITY,
+CONSOLIDATES EVIDENCE ONLY WHEN THE BUSINESS SUBJECT MATCHES,
+FAILS CLOSED ON AMBIGUOUS SUBJECT ASSOCIATION,
+AND PREVENTS CROSS-SUBJECT FALSE CONFLICTS.
 ```
 
 ### Residuale
 
-- Ujednolicenie normalizacji wartości na zapisie (case/format) — przyszły
-  slice; obecnie bezpieczne przez casefold w resolverze.
-- `RAW-INBOUND MULTI-INTENT DETECTION EVALUATION` pozostaje osobny behavioral
-  item P1.4 (nie P1.5, nie P1.5-consuming).
-- Behavioral extraction benchmark / pełny free-text fabrication detection —
-  poza P1.5.
-- Reconcile-active-identities (merge) jako reguła newest-per-identity jest
-  udokumentowana i bounded; ewentualna jawna policy supersession w merge to
-  przyszła decyzja.
+- Value normalization on write (case/format) pozostaje osobnym residualem.
+- `RAW-INBOUND MULTI-INTENT DETECTION EVALUATION` pozostaje osobnym itemem P1.4.
+- Nie wszystko ma explicit subject id; bounded `SINGLE_SUBJECT_DEFAULT` pozostaje
+  jawnie ograniczonym fallbackiem.
+- Rozszerzenie subject taxonomy poza aktualnie udowodnione business need jest
+  poza zakresem.
 
-P1.3 = FROZEN / COMPLETE; P1.4 = COMPLETE; P1.5 = COMPLETE / PASS_LOCAL_BOUNDED.
+P1.3 = FROZEN / COMPLETE; P1.4 = COMPLETE; P1.5 = COMPLETE / PASS_LOCAL_BOUNDED; P1.5B = COMPLETE / PASS_LOCAL_BOUNDED.
