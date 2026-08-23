@@ -46,10 +46,11 @@ Do not start P2 implementation, Cognitive Control Loop, Fresh38, new feature wor
 Historical workspace sync facts (2026-08-20): Node B local API is healthy on
 `127.0.0.1:8766` and mailbox memory is healthy. RAG backend is not currently
 healthy on `127.0.0.1:8000`; do not claim current core/FullStack preflight PASS
-until RAG health is re-proven. GitNexus indexes for active repos were refreshed
-to current HEAD as CLI/index; GitNexus MCP tools are not exposed in this Codex
-session. CBM MCP query-plane is callable and active repo heads match current
-HEAD. CodeScene is configured but unauthenticated in this session.
+until RAG health is re-proven. That 2026-08-20 session had GitNexus refreshed
+as CLI/index only, CBM MCP query-plane callable, and CodeScene configured but
+unauthenticated. Treat those tooling observations as historical session facts,
+not as guaranteed truth for a future session; every new agent must verify live
+tool exposure and freshness before routing.
 
 Closed facts that remain binding: `OPERATOR-COMMAND-RECONCILE-BYPASS-01` is **CLOSED**;
 registry `REQUIRED_OPEN = 0`, `UNKNOWN_NEEDS_PROOF = 0`. RAG technical gates
