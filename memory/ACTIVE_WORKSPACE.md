@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-21 (Real Mail Discovery harness writeback).
+Status: current direction only. Last updated: 2026-08-23 (repository baseline pre-audit sync).
 
 ## Current program (canonical)
 
@@ -27,7 +27,15 @@ SVC-05 = CLOSED (PRODUCT_FIX PASS; DOWNSTREAM_FIX PASS; FINAL_PROVIDER_LIVE_PROO
 P3A_FROZEN_K3_ADJUDICATION = COMPLETE (INT-04/NEW-05/FU-01/MI-01 = EVALUATOR_WRONG)
 P4_VS_P3B_FORK = CLOSED (all P4 steps complete; P3B deferred; no full Fresh38)
 11-CAPABILITY = CLOSED (all 11 fixed or explicitly classified)
-NEXT = STOP
+NEXT = REPOSITORY_BASELINE_THEN_ARCHITECTURE_AUDIT
+```
+
+### Repository baseline gate (2026-08-23)
+
+```text
+CURRENT_BASELINE_STAGE = REPOSITORY_INTEGRITY + GIT_SYNC + GITHUB_SYNC + DOCUMENTATION_SYNC + AGENT_INSTRUCTION_SYNC
+NEXT_APPROVED_STEP = AI-OS INTELLIGENCE ARCHITECTURE AUDIT
+DO_NOT_START = P2 implementation, Cognitive Control Loop, Fresh38, new features, deployments
 ```
 
 ### Intelligence Spine closeout (2026-08-21)
@@ -57,26 +65,18 @@ Proven bounded invariants:
 
 Current operator-authorized execution order:
 
-1. Intelligence Spine writeback and publication are complete.
-2. Procedural/tooling residuals are closed or explicitly dispositioned:
+1. 11-CAPABILITY closeout and Intelligence Spine writeback remain closed and binding.
+2. Procedural/tooling residuals remain closed or explicitly dispositioned:
    `TASK-ENGINE-SCOPE-UPDATE` is closed by `workspace:7696a26`; `GOV-06` is
    closed by tracked `knowledge/.serena/project.yml`; `IQ-01-ADJUDICATED`
-   is closed as `CLOSED_NOT_REQUIRED` because human labels must not be
-   fabricated and will be superseded by real-mail discovery labels.
-3. `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01` is closed by `gmail-agent:2e1d95b`:
-   inbound mail/attachments are evidence, not authority; action tools fail
-   closed on untrusted authority/recipient arguments; read-only tools are not
-   blocked by the boundary.
-4. `REAL-MAIL-INTELLIGENCE-DISCOVERY-01` tooling is ready in
-   `gmail-agent:a3d3ae6`: `gmail_intake.py real-mail-discovery` consumes
-   operator-curated JSON/JSONL historical cases, writes a gap map, and performs
-   no Gmail fetch, no LLM calls, no tool execution and no outbound actions.
-5. Formal discovery is still `DATASET_REQUIRED`: collect 10-15 labelled
-   historical real-mail cases and run the harness without `--allow-small-sample`.
-6. Use the resulting gap map to prioritize RAG/facts/attachments/reasoning/tools
-   work before larger historical qualification and shadow-live.
+   is closed as `CLOSED_NOT_REQUIRED`.
+3. The current mandatory stage is repository/Git/GitHub/documentation/agent-instruction baseline synchronization across canonical repos.
+4. A new agent bootstrap after this stage must reconstruct state from GitHub, repo instructions, `knowledge/`, and task-engine records rather than from local session memory.
+5. After baseline acceptance, the next approved step is `AI-OS INTELLIGENCE ARCHITECTURE AUDIT`.
+6. Do not start P2 implementation, Cognitive Control Loop, Fresh38, feature work, or deployments during this stage.
+7. Real-mail discovery remains dataset-dependent follow-up work; it is not the current next approved step.
 
-### AI-OS truth sync — current workspace posture (2026-08-20)
+### AI-OS truth sync — historical workspace posture (2026-08-20)
 
 ```text
 AI_OS_FULL_WORKSPACE_TRUTH_SYNC = CLOSED_PASS
@@ -116,11 +116,11 @@ without new regression evidence.** Full findings: `docs/AI_OS_ROADMAP.md` change
 
 **Current residual owner:** `knowledge/eval/mail-agent-intelligence-current/`.
 
-**Next program:** frozen eight-step sequence in `eval/mail-agent-intelligence-current/P4_VS_P3B_FORK.md`.
+**Next approved step after repository baseline closeout:** `AI-OS INTELLIGENCE ARCHITECTURE AUDIT`.
 **Now for 11-CAPABILITY:** STOP. P4-A MI-02, P4-B SVC-05 final provider-live closeout, bounded re-proof and P4-C CTX-03 are
 complete. P3B remains deferred to step 5 only. INT-01 remains
 `HISTORICAL_ONLY / REGRESSION_WATCH`. K3 canonical failures are `EVALUATOR_WRONG`, not a
-product-fix queue. Do not recapture Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj
+product-fix queue. Real-mail discovery is dataset-dependent and not the current next approved step. Do not recapture Frozen Fresh38 27/38. Do not open another residual wave. **Nie** otwieraj
 kolejnych slice’ów 5.3–8.x „bo są na roadmapie”.
 
 ### Zamknięte programy (nie wracać)
@@ -171,7 +171,7 @@ P2_CAPABILITY_CAUSAL_OBSERVABILITY: PASS / CLOSED
 P3A: COMPLETE (K3 EVALUATOR_WRONG)
 P4_VS_P3B_FORK: CLOSED
 SVC-05: CLOSED (PRODUCT_FIX PASS; DOWNSTREAM_FIX PASS; FINAL_PROVIDER_LIVE_PROOF PASS; no executed request_operator_clarification in final SVC-05 proof)
-NEXT: STOP
+NEXT: REPOSITORY_BASELINE_THEN_ARCHITECTURE_AUDIT
 P3 Optional residuals are closed or dispositioned: IQ-01 human adjudication is
 `CLOSED_NOT_REQUIRED`; GOV-06 is closed.
 L0 repair: COMMITTED (4210ed5, LOCAL_ONLY) — do not re-open without new regression

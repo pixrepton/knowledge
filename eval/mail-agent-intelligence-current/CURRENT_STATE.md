@@ -1,11 +1,13 @@
 # Mail-agent intelligence — current program state
 
-Owner: this directory. Last updated: 2026-08-20 (SVC-05 closed).
+Owner: this directory. Last updated: 2026-08-23 (repository baseline pre-audit sync note).
 
 This is the tracked current overlay for the 11-CAPABILITY program.
 It supersedes the gitignored working copy
 `.artifacts/mail-agent-intelligence-20260817/` as current truth.
 It does **not** rewrite frozen Fresh38 evidence.
+It owns the closed 11-CAPABILITY overlay only; cross-workspace next-step routing
+is maintained in `knowledge/memory/ACTIVE_WORKSPACE.md`.
 
 ```text
 P2_CAPABILITY_CAUSAL_OBSERVABILITY = PASS / CLOSED
@@ -32,8 +34,13 @@ P3B = COMPLETE (INT-04/NEW-05/FU-01/MI-01 evaluator applicability fixed)
 P1.4B = LIVE_PASS (INT-05/DOC-02/NEW-03 no call_kalk_top)
 SVC-05 = CLOSED (collect_data -> DRAFT_ACCEPTED -> prepare_reply -> ask_for_missing_data/mail -> generate_draft_reply -> HITL; no executed request_operator_clarification)
 FRESH38_RERUN = NO (focused/bounded proofs only)
-NEXT = STOP (11 CAPABILITY closed; SVC-05 closed)
+NEXT = STOP (11 CAPABILITY closed; workspace next-step routing lives outside this overlay)
 ```
+
+After repository/Git/GitHub/documentation baseline acceptance, the next
+approved cross-workspace step is `AI-OS INTELLIGENCE ARCHITECTURE AUDIT`.
+Do not read this closeout overlay as authorization to start P2
+implementation, Cognitive Control Loop, Fresh38, feature work, or deployments.
 
 INT-01 is `HISTORICAL_ONLY / REGRESSION_WATCH`. SVC-05 was current-reproduced
 with recoverable causal chain and is now fixed with a deterministic

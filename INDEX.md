@@ -1,6 +1,6 @@
 # Knowledge Index
 
-Status: active entry point. Last updated: 2026-08-21 (Intelligence Spine closeout writeback).
+Status: active entry point. Last updated: 2026-08-23 (repository baseline pre-audit sync).
 
 Read this file first, then only the files needed for the current task.
 
@@ -12,6 +12,8 @@ complete; P3B deferred to step 5. SVC-05 is closed (`0a407cb3`, `78603fb`,
 final proof/writeback `70c3d94`).
 Do not open another residual wave.
 Do not open roadmap 5.3-8.x "from the list".
+Current mandatory workspace stage is repository/Git/GitHub/documentation baseline synchronization.
+Do not start the Architecture Audit until that baseline is closed and accepted.
 
 ```text
 HISTORICAL BASELINES (prior SUT / older contract, not comparable to current): 13 Aug = 23 CLEAN_PASS / 15 CAPABILITY; 08 Aug = 10 / 28
@@ -25,7 +27,7 @@ SVC-05 = CLOSED
 SVC-05_PRODUCT_FIX = PASS
 SVC-05_DOWNSTREAM_FIX = PASS
 SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS
-NEXT = STOP (11 CAPABILITY closed; next non-capability program is Live Readiness Boundary)
+NEXT = STOP (11 CAPABILITY closed; repository baseline sync precedes the Architecture Audit)
 ```
 
 Post-SVC-05 Intelligence Spine closeout is also current: `gmail-agent:3469dbd`,
@@ -37,10 +39,11 @@ preservation for fact consumers, and blocking only actions dependent on
 conflicted critical facts. This is not a Full Fresh38 claim and not live
 autonomy readiness.
 
-Next operator-authorized direction after current-state/parity cleanup:
-`UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`, then real-mail intelligence discovery.
+Next operator-authorized direction after repository/Git/GitHub/documentation baseline closeout:
+`AI-OS INTELLIGENCE ARCHITECTURE AUDIT`.
+Do not start P2 implementation, Cognitive Control Loop, Fresh38, new feature work or deployments from this router state.
 
-Current workspace sync facts (2026-08-20): Node B local API is healthy on
+Historical workspace sync facts (2026-08-20): Node B local API is healthy on
 `127.0.0.1:8766` and mailbox memory is healthy. RAG backend is not currently
 healthy on `127.0.0.1:8000`; do not claim current core/FullStack preflight PASS
 until RAG health is re-proven. GitNexus indexes for active repos were refreshed
