@@ -53,6 +53,7 @@ Skills invoked explicitly after a triggering event, not loaded per task. They st
 | Skill | Path | Load when | Do not load when |
 | --- | --- | --- | --- |
 | `post-run-knowledge-writeback` | `.agents/skills/post-run-knowledge-writeback/` | A substantial run/session (coding, debug, audit, repair, qualification, migration, architecture) reached a material checkpoint/completion and durable conclusions must be written to canonical knowledge | Bulk documentation cleanup, trivial edits, actively debugging with unproven conclusions, opening new product work |
+| `topinstal-production-ops` | `.agents/skills/topinstal-production-ops/` | Production operations touch Hetzner, Hostido/WordPress, converter-vps, Caddy, DNS, cieplo-worker, systemd, SSH, or production secrets | Ordinary local-only coding, product-domain logic, or external provider docs lookup |
 
 ## Client-only skill packs
 
