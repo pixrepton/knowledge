@@ -1,6 +1,6 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-25 (closeout sweep state refresh).
+Status: current direction only. Last updated: 2026-08-25 (closeout sweep finalized after repo cleanup).
 
 ## Current program (canonical)
 
@@ -11,6 +11,7 @@ Status: current direction only. Last updated: 2026-08-25 (closeout sweep state r
 ```text
 TASK_ENGINE_ACTIVE = 0
 CLOSEOUT_SWEEP_BATCH_1 = PASS
+CONVERTER_VPS_HARDENING_CLOSEOUT_20260825 = CLOSED
 AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
 PROCEDURAL_MEMORY_TOPINSTAL_PROD_20260825 = CLOSED
 AIOS_AGENT_BEHAVIOR_SUITE_20260825 = CLOSED
@@ -19,8 +20,11 @@ LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 FAST_KALK_TARGETED_FIX_PROOF = PASS
 AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
+GMAIL_AGENT_DIRTY_STATE = HOST_WORKTREE_PHANTOM / NO_CONTENT_DIFF / NOT_ACTIVE_WORK
+CIEPLO_ORCHESTRATOR_DIRTY_STATE = CLEAN
+TOP_INSTAL_GENERATOR_DIRTY_STATE = CLEAN
 CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
-NEXT = OPERATOR_DECISION_REQUIRED_ON_REMAINING_DIRTY_STATE
+NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
 ```
 
 ### What changed on 2026-08-25
@@ -30,12 +34,16 @@ NEXT = OPERATOR_DECISION_REQUIRED_ON_REMAINING_DIRTY_STATE
 - `AIOS-AGENT-BEHAVIOR-SUITE-20260825` was mechanically closed after refreshing stale fingerprints and replacing two historical failed close gates with fresh PASS on the final suite state.
 - `DEPLOY-CIEPLO-VPS-20260824` is no longer an active blocker: its public DNS/HTTPS blocker was superseded by the later converter operability closeout and the checkpoint was archived as historical.
 - `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825` never advanced beyond starter scope updates; both were archived as `ABORTED_WITH_EVIDENCE`.
+- `CONVERTER-VPS-HARDENING-CLOSEOUT-20260825` was closed locally by `top-instal-generator:79b2774e0200801b52b237d3b41203ea34bc4b82` after fresh syntax/config proof for the hardened `converter-vps` slice.
+- `cieplo-orchestrator` and `top-instal-generator` are now clean.
+- `gmail-agent` no longer has an active test slice; the remaining dirt is a worktree-only phantom with empty `git diff`, identical blob SHAs, and no current task ownership.
 - `fast-kalk` targeted fix proof is current PASS on the present branch HEAD for the four requested fixes; an older extra scope-diversion commit still exists historically and should stay classified separately from the requested four-fix proof.
 - The interrupted `AI-OS Intelligence` continuation from the mixed `01a02cf4...` / `01a022e8...` thread family is formally treated as `PAUSED_HISTORICAL / NOT_CURRENT`: it was discovery/planning work, not a currently approved implementation program.
 
 ### Current caution
 
-- `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have dirty worktree state that now requires explicit operator disposition; active checkpoint count being zero does not mean every repo is globally clean.
+- `fast-kalk` commit `832dea8` remains the only explicit operator disposition item from this closeout sweep.
+- `gmail-agent` may still display modified paths in `git status`, but current evidence classifies them as host/worktree phantom residue rather than content-bearing unfinished work.
 - The earlier `NEXT = REPOSITORY_BASELINE_THEN_ARCHITECTURE_AUDIT` statement below is historical, not current, because August 24-25 closeout work already happened after that note.
 
 ## Historical workspace snapshot (superseded 2026-08-23)

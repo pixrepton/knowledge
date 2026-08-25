@@ -1,12 +1,13 @@
 # Last Session
 
-Updated: 2026-08-25 - **closeout sweep completed; task-engine active count reset to zero**.
+Updated: 2026-08-25 - **closeout sweep finalized; task-engine active count remains zero**.
 
 ## Headline
 
 ```text
 TASK_ENGINE_ACTIVE = 0
 CLOSEOUT_SWEEP_BATCH_1 = PASS
+CONVERTER_VPS_HARDENING_CLOSEOUT_20260825 = CLOSED
 AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
 PROCEDURAL_MEMORY_TOPINSTAL_PROD_20260825 = CLOSED
 AIOS_AGENT_BEHAVIOR_SUITE_20260825 = CLOSED
@@ -15,8 +16,11 @@ LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 FAST_KALK_TARGETED_FIX_PROOF = PASS
 AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
+GMAIL_AGENT_DIRTY_STATE = HOST_WORKTREE_PHANTOM / NO_CONTENT_DIFF / NOT_ACTIVE_WORK
+CIEPLO_ORCHESTRATOR_DIRTY_STATE = CLEAN
+TOP_INSTAL_GENERATOR_DIRTY_STATE = CLEAN
 CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
-NEXT = OPERATOR_DECISION_REQUIRED_ON_REMAINING_DIRTY_STATE
+NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
 ```
 
 ## What this session closed on 2026-08-25
@@ -26,12 +30,16 @@ NEXT = OPERATOR_DECISION_REQUIRED_ON_REMAINING_DIRTY_STATE
 - `AIOS-AGENT-BEHAVIOR-SUITE-20260825`: stale fingerprints were refreshed; historical failed gate ids `agent-behavior-pair-check` and `agent-behavior-show-check-postcommit` were re-proven as PASS on the final suite state; the task was then formally closed/archived.
 - `DEPLOY-CIEPLO-VPS-20260824`: archived as superseded because its public DNS/HTTPS blocker was later resolved inside the completed converter operability closeout.
 - `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825`: archived as `ABORTED_WITH_EVIDENCE`; both were only verification starters with scope updates and no RED proof, gates, commits, or completed investigation.
+- `CONVERTER-VPS-HARDENING-CLOSEOUT-20260825`: committed and closed locally as `top-instal-generator:79b2774e0200801b52b237d3b41203ea34bc4b82` (`chore(converter-vps): harden deployment slice and smoke coverage`); fresh proof: `bash -n converter-vps/scripts/production-smoke.sh` PASS and `docker compose -f converter-vps/docker-compose.yml --env-file converter-vps/.env.example config` PASS.
+- `cieplo-orchestrator` stale dirty tests were cleaned back to `HEAD`; repo is clean.
+- `gmail-agent` stale dirty tests were cleaned back to `HEAD`. Remaining worktree dirt has empty `git diff` and identical blob SHAs vs `HEAD`, so it is classified as non-content phantom residue rather than an active unfinished slice.
 - `fast-kalk`: current proof remains PASS for the four requested fixes on present branch HEAD (`php -l`, `node --check`, `php scripts/ux-logic-regression.php`, `php scripts/e2e-scenarios-smoke.php`). Keep the extra earlier scope-diversion commit classified separately from that proof.
 - The interrupted `AI-OS Intelligence` continuation from `01a02cf4...` / `01a022e8...` is now classified as `PAUSED_HISTORICAL / NOT_CURRENT`, not as an active approved next step.
 
 ## Current caution after the sweep
 
-- `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have unrelated dirty worktree state; zero active checkpoints is not the same claim as globally clean repos.
+- `fast-kalk` commit `832dea8` remains the only explicit operator disposition item from this closeout sweep.
+- `gmail-agent` may still show modified paths in `git status`, but current evidence says those paths do not carry content diff and should not be confused with an active implementation slice.
 
 ## Previous headline (2026-08-21, preserved)
 

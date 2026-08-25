@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-25 (wide closeout sweep after task-engine cleanup).
+Status: active only. Last updated: 2026-08-25 (wide closeout sweep finalized after repo cleanup).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -13,6 +13,10 @@ OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
 TASK_ENGINE_ACTIVE = 0
+CONVERTER_VPS_HARDENING_CLOSEOUT_20260825 = CLOSED
+CIEPLO_ORCHESTRATOR_DIRTY_STATE = CLEAN
+TOP_INSTAL_GENERATOR_DIRTY_STATE = CLEAN
+GMAIL_AGENT_DIRTY_STATE = HOST_WORKTREE_PHANTOM / NO_CONTENT_DIFF / NOT_ACTIVE_WORK
 FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE = RUN (2026-08-16, 38/38 capture QUALIFIED)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) → NOT QUALIFIED — CAPABILITY
@@ -35,6 +39,7 @@ UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 REAL_MAIL_INTELLIGENCE_DISCOVERY_01 = PARKED_DATASET_REQUIRED / NOT_CURRENT
 AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
 FAST_KALK_SCOPE_DIVERSION_COMMIT_832DEA8 = EXPLICIT_OPERATOR_DISPOSITION_PENDING
+NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
 ```
 
 | ID                                        | Area                       | Status                      | Next action                                                                                                                                                                                                                                                                                                                                               |
@@ -71,6 +76,9 @@ historical evidence, not the current baseline.
 - `AGENT-OPERABILITY-CONVERTER-CIEPLO-20260824`, `PROCEDURAL-MEMORY-TOPINSTAL-PROD-20260825`, and `AIOS-AGENT-BEHAVIOR-SUITE-20260825` were formally closed after refreshing stale close-gate fingerprints where needed.
 - `DEPLOY-CIEPLO-VPS-20260824` is historical only: its blocker was later resolved by the completed converter operability closeout, so the checkpoint was archived as superseded instead of kept active.
 - `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825` were archived as `ABORTED_WITH_EVIDENCE`; both remained unstarted verification stubs.
+- `CONVERTER-VPS-HARDENING-CLOSEOUT-20260825` is closed locally by `top-instal-generator:79b2774e0200801b52b237d3b41203ea34bc4b82`; fresh proof: `bash -n converter-vps/scripts/production-smoke.sh` and `docker compose -f converter-vps/docker-compose.yml --env-file converter-vps/.env.example config` both PASS.
+- `cieplo-orchestrator` and `top-instal-generator` are now clean. The earlier dirty test slices were explicitly cleaned as stale/non-current work.
+- Remaining `gmail-agent` worktree dirt is not a live implementation slice: `git diff` is empty, blob SHAs match HEAD, and the residue behaves like a host/EOL worktree phantom rather than an active code change.
 
 **Non-blocking harness notes (audit `AI-OS-FINAL-INFRA-CLOSEOUT-01`, not tracked as gating residuals):** gmail-agent `tests/test_aios_canonical_runtime_ingress.py` has no `MAILBOX_MEMORY_TEST_DATABASE_URL`-style skip gate unlike its Postgres-test siblings (unconditional live-DB dependency; ~140s of Gate A wall-clock, fails ungracefully instead of skipping when DB is briefly down); rag-chat-asystent `backend/engine.py:79` ORs `PYTEST_CURRENT_TEST` into `use_fake_embeddings`, so a test trying to opt into real embeddings via `USE_FAKE_EMBEDDINGS=0` silently still gets fake ones unless it also `monkeypatch.delenv("PYTEST_CURRENT_TEST")`; `daszek_engagement_feed/desk.py:58` has a dead-by-coincidence membership gate (`DESK_OPERATIONAL_CODES` happens to equal the full `OperationalStatus.code` Literal today — reactivates silently if a status code is ever added without updating both).
 
