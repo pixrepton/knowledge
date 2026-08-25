@@ -14,8 +14,9 @@ DEPLOY_CIEPLO_VPS_20260824 = SUPERSEDED_AND_ARCHIVED
 LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 FAST_KALK_TARGETED_FIX_PROOF = PASS
+AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
 CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
-NEXT = CONTINUE_MEMORY_AND_DOCUMENTATION_RECONCILIATION
+NEXT = OPERATOR_DECISION_REQUIRED_ON_REMAINING_DIRTY_STATE
 ```
 
 ## What this session closed on 2026-08-25
@@ -26,10 +27,10 @@ NEXT = CONTINUE_MEMORY_AND_DOCUMENTATION_RECONCILIATION
 - `DEPLOY-CIEPLO-VPS-20260824`: archived as superseded because its public DNS/HTTPS blocker was later resolved inside the completed converter operability closeout.
 - `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825`: archived as `ABORTED_WITH_EVIDENCE`; both were only verification starters with scope updates and no RED proof, gates, commits, or completed investigation.
 - `fast-kalk`: current proof remains PASS for the four requested fixes on present branch HEAD (`php -l`, `node --check`, `php scripts/ux-logic-regression.php`, `php scripts/e2e-scenarios-smoke.php`). Keep the extra earlier scope-diversion commit classified separately from that proof.
+- The interrupted `AI-OS Intelligence` continuation from `01a02cf4...` / `01a022e8...` is now classified as `PAUSED_HISTORICAL / NOT_CURRENT`, not as an active approved next step.
 
 ## Current caution after the sweep
 
-- `knowledge/memory/BACKLOG.md` and `knowledge/memory/OPERATOR_DECISIONS.md` remain dirty and were intentionally not rewritten in this slice.
 - `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have unrelated dirty worktree state; zero active checkpoints is not the same claim as globally clean repos.
 
 ## Previous headline (2026-08-21, preserved)

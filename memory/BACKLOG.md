@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-21 (Real Mail Discovery harness writeback).
+Status: active only. Last updated: 2026-08-25 (wide closeout sweep after task-engine cleanup).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -12,6 +12,7 @@ CAPABILITY_PROGRAM_READINESS = GO
 OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
+TASK_ENGINE_ACTIVE = 0
 FRESH38_MEASUREMENT_QUALIFICATION = REQUALIFIED
 FULL FRESH38 AGAINST CURRENT CODE = RUN (2026-08-16, 38/38 capture QUALIFIED)
 CURRENT CAPABILITY BASELINE = 27 CLEAN_PASS / 11 CAPABILITY (v5, threshold 34) → NOT QUALIFIED — CAPABILITY
@@ -22,13 +23,18 @@ SVC-05 = CLOSED
 SVC-05_PRODUCT_FIX = PASS
 SVC-05_DOWNSTREAM_FIX = PASS
 SVC-05_FINAL_PROVIDER_LIVE_PROOF = PASS
+AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
+PROCEDURAL_MEMORY_TOPINSTAL_PROD_20260825 = CLOSED
+AIOS_AGENT_BEHAVIOR_SUITE_20260825 = CLOSED
+DEPLOY_CIEPLO_VPS_20260824 = SUPERSEDED_AND_ARCHIVED
+LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
+LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 NEXT = STOP
 INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
-NEXT_NON_CAPABILITY_PROGRAM = REAL-MAIL-INTELLIGENCE-DISCOVERY-01
-REAL_MAIL_INTELLIGENCE_DISCOVERY_TOOLING = READY (gmail-agent:a3d3ae6)
-REAL_MAIL_INTELLIGENCE_DISCOVERY_FORMAL_COHORT = DATASET_REQUIRED
-INTELLIGENCE_SPINE_P0_CAD = IN_PROGRESS (contract + first enforced slice)
+REAL_MAIL_INTELLIGENCE_DISCOVERY_01 = PARKED_DATASET_REQUIRED / NOT_CURRENT
+AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
+FAST_KALK_SCOPE_DIVERSION_COMMIT_832DEA8 = EXPLICIT_OPERATOR_DISPOSITION_PENDING
 ```
 
 | ID                                        | Area                       | Status                      | Next action                                                                                                                                                                                                                                                                                                                                               |
@@ -38,7 +44,7 @@ INTELLIGENCE_SPINE_P0_CAD = IN_PROGRESS (contract + first enforced slice)
 | `FRESH38-L0-REPAIR-COMMIT-20260816`       | workspace                  | **CLOSED**                  | L0 repair committed `4210ed5` (workspace, LOCAL_ONLY): `scripts/run_fresh38_case_batch.ps1` + `scripts/tests/test_fresh38_engine_lifecycle_channel.ps1` (incl. behavioral 231 scenarios).                                                                                                                                                                 |
 | `INTELLIGENCE-SPINE-1-2-3`                | gmail-agent / knowledge     | **CLOSED_BOUNDED**          | `gmail-agent:3469dbd`, `7fc257b`, `c80be17`; `knowledge:7d2fa39`, `cbf0cda`. Proven invariants: customer/mail ToolEnvelope preservation, execution rejection of semantic drift, decision-safety metadata preservation, dependent action blocked on conflicted critical fact, independent action remains legal. Not a live autonomy claim and no Full Fresh38. |
 | `UNTRUSTED-INPUT-EXECUTION-BOUNDARY-01`   | gmail-agent                 | **CLOSED**                  | `gmail-agent:2e1d95b` adds a central pre-execution boundary: inbound mail/attachments remain evidence, not authority; action tools fail closed on untrusted authority arguments or recipient override, while read-only tools remain unaffected. Proof: boundary 4 passed; spine/planner 36 passed; write-lock/tool contract 12 passed; py_compile/diff-check PASS. |
-| `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`     | gmail-agent / knowledge     | **TOOLING_READY / DATASET_REQUIRED** | `gmail-agent:a3d3ae6` adds `gmail_intake.py real-mail-discovery`: file-only/no-side-effect JSON/JSONL harness, no Gmail fetch, no LLM calls, no outbound actions, formal `DISCOVERY_QUALIFIED` only for 10-15 labelled historical cases. Next: provide curated real cases and run without `--allow-small-sample`. |
+| `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`     | gmail-agent / knowledge     | **PARKED_DATASET_REQUIRED / NOT_CURRENT** | `gmail-agent:a3d3ae6` adds `gmail_intake.py real-mail-discovery`: file-only/no-side-effect JSON/JSONL harness, no Gmail fetch, no LLM calls, no outbound actions, formal `DISCOVERY_QUALIFIED` only for 10-15 labelled historical cases. Not the current approved step during the closeout sweep. |
 | `INTELLIGENCE-SPINE-P0-CAD`               | gmail-agent / knowledge     | **CLOSED**                 | P0 closeout 2026-08-21: Delivery COMPLETE, Proof PASS_LOCAL_BOUNDED, Full Gate A PASS (0 failed), Semantic Conservation ENFORCED, First CAD slice PROVEN (ask_for_missing_data/customer/mail). Commits: knowledge:121dde29; gmail-agent:38797c7, c47f8c2, 45a41fa, d12e087, b5c90a1, ccbe5c6, 4e6ec55. semantic_hash propagowany CAD->ActionPlan->NBA->APv2->PolicyActionEnvelopeV1.source_semantic_hash->ToolCallPlan.semantic_hash->ActionItem; guard fail-closed (canonical_semantic_drift). Bounded proof: `.artifacts/intelligence-spine-p0-closeout-20260821T193158/bounded-runtime-trajectory.json`. Residuale -> P0.5 (untrusted input/prompt injection), P1 (DecisionRevisionRequest runtime, unknown-vs-inferred, multi-intent, argument-level ToolEnvelope), P2 (SystemCapabilityState, cost aggregation, legacy cleanup, replay CLI). FULL_FRESH38 NOT_RUN. |
 | `INTELLIGENCE-SPINE-P0-5`                 | gmail-agent / knowledge     | **CLOSED**                 | P0.5 DATA vs AUTHORITY HARDENING 2026-08-21: Delivery COMPLETE, Proof PASS_LOCAL_BOUNDED, Full Gate A PASS (2715/15/24/0). Wspólny kontrakt provenance `evidence_authority.py` (source_origin/evidence_authority/instruction_authority); enforcement w `untrusted_input_boundary.py` (UNTRUSTED_AUTHORITY_OVERRIDE, UNTRUSTED_RECIPIENT_OVERRIDE, UNTRUSTED_APPROVAL_CLAIM, CANONICAL_ARGUMENT_MISMATCH); planner context Data vs Authority. Commits: gmail-agent 896c5c6, 604c9e2, 3c8f452. Deterministic adversarial suite A-J + metamorphic (51 tests). Provider micro-cohort n=6 (DeepSeek): forbidden_tool_attempt_rate=0.0, executed_policy_violation_rate=0.0. Artefakty: `.artifacts/intelligence-spine-p0-5-20260821T194500/`. P1 NOT_STARTED. |
 | `INTELLIGENCE-SPINE-P1-1`                 | gmail-agent / knowledge     | **CLOSED**                 | P1.1 DECISION REVISION RUNTIME 2026-08-22: Delivery COMPLETE, Proof PASS_LOCAL_BOUNDED, Full Gate A PASS (0 failed). DecisionRevisionRequest -> canonical re-evaluation -> CAD r2; identity decision_id/revision/decision_version_id/semantic_hash; supersession r1 SUPERSEDED; stale invalidation STALE_DECISION_REVISION; approval version binding; expected_revision/duplicate guard; audit trail w DecisionRevisionLedger. Commits: gmail-agent 42440af, 5f0979d, e42f774, 99ae4e8. Artefakt: `.artifacts/intelligence-spine-p1-1-20260822T100000/bounded-revision-trajectory.json`. P1.2-P1.5 NOT_STARTED. |
@@ -52,11 +58,19 @@ INTELLIGENCE_SPINE_P0_CAD = IN_PROGRESS (contract + first enforced slice)
 | `CAPABILITY-OBSERVABILITY-01`             | gmail-agent (eval capture) | **CLOSED**                  | P2 bounded minimum delivered: `draft_path_observability.v1` nested in reply jsonl; runner projects `reply_recommended`, `review_required`, `causal_observability`. INT-01 current reproduction NO; SVC-05 current chain classifiable (`SKIPPED_PRE_DRAFTER`). Not a product-semantics change.                                                             |
 | IQ-01-ADJUDICATED                         | eval                       | **CLOSED_NOT_REQUIRED**     | Do not fabricate human-adjudicated labels. IQ-01 is already `COMPLETE_BOUNDED`: synthetic 13/13 PASS plus frozen dual-score on pinned Fresh38 capture with `machine_proposed` labels only. Future human/business labels move to `REAL-MAIL-INTELLIGENCE-DISCOVERY-01`, where real historical cases provide the right label source. |
 | GOV-06                                    | knowledge                  | **CLOSED**                  | `.serena/project.yml` is tracked as safe read-only project policy; local `project.local.yml`, memories, cache and logs remain ignored. Serena CLI presence and docs gates verified.                                                                                                                                                                      |
+| `AI-OS-INTELLIGENCE-ARCHITECTURE-AUDIT`   | gmail-agent / knowledge    | **PAUSED_HISTORICAL / NOT_CURRENT** | The mixed `01a02cf4...` / `01a022e8...` continuation was discovery/planning only. It is not the current approved step and should not be reopened automatically during closeout work. |
+| `FAST-KALK-COMMIT-832DEA8`                | fast-kalk                  | **EXPLICIT_OPERATOR_DISPOSITION_PENDING** | `832dea8` is the known scope-diversion PDF/OfferDTO/mail parity commit on top of the four requested fast-kalk fixes. Keep it classified separately from the bounded four-fix proof and decide explicitly whether to keep or revert it. |
 
 **Superseded (2026-08-16):** `FULL FRESH38 AGAINST CURRENT CODE = NOT_RUN` and
 `CURRENT CAPABILITY BASELINE = NOT_REQUALIFIED` — replaced by the requalified measurement and
 the v5 capability baseline above. Historical baselines (13 Aug 23/15, 08 Aug 10/28) remain
 historical evidence, not the current baseline.
+
+## Closeout sweep notes (2026-08-25)
+
+- `AGENT-OPERABILITY-CONVERTER-CIEPLO-20260824`, `PROCEDURAL-MEMORY-TOPINSTAL-PROD-20260825`, and `AIOS-AGENT-BEHAVIOR-SUITE-20260825` were formally closed after refreshing stale close-gate fingerprints where needed.
+- `DEPLOY-CIEPLO-VPS-20260824` is historical only: its blocker was later resolved by the completed converter operability closeout, so the checkpoint was archived as superseded instead of kept active.
+- `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825` were archived as `ABORTED_WITH_EVIDENCE`; both remained unstarted verification stubs.
 
 **Non-blocking harness notes (audit `AI-OS-FINAL-INFRA-CLOSEOUT-01`, not tracked as gating residuals):** gmail-agent `tests/test_aios_canonical_runtime_ingress.py` has no `MAILBOX_MEMORY_TEST_DATABASE_URL`-style skip gate unlike its Postgres-test siblings (unconditional live-DB dependency; ~140s of Gate A wall-clock, fails ungracefully instead of skipping when DB is briefly down); rag-chat-asystent `backend/engine.py:79` ORs `PYTEST_CURRENT_TEST` into `use_fake_embeddings`, so a test trying to opt into real embeddings via `USE_FAKE_EMBEDDINGS=0` silently still gets fake ones unless it also `monkeypatch.delenv("PYTEST_CURRENT_TEST")`; `daszek_engagement_feed/desk.py:58` has a dead-by-coincidence membership gate (`DESK_OPERATIONAL_CODES` happens to equal the full `OperationalStatus.code` Literal today — reactivates silently if a status code is ever added without updating both).
 

@@ -15,6 +15,17 @@ Format:
 
 ---
 
+## [ACTIVE] 2026-08-25 — Wide closeout sweep before any new AI-OS program work
+
+- **Scope:** `knowledge/memory/*`, task-engine closeout, workspace dirty-state classification, and historical thread reconciliation for the five-chat consolidation. No new product implementation, no production mutation, no new AI-OS Intelligence task.
+- **Decyzja:** Close or archive every mechanically closable checkpoint first. Treat older discovery/planning continuations as historical unless they have fresh, explicit operator approval. Do not resume `AI-OS INTELLIGENCE ARCHITECTURE AUDIT` automatically.
+- **State after sweep:** `TASK_ENGINE_ACTIVE = 0`. Formally closed: `AGENT-OPERABILITY-CONVERTER-CIEPLO-20260824`, `PROCEDURAL-MEMORY-TOPINSTAL-PROD-20260825`, `AIOS-AGENT-BEHAVIOR-SUITE-20260825`. Archived as non-active history: `DEPLOY-CIEPLO-VPS-20260824` (superseded), `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825`, `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825` (`ABORTED_WITH_EVIDENCE`).
+- **AI-OS Intelligence status:** the interrupted thread family around `01a02cf4...` / `01a022e8...` is `PAUSED_HISTORICAL / NOT_CURRENT`. It remains discovery/planning evidence, not an active implementation program and not the current approved next step.
+- **Fast-kalk status:** the four requested bounded fixes remain separately proven on current branch HEAD. Commit `832dea841788211a9daeb5144b9b6a67de1207f4` is a distinct scope-diversion slice and requires explicit operator disposition before any keep/revert action.
+- **Review:** after canonical memory is refreshed and the operator decides what to do with remaining repo dirty state and `fast-kalk` commit `832dea8`.
+
+---
+
 ## [ACTIVE] 2026-08-20 — SVC-05 CLOSED: product + downstream + final provider-live proof
 
 - **Scope:** `gmail-agent` SVC-05 closeout and canonical accounting. No other

@@ -6,7 +6,7 @@ Status: current direction only. Last updated: 2026-08-25 (closeout sweep state r
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
-**Current operator direction in this session:** close started work from the smallest / easiest items first, remove stale active checkpoints, and only then reconcile canonical memory and documentation.
+**Current operator direction in this session:** close started work from the smallest / easiest items first, remove stale active checkpoints, reconcile canonical memory, and stop before new implementation or production work.
 
 ```text
 TASK_ENGINE_ACTIVE = 0
@@ -18,8 +18,9 @@ DEPLOY_CIEPLO_VPS_20260824 = SUPERSEDED_AND_ARCHIVED
 LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
 FAST_KALK_TARGETED_FIX_PROOF = PASS
+AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
 CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
-NEXT = MEMORY_AND_DOCUMENTATION_RECONCILIATION
+NEXT = OPERATOR_DECISION_REQUIRED_ON_REMAINING_DIRTY_STATE
 ```
 
 ### What changed on 2026-08-25
@@ -30,11 +31,11 @@ NEXT = MEMORY_AND_DOCUMENTATION_RECONCILIATION
 - `DEPLOY-CIEPLO-VPS-20260824` is no longer an active blocker: its public DNS/HTTPS blocker was superseded by the later converter operability closeout and the checkpoint was archived as historical.
 - `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825` never advanced beyond starter scope updates; both were archived as `ABORTED_WITH_EVIDENCE`.
 - `fast-kalk` targeted fix proof is current PASS on the present branch HEAD for the four requested fixes; an older extra scope-diversion commit still exists historically and should stay classified separately from the requested four-fix proof.
+- The interrupted `AI-OS Intelligence` continuation from the mixed `01a02cf4...` / `01a022e8...` thread family is formally treated as `PAUSED_HISTORICAL / NOT_CURRENT`: it was discovery/planning work, not a currently approved implementation program.
 
 ### Current caution
 
-- `knowledge/memory/BACKLOG.md` and `knowledge/memory/OPERATOR_DECISIONS.md` are already dirty in the working tree and were intentionally not edited in this slice.
-- `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have unrelated dirty worktree state outside this memory refresh; active checkpoint count being zero does not mean every repo is globally clean.
+- `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have dirty worktree state that now requires explicit operator disposition; active checkpoint count being zero does not mean every repo is globally clean.
 - The earlier `NEXT = REPOSITORY_BASELINE_THEN_ARCHITECTURE_AUDIT` statement below is historical, not current, because August 24-25 closeout work already happened after that note.
 
 ## Historical workspace snapshot (superseded 2026-08-23)
