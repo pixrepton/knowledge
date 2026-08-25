@@ -1,8 +1,38 @@
 # Last Session
 
-Updated: 2026-08-21 - **Real Mail Discovery harness ready after a3d3ae6**.
+Updated: 2026-08-25 - **closeout sweep completed; task-engine active count reset to zero**.
 
 ## Headline
+
+```text
+TASK_ENGINE_ACTIVE = 0
+CLOSEOUT_SWEEP_BATCH_1 = PASS
+AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
+PROCEDURAL_MEMORY_TOPINSTAL_PROD_20260825 = CLOSED
+AIOS_AGENT_BEHAVIOR_SUITE_20260825 = CLOSED
+DEPLOY_CIEPLO_VPS_20260824 = SUPERSEDED_AND_ARCHIVED
+LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
+LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
+FAST_KALK_TARGETED_FIX_PROOF = PASS
+CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
+NEXT = CONTINUE_MEMORY_AND_DOCUMENTATION_RECONCILIATION
+```
+
+## What this session closed on 2026-08-25
+
+- `AGENT-OPERABILITY-CONVERTER-CIEPLO-20260824`: stale close fingerprints were refreshed and the task was formally closed/archived. Historical proof that remained intact: WordPress converter control, public HTTPS converter, live PDF SMTP, and production operability runbook update.
+- `PROCEDURAL-MEMORY-TOPINSTAL-PROD-20260825`: stale harness/map/link/registry gates were refreshed and the task was formally closed/archived. Canonical commits remain `workspace:956616d10272300dd92c7042abc245c829ab632c` and `knowledge:6c2310f74ab4011ebb4e0d298394830b62716dbe`.
+- `AIOS-AGENT-BEHAVIOR-SUITE-20260825`: stale fingerprints were refreshed; historical failed gate ids `agent-behavior-pair-check` and `agent-behavior-show-check-postcommit` were re-proven as PASS on the final suite state; the task was then formally closed/archived.
+- `DEPLOY-CIEPLO-VPS-20260824`: archived as superseded because its public DNS/HTTPS blocker was later resolved inside the completed converter operability closeout.
+- `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825`: archived as `ABORTED_WITH_EVIDENCE`; both were only verification starters with scope updates and no RED proof, gates, commits, or completed investigation.
+- `fast-kalk`: current proof remains PASS for the four requested fixes on present branch HEAD (`php -l`, `node --check`, `php scripts/ux-logic-regression.php`, `php scripts/e2e-scenarios-smoke.php`). Keep the extra earlier scope-diversion commit classified separately from that proof.
+
+## Current caution after the sweep
+
+- `knowledge/memory/BACKLOG.md` and `knowledge/memory/OPERATOR_DECISIONS.md` remain dirty and were intentionally not rewritten in this slice.
+- `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have unrelated dirty worktree state; zero active checkpoints is not the same claim as globally clean repos.
+
+## Previous headline (2026-08-21, preserved)
 
 ```text
 P4_VS_P3B_FORK = CLOSED

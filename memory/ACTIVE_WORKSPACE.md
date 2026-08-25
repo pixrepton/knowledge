@@ -1,8 +1,43 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-23 (repository baseline pre-audit sync).
+Status: current direction only. Last updated: 2026-08-25 (closeout sweep state refresh).
 
 ## Current program (canonical)
+
+**Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
+
+**Current operator direction in this session:** close started work from the smallest / easiest items first, remove stale active checkpoints, and only then reconcile canonical memory and documentation.
+
+```text
+TASK_ENGINE_ACTIVE = 0
+CLOSEOUT_SWEEP_BATCH_1 = PASS
+AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
+PROCEDURAL_MEMORY_TOPINSTAL_PROD_20260825 = CLOSED
+AIOS_AGENT_BEHAVIOR_SUITE_20260825 = CLOSED
+DEPLOY_CIEPLO_VPS_20260824 = SUPERSEDED_AND_ARCHIVED
+LOCAL_VERIFY_CIEPLO_DEFAULTS_PRICE_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
+LOCAL_VERIFY_RECENT_CIEPLO_CALENDAR_20260825 = ABORTED_WITH_EVIDENCE_AND_ARCHIVED
+FAST_KALK_TARGETED_FIX_PROOF = PASS
+CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
+NEXT = MEMORY_AND_DOCUMENTATION_RECONCILIATION
+```
+
+### What changed on 2026-08-25
+
+- `AGENT-OPERABILITY-CONVERTER-CIEPLO-20260824` was mechanically closed after refreshing stale close-gate fingerprints; the underlying converter/public-HTTPS/live-PDF proof remained intact.
+- `PROCEDURAL-MEMORY-TOPINSTAL-PROD-20260825` was mechanically closed after refreshing stale harness/map/link/registry gates; its workspace and knowledge commits remain the canonical procedural writeback.
+- `AIOS-AGENT-BEHAVIOR-SUITE-20260825` was mechanically closed after refreshing stale fingerprints and replacing two historical failed close gates with fresh PASS on the final suite state.
+- `DEPLOY-CIEPLO-VPS-20260824` is no longer an active blocker: its public DNS/HTTPS blocker was superseded by the later converter operability closeout and the checkpoint was archived as historical.
+- `LOCAL-VERIFY-CIEPLO-DEFAULTS-PRICE-20260825` and `LOCAL-VERIFY-RECENT-CIEPLO-CALENDAR-20260825` never advanced beyond starter scope updates; both were archived as `ABORTED_WITH_EVIDENCE`.
+- `fast-kalk` targeted fix proof is current PASS on the present branch HEAD for the four requested fixes; an older extra scope-diversion commit still exists historically and should stay classified separately from the requested four-fix proof.
+
+### Current caution
+
+- `knowledge/memory/BACKLOG.md` and `knowledge/memory/OPERATOR_DECISIONS.md` are already dirty in the working tree and were intentionally not edited in this slice.
+- `gmail-agent`, `cieplo-orchestrator`, and `top-instal-generator` still have unrelated dirty worktree state outside this memory refresh; active checkpoint count being zero does not mean every repo is globally clean.
+- The earlier `NEXT = REPOSITORY_BASELINE_THEN_ARCHITECTURE_AUDIT` statement below is historical, not current, because August 24-25 closeout work already happened after that note.
+
+## Historical workspace snapshot (superseded 2026-08-23)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
