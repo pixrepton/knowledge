@@ -1,11 +1,18 @@
 # Last Session
 
-Updated: 2026-08-25 - **closeout sweep finalized; task-engine active count remains zero**.
+Updated: 2026-08-26 - **Cieplo production incident formally closed; next strategic direction selected**.
 
 ## Headline
 
 ```text
 TASK_ENGINE_ACTIVE = 0
+CIEPLO_PRODUCTION_REPAIR_20260826 = CLOSED / DEPLOYED / PROD_PROVEN
+CIEPLO_PROD_REPAIR_COMMIT = cieplo-orchestrator:4aba5afcbf5b90aafc77f3708db53d7fcf100bfa
+CIEPLO_RUNTIME_REVISION = 4aba5afcbf5b90aafc77f3708db53d7fcf100bfa
+CIEPLO_WORKFLOW_POLICY_PROBLEM = CLOSED
+CIEPLO_DUPLICATE_RETRY_PROBLEM = CLOSED
+CIEPLO_DEPLOYMENT_IDENTITY = CLOSED
+CIEPLO_2ZAHE_RECOVERY = REVIEW_REQUIRED / NO_AUTO_REPLAY
 CLOSEOUT_SWEEP_BATCH_1 = PASS
 CONVERTER_VPS_HARDENING_CLOSEOUT_20260825 = CLOSED
 AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
@@ -19,9 +26,23 @@ AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
 GMAIL_AGENT_DIRTY_STATE = HOST_WORKTREE_PHANTOM / NO_CONTENT_DIFF / NOT_ACTIVE_WORK
 CIEPLO_ORCHESTRATOR_DIRTY_STATE = CLEAN
 TOP_INSTAL_GENERATOR_DIRTY_STATE = CLEAN
-CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
-NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
+CURRENT_OPERATOR_DIRECTION = CIEPLO_ADMIN_CLOSEOUT_THEN_OFFER_CASE_OS_OBSERVABILITY
+FAST_KALK_SCOPE_DIVERSION_COMMIT_832DEA8 = PARKED_BY_OPERATOR / EXPLICIT_DISPOSITION_PENDING / NOT_BLOCKING_STRATEGIC_NEXT
+OFFER_CASE_OS_OBSERVABILITY_01 = NEXT_APPROVED / NOT_STARTED
+GLOBAL_CASE_FACT_MODEL = OPEN / LATER
+REAL_CASE_CONDUCT_BENCHMARK = OPEN / LATER
+ARCHITECTURE_INTELLIGENCE = OPEN / LATER
+NEXT = OFFER_CASE_OS_OBSERVABILITY_01
 ```
+
+## What this session closed on 2026-08-26
+
+- `CIEPLO-PROD-REPAIR-20260826` was formally closed in task-engine. The remaining blocker was stale gate fingerprint bookkeeping; the recorded gate ids were refreshed on the final `cieplo-orchestrator` HEAD and `task-close` returned `PASS`.
+- Product/runtime status is closed: policy overblock from `4b99a23`, terminal retry loop, duplicate downstream execution risk, and split deployment identity markers are repaired.
+- Current production revision is `cieplo-orchestrator:4aba5afcbf5b90aafc77f3708db53d7fcf100bfa`; VPS runtime reports the same value via `/opt/topinstal/cieplo-worker/REVISION` and `cieplo-worker version --json`.
+- Proof retained from the repair: `python -m pytest -q` = `121 passed`; production preflight DB/Gmail/kalk-top/generator/SMTP OK; `cieplo-worker.timer` enabled/active; oneshot worker `0/SUCCESS`; repeated poll of `2zahe` caused no new calculation, generator/PDF, SMTP or workflow event.
+- Recovery of `2zahe` was intentionally fail-closed: workflow `1ff01a40-c642-4abd-b8b7-a1a0b6369c32` is `REVIEW_REQUIRED / MANUAL_REVIEW_REQUIRED`; no customer replay was sent automatically because historical per-channel delivery markers were missing.
+- Operator selected `Offer -> Case OS observability` as the next strategic problem. Architecture Intelligence, global Case fact/provenance/conflict model, and real-case conduct benchmark remain open but later.
 
 ## What this session closed on 2026-08-25
 

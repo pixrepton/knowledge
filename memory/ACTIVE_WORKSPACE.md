@@ -1,15 +1,20 @@
 ﻿# Active Workspace
 
-Status: current direction only. Last updated: 2026-08-25 (closeout sweep finalized after repo cleanup).
+Status: current direction only. Last updated: 2026-08-26 (Cieplo incident closed; next direction selected).
 
 ## Current program (canonical)
 
 **Plan kanoniczny:** `knowledge/docs/AI_OS_ROADMAP.md`.
 
-**Current operator direction in this session:** close started work from the smallest / easiest items first, remove stale active checkpoints, reconcile canonical memory, and stop before new implementation or production work.
+**Current operator direction in this session:** Cieplo administrative closeout first, then `Offer -> Case OS observability` as the next strategic problem. Do not reopen Architecture Intelligence, global fact model or benchmark before the observability step.
 
 ```text
 TASK_ENGINE_ACTIVE = 0
+CIEPLO_PRODUCTION_REPAIR_20260826 = CLOSED / DEPLOYED / PROD_PROVEN
+CIEPLO_WORKFLOW_POLICY_PROBLEM = CLOSED
+CIEPLO_DUPLICATE_RETRY_PROBLEM = CLOSED
+CIEPLO_DEPLOYMENT_IDENTITY = CLOSED
+CIEPLO_2ZAHE_RECOVERY = REVIEW_REQUIRED / NO_AUTO_REPLAY
 CLOSEOUT_SWEEP_BATCH_1 = PASS
 CONVERTER_VPS_HARDENING_CLOSEOUT_20260825 = CLOSED
 AGENT_OPERABILITY_CONVERTER_CIEPLO_20260824 = CLOSED
@@ -23,9 +28,23 @@ AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
 GMAIL_AGENT_DIRTY_STATE = HOST_WORKTREE_PHANTOM / NO_CONTENT_DIFF / NOT_ACTIVE_WORK
 CIEPLO_ORCHESTRATOR_DIRTY_STATE = CLEAN
 TOP_INSTAL_GENERATOR_DIRTY_STATE = CLEAN
-CURRENT_OPERATOR_DIRECTION = CLOSE_STARTED_WORK_FROM_SMALLEST_EASIEST_FIRST
-NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
+CURRENT_OPERATOR_DIRECTION = CIEPLO_ADMIN_CLOSEOUT_THEN_OFFER_CASE_OS_OBSERVABILITY
+FAST_KALK_SCOPE_DIVERSION_COMMIT_832DEA8 = PARKED_BY_OPERATOR / EXPLICIT_DISPOSITION_PENDING / NOT_BLOCKING_STRATEGIC_NEXT
+OFFER_CASE_OS_OBSERVABILITY_01 = NEXT_APPROVED / NOT_STARTED
+GLOBAL_CASE_FACT_MODEL = OPEN / LATER
+REAL_CASE_CONDUCT_BENCHMARK = OPEN / LATER
+ARCHITECTURE_INTELLIGENCE = OPEN / LATER
+NEXT = OFFER_CASE_OS_OBSERVABILITY_01
 ```
+
+### What changed on 2026-08-26
+
+- `CIEPLO-PROD-REPAIR-20260826` is closed in task-engine. The close blocker was stale gate fingerprints only; it was resolved by refreshing the recorded gate ids on the final `cieplo-orchestrator` HEAD.
+- Production Cieplo is deployed at `cieplo-orchestrator:4aba5afcbf5b90aafc77f3708db53d7fcf100bfa`; the runtime marker is canonicalized to `/opt/topinstal/cieplo-worker/REVISION` and `cieplo-worker version --json`.
+- Closed Cieplo defects: policy overblock introduced by `4b99a23`, repeated terminal workflow reprocessing, duplicate downstream execution risk, and split deployment identity markers.
+- Proof held: local full suite `121 passed`; production DB/Gmail/kalk-top/generator/SMTP preflight OK; timer enabled/active; worker `0/SUCCESS`; repeated poll of `2zahe` created no new calculation, PDF, SMTP or workflow event.
+- Historical recovery is fail-closed: workflow `1ff01a40-c642-4abd-b8b7-a1a0b6369c32` / result `2zahe` is `REVIEW_REQUIRED / MANUAL_REVIEW_REQUIRED`; no automatic customer replay was sent because historical per-channel send markers were absent.
+- The next strategic step is `Offer -> Case OS observability`, not Architecture Intelligence, not the real-case benchmark, and not the global Case fact model yet.
 
 ### What changed on 2026-08-25
 
@@ -45,6 +64,7 @@ NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
 - `fast-kalk` commit `832dea8` remains the only explicit operator disposition item from this closeout sweep.
 - `gmail-agent` may still display modified paths in `git status`, but current evidence classifies them as host/worktree phantom residue rather than content-bearing unfinished work.
 - The earlier `NEXT = REPOSITORY_BASELINE_THEN_ARCHITECTURE_AUDIT` statement below is historical, not current, because August 24-25 closeout work already happened after that note.
+- Do not treat Cieplo workflow policy, duplicate retry, or deployment identity as open unless a new runtime regression is proven.
 
 ## Historical workspace snapshot (superseded 2026-08-23)
 

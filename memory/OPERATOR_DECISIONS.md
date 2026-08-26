@@ -15,6 +15,17 @@ Format:
 
 ---
 
+## [ACTIVE] 2026-08-26 — Cieplo incident closed; next strategic step is Offer -> Case OS observability
+
+- **Scope:** `cieplo-orchestrator` production incident closeout, task-engine bookkeeping, `knowledge/memory/*` current-state sync, and next strategic sequencing.
+- **Decyzja:** Treat the Cieplo workflow policy, duplicate retry/idempotency and deployment identity incident as closed after production repair and proof. Do not reopen broad Cieplo incident discovery without new runtime evidence. The next strategic problem is `Offer -> Case OS observability`, because the stabilized offer subsystem should now expose canonical lifecycle facts to Case OS before the global fact/provenance model, real-case benchmark, or Architecture Intelligence.
+- **Proof:** `CIEPLO-PROD-REPAIR-20260826` is closed in task-engine; production runtime revision is `cieplo-orchestrator:4aba5afcbf5b90aafc77f3708db53d7fcf100bfa` via `/opt/topinstal/cieplo-worker/REVISION` and `cieplo-worker version --json`; local full suite `121 passed`; production preflight DB/Gmail/kalk-top/generator/SMTP OK; timer enabled/active; worker `0/SUCCESS`; repeated poll of `2zahe` caused no new calculation/PDF/SMTP/workflow event.
+- **Recovery rule:** historical workflow `1ff01a40-c642-4abd-b8b7-a1a0b6369c32` / result `2zahe` remains `REVIEW_REQUIRED / MANUAL_REVIEW_REQUIRED`; no automatic customer replay when per-channel delivery markers are missing.
+- **Supersedes:** any current-state claim that Cieplo workflow policy, duplicate retry, or deployment identity remain active open production problems after the 2026-08-26 repair.
+- **Review:** after `Offer -> Case OS observability` is implemented/proven, or earlier only if new production evidence shows a Cieplo regression.
+
+---
+
 ## [ACTIVE] 2026-08-25 — Wide closeout sweep before any new AI-OS program work
 
 - **Scope:** `knowledge/memory/*`, task-engine closeout, workspace dirty-state classification, and historical thread reconciliation for the five-chat consolidation. No new product implementation, no production mutation, no new AI-OS Intelligence task.

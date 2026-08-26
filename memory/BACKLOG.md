@@ -1,6 +1,6 @@
 ﻿# Backlog
 
-Status: active only. Last updated: 2026-08-25 (wide closeout sweep finalized after repo cleanup).
+Status: active only. Last updated: 2026-08-26 (Cieplo production incident formally closed).
 
 This file is not a proof history or phase archive. Canonical plan + residual narrative: `knowledge/docs/AI_OS_ROADMAP.md`.
 
@@ -13,6 +13,11 @@ OPERATOR-COMMAND-RECONCILE-BYPASS-01 = CLOSED
 REQUIRED_OPEN = 0
 UNKNOWN_NEEDS_PROOF = 0
 TASK_ENGINE_ACTIVE = 0
+CIEPLO_PRODUCTION_REPAIR_20260826 = CLOSED / DEPLOYED / PROD_PROVEN
+CIEPLO_WORKFLOW_POLICY_PROBLEM = CLOSED
+CIEPLO_DUPLICATE_RETRY_PROBLEM = CLOSED
+CIEPLO_DEPLOYMENT_IDENTITY = CLOSED
+CIEPLO_2ZAHE_RECOVERY = REVIEW_REQUIRED / NO_AUTO_REPLAY
 CONVERTER_VPS_HARDENING_CLOSEOUT_20260825 = CLOSED
 CIEPLO_ORCHESTRATOR_DIRTY_STATE = CLEAN
 TOP_INSTAL_GENERATOR_DIRTY_STATE = CLEAN
@@ -38,8 +43,12 @@ INTELLIGENCE_SPINE_1_2_3_END_TO_END_PROVEN = PASS (bounded)
 UNTRUSTED_INPUT_EXECUTION_BOUNDARY = CLOSED
 REAL_MAIL_INTELLIGENCE_DISCOVERY_01 = PARKED_DATASET_REQUIRED / NOT_CURRENT
 AI_OS_INTELLIGENCE_ARCHITECTURE_AUDIT = PAUSED_HISTORICAL / NOT_CURRENT
-FAST_KALK_SCOPE_DIVERSION_COMMIT_832DEA8 = EXPLICIT_OPERATOR_DISPOSITION_PENDING
-NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
+FAST_KALK_SCOPE_DIVERSION_COMMIT_832DEA8 = PARKED_BY_OPERATOR / EXPLICIT_DISPOSITION_PENDING / NOT_BLOCKING_STRATEGIC_NEXT
+OFFER_CASE_OS_OBSERVABILITY_01 = NEXT_APPROVED / NOT_STARTED
+GLOBAL_CASE_FACT_MODEL = OPEN / LATER
+REAL_CASE_CONDUCT_BENCHMARK = OPEN / LATER
+ARCHITECTURE_INTELLIGENCE = OPEN / LATER
+NEXT = OFFER_CASE_OS_OBSERVABILITY_01
 ```
 
 | ID                                        | Area                       | Status                      | Next action                                                                                                                                                                                                                                                                                                                                               |
@@ -65,6 +74,7 @@ NEXT = OPERATOR_DECISION_REQUIRED_ONLY_ON_FAST_KALK_832DEA8
 | GOV-06                                    | knowledge                  | **CLOSED**                  | `.serena/project.yml` is tracked as safe read-only project policy; local `project.local.yml`, memories, cache and logs remain ignored. Serena CLI presence and docs gates verified.                                                                                                                                                                      |
 | `AI-OS-INTELLIGENCE-ARCHITECTURE-AUDIT`   | gmail-agent / knowledge    | **PAUSED_HISTORICAL / NOT_CURRENT** | The mixed `01a02cf4...` / `01a022e8...` continuation was discovery/planning only. It is not the current approved step and should not be reopened automatically during closeout work. |
 | `FAST-KALK-COMMIT-832DEA8`                | fast-kalk                  | **EXPLICIT_OPERATOR_DISPOSITION_PENDING** | `832dea8` is the known scope-diversion PDF/OfferDTO/mail parity commit on top of the four requested fast-kalk fixes. Keep it classified separately from the bounded four-fix proof and decide explicitly whether to keep or revert it. |
+| `OFFER-CASE-OS-OBSERVABILITY-01`          | gmail-agent / cieplo-orchestrator / knowledge | **NEXT_APPROVED / NOT_STARTED** | Next strategic step after the Cieplo administrative closeout. Goal: make Case OS canonically observe the stabilized offer lifecycle facts from lead received through calculation, OfferDTO, PDF, internal review, customer send/hold, revision and response. Do not start implementation until the Cieplo closeout writeback task is closed. |
 
 **Superseded (2026-08-16):** `FULL FRESH38 AGAINST CURRENT CODE = NOT_RUN` and
 `CURRENT CAPABILITY BASELINE = NOT_REQUALIFIED` — replaced by the requalified measurement and
@@ -79,6 +89,15 @@ historical evidence, not the current baseline.
 - `CONVERTER-VPS-HARDENING-CLOSEOUT-20260825` is closed locally by `top-instal-generator:79b2774e0200801b52b237d3b41203ea34bc4b82`; fresh proof: `bash -n converter-vps/scripts/production-smoke.sh` and `docker compose -f converter-vps/docker-compose.yml --env-file converter-vps/.env.example config` both PASS.
 - `cieplo-orchestrator` and `top-instal-generator` are now clean. The earlier dirty test slices were explicitly cleaned as stale/non-current work.
 - Remaining `gmail-agent` worktree dirt is not a live implementation slice: `git diff` is empty, blob SHAs match HEAD, and the residue behaves like a host/EOL worktree phantom rather than an active code change.
+
+## Cieplo production incident closeout (2026-08-26)
+
+- `CIEPLO-PROD-REPAIR-20260826` is formally closed in task-engine after refreshing stale close-gate fingerprints on the final `cieplo-orchestrator` HEAD.
+- Production code and runtime identity are unified at `cieplo-orchestrator:4aba5afcbf5b90aafc77f3708db53d7fcf100bfa`; VPS runtime reports the same revision via `/opt/topinstal/cieplo-worker/REVISION` and `cieplo-worker version --json`.
+- Closed defects: `4b99a23` customer-send policy overblock, terminal workflow retry loop, duplicate downstream execution after terminal poll, and split deployment revision markers.
+- Proof: local full suite `python -m pytest -q` = `121 passed`; production preflight DB/Gmail/kalk-top/generator/SMTP OK; `cieplo-worker.timer` enabled/active; worker oneshot `0/SUCCESS`; repeated poll of `2zahe` produced no additional calculation, generator/PDF, SMTP or workflow events.
+- Recovery: workflow `1ff01a40-c642-4abd-b8b7-a1a0b6369c32` / result `2zahe` is held as `REVIEW_REQUIRED / MANUAL_REVIEW_REQUIRED`; no automatic customer replay was performed because the historical row predates per-channel send markers.
+- No active Cieplo problem remains for workflow policy, duplicate retry, or deployment identity. Broader `Offer -> Case OS observability` remains a separate next strategic task.
 
 **Non-blocking harness notes (audit `AI-OS-FINAL-INFRA-CLOSEOUT-01`, not tracked as gating residuals):** gmail-agent `tests/test_aios_canonical_runtime_ingress.py` has no `MAILBOX_MEMORY_TEST_DATABASE_URL`-style skip gate unlike its Postgres-test siblings (unconditional live-DB dependency; ~140s of Gate A wall-clock, fails ungracefully instead of skipping when DB is briefly down); rag-chat-asystent `backend/engine.py:79` ORs `PYTEST_CURRENT_TEST` into `use_fake_embeddings`, so a test trying to opt into real embeddings via `USE_FAKE_EMBEDDINGS=0` silently still gets fake ones unless it also `monkeypatch.delenv("PYTEST_CURRENT_TEST")`; `daszek_engagement_feed/desk.py:58` has a dead-by-coincidence membership gate (`DESK_OPERATIONAL_CODES` happens to equal the full `OperationalStatus.code` Literal today — reactivates silently if a status code is ever added without updating both).
 
