@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## [ACTIVE] 2026-08-28 — Closeout done; Offer -> Case OS observability starts next
+
+- **Scope:** current TOP-INSTAL closeout cycle across Cieplo checkpoint, Fast-Kalk 0.6.8, `gggggen` 1.0.2, AMP recovery state, task-engine product task closure, and next product program sequencing.
+- **Decyzja:** Cieplo incident is `CLOSED`; Fast-Kalk commits `571c596`, `832dea8`, and `f1a698e` are `KEEP`, with production `topinstal-lead-widget` 0.6.8 `DEPLOYED / PROVEN`; `MAIL_PROOF = DEFERRED_NO_SAFE_SINK`. `gggggen` asset isolation is `DEPLOYED / PROVEN` as version 1.0.2 and the local `top-instal-generator` repo is canonicalized by commit `e79ab48c71544e5859ea10b3dcda13ef1a987344`. AMP recovery remains `PASS`. GitHub publication is tracked separately from product acceptance; host/tool policy blocking push must not keep product tasks active.
+- **Next:** `Offer -> Case OS observability` is the active next product program. Do not open frontend staging in parallel.
+- **Review:** after the first Offer -> Case visibility vertical slice is implemented and committed.
+
+---
+
 ## [ACTIVE] 2026-08-26 — Cieplo incident closed; next strategic step is Offer -> Case OS observability
 
 - **Scope:** `cieplo-orchestrator` production incident closeout, task-engine bookkeeping, `knowledge/memory/*` current-state sync, and next strategic sequencing.
